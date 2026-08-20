@@ -13,7 +13,7 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.08,
     },
   },
 };
@@ -24,7 +24,7 @@ const cardVariants = {
     y: 0,
     opacity: 1,
     transition: {
-      duration: 0.5,
+      duration: 0.45,
       ease: [0.21, 0.47, 0.32, 0.98],
     },
   },
@@ -33,33 +33,33 @@ const cardVariants = {
 const ProductCard = ({ product }: { product: FeaturedProduct }) => {
   return (
     <motion.div variants={cardVariants} className="group flex flex-col">
-      {/* Product Image Container with Day/Night Crossfade */}
-      <div className="relative h-72 sm:h-80 w-full overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800/90 transition-all duration-300 group-hover:-translate-y-1.5 group-hover:border-ssil-red/50 group-hover:shadow-[0_16px_36px_-8px_rgba(229,62,62,0.25)]">
-        {/* Day Image (Default) */}
+      {/* Product Image Container with Fixed 10:15 (2:3) Aspect Ratio & Zero Border Radius */}
+      <div className="relative w-full aspect-[10/15] rounded-none overflow-hidden bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 transition-all duration-300 group-hover:-translate-y-1.5 group-hover:border-ssil-red/50 group-hover:shadow-[0_16px_36px_-8px_rgba(229,62,62,0.22)]">
+        {/* Day Image (Default, object-contain to prevent any cropping) */}
         <Image
           src={product.dayImage}
           alt={`${product.name} Daytime`}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover object-center opacity-100 group-hover:opacity-0 transition-opacity duration-500 ease-in-out"
+          className="object-contain object-center p-2 opacity-100 group-hover:opacity-0 transition-opacity duration-500 ease-in-out"
           priority
         />
 
-        {/* Night Image (Hover Crossfade) */}
+        {/* Night Image (Hover Crossfade, object-contain to prevent any cropping) */}
         <Image
           src={product.nightImage}
           alt={`${product.name} Nighttime`}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
+          className="object-contain object-center p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
         />
 
-        {/* Subtle Ambient Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+        {/* Ambient Vignette Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/15 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
       </div>
 
-      {/* Product Name Below Card */}
-      <h3 className="mt-4 text-center text-base sm:text-lg font-extrabold text-slate-900 dark:text-white tracking-tight group-hover:text-ssil-red transition-colors duration-300">
+      {/* Product Name Below Card with Minimal Spacing */}
+      <h3 className="mt-3 text-center text-sm sm:text-base font-extrabold text-slate-900 dark:text-white tracking-tight group-hover:text-ssil-red transition-colors duration-300 leading-snug">
         {product.name}
       </h3>
     </motion.div>
@@ -90,9 +90,9 @@ export const FeaturedProducts = () => {
           </p>
         </motion.div>
 
-        {/* 6 Featured Products Grid */}
+        {/* 6 Featured Products Grid (3 cols desktop, 2 cols tablet, 1 col mobile, tight gap) */}
         <motion.div
-          className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-40px" }}
