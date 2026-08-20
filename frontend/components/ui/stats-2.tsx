@@ -32,66 +32,54 @@ const metricsData = [
     label: "Poles & Lighting Installations",
     sublabel: "DEPLOYED FOOTPRINT",
     icon: <Zap className="h-4 w-4" />,
-    color: "blue",
-    accentClass: "text-ssil-blue dark:text-sky-400",
-    glowClass: "hover:border-ssil-blue/60 hover:shadow-[0_14px_32px_-8px_rgba(49,130,206,0.25)]",
   },
   {
     number: "10+",
     label: "Years of Experience",
     sublabel: "ENGINEERING HERITAGE",
     icon: <Award className="h-4 w-4" />,
-    color: "red",
-    accentClass: "text-ssil-red",
-    glowClass: "hover:border-ssil-red/60 hover:shadow-[0_14px_32px_-8px_rgba(229,62,62,0.25)]",
   },
   {
     number: "18+",
     label: "States Served",
     sublabel: "PAN-INDIA REACH",
     icon: <Globe className="h-4 w-4" />,
-    color: "blue",
-    accentClass: "text-ssil-blue dark:text-sky-400",
-    glowClass: "hover:border-ssil-blue/60 hover:shadow-[0_14px_32px_-8px_rgba(49,130,206,0.25)]",
   },
   {
     number: "200+",
     label: "Projects Completed",
     sublabel: "EXECUTED DELIVERIES",
     icon: <Building2 className="h-4 w-4" />,
-    color: "red",
-    accentClass: "text-ssil-red",
-    glowClass: "hover:border-ssil-red/60 hover:shadow-[0_14px_32px_-8px_rgba(229,62,62,0.25)]",
   },
 ];
 
 const Stats2 = () => {
   return (
-    <section className="py-16 md:py-20 bg-slate-50/70 dark:bg-slate-950/80 border-b border-slate-200/60 dark:border-slate-800/80 transition-colors">
+    <section className="py-16 md:py-24 bg-gradient-to-b from-slate-50 via-red-50/20 to-slate-50 dark:from-slate-950 dark:via-red-950/10 dark:to-slate-950 border-b border-slate-200/60 dark:border-slate-800/80 transition-colors">
       <div className="container mx-auto px-4 md:px-6">
         
         {/* Section Header */}
         <motion.div
-          className="text-center max-w-3xl mx-auto mb-12"
+          className="text-center max-w-4xl mx-auto mb-12"
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <span className="text-xs font-extrabold uppercase tracking-widest text-ssil-red block mb-2">
+          <span className="text-sm sm:text-base font-extrabold uppercase tracking-widest text-ssil-red block mb-2.5">
             LIGHTING SOLUTIONS
           </span>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
             Engineered Lighting for Modern Infrastructure
           </h2>
-          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-xl mx-auto mt-3 leading-relaxed font-normal">
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-3xl mx-auto mt-3.5 leading-relaxed font-normal">
             From architectural spaces to highways and large-scale infrastructure, SSIL delivers lighting solutions engineered around performance.
           </p>
         </motion.div>
 
         {/* 4 Metric Cards Grid */}
         <motion.div
-          className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
+          className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-40px" }}
@@ -101,13 +89,13 @@ const Stats2 = () => {
             <motion.div
               key={index}
               variants={itemVariants}
-              className={`group bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 flex h-44 flex-col justify-between rounded-xl p-5 shadow-xs transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.015] ${item.glowClass}`}
+              className="group bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 flex h-44 flex-col justify-between rounded-xl p-6 shadow-xs transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.015] hover:border-ssil-red/60 hover:shadow-[0_14px_32px_-8px_rgba(229,62,62,0.22)]"
             >
               <div className="flex items-center justify-between">
-                <span className={`font-extrabold text-[10px] tracking-wider uppercase ${item.accentClass}`}>
+                <span className="text-ssil-red font-extrabold text-[10px] tracking-wider uppercase">
                   {item.sublabel}
                 </span>
-                <div className={`p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 transition-transform group-hover:scale-110 ${item.accentClass}`}>
+                <div className="p-1.5 rounded-lg bg-ssil-red/10 text-ssil-red transition-transform group-hover:scale-110">
                   {item.icon}
                 </div>
               </div>
