@@ -1,0 +1,196 @@
+"use client";
+
+import * as React from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Facebook, Instagram, Linkedin, Send, Twitter, Phone, Mail, MapPin } from "lucide-react";
+
+function Footerdemo() {
+  return (
+    <footer className="relative border-t bg-slate-50 text-slate-900 transition-colors duration-300">
+      <div className="container mx-auto px-4 py-16 md:px-6 lg:px-8">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+          
+          {/* Column 1: SSIL Project Inquiry & Catalog Request (Replacing Newsletter) */}
+          <div className="relative">
+            <div className="mb-4 flex items-center gap-2.5">
+              <div className="flex h-8 w-8 items-center justify-center rounded bg-ssil-red text-white font-black text-xs">
+                SS
+              </div>
+              <h2 className="text-xl font-extrabold tracking-tight text-slate-900">
+                SHIV SHAKTI <span className="text-ssil-red">INDIA</span>
+              </h2>
+            </div>
+            <p className="mb-6 text-sm text-slate-600 leading-relaxed">
+              Request SSIL&apos;s master technical product catalog and project tender specifications.
+            </p>
+            <form className="relative" onSubmit={(e) => e.preventDefault()}>
+              <Input
+                type="email"
+                placeholder="Enter work email..."
+                className="pr-12 bg-white border-slate-300 focus:border-ssil-blue"
+              />
+              <Button
+                type="submit"
+                size="icon"
+                className="absolute right-1 top-1 h-8 w-8 rounded-full bg-ssil-red text-white transition-transform hover:scale-105 hover:bg-ssil-red-600"
+              >
+                <Send className="h-4 w-4" />
+                <span className="sr-only">Request Catalog</span>
+              </Button>
+            </form>
+            <div className="absolute -right-4 top-0 h-24 w-24 rounded-full bg-ssil-blue/10 blur-2xl" />
+          </div>
+
+          {/* Column 2: Quick Links */}
+          <div>
+            <h3 className="mb-4 text-base font-bold tracking-wide uppercase text-slate-900">
+              Quick Navigation
+            </h3>
+            <nav className="space-y-2.5 text-sm font-medium text-slate-600">
+              <Link href="/" className="block transition-colors hover:text-ssil-red">
+                Home
+              </Link>
+              <Link href="/about" className="block transition-colors hover:text-ssil-red">
+                About SSIL
+              </Link>
+              <Link href="/products" className="block transition-colors hover:text-ssil-red">
+                Lighting Solutions
+              </Link>
+              <Link href="/projects" className="block transition-colors hover:text-ssil-red">
+                Executed Projects
+              </Link>
+              <Link href="/contact" className="block transition-colors hover:text-ssil-red">
+                Contact & Inquiry
+              </Link>
+            </nav>
+          </div>
+
+          {/* Column 3: Contact Us */}
+          <div>
+            <h3 className="mb-4 text-base font-bold tracking-wide uppercase text-slate-900">
+              Corporate Office
+            </h3>
+            <address className="space-y-3 text-sm text-slate-600 not-italic">
+              <div className="flex items-start gap-2.5">
+                <MapPin className="h-4 w-4 text-ssil-red shrink-0 mt-0.5" />
+                <p>Shiv Shakti India Limited / Shiv Shakti Private Limited, India</p>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <Phone className="h-4 w-4 text-ssil-blue shrink-0" />
+                <p>Client Input Required (TBD)</p>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <Mail className="h-4 w-4 text-ssil-red shrink-0" />
+                <p>Client Input Required (TBD)</p>
+              </div>
+            </address>
+          </div>
+
+          {/* Column 4: Social & Compliance */}
+          <div className="relative">
+            <h3 className="mb-4 text-base font-bold tracking-wide uppercase text-slate-900">
+              Corporate Connect
+            </h3>
+            <p className="mb-4 text-xs text-slate-500">
+              Connect with Shiv Shakti India Limited on official corporate channels.
+            </p>
+            <div className="mb-6 flex space-x-3">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="outline" size="icon" className="rounded-full border-slate-300 text-slate-700 hover:text-ssil-blue hover:border-ssil-blue">
+                      <Facebook className="h-4 w-4" />
+                      <span className="sr-only">Facebook</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Follow SSIL on Facebook</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="outline" size="icon" className="rounded-full border-slate-300 text-slate-700 hover:text-ssil-blue hover:border-ssil-blue">
+                      <Twitter className="h-4 w-4" />
+                      <span className="sr-only">Twitter</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Follow SSIL on Twitter</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="outline" size="icon" className="rounded-full border-slate-300 text-slate-700 hover:text-ssil-red hover:border-ssil-red">
+                      <Instagram className="h-4 w-4" />
+                      <span className="sr-only">Instagram</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Follow SSIL on Instagram</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="outline" size="icon" className="rounded-full border-slate-300 text-slate-700 hover:text-ssil-blue hover:border-ssil-blue">
+                      <Linkedin className="h-4 w-4" />
+                      <span className="sr-only">LinkedIn</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Connect with SSIL on LinkedIn</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+            
+            <div className="rounded-lg bg-white p-3 border border-slate-200 shadow-sm">
+              <span className="text-[11px] font-bold text-ssil-blue uppercase tracking-wider block">
+                Quality Certified
+              </span>
+              <span className="text-xs text-slate-600">
+                IP66 Outdoor Infrastructure & ISO Compliance Standard
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-slate-200 pt-8 text-center md:flex-row">
+          <p className="text-xs font-medium text-slate-500">
+            © {new Date().getFullYear()} Shiv Shakti India Limited / Shiv Shakti Private Limited. All rights reserved.
+          </p>
+          <nav className="flex gap-6 text-xs font-semibold text-slate-600">
+            <Link href="/privacy" className="transition-colors hover:text-ssil-red">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="transition-colors hover:text-ssil-red">
+              Terms of Service
+            </Link>
+            <Link href="/sitemap" className="transition-colors hover:text-ssil-red">
+              Sitemap
+            </Link>
+          </nav>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+export { Footerdemo };
