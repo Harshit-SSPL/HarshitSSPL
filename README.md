@@ -4,7 +4,37 @@ Official digital infrastructure and corporate platform for **Shiv Shakti India L
 
 ---
 
-## 1. PROJECT OVERVIEW
+## 1. MONOREPO STRUCTURE
+
+The repository is structured following a clean monorepo architecture separating public website concerns from future backend services:
+
+```text
+HarshitSSIP/
+├── frontend/                  <-- Active Next.js App Router Application
+│   ├── app/                   <-- Page Routes & Layouts (Glassmorphism Navbar, Footer)
+│   ├── components/            <-- Reusable UI Components & Shadcn Primitives
+│   ├── data/                  <-- Mock Data Taxonomies (Products, Projects)
+│   ├── lib/                   <-- Utility Functions (cn)
+│   ├── types/                 <-- TypeScript Models
+│   ├── public/
+│   │   ├── branding/          <-- Authentic SSIL Company Logo (companylogo.png)
+│   │   └── videos/            <-- Homepage Hero Background Video (hero.mp4)
+│   ├── package.json
+│   ├── next.config.mjs
+│   ├── tsconfig.json
+│   └── tailwind.config.ts
+│
+├── backend/                   <-- Reserved Boundary for Future Phase 10 API
+├── .gitignore
+├── README.md
+├── BRAIN.md
+├── ARCHITECTURE.md
+└── ROADMAP.md
+```
+
+---
+
+## 2. PROJECT OVERVIEW
 
 Shiv Shakti India Limited (SSIL) is a premier manufacturer and provider of outdoor, street, and architectural lighting infrastructure solutions. SSIL delivers tailored lighting designs and engineered solutions across diverse sectors including public highways, municipal streets, residential complexes, commercial developments, public landmarks, and large-scale government/tender projects.
 
@@ -15,7 +45,7 @@ Shiv Shakti India Limited (SSIL) is a premier manufacturer and provider of outdo
 
 ---
 
-## 2. WEBSITE PURPOSE & DESIGN PHILOSOPHY
+## 3. WEBSITE PURPOSE & DESIGN PHILOSOPHY
 
 This platform serves as SSIL's primary digital corporate presence. Its objectives are to:
 * Showcase engineering capability, scale, trust, and infrastructure expertise.
@@ -28,69 +58,35 @@ This platform serves as SSIL's primary digital corporate presence. Its objective
 ### Design Aesthetics & Identity
 The platform's visual identity reflects engineering rigor and corporate reliability:
 * **Primary Palette**: White primary background (`#FFFFFF`), SSIL Red (`#E53E3E`), Light/Sky Blue (`#3182CE` / `#63B3ED`), and dark neutral typography (`#0F172A`).
+* **Header & Hero**: Glassmorphism navbar with backdrop blur (`bg-white/70 backdrop-blur-md`), floating seamlessly over a full-bleed responsive background video (`hero.mp4`).
 * **Visual Tone**: Clean, bright, modern, corporate, premium, and engineering-focused.
-* **Strict Design Restrictions**: Does NOT look like a SaaS app, developer portfolio, gaming site, AI dashboard, or cybersecurity aesthetic.
 
 ---
 
-## 3. CURRENT PROJECT STATUS
+## 4. CURRENT PROJECT STATUS
 
-* **Current Status**: **Phase 1 — Frontend Foundation & Design System Setup** (Complete & Verified)
-* **Active State**: Next.js App Router workspace, TypeScript, Tailwind CSS, Shadcn UI primitives, custom SSIL branding palette, static mock data models, and baseline UI components (`Navbar1`, `Footerdemo`, `Stats2`, `StickyScroll`, `FeatureCard`).
-* **Dev Server Preview**: Running locally on `http://localhost:3000`.
-
----
-
-## 4. ARCHITECTURAL ROADMAP SUMMARY
-
-The platform is engineered following a **Frontend-First Incremental Delivery Strategy**:
-
-```text
-Phase 0: Project Initialization & Documentation (COMPLETE)
-   ↓
-Phase 1: Frontend Foundation & Design System Setup (COMPLETE & VERIFIED)
-   ↓
-Phases 2–9: Individual Page Implementations & Hover Interactions (Awaiting Phase 2)
-   ↓
-Phases 10–12: Backend API & Database Integration (Node.js / Express / MongoDB)
-   ↓
-Phases 13–17: Cloudinary Media Storage & Admin Dashboard
-   ↓
-Phases 18–20: End-to-End Integration, Content Migration & Production Hardening
-```
+* **Current Status**: **Phase 1 — Frontend Foundation, Monorepo Setup & Hero Video Integration** (Complete)
+* **Active State**: Monorepo split (`frontend/` and `backend/`), Next.js App Router, TypeScript, Glassmorphism Navbar with authentic `companylogo.png`, `hero.mp4` background video hero section, baseline UI components (`Stats2`, `StickyScroll`, `FeatureCard`), and corporate footer.
+* **Local Preview**: Running locally on `http://localhost:3005`.
 
 ---
 
-## 5. DOCUMENTATION DIRECTORY
+## 5. LOCAL DEVELOPMENT WORKFLOW
 
-For comprehensive technical specs, development guidelines, and roadmap details, refer to the following master documents:
-
-* [**BRAIN.md**](file:///c:/Users/Ayush/OneDrive/Desktop/HarshitSSIP/BRAIN.md) — Master context repository containing company background, non-negotiable rules, day/night hover interactions, temporary stock-image protocols, and known constraints.
-* [**ARCHITECTURE.md**](file:///c:/Users/Ayush/OneDrive/Desktop/HarshitSSIP/ARCHITECTURE.md) — System design document detailing CURRENT Phase 1 state vs FUTURE frontend, backend, MongoDB, Cloudinary, auth, and admin architectures.
-* [**ROADMAP.md**](file:///c:/Users/Ayush/OneDrive/Desktop/HarshitSSIP/ROADMAP.md) — Structured 21-phase execution plan tracking milestone deliverables from Phase 0 to Phase 20.
-
----
-
-## 6. REPOSITORY & GIT WORKFLOW
-
-* **GitHub Repository**: [https://github.com/Harshit-SSPL/HarshitSSPL](https://github.com/Harshit-SSPL/HarshitSSPL)
-* **Organization Profile**: [https://github.com/Harshit-SSPL](https://github.com/Harshit-SSPL)
-* **Branching Strategy**: `main` serves as the primary stable branch.
-
----
-
-## 7. LOCAL DEVELOPMENT SETUP
+All frontend development commands must be executed from the `frontend/` directory:
 
 ```bash
-# Clone the repository
-git clone https://github.com/Harshit-SSPL/HarshitSSPL.git
-cd HarshitSSPL
+# Navigate into the frontend application directory
+cd frontend
 
 # Install dependencies
 npm install
 
 # Run local development server
 npm run dev
+
+# Run production build validation
+npm run build
 ```
 
-Open `http://localhost:3000` to view the live local preview.
+Open `http://localhost:3005` to view the live local preview.

@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -18,15 +19,18 @@ function Footerdemo() {
       <div className="container mx-auto px-4 py-16 md:px-6 lg:px-8">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           
-          {/* Column 1: SSIL Project Inquiry & Catalog Request (Replacing Newsletter) */}
+          {/* Column 1: SSIL Authentic Logo & Catalog Request */}
           <div className="relative">
-            <div className="mb-4 flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded bg-ssil-red text-white font-black text-xs">
-                SS
-              </div>
-              <h2 className="text-xl font-extrabold tracking-tight text-slate-900">
-                SHIV SHAKTI <span className="text-ssil-red">INDIA</span>
-              </h2>
+            <div className="mb-4">
+              <Link href="/">
+                <Image
+                  src="/branding/companylogo.png"
+                  alt="Shiv Shakti India Limited Logo"
+                  width={200}
+                  height={55}
+                  className="h-12 w-auto object-contain"
+                />
+              </Link>
             </div>
             <p className="mb-6 text-sm text-slate-600 leading-relaxed">
               Request SSIL&apos;s master technical product catalog and project tender specifications.
@@ -68,7 +72,7 @@ function Footerdemo() {
                 Executed Projects
               </Link>
               <Link href="/contact" className="block transition-colors hover:text-ssil-red">
-                Contact & Inquiry
+                Contact &amp; Inquiry
               </Link>
             </nav>
           </div>
@@ -165,7 +169,7 @@ function Footerdemo() {
                 Quality Certified
               </span>
               <span className="text-xs text-slate-600">
-                IP66 Outdoor Infrastructure & ISO Compliance Standard
+                IP66 Outdoor Infrastructure &amp; ISO Compliance Standard
               </span>
             </div>
           </div>

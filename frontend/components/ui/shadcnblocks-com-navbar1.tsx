@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Book, Menu, Sunset, Trees, Zap, Lightbulb } from "lucide-react";
 
 import {
@@ -36,12 +37,6 @@ interface MenuItem {
 }
 
 interface Navbar1Props {
-  logo?: {
-    url: string;
-    alt: string;
-    title: string;
-    subtitle?: string;
-  };
   menu?: MenuItem[];
   auth?: {
     login: {
@@ -57,6 +52,10 @@ interface Navbar1Props {
 
 const defaultSsilMenu: MenuItem[] = [
   { title: "Home", url: "/" },
+  {
+    title: "About Us",
+    url: "/about",
+  },
   {
     title: "Products",
     url: "/products",
@@ -88,10 +87,6 @@ const defaultSsilMenu: MenuItem[] = [
     ],
   },
   {
-    title: "About Us",
-    url: "/about",
-  },
-  {
     title: "Projects",
     url: "/projects",
   },
@@ -102,40 +97,51 @@ const defaultSsilMenu: MenuItem[] = [
 ];
 
 const Navbar1 = ({
-  logo = {
-    url: "/",
-    alt: "Shiv Shakti India Limited Logo",
-    title: "SSIL",
-    subtitle: "SHIV SHAKTI INDIA LIMITED",
-  },
   menu = defaultSsilMenu,
   auth = {
     login: { text: "Inquire Now", url: "/contact" },
-    signup: { text: "Catalogue", url: "/products" },
+    signup: { text: "Catalog", url: "/products" },
   },
 }: Navbar1Props) => {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-white/95 backdrop-blur-md">
-      <div className="container mx-auto px-4 py-3 md:px-6">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-white/85 backdrop-blur-lg border-b border-slate-200/80 shadow-md py-2.5"
+          : "bg-white/70 backdrop-blur-md border-b border-white/20 shadow-sm py-3.5"
+      }`}
+    >
+      <div className="container mx-auto px-4 md:px-6">
         {/* Desktop Navigation */}
         <nav className="hidden items-center justify-between lg:flex">
-          {/* Extreme Left SSIL Logo Branding */}
-          <div className="flex items-center gap-8">
-            <Link href={logo.url} className="flex items-center gap-3 group">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-ssil-red via-ssil-red-600 to-ssil-blue p-2 shadow-sm transition-transform group-hover:scale-105">
-                <span className="text-base font-extrabold tracking-widest text-white">SS</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xl font-black tracking-tight text-slate-900 leading-none">
-                  SSIL<span className="text-ssil-red">.</span>
-                </span>
-                <span className="text-[10px] font-bold tracking-wider text-ssil-blue uppercase mt-0.5">
-                  {logo.subtitle}
-                </span>
-              </div>
+          {/* Extreme Left SSIL Authentic Logo Asset */}
+          <div className="flex items-center gap-10">
+            <Link href="/" className="flex items-center shrink-0 transition-opacity hover:opacity-90">
+              <Image
+                src="/branding/companylogo.png"
+                alt="Shiv Shakti India Limited Logo"
+                width={200}
+                height={55}
+                className="h-11 w-auto object-contain"
+                priority
+              />
             </Link>
 
-            <div className="flex items-center ml-4">
+            <div className="flex items-center">
               <NavigationMenu>
                 <NavigationMenuList>
                   {menu.map((item) => renderMenuItem(item))}
@@ -145,10 +151,10 @@ const Navbar1 = ({
           </div>
 
           <div className="flex items-center gap-3">
-            <Button asChild variant="outline" size="sm" className="font-semibold text-slate-700 hover:text-ssil-blue border-slate-300">
+            <Button asChild variant="outline" size="sm" className="font-semibold text-slate-800 border-slate-300/80 bg-white/80 hover:bg-white hover:text-ssil-blue shadow-xs">
               <Link href={auth.signup.url}>{auth.signup.text}</Link>
             </Button>
-            <Button asChild size="sm" className="bg-ssil-red hover:bg-ssil-red-600 font-semibold shadow-sm">
+            <Button asChild size="sm" className="bg-ssil-red hover:bg-ssil-red-600 font-semibold shadow-sm text-white">
               <Link href={auth.login.url}>{auth.login.text}</Link>
             </Button>
           </div>
@@ -157,41 +163,34 @@ const Navbar1 = ({
         {/* Mobile Navigation */}
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
-            <Link href={logo.url} className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-ssil-red to-ssil-blue p-2">
-                <span className="text-xs font-black tracking-widest text-white">SS</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-lg font-black tracking-tight text-slate-900 leading-none">
-                  SSIL<span className="text-ssil-red">.</span>
-                </span>
-                <span className="text-[9px] font-bold tracking-wider text-ssil-blue uppercase">
-                  SHIV SHAKTI
-                </span>
-              </div>
+            <Link href="/" className="flex items-center shrink-0">
+              <Image
+                src="/branding/companylogo.png"
+                alt="Shiv Shakti India Limited Logo"
+                width={160}
+                height={45}
+                className="h-9 w-auto object-contain"
+                priority
+              />
             </Link>
 
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="outline" size="icon" className="border-slate-200">
-                  <Menu className="size-5 text-slate-700" />
+                <Button variant="outline" size="icon" className="border-slate-300 bg-white/80 backdrop-blur-sm">
+                  <Menu className="size-5 text-slate-800" />
                 </Button>
               </SheetTrigger>
-              <SheetContent className="overflow-y-auto bg-white">
+              <SheetContent className="overflow-y-auto bg-white/95 backdrop-blur-xl">
                 <SheetHeader>
                   <SheetTitle>
-                    <Link href={logo.url} className="flex items-center gap-2.5">
-                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-ssil-red p-2">
-                        <span className="text-xs font-black text-white">SS</span>
-                      </div>
-                      <div className="flex flex-col text-left">
-                        <span className="text-lg font-black text-slate-900 leading-none">
-                          SSIL<span className="text-ssil-red">.</span>
-                        </span>
-                        <span className="text-[9px] font-bold text-ssil-blue uppercase">
-                          SHIV SHAKTI INDIA LIMITED
-                        </span>
-                      </div>
+                    <Link href="/" className="flex items-center">
+                      <Image
+                        src="/branding/companylogo.png"
+                        alt="Shiv Shakti India Limited Logo"
+                        width={150}
+                        height={40}
+                        className="h-8 w-auto object-contain"
+                      />
                     </Link>
                   </SheetTitle>
                 </SheetHeader>
@@ -204,7 +203,7 @@ const Navbar1 = ({
                     {menu.map((item) => renderMobileMenuItem(item))}
                   </Accordion>
 
-                  <div className="flex flex-col gap-3 pt-4 border-t border-slate-100">
+                  <div className="flex flex-col gap-3 pt-4 border-t border-slate-200">
                     <Button asChild variant="outline">
                       <Link href={auth.signup.url}>{auth.signup.text}</Link>
                     </Button>
@@ -225,10 +224,10 @@ const Navbar1 = ({
 const renderMenuItem = (item: MenuItem) => {
   if (item.items) {
     return (
-      <NavigationMenuItem key={item.title} className="text-slate-600">
-        <NavigationMenuTrigger className="font-semibold text-slate-700 hover:text-ssil-red">{item.title}</NavigationMenuTrigger>
+      <NavigationMenuItem key={item.title} className="text-slate-700">
+        <NavigationMenuTrigger className="font-semibold text-slate-800 hover:text-ssil-red bg-transparent border-0">{item.title}</NavigationMenuTrigger>
         <NavigationMenuContent>
-          <ul className="w-80 p-3 bg-white">
+          <ul className="w-80 p-3 bg-white/95 backdrop-blur-md shadow-xl border border-slate-100 rounded-lg">
             {item.items.map((subItem) => (
               <li key={subItem.title}>
                 <Link
@@ -258,7 +257,7 @@ const renderMenuItem = (item: MenuItem) => {
   return (
     <Link
       key={item.title}
-      className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 hover:text-ssil-red"
+      className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:bg-white/60 hover:text-ssil-red"
       href={item.url}
     >
       {item.title}

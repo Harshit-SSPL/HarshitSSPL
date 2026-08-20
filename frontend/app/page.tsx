@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Stats2 } from "@/components/ui/stats-2";
 import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
 import { FeatureCardDemo } from "@/components/ui/feature-card";
-import { ArrowRight, Shield, Award, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 const stickyContent = [
   {
@@ -89,52 +89,62 @@ const stickyContent = [
 export default function HomePage() {
   return (
     <div className="flex flex-col gap-0">
-      {/* Overview Hero Banner (Phase 1 Baseline Frame) */}
-      <section className="relative bg-gradient-to-b from-slate-50 via-white to-slate-50 py-20 lg:py-28 border-b border-slate-100 overflow-hidden">
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
+      {/* Primary Hero Section with SSIL Video Background */}
+      <section className="relative min-h-[90vh] lg:min-h-screen flex items-center justify-start overflow-hidden pt-20 pb-16">
+        
+        {/* Hero Background Video */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 h-full w-full object-cover z-0"
+        >
+          <source src="/videos/homepage/hero.mp4" type="video/mp4" />
+        </video>
+
+        {/* Contrast Overlay Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/65 to-slate-950/30 z-10" />
+
+        {/* Hero Text & CTA Content Container */}
+        <div className="container mx-auto px-4 md:px-6 relative z-20 text-white">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full bg-ssil-red/10 px-3.5 py-1.5 text-xs font-bold text-ssil-red mb-6 border border-ssil-red/20">
-              <Shield className="h-3.5 w-3.5" />
-              SHIV SHAKTI INDIA LIMITED (SSIL) — PHASE 1 FOUNDATION
-            </div>
-            <h1 className="text-4xl font-black text-slate-900 tracking-tight sm:text-5xl lg:text-6xl leading-[1.1]">
-              Architectural &amp; Outdoor <span className="text-ssil-red">Infrastructure</span> Lighting
+            <h1 className="text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl leading-[1.1] text-white">
+              Architectural &amp; Outdoor <span className="text-ssil-red drop-shadow-sm">Infrastructure</span> Lighting
             </h1>
-            <p className="mt-6 text-lg text-slate-600 leading-relaxed font-normal">
-              SSIL engineers custom lighting solutions for highways, municipal streets, residential complexes, and monumental high-mast installations across India.
+            <p className="mt-6 text-lg text-slate-200 leading-relaxed font-normal max-w-2xl drop-shadow-sm">
+              Shiv Shakti India Limited (SSIL) delivers engineered lighting solutions for highways, municipal corridors, commercial developments, and monumental infrastructure projects across India.
             </p>
+
             <div className="mt-8 flex flex-wrap gap-4 items-center">
-              <Button asChild size="lg" className="bg-ssil-red hover:bg-ssil-red-600 font-bold px-8 shadow-sm">
+              <Button asChild size="lg" className="bg-ssil-red hover:bg-ssil-red-600 font-bold px-8 shadow-md text-white">
                 <Link href="/products">
                   Explore Products Catalog <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="border-slate-300 text-slate-800 hover:text-ssil-blue font-bold px-8">
+              <Button asChild variant="outline" size="lg" className="border-white/40 text-white hover:bg-white/10 font-bold px-8 backdrop-blur-sm">
                 <Link href="/projects">
                   View Executed Projects
                 </Link>
               </Button>
             </div>
 
-            <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 gap-4 pt-8 border-t border-slate-200">
+            <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 gap-4 pt-8 border-t border-white/15 max-w-2xl">
               <div className="flex items-center gap-2.5">
                 <CheckCircle2 className="h-5 w-5 text-ssil-red shrink-0" />
-                <span className="text-xs font-semibold text-slate-700">ISO Standards</span>
+                <span className="text-xs font-semibold text-slate-200">ISO Quality Standards</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <CheckCircle2 className="h-5 w-5 text-ssil-blue shrink-0" />
-                <span className="text-xs font-semibold text-slate-700">IP66 Protection</span>
+                <span className="text-xs font-semibold text-slate-200">IP66 Protection</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <CheckCircle2 className="h-5 w-5 text-ssil-red shrink-0" />
-                <span className="text-xs font-semibold text-slate-700">Custom Engineering</span>
+                <span className="text-xs font-semibold text-slate-200">Custom Engineering</span>
               </div>
             </div>
           </div>
         </div>
-
-        {/* Ambient Glow Graphic */}
-        <div className="absolute top-1/2 right-0 -translate-y-1/2 w-96 h-96 bg-ssil-blue/5 rounded-full blur-3xl pointer-events-none" />
       </section>
 
       {/* Component 1: Corporate Stats */}

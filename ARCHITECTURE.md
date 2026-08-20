@@ -1,212 +1,92 @@
 # ARCHITECTURE.md — SYSTEM ARCHITECTURE SPECIFICATION
 
 **Project**: Shiv Shakti India Limited (SSIL) Corporate Platform  
-**Status**: Phase 0 — Initialization & Baseline Architecture Setup  
+**Status**: Phase 1 — Monorepo Architecture, Glassmorphism Navbar & Hero Video Integration  
 
 ---
 
-## 1. CURRENT VS. FUTURE ARCHITECTURE
-
-### CURRENT STATE (Phase 0)
-```text
-+-------------------------------------------------------------------+
-|                        LOCAL REPOSITORY                           |
-|  - Baseline Documentation (README.md, BRAIN.md, ARCHITECTURE.md,   |
-|    ROADMAP.md)                                                    |
-|  - Git Version Control (.gitignore, main branch)                  |
-|  - Remote Origin: https://github.com/Harshit-SSPL/HarshitSSPL    |
-+-------------------------------------------------------------------+
-```
-* No frontend UI code.
-* No backend server or API endpoints.
-* No database or media cloud integration.
-
----
-
-### PLANNED FUTURE STATE (Full System Architecture)
+## 1. MONOREPO SYSTEM ARCHITECTURE
 
 ```text
-                               +----------------------------------+
-                               |        PUBLIC END USERS          |
-                               +----------------------------------+
-                                                |
-                                                v
-                               +----------------------------------+
-                               |     NEXT.JS FRONTEND (WEB)       |
-                               |  - Public Pages (Home, Products, |
-                               |    Projects, About Us, Contact)  |
-                               |  - Day/Night Interactive UI      |
-                               +----------------------------------+
-                                           |          |
-                                API Requests          Media Asset URLs
-                                           v          v
-+-------------------------------+      +--------------------------+
-|    AUTHENTICATED COMPANY      |      |   BACKEND API SERVER     |
-|       ADMIN USERS             |----->|  - Node.js / Express     |
-| - Product & Catalog Management|      |  - JWT Authentication    |
-| - Project Showcase Updates    |      |  - Content Management    |
-+-------------------------------+      +--------------------------+
-                                                 |
-                                     +-----------+-----------+
-                                     |                       |
-                                     v                       v
-                        +-------------------------+ +-------------------+
-                        |   MONGODB DATABASE      | |   CLOUDINARY CDN  |
-                        | - Products & Categories | | - Product Images  |
-                        | - Project Data          | | - Night Photos    |
-                        | - Admin User Credentials| | - Project Media   |
-                        +-------------------------+ +-------------------+
++-------------------------------------------------------------------+
+|                        HARSHITSSIP ROOT                           |
+|  - Root Documentation: README.md, BRAIN.md, ARCHITECTURE.md,      |
+|    ROADMAP.md, .gitignore                                         |
+|  - Git Repository: https://github.com/Harshit-SSPL/HarshitSSPL    |
++-------------------------------------------------------------------+
+                                  |
+            +---------------------+---------------------+
+            |                                           |
+            v                                           v
++-----------------------+                   +-----------------------+
+|   FRONTEND / (ACTIVE) |                   |  BACKEND / (RESERVED) |
+| - Next.js App Router  |                   | - Reserved for        |
+| - Glassmorphism UI    |                   |   Future Node.js/     |
+| - Video Hero Layer    |                   |   Express REST API    |
+| - Authentic SSIL Logo |                   |   (Phase 10+)         |
++-----------------------+                   +-----------------------+
 ```
 
 ---
 
-## 2. FRONTEND ARCHITECTURE
+## 2. FRONTEND DIRECTORY TAXONOMY
 
-### Core Framework & Stack
-* **Framework**: Next.js (App Router)
-* **Language**: TypeScript (`strict: true`)
-* **Styling**: Tailwind CSS + Custom Utility Modules (Vanilla CSS for custom animations)
-* **State Management**: React Context / Hooks for UI state (e.g., mobile drawer, interactive filters)
-
-### Component Hierarchy Design
 ```text
-src/
+frontend/
 ├── app/
-│   ├── layout.tsx             # Global layout (Navbar, Footer, Providers)
-│   ├── page.tsx               # Homepage
-│   ├── about/                 # About Us page
-│   ├── products/              # Product catalog overview
-│   │   ├── [category]/        # Category page (e.g., /products/bollards)
-│   │   └── detail/[id]/       # Individual product detail page
-│   ├── projects/              # Projects showcase page
-│   └── contact/               # Contact Us page
+│   ├── globals.css            # Tailwind & CSS variables
+│   ├── layout.tsx             # Root layout with Glassmorphism Navbar & Footer
+│   └── page.tsx               # Homepage with Video Hero background
 ├── components/
-│   ├── common/                # Navbar, Footer, Buttons, Cards, Modals
-│   ├── homepage/              # HeroVideo, ShowcaseGrid, CategoryCards
-│   ├── products/              # ProductCard (Day/Night Hover), SpecificationTable
-│   └── projects/              # ProjectGallery, LocationMapCard
+│   └── ui/                    # Base Shadcn primitives & SSIL section components
+│       ├── shadcnblocks-com-navbar1.tsx  # Glassmorphism Navbar with companylogo.png
+│       ├── footer-section.tsx             # Corporate Footer with companylogo.png
+│       ├── stats-2.tsx
+│       ├── sticky-scroll-reveal.tsx
+│       └── feature-card.tsx
 ├── data/
-│   └── mock/                  # Mock JSON data mirroring future API schemas
-├── lib/                       # Utility functions, helpers
-└── types/                     # TypeScript interfaces
+│   └── mockData.ts            # Static mock dataset for products, categories, projects
+├── lib/
+│   └── utils.ts               # Tailwind merge helper (cn)
+├── types/
+│   └── index.ts               # TypeScript interfaces
+└── public/
+    ├── branding/
+    │   └── companylogo.png    # Authentic SSIL Logo Asset
+    └── videos/
+        └── homepage/
+            └── hero.mp4       # Authentic SSIL Hero Video Asset
 ```
 
 ---
 
-## 3. DATA ARCHITECTURE & TAXONOMY
+## 3. HERO VIDEO & GLASSMORPHISM NAVBAR ARCHITECTURE
 
-### Product Data Schema
-```typescript
-export interface ProductSpec {
-  wattage?: string;
-  inputVoltage?: string;
-  ipRating?: string;
-  material?: string;
-  dimensions?: string;
-  colorTemperature?: string;
-  mountingType?: string;
-  [key: string]: string | undefined;
-}
-
-export interface ProductItem {
-  id: string;
-  slug: string;
-  name: string;
-  categorySlug: string;
-  categoryName: string;
-  description: string;
-  dayImage: string;
-  nightImage?: string;
-  specifications: ProductSpec;
-  applications: string[];
-  isFeaturedHomepage: boolean;
-  status: 'ACTIVE' | 'ARCHIVED';
-  createdAt: string;
-  updatedAt: string;
-}
-```
-
-### Project Data Schema
-```typescript
-export interface ProjectItem {
-  id: string;
-  slug: string;
-  title: string;
-  location: string;
-  clientType: 'GOVERNMENT' | 'COMMERCIAL' | 'RESIDENTIAL' | 'INFRASTRUCTURE';
-  description: string;
-  coverImage: string;
-  galleryImages: string[];
-  executedYear?: string;
-  status: 'COMPLETED' | 'ONGOING';
-}
-```
-
----
-
-## 4. DAY/NIGHT HOVER INTERACTION ARCHITECTURE
-
-### Technical Mechanism
+### Stacking & Layering Order
 ```text
-+-------------------------------------------------------------+
-| Container (.group relative overflow-hidden)                  |
-|                                                             |
-| 1. Day Image (<img> absolute inset-0 transition-opacity)    |
-|    - Default opacity: 100%                                  |
-|    - Group-hover opacity: 0%                                |
-|                                                             |
-| 2. Night Image (<img> absolute inset-0 transition-opacity)  |
-|    - Default opacity: 0%                                    |
-|    - Group-hover opacity: 100%                              |
-+-------------------------------------------------------------+
++---------------------------------------------------------------+
+| Layer 3 (Top): Glassmorphism Navbar                           |
+|   - fixed top-0 inset-x-0 z-50                                |
+|   - bg-white/70 backdrop-blur-md border-b border-white/20     |
+|   - Renders /branding/companylogo.png on extreme left         |
++---------------------------------------------------------------+
+| Layer 2 (Middle): Hero Content Overlay                        |
+|   - relative z-20 container text-white                        |
+|   - Headline: "Architectural & Outdoor Infrastructure Lighting"|
+|   - Subheadline & CTA buttons                                 |
++---------------------------------------------------------------+
+| Layer 1.5: Gradient Contrast Overlay                          |
+|   - absolute inset-0 bg-gradient-to-r from-slate-950/90 z-10  |
++---------------------------------------------------------------+
+| Layer 1 (Bottom): Background Video                            |
+|   - absolute inset-0 z-0 object-cover                         |
+|   - <video autoPlay muted loop playsInline src="/videos/..." />|
++---------------------------------------------------------------+
 ```
-* **Performance Optimization**: Both images are preloaded via Next.js `<Image>` component to prevent flicker on initial hover.
-* **Separation of Interaction**: Hover state toggles image visibility; Click event triggers navigation via Next.js `Link`.
 
 ---
 
-## 5. MEDIA & ASSET STRATEGY
+## 4. FUTURE BACKEND & DATABASE BOUNDARY
 
-### Phase 1–9 (Frontend Development)
-* Static placeholder assets located in `public/images/homepage/` and `public/branding/`.
-* High-resolution stock images configured with exact dimensions to avoid Layout Shift (CLS).
-
-### Phase 13+ (Cloudinary Integration)
-* Production images stored in Cloudinary cloud buckets.
-* Next.js custom image loader points to Cloudinary CDN domain for auto-WebP conversion, responsive `srcset`, and quality auto-tuning.
-
----
-
-## 6. FUTURE BACKEND & ADMIN DASHBOARD ARCHITECTURE
-
-### API Stack
-* **Runtime**: Node.js / Express.js REST API
-* **Database**: MongoDB with Mongoose ORM
-* **Authentication**: JSON Web Tokens (JWT) stored in HTTP-Only secure cookies.
-
-### Admin Authorization Model
-* Intended for ~3 internal SSIL staff members.
-* Role-based access control (`ROLE_ADMIN`).
-* Admin endpoints protected by authentication middleware:
-  * `POST /api/products` (Create Product + Cloudinary Upload)
-  * `PUT /api/products/:id` (Update Specifications / Day-Night Images)
-  * `DELETE /api/products/:id` (Archive Product)
-  * `POST /api/projects` (Manage Executed Projects)
-
----
-
-## 7. PERFORMANCE, RESPONSIVE & SEO STRATEGY
-
-### Performance Goals
-* **Core Web Vitals**: Target LCP < 2.5s, CLS < 0.1, FID/INP < 100ms.
-* **Hero Video Strategy**: MP4/WebM H.265 encoded, muted, loop, poster attribute fallback, background deferred load.
-
-### Responsive Strategy
-* Fluid breakpoint system via Tailwind (`sm: 640px`, `md: 768px`, `lg: 1024px`, `xl: 1280px`).
-* Navigation drawer adaptation for mobile viewports.
-
-### SEO Strategy
-* Server-side metadata generation per page.
-* Semantic HTML5 tag usage (`<header>`, `<main>`, `<section>`, `<article>`, `<footer>`).
-* Dynamic sitemap XML generation (`/sitemap.xml`).
-* Open Graph tags (`og:title`, `og:description`, `og:image`) for social sharing.
+* **Backend Boundary**: `backend/` directory is reserved for future Phase 10 backend development.
+* **Database & Media Integration**: MongoDB schema definitions and Cloudinary media uploading will be introduced in future phases. No backend dependencies exist in Phase 1.

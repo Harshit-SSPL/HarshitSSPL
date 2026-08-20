@@ -7,7 +7,7 @@
 
 ## DEVELOPMENT STRATEGY & PHASE PROGRESSION
 
-The platform is developed strictly in sequential phases according to the **Frontend-First Execution Strategy**. Each phase requires explicit trigger, visual review via `http://localhost:3000`, and design approval from the project owner before the next phase begins.
+The platform is developed strictly in sequential phases according to the **Frontend-First Execution Strategy**. Each phase requires explicit trigger, visual review via `http://localhost:3005`, and design approval from the project owner before the next phase begins.
 
 ---
 
@@ -17,70 +17,31 @@ The platform is developed strictly in sequential phases according to the **Front
 
 ---
 
-### PHASE 1: FRONTEND FOUNDATION & DESIGN SYSTEM SETUP
+### PHASE 1: FRONTEND FOUNDATION, MONOREPO & HERO VIDEO INTEGRATION
 * **Status**: **COMPLETE & VERIFIED**
-* **Scope**: Next.js App Router workspace, TypeScript, Tailwind CSS, Shadcn UI primitives, custom SSIL branding palette, static mock data models, and baseline UI components (`Navbar1`, `Footerdemo`, `Stats2`, `StickyScroll`, `FeatureCard`).
+* **Scope**:
+  * Restructure repository into clean monorepo architecture (`HarshitSSIP/frontend/` and `HarshitSSIP/backend/`).
+  * Integrate official `companylogo.png` logo asset inside `frontend/public/branding/companylogo.png`.
+  * Integrate official `hero.mp4` background video asset inside `frontend/public/videos/homepage/hero.mp4`.
+  * Redesign `Navbar1` into a Glassmorphism navigation header (`bg-white/70 backdrop-blur-md border-b border-white/20`) floating over hero video with authentic logo asset on extreme left.
+  * Integrate `<video>` background hero section with gradient contrast overlay and SSIL infrastructure messaging (removed Phase 1 red badge).
+  * Update corporate footer to use authentic `companylogo.png` logo asset.
 * **Deliverables**:
-  * Next.js App Router workspace setup in `HarshitSSIP`.
-  * Tailwind CSS theme configuration (`SSIL Red #E53E3E`, `SSIL Blue #3182CE`, Light theme HSL variables).
-  * Base Shadcn primitives (`Button`, `Input`, `Label`, `Textarea`, `Switch`, `Tooltip`, `Accordion`, `NavigationMenu`, `Sheet`).
-  * `Navbar1` with SSIL logo on extreme left and menu items (Home, About Us, Products, Projects, Contact Us).
-  * `Footerdemo` corporate footer customized for SSIL (Dark mode toggle removed; newsletter transformed to catalog inquiry).
-  * `Stats2` corporate statistics component (50+ Clients, 99.9% Quality Precision, 5,000+ Deployed Assets; CTA button removed).
-  * `StickyScroll` interactive solution showcase for SSIL lighting categories.
-  * `FeatureCard` 3-step project engagement process.
-* **Verification**: `npm run build` completed cleanly with zero errors. Dev server verified at `http://localhost:3000`.
+  * Next.js App Router workspace running inside `frontend/`.
+  * Reserved `backend/` directory boundary.
+  * Glassmorphism Navbar (`components/ui/shadcnblocks-com-navbar1.tsx`).
+  * Hero video background section (`app/page.tsx`).
+  * Corporate footer (`components/ui/footer-section.tsx`).
+* **Verification**: Production build verified in `frontend/`. Dev server running on `http://localhost:3005`.
 
 ---
 
-### PHASE 2: HOMEPAGE DESIGN & IMPLEMENTATION
-* **Status**: **PENDING** (Awaiting Owner Visual Approval & Phase 2 Trigger)
-* **Scope**: Construct full interactive homepage based on explicit owner design instructions.
+### PHASE 2: HOMEPAGE DESIGN & SECTIONS EXPANSION
+* **Status**: **PENDING** (Awaiting Owner Visual Review & Trigger)
+* **Scope**: Construct full homepage layout and custom sections based on explicit owner design instructions.
 
 ---
 
-### PHASE 3: ABOUT US PAGE
+### PHASES 3–20: PAGES, BACKEND, MONGODB & ADMIN DASHBOARD
 * **Status**: **PENDING**
-* **Scope**: Dedicated About Us page highlighting SSIL background, corporate philosophy, infrastructure expertise, and engineering credentials.
-
----
-
-### PHASE 4: PRODUCTS OVERVIEW PAGE
-* **Status**: **PENDING**
-* **Scope**: Master catalog page displaying all product categories.
-
----
-
-### PHASE 5: PRODUCT CATEGORY PAGES
-* **Status**: **PENDING**
-* **Scope**: Dynamic category catalog pages (e.g., `/products/bollards`) with Day/Night hover effects.
-
----
-
-### PHASE 6: INDIVIDUAL PRODUCT DETAIL PAGES
-* **Status**: **PENDING**
-* **Scope**: Dynamic product detail page (`/products/detail/[id]`) with specification table, applications, and inquiry routing.
-
----
-
-### PHASE 7: PROJECTS SHOWCASE PAGE
-* **Status**: **PENDING**
-* **Scope**: Projects gallery highlighting completed SSIL works (including Mathura Expressway and Omaxe World Street Faridabad sections).
-
----
-
-### PHASE 8: CONTACT US PAGE
-* **Status**: **PENDING**
-* **Scope**: Contact Us page with office details, location map placeholder, and inquiry form UI.
-
----
-
-### PHASE 9: FRONTEND REFINEMENT & RESPONSIVE OPTIMIZATION
-* **Status**: **PENDING**
-* **Scope**: Mobile/tablet responsive tuning, day/night mobile strategy resolution, cross-browser visual verification.
-
----
-
-### PHASES 10–20: BACKEND, DATABASE, CLOUDINARY & ADMIN DASHBOARD
-* **Status**: **PENDING**
-* **Scope**: Backend API, MongoDB, JWT Auth, Cloudinary CDN, Admin Dashboard, and Production Deployment.
+* **Scope**: About Us, Products, Projects, Contact Us, Node.js API, MongoDB, Cloudinary, Admin Dashboard, and Production Deployment.
