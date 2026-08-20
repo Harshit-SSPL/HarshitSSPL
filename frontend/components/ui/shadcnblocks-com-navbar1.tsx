@@ -77,9 +77,9 @@ const Navbar1 = ({
           {/* Extreme Left SSIL Logo in Circular Container */}
           <div className="flex items-center gap-8">
             <Link href="/" className="flex items-center gap-3 shrink-0 group">
-              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/95 shadow-sm p-1.5 border border-white/80 shrink-0 overflow-hidden transition-transform group-hover:scale-105">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/95 shadow-sm p-1 border border-white/80 shrink-0 overflow-hidden transition-transform group-hover:scale-105">
                 <Image
-                  src="/branding/companylogo.png"
+                  src="/branding/companylogo-ui.png"
                   alt="Shiv Shakti India Limited Logo"
                   width={160}
                   height={45}
@@ -129,9 +129,9 @@ const Navbar1 = ({
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center gap-2.5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/95 shadow-sm p-1.5 border border-white/80 shrink-0 overflow-hidden">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/95 shadow-sm p-1 border border-white/80 shrink-0 overflow-hidden">
                 <Image
-                  src="/branding/companylogo.png"
+                  src="/branding/companylogo-ui.png"
                   alt="Shiv Shakti India Limited Logo"
                   width={150}
                   height={40}
@@ -161,7 +161,7 @@ const Navbar1 = ({
                       <Link href="/" className="flex items-center gap-2.5">
                         <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-sm p-1 border border-slate-200">
                           <Image
-                            src="/branding/companylogo.png"
+                            src="/branding/companylogo-ui.png"
                             alt="Shiv Shakti India Limited Logo"
                             width={140}
                             height={35}

@@ -22,9 +22,9 @@ function Footerdemo() {
           {/* Column 1: SSIL Authentic Logo & Catalog Request */}
           <div className="relative">
             <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-sm p-1.5 border border-slate-200 shrink-0 overflow-hidden">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-sm p-1 border border-slate-200 shrink-0 overflow-hidden">
                 <Image
-                  src="/branding/companylogo.png"
+                  src="/branding/companylogo-ui.png"
                   alt="Shiv Shakti India Limited Logo"
                   width={160}
                   height={45}
