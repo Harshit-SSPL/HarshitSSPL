@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Stats2 } from "@/components/ui/stats-2";
 import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
 import { FeatureCardDemo } from "@/components/ui/feature-card";
+import { HeroVideoCarousel } from "@/components/ui/hero-video-carousel";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 const stickyContent = [
@@ -92,19 +93,11 @@ export default function HomePage() {
   return (
     <div className="flex flex-col gap-0 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
       
-      {/* Primary Hero Section with SSIL Video Background */}
+      {/* Primary Hero Section with SSIL Multi-Video Carousel Background */}
       <section className="relative min-h-[85vh] lg:min-h-[92vh] flex items-center justify-start overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-28 lg:pt-48 lg:pb-32">
         
-        {/* Hero Background Video */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 h-full w-full object-cover z-0"
-        >
-          <source src="/videos/homepage/hero.mp4" type="video/mp4" />
-        </video>
+        {/* Multi-Video Carousel (3 videos with smooth crossfade and indicator dots) */}
+        <HeroVideoCarousel />
 
         {/* Lightened Contrast Overlay Gradient */}
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/75 via-slate-950/45 to-transparent z-10" />
