@@ -70,7 +70,7 @@ const Stats2 = () => {
             LIGHTING SOLUTIONS
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
-            Engineered Lighting for Modern Infrastructure
+            Lighting Solutions Built for Every Application
           </h2>
           <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-3xl mx-auto mt-3.5 leading-relaxed font-normal">
             From architectural spaces to highways and large-scale infrastructure, SSIL delivers lighting solutions engineered around performance.
