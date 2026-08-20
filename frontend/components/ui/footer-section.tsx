@@ -15,31 +15,34 @@ import { Facebook, Instagram, Linkedin, Send, Twitter, Phone, Mail, MapPin } fro
 
 function Footerdemo() {
   return (
-    <footer className="relative border-t bg-slate-50 text-slate-900 transition-colors duration-300">
+    <footer className="relative border-t border-slate-700/60 bg-[#1E293B] dark:bg-[#0F172A] text-slate-100 transition-colors duration-300">
       <div className="container mx-auto px-4 py-16 md:px-6 lg:px-8">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           
           {/* Column 1: SSIL Authentic Logo & Catalog Request */}
           <div className="relative">
-            <div className="mb-4">
-              <Link href="/">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-sm p-1.5 border border-slate-200 shrink-0 overflow-hidden">
                 <Image
                   src="/branding/companylogo.png"
                   alt="Shiv Shakti India Limited Logo"
-                  width={200}
-                  height={55}
-                  className="h-12 w-auto object-contain"
+                  width={160}
+                  height={45}
+                  className="h-full w-full object-contain"
                 />
-              </Link>
+              </div>
+              <span className="text-lg font-black tracking-tight text-white leading-none">
+                SSIL<span className="text-ssil-red">.</span>
+              </span>
             </div>
-            <p className="mb-6 text-sm text-slate-600 leading-relaxed">
+            <p className="mb-6 text-sm text-slate-300 leading-relaxed">
               Request SSIL&apos;s master technical product catalog and project tender specifications.
             </p>
             <form className="relative" onSubmit={(e) => e.preventDefault()}>
               <Input
                 type="email"
                 placeholder="Enter work email..."
-                className="pr-12 bg-white border-slate-300 focus:border-ssil-blue"
+                className="pr-12 bg-slate-800/80 border-slate-700 text-white placeholder:text-slate-400 focus:border-ssil-blue"
               />
               <Button
                 type="submit"
@@ -50,15 +53,14 @@ function Footerdemo() {
                 <span className="sr-only">Request Catalog</span>
               </Button>
             </form>
-            <div className="absolute -right-4 top-0 h-24 w-24 rounded-full bg-ssil-blue/10 blur-2xl" />
           </div>
 
           {/* Column 2: Quick Links */}
           <div>
-            <h3 className="mb-4 text-base font-bold tracking-wide uppercase text-slate-900">
+            <h3 className="mb-4 text-base font-bold tracking-wide uppercase text-white">
               Quick Navigation
             </h3>
-            <nav className="space-y-2.5 text-sm font-medium text-slate-600">
+            <nav className="space-y-2.5 text-sm font-medium text-slate-300">
               <Link href="/" className="block transition-colors hover:text-ssil-red">
                 Home
               </Link>
@@ -79,10 +81,10 @@ function Footerdemo() {
 
           {/* Column 3: Contact Us */}
           <div>
-            <h3 className="mb-4 text-base font-bold tracking-wide uppercase text-slate-900">
+            <h3 className="mb-4 text-base font-bold tracking-wide uppercase text-white">
               Corporate Office
             </h3>
-            <address className="space-y-3 text-sm text-slate-600 not-italic">
+            <address className="space-y-3 text-sm text-slate-300 not-italic">
               <div className="flex items-start gap-2.5">
                 <MapPin className="h-4 w-4 text-ssil-red shrink-0 mt-0.5" />
                 <p>Shiv Shakti India Limited / Shiv Shakti Private Limited, India</p>
@@ -100,17 +102,17 @@ function Footerdemo() {
 
           {/* Column 4: Social & Compliance */}
           <div className="relative">
-            <h3 className="mb-4 text-base font-bold tracking-wide uppercase text-slate-900">
+            <h3 className="mb-4 text-base font-bold tracking-wide uppercase text-white">
               Corporate Connect
             </h3>
-            <p className="mb-4 text-xs text-slate-500">
+            <p className="mb-4 text-xs text-slate-400">
               Connect with Shiv Shakti India Limited on official corporate channels.
             </p>
             <div className="mb-6 flex space-x-3">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="outline" size="icon" className="rounded-full border-slate-300 text-slate-700 hover:text-ssil-blue hover:border-ssil-blue">
+                    <Button variant="outline" size="icon" className="rounded-full border-slate-700 bg-slate-800 text-slate-300 hover:text-ssil-blue hover:border-ssil-blue">
                       <Facebook className="h-4 w-4" />
                       <span className="sr-only">Facebook</span>
                     </Button>
@@ -124,7 +126,7 @@ function Footerdemo() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="outline" size="icon" className="rounded-full border-slate-300 text-slate-700 hover:text-ssil-blue hover:border-ssil-blue">
+                    <Button variant="outline" size="icon" className="rounded-full border-slate-700 bg-slate-800 text-slate-300 hover:text-ssil-blue hover:border-ssil-blue">
                       <Twitter className="h-4 w-4" />
                       <span className="sr-only">Twitter</span>
                     </Button>
@@ -138,7 +140,7 @@ function Footerdemo() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="outline" size="icon" className="rounded-full border-slate-300 text-slate-700 hover:text-ssil-red hover:border-ssil-red">
+                    <Button variant="outline" size="icon" className="rounded-full border-slate-700 bg-slate-800 text-slate-300 hover:text-ssil-red hover:border-ssil-red">
                       <Instagram className="h-4 w-4" />
                       <span className="sr-only">Instagram</span>
                     </Button>
@@ -152,7 +154,7 @@ function Footerdemo() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="outline" size="icon" className="rounded-full border-slate-300 text-slate-700 hover:text-ssil-blue hover:border-ssil-blue">
+                    <Button variant="outline" size="icon" className="rounded-full border-slate-700 bg-slate-800 text-slate-300 hover:text-ssil-blue hover:border-ssil-blue">
                       <Linkedin className="h-4 w-4" />
                       <span className="sr-only">LinkedIn</span>
                     </Button>
@@ -164,11 +166,11 @@ function Footerdemo() {
               </TooltipProvider>
             </div>
             
-            <div className="rounded-lg bg-white p-3 border border-slate-200 shadow-sm">
-              <span className="text-[11px] font-bold text-ssil-blue uppercase tracking-wider block">
+            <div className="rounded-lg bg-slate-800/80 p-3 border border-slate-700/80 shadow-sm">
+              <span className="text-[11px] font-bold text-sky-400 uppercase tracking-wider block">
                 Quality Certified
               </span>
-              <span className="text-xs text-slate-600">
+              <span className="text-xs text-slate-300">
                 IP66 Outdoor Infrastructure &amp; ISO Compliance Standard
               </span>
             </div>
@@ -176,11 +178,11 @@ function Footerdemo() {
 
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-slate-200 pt-8 text-center md:flex-row">
-          <p className="text-xs font-medium text-slate-500">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-slate-700/60 pt-8 text-center md:flex-row">
+          <p className="text-xs font-medium text-slate-400">
             © {new Date().getFullYear()} Shiv Shakti India Limited / Shiv Shakti Private Limited. All rights reserved.
           </p>
-          <nav className="flex gap-6 text-xs font-semibold text-slate-600">
+          <nav className="flex gap-6 text-xs font-semibold text-slate-300">
             <Link href="/privacy" className="transition-colors hover:text-ssil-red">
               Privacy Policy
             </Link>

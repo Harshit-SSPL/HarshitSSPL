@@ -23,30 +23,30 @@ export const FeatureCard = ({
   return (
     <div
       className={cn(
-        "bg-white text-slate-900 p-8 rounded-xl border border-slate-200 flex flex-col items-center text-center relative",
+        "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 p-8 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col items-center text-center relative",
         "transition-all duration-300 ease-in-out shadow-sm",
-        "hover:shadow-md hover:-translate-y-1 hover:border-ssil-red/30",
+        "hover:shadow-md hover:-translate-y-1 hover:border-ssil-red/40",
         className
       )}
     >
       {stepNumber && (
-        <span className="absolute top-4 right-4 text-xs font-black tracking-wider text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full">
+        <span className="absolute top-4 right-4 text-xs font-black tracking-wider text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full">
           STEP {stepNumber}
         </span>
       )}
 
       {/* Icon container */}
-      <div className="mb-6 bg-slate-50 p-4 rounded-full border border-slate-100 shadow-inner text-ssil-red">
+      <div className="mb-6 bg-slate-50 dark:bg-slate-800/80 p-4 rounded-full border border-slate-100 dark:border-slate-700/60 shadow-inner text-ssil-red">
         {icon}
       </div>
 
       {/* Title */}
-      <h3 className="text-lg font-bold mb-2.5 tracking-tight text-slate-900">
+      <h3 className="text-lg font-bold mb-2.5 tracking-tight text-slate-900 dark:text-white">
         {title}
       </h3>
 
       {/* Description */}
-      <p className="text-sm text-slate-600 leading-relaxed font-normal">
+      <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
         {description}
       </p>
     </div>
@@ -61,7 +61,7 @@ const ssilFeatures = [
     stepNumber: "01",
   },
   {
-    icon: <Sliders className="h-8 w-8 text-ssil-blue" />,
+    icon: <Sliders className="h-8 w-8 text-ssil-blue dark:text-sky-400" />,
     title: "2. Custom Technical Specification",
     description: "Configure wattage, optical distribution, voltage protection, and IP66 ingress protection to municipal standards.",
     stepNumber: "02",
@@ -98,16 +98,16 @@ const itemVariants = {
 
 export function FeatureCardDemo() {
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-white dark:bg-slate-950 transition-colors">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
-          <span className="text-xs font-bold uppercase tracking-widest text-ssil-blue">
+          <span className="text-xs font-bold uppercase tracking-widest text-ssil-blue dark:text-sky-400">
             SSIL PROJECT ENGAGEMENT PROCESS
           </span>
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight mt-2">
+          <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight mt-2">
             From Design Specification to Infrastructure Execution
           </h2>
-          <p className="text-sm text-slate-600 max-w-xl mx-auto mt-3">
+          <p className="text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto mt-3">
             SSIL works directly with government bodies, municipal contractors, and commercial developers to deliver compliant lighting infrastructure.
           </p>
         </div>

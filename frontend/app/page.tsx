@@ -1,6 +1,9 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Stats2 } from "@/components/ui/stats-2";
 import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
@@ -88,9 +91,10 @@ const stickyContent = [
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col gap-0">
+    <div className="flex flex-col gap-0 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
+      
       {/* Primary Hero Section with SSIL Video Background */}
-      <section className="relative min-h-[90vh] lg:min-h-screen flex items-center justify-start overflow-hidden pt-20 pb-16">
+      <section className="relative min-h-[85vh] lg:min-h-[92vh] flex items-center justify-start overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-28 lg:pt-48 lg:pb-32">
         
         {/* Hero Background Video */}
         <video
@@ -103,17 +107,18 @@ export default function HomePage() {
           <source src="/videos/homepage/hero.mp4" type="video/mp4" />
         </video>
 
-        {/* Contrast Overlay Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/65 to-slate-950/30 z-10" />
+        {/* Lightened Contrast Overlay Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/75 via-slate-950/45 to-transparent z-10" />
 
         {/* Hero Text & CTA Content Container */}
         <div className="container mx-auto px-4 md:px-6 relative z-20 text-white">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl leading-[1.1] text-white">
-              Architectural &amp; Outdoor <span className="text-ssil-red drop-shadow-sm">Infrastructure</span> Lighting
+          <div className="max-w-2xl">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight drop-shadow-md">
+              Engineered Lighting for <br className="hidden sm:inline" />
+              <span className="text-ssil-red drop-shadow-sm">Modern</span> Infrastructure
             </h1>
-            <p className="mt-6 text-lg text-slate-200 leading-relaxed font-normal max-w-2xl drop-shadow-sm">
-              Shiv Shakti India Limited (SSIL) delivers engineered lighting solutions for highways, municipal corridors, commercial developments, and monumental infrastructure projects across India.
+            <p className="mt-5 text-base sm:text-lg text-slate-200 leading-relaxed font-normal max-w-xl drop-shadow-sm">
+              SSIL designs and delivers customized lighting systems for highways, urban infrastructure, commercial developments, architectural spaces, and large-scale projects.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4 items-center">
@@ -122,24 +127,24 @@ export default function HomePage() {
                   Explore Products Catalog <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="border-white/40 text-white hover:bg-white/10 font-bold px-8 backdrop-blur-sm">
+              <Button asChild variant="outline" size="lg" className="bg-slate-900/40 hover:bg-white/20 text-white border border-white/40 backdrop-blur-md font-semibold px-8 shadow-sm transition-all duration-200">
                 <Link href="/projects">
                   View Executed Projects
                 </Link>
               </Button>
             </div>
 
-            <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 gap-4 pt-8 border-t border-white/15 max-w-2xl">
-              <div className="flex items-center gap-2.5">
-                <CheckCircle2 className="h-5 w-5 text-ssil-red shrink-0" />
+            <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 border-t border-white/20 max-w-xl">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
                 <span className="text-xs font-semibold text-slate-200">ISO Quality Standards</span>
               </div>
-              <div className="flex items-center gap-2.5">
-                <CheckCircle2 className="h-5 w-5 text-ssil-blue shrink-0" />
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-4 w-4 text-ssil-blue shrink-0" />
                 <span className="text-xs font-semibold text-slate-200">IP66 Protection</span>
               </div>
-              <div className="flex items-center gap-2.5">
-                <CheckCircle2 className="h-5 w-5 text-ssil-red shrink-0" />
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
                 <span className="text-xs font-semibold text-slate-200">Custom Engineering</span>
               </div>
             </div>
@@ -147,17 +152,51 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Component 1: Corporate Stats */}
+      {/* Compact About SSIL Section */}
+      <section className="py-16 bg-white dark:bg-slate-950 border-b border-slate-100 dark:border-slate-900 transition-colors">
+        <div className="container mx-auto px-4 md:px-6">
+          <motion.div
+            className="max-w-4xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          >
+            <div className="mb-6 text-left">
+              <span className="text-xs font-extrabold uppercase tracking-widest text-ssil-red block mb-1.5">
+                ABOUT SSIL
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+                About Shiv Shakti India Limited
+              </h2>
+              <p className="text-base sm:text-lg font-bold text-ssil-blue dark:text-sky-400 mt-1.5">
+                Complete Lighting Solutions, Engineered for Modern Infrastructure
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-normal pt-6 border-t border-slate-100 dark:border-slate-800/80">
+              <p>
+                SSIL is an established lighting solutions provider offering a comprehensive range of outdoor, indoor, solar, decorative and LED lighting solutions for commercial, residential and infrastructure applications.
+              </p>
+              <p>
+                With expertise in lighting fixtures, LED luminaires, decorative and ornamental poles, street lighting, high-mast and flag-mast systems, SSIL combines engineering capability, modern technology and quality-focused manufacturing to deliver customized lighting solutions for diverse project requirements.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Component 1: Corporate Stats & Highlights */}
       <Stats2 />
 
       {/* Component 2: Sticky Scroll Reveal (SSIL Solutions Showcase) */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white dark:bg-slate-950 transition-colors">
         <div className="container mx-auto px-4 md:px-6">
           <div className="mb-10 text-left">
             <span className="text-xs font-bold uppercase tracking-widest text-ssil-red">
               LIGHTING INFRASTRUCTURE CATEGORIES
             </span>
-            <h2 className="text-3xl font-black text-slate-900 tracking-tight mt-1">
+            <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight mt-1">
               Engineering Excellence Across Environments
             </h2>
           </div>

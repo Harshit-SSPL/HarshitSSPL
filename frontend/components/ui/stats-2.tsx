@@ -1,71 +1,113 @@
 "use client";
 
 import React from "react";
+import { motion } from "framer-motion";
 import { ArrowRight, ShieldCheck, Award } from "lucide-react";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { y: 24, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+      ease: [0.21, 0.47, 0.32, 0.98],
+    },
+  },
+};
 
 const Stats2 = () => {
   return (
-    <section className="py-20 bg-slate-50 border-y border-slate-100">
+    <section className="py-14 bg-slate-50/70 dark:bg-slate-950/80 border-b border-slate-200/60 dark:border-slate-800/80 transition-colors">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid gap-6 md:grid-cols-3">
-          
-          <div className="bg-white border border-slate-200 shadow-sm flex h-60 flex-col justify-between rounded-xl p-8 transition-transform hover:-translate-y-1">
-            <div className="mb-4 flex items-center justify-between">
-              <p className="text-ssil-blue font-bold text-xs tracking-wider uppercase">
-                Client Trust & Reach
-              </p>
-              <Award className="h-5 w-5 text-ssil-blue" />
+        
+        <motion.div
+          className="max-w-4xl mx-auto grid gap-5 md:grid-cols-3"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={containerVariants}
+        >
+          {/* Card 1: SSIL Blue Ambient Glow */}
+          <motion.div
+            variants={itemVariants}
+            className="group bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 flex h-44 flex-col justify-between rounded-xl p-5 shadow-xs transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.015] hover:border-ssil-blue/60 hover:shadow-[0_14px_32px_-8px_rgba(49,130,206,0.25)]"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-ssil-blue dark:text-sky-400 font-extrabold text-[11px] tracking-wider uppercase">
+                Client Trust &amp; Reach
+              </span>
+              <div className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-ssil-blue dark:text-sky-400 transition-transform group-hover:scale-110">
+                <Award className="h-4 w-4" />
+              </div>
             </div>
             <div>
-              <h3 className="text-5xl font-black text-slate-900 tracking-tight">50+</h3>
-              <p className="text-slate-600 text-sm font-medium mt-2">
-                Enterprise, Commercial & Government Tender Clients
+              <h3 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+                50+
+              </h3>
+              <p className="text-slate-600 dark:text-slate-300 text-xs font-semibold mt-1.5 leading-snug">
+                Enterprise, Commercial &amp; Government Tender Clients
               </p>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="bg-white border border-slate-200 shadow-sm flex h-60 flex-col justify-between rounded-xl p-8 transition-transform hover:-translate-y-1">
-            <div className="mb-4 flex items-center justify-between">
-              <p className="text-ssil-red font-bold text-xs tracking-wider uppercase">
+          {/* Card 2: SSIL Red Ambient Glow */}
+          <motion.div
+            variants={itemVariants}
+            className="group bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 flex h-44 flex-col justify-between rounded-xl p-5 shadow-xs transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.015] hover:border-ssil-red/60 hover:shadow-[0_14px_32px_-8px_rgba(229,62,62,0.25)]"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-ssil-red font-extrabold text-[11px] tracking-wider uppercase">
                 Engineering Precision
-              </p>
-              <ShieldCheck className="h-5 w-5 text-ssil-red" />
+              </span>
+              <div className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-ssil-red transition-transform group-hover:scale-110">
+                <ShieldCheck className="h-4 w-4" />
+              </div>
             </div>
             <div>
-              <h3 className="text-5xl font-black text-slate-900 tracking-tight">99.9%</h3>
-              <p className="text-slate-600 text-sm font-medium mt-2">
-                IP66 Quality & Structural Rigor Compliance
+              <h3 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+                99.9%
+              </h3>
+              <p className="text-slate-600 dark:text-slate-300 text-xs font-semibold mt-1.5 leading-snug">
+                IP66 Quality &amp; Structural Rigor Compliance
               </p>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="bg-white border border-slate-200 shadow-sm flex h-60 flex-col justify-between rounded-xl p-8 transition-transform hover:-translate-y-1">
-            <div className="mb-4 flex items-center justify-between">
-              <p className="text-ssil-blue font-bold text-xs tracking-wider uppercase">
+          {/* Card 3: SSIL Blue Ambient Glow */}
+          <motion.div
+            variants={itemVariants}
+            className="group bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 flex h-44 flex-col justify-between rounded-xl p-5 shadow-xs transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.015] hover:border-ssil-blue/60 hover:shadow-[0_14px_32px_-8px_rgba(49,130,206,0.25)]"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-ssil-blue dark:text-sky-400 font-extrabold text-[11px] tracking-wider uppercase">
                 Infrastructure Footprint
-              </p>
-              <ArrowRight className="h-5 w-5 text-ssil-blue" />
+              </span>
+              <div className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-ssil-blue dark:text-sky-400 transition-transform group-hover:scale-110">
+                <ArrowRight className="h-4 w-4" />
+              </div>
             </div>
             <div>
-              <h3 className="text-5xl font-black text-slate-900 tracking-tight">5,000+</h3>
-              <p className="text-slate-600 text-sm font-medium mt-2">
-                Outdoor Lighting Fixtures & Poles Deployed Across India
+              <h3 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+                5,000+
+              </h3>
+              <p className="text-slate-600 dark:text-slate-300 text-xs font-semibold mt-1.5 leading-snug">
+                Outdoor Lighting Fixtures &amp; Poles Deployed Across India
               </p>
             </div>
-          </div>
+          </motion.div>
+        </motion.div>
 
-        </div>
-
-        <div className="flex flex-col justify-center p-6 py-12 text-center">
-          <div>
-            <h2 className="mb-3 text-2xl font-bold md:text-4xl text-slate-900 tracking-tight">
-              Engineered for Illumination, Built for Infrastructure Scale
-            </h2>
-            <p className="text-slate-600 text-base max-w-2xl mx-auto">
-              Shiv Shakti India Limited delivers customized outdoor lighting solutions designed to meet exacting technical standards for highways, municipal roads, and commercial developments.
-            </p>
-          </div>
-        </div>
       </div>
     </section>
   );

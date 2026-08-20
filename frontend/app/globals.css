@@ -44,3 +44,12 @@
     @apply bg-background text-foreground antialiased selection:bg-ssil-red/20 selection:text-ssil-red;
   }
 }
+
+/* Animated Theme Toggler static ink variables */
+.att-btn {
+  --at-ink: #E53E3E;
+}
+.dark .att-btn,
+[data-theme="dark"] .att-btn {
+  --at-ink: #38BDF8;
+}
