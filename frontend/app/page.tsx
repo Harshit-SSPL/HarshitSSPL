@@ -1,93 +1,13 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Stats2 } from "@/components/ui/stats-2";
-import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
+import { FeaturedProducts } from "@/components/ui/featured-products";
 import { FeatureCardDemo } from "@/components/ui/feature-card";
 import { HeroVideoCarousel } from "@/components/ui/hero-video-carousel";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
-
-const stickyContent = [
-  {
-    title: "Expressway & Municipal Highway Luminaires",
-    description: "High-output LED street lights engineered with asymmetric optical lenses for uniform road illumination, thermal management, and surge protection up to 10kV.",
-    content: (
-      <div className="relative h-full w-full bg-slate-900">
-        <Image
-          src="https://images.unsplash.com/photo-1508873696983-2df515122519?auto=format&fit=crop&w=800&q=80"
-          alt="SSIL Expressway Lighting"
-          fill
-          className="object-cover opacity-85"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
-          <span className="text-xs font-bold text-white uppercase tracking-wider bg-ssil-red px-2.5 py-1 rounded">
-            Mathura Expressway Executed Reference
-          </span>
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Architectural Landscape & Pathway Bollards",
-    description: "Extruded aluminum bollards providing controlled downward illumination for residential societies, commercial high streets, and public parks.",
-    content: (
-      <div className="relative h-full w-full bg-slate-900">
-        <Image
-          src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80"
-          alt="SSIL Landscape Bollard"
-          fill
-          className="object-cover opacity-85"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
-          <span className="text-xs font-bold text-white uppercase tracking-wider bg-ssil-blue px-2.5 py-1 rounded">
-            Omaxe World Street Executed Reference
-          </span>
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Indian Flag Poles & High-Mast Infrastructure",
-    description: "Polygonal high-mast towers and monumental national flag poles constructed with hot-dip galvanized steel for wind-resistance and structural stability.",
-    content: (
-      <div className="relative h-full w-full bg-slate-900">
-        <Image
-          src="https://images.unsplash.com/photo-1532375810709-75b1da00537c?auto=format&fit=crop&w=800&q=80"
-          alt="SSIL Indian Flag Poles"
-          fill
-          className="object-cover opacity-85"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
-          <span className="text-xs font-bold text-white uppercase tracking-wider bg-ssil-red px-2.5 py-1 rounded">
-            High-Mast Engineering
-          </span>
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Off-Grid Standalone Solar Street Lighting",
-    description: "All-in-one solar street luminaires equipped with high-efficiency PV panels, MPPT controllers, and long-life LiFePO4 battery packs.",
-    content: (
-      <div className="relative h-full w-full bg-slate-900">
-        <Image
-          src="https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=800&q=80"
-          alt="SSIL Solar Lighting"
-          fill
-          className="object-cover opacity-85"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
-          <span className="text-xs font-bold text-white uppercase tracking-wider bg-ssil-blue px-2.5 py-1 rounded">
-            Off-Grid Solar Solutions
-          </span>
-        </div>
-      </div>
-    ),
-  },
-];
 
 export default function HomePage() {
   return (
@@ -147,20 +67,8 @@ export default function HomePage() {
       {/* Component 1: 4-Metric Company Credibility & Scale Section */}
       <Stats2 />
 
-      {/* Component 2: Sticky Scroll Reveal (SSIL Solutions Showcase) */}
-      <section className="py-20 bg-white dark:bg-slate-950 transition-colors">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="mb-10 text-left">
-            <span className="text-xs font-bold uppercase tracking-widest text-ssil-red">
-              LIGHTING INFRASTRUCTURE CATEGORIES
-            </span>
-            <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight mt-1">
-              Engineering Excellence Across Environments
-            </h2>
-          </div>
-          <StickyScroll content={stickyContent} />
-        </div>
-      </section>
+      {/* Component 2: Featured Lighting Solutions (6 Products with Day/Night Crossfade) */}
+      <FeaturedProducts />
 
       {/* Component 3: Feature Card Process Workflow */}
       <FeatureCardDemo />
