@@ -3,7 +3,6 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Stats2 } from "@/components/ui/stats-2";
 import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
@@ -152,41 +151,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Compact About SSIL Section */}
-      <section className="py-16 bg-white dark:bg-slate-950 border-b border-slate-100 dark:border-slate-900 transition-colors">
-        <div className="container mx-auto px-4 md:px-6">
-          <motion.div
-            className="max-w-4xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          >
-            <div className="mb-6 text-left">
-              <span className="text-xs font-extrabold uppercase tracking-widest text-ssil-red block mb-1.5">
-                ABOUT SSIL
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
-                About Shiv Shakti India Limited
-              </h2>
-              <p className="text-base sm:text-lg font-bold text-ssil-blue dark:text-sky-400 mt-1.5">
-                Complete Lighting Solutions, Engineered for Modern Infrastructure
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-normal pt-6 border-t border-slate-100 dark:border-slate-800/80">
-              <p>
-                SSIL is an established lighting solutions provider offering a comprehensive range of outdoor, indoor, solar, decorative and LED lighting solutions for commercial, residential and infrastructure applications.
-              </p>
-              <p>
-                With expertise in lighting fixtures, LED luminaires, decorative and ornamental poles, street lighting, high-mast and flag-mast systems, SSIL combines engineering capability, modern technology and quality-focused manufacturing to deliver customized lighting solutions for diverse project requirements.
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Component 1: Corporate Stats & Highlights */}
+      {/* Component 1: 4-Metric Company Credibility & Scale Section */}
       <Stats2 />
 
       {/* Component 2: Sticky Scroll Reveal (SSIL Solutions Showcase) */}
