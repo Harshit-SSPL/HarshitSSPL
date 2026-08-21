@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { LampContainer } from "@/components/ui/lamp";
 import {
   Lightbulb,
-  ShieldCheck,
   Building,
   CheckCircle2,
   Award,
@@ -33,25 +32,25 @@ export default function AboutPage() {
       {/* ============================================================ */}
       <section className="relative w-full overflow-hidden">
         <LampContainer>
-          {/* Main Title: About Us (Illuminated by Red Lamp) */}
+          {/* Main Title: About Us (Illuminated by Red Lamp, tight controlled bottom margin) */}
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.7 }}
-            className="text-center text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white mb-12 sm:mb-16 drop-shadow-md"
+            className="text-center text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white mb-5 sm:mb-7 drop-shadow-md"
           >
             About Us
           </motion.h1>
 
           {/* Who We Are & Established Market Reputation Grid (Inside Dark Section) */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="grid gap-10 lg:grid-cols-2 lg:items-center w-full text-left"
+            transition={{ delay: 0.35, duration: 0.7 }}
+            className="grid gap-8 lg:gap-10 lg:grid-cols-2 lg:items-center w-full text-left"
           >
             {/* Left Column: Who We Are Content */}
-            <div className="space-y-4">
+            <div className="space-y-3.5 sm:space-y-4">
               <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block">
                 WHO WE ARE
               </span>
@@ -66,7 +65,7 @@ export default function AboutPage() {
               </p>
 
               {/* Feature Pills */}
-              <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="pt-1.5 grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="flex items-center gap-2.5 p-3 rounded-lg bg-slate-900/80 border border-slate-800">
                   <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
                   <span className="text-xs font-bold text-slate-200">Global Export &amp; Supply</span>
@@ -79,8 +78,8 @@ export default function AboutPage() {
             </div>
 
             {/* Right Column: Established Market Reputation Card (WHITE / LIGHT CARD for Contrast) */}
-            <div className="relative rounded-2xl bg-white text-slate-900 p-7 sm:p-8 shadow-2xl border border-slate-200/90 transition-all">
-              <div className="flex items-center gap-3 mb-4">
+            <div className="relative rounded-2xl bg-white text-slate-900 p-6 sm:p-8 shadow-2xl border border-slate-200/90 transition-all">
+              <div className="flex items-center gap-3 mb-3.5">
                 <div className="h-10 w-10 rounded-full bg-red-100 flex items-center justify-center text-ssil-red shrink-0">
                   <Award className="h-5 w-5" />
                 </div>
@@ -89,7 +88,7 @@ export default function AboutPage() {
                 </h3>
               </div>
               
-              <p className="text-sm text-slate-700 leading-relaxed mb-6 font-medium">
+              <p className="text-sm text-slate-700 leading-relaxed mb-5 font-medium">
                 Company holds the reputation of one of the leading manufacturers and suppliers of lighting fixtures, LED luminaires, all types of decorative poles, ornamental designer poles, octagonal poles, and high mast / flag mast poles.
               </p>
               
