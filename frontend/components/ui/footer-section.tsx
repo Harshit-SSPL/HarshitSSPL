@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Facebook, Instagram, Linkedin, Send, Twitter, Phone, Mail, MapPin } from "lucide-react";
 
-function Footerdemo() {
+export function Footerdemo() {
   return (
     <footer className="relative border-t border-slate-700/60 bg-[#1E293B] dark:bg-[#0F172A] text-slate-100 transition-colors duration-300">
       <div className="container mx-auto px-4 py-16 md:px-6 lg:px-8">
@@ -79,23 +79,28 @@ function Footerdemo() {
             </nav>
           </div>
 
-          {/* Column 3: Contact Us */}
+          {/* Column 3: Corporate Office & Contact Details */}
           <div>
             <h3 className="mb-4 text-base font-bold tracking-wide uppercase text-white">
               Corporate Office
             </h3>
-            <address className="space-y-3 text-sm text-slate-300 not-italic">
+            <address className="space-y-3.5 text-sm text-slate-300 not-italic">
               <div className="flex items-start gap-2.5">
-                <MapPin className="h-4 w-4 text-ssil-red shrink-0 mt-0.5" />
-                <p>Shiv Shakti India Limited / Shiv Shakti Private Limited, India</p>
+                <MapPin className="h-4 w-4 text-ssil-red shrink-0 mt-1" />
+                <p className="leading-snug">Office No-812A, Puri High Street, Sector 81-121002, Faridabad, Haryana, India</p>
               </div>
-              <div className="flex items-center gap-2.5">
-                <Phone className="h-4 w-4 text-ssil-blue shrink-0" />
-                <p>Client Input Required (TBD)</p>
+              <div className="flex items-start gap-2.5">
+                <Phone className="h-4 w-4 text-ssil-blue shrink-0 mt-0.5" />
+                <div className="flex flex-col gap-1">
+                  <a href="tel:9999590064" className="hover:text-ssil-red transition-colors">9999590064</a>
+                  <a href="tel:9999990064" className="hover:text-ssil-red transition-colors">9999990064</a>
+                </div>
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="h-4 w-4 text-ssil-red shrink-0" />
-                <p>Client Input Required (TBD)</p>
+                <a href="mailto:Ssindia2006@gmail.com" className="hover:text-ssil-red transition-colors">
+                  Ssindia2006@gmail.com
+                </a>
               </div>
             </address>
           </div>
@@ -154,10 +159,16 @@ function Footerdemo() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="outline" size="icon" className="rounded-full border-slate-700 bg-slate-800 text-slate-300 hover:text-ssil-blue hover:border-ssil-blue">
-                      <Linkedin className="h-4 w-4" />
-                      <span className="sr-only">LinkedIn</span>
-                    </Button>
+                    <a
+                      href="https://www.linkedin.com/company/shiv-shakti-india/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button variant="outline" size="icon" className="rounded-full border-slate-700 bg-slate-800 text-slate-300 hover:text-ssil-blue hover:border-ssil-blue">
+                        <Linkedin className="h-4 w-4" />
+                        <span className="sr-only">LinkedIn</span>
+                      </Button>
+                    </a>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Connect with SSIL on LinkedIn</p>
@@ -198,5 +209,3 @@ function Footerdemo() {
     </footer>
   );
 }
-
-export { Footerdemo };

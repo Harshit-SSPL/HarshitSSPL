@@ -59,7 +59,7 @@ const ProductCard = ({ product }: { product: FeaturedProduct }) => {
       </div>
 
       {/* Product Name Below Image with Minimal Vertical Spacing */}
-      <h3 className="mt-2.5 text-center text-sm sm:text-base font-extrabold text-slate-900 dark:text-white tracking-tight group-hover:text-ssil-red transition-colors duration-300 leading-snug px-1">
+      <h3 className="mt-2.5 text-center text-sm sm:text-base font-extrabold text-slate-900 dark:text-white tracking-tight group-hover:text-ssil-red transition-colors duration-300 leading-snug">
         {product.name}
       </h3>
     </motion.div>
@@ -90,9 +90,9 @@ export const FeaturedProducts = () => {
           </p>
         </motion.div>
 
-        {/* 6 Featured Products Grid (Zero Horizontal Gap between columns, touching images) */}
+        {/* 6 Featured Products Grid (Symmetrical ~2px gap between columns) */}
         <motion.div
-          className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-0 gap-y-8"
+          className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-0.5 sm:gap-x-1 lg:gap-x-[2px] gap-y-8"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-40px" }}

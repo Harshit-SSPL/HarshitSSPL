@@ -10,6 +10,15 @@ import { HeroVideoCarousel } from "@/components/ui/hero-video-carousel";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 export default function HomePage() {
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+      window.scrollTo(0, 0);
+    }
+  }, []);
+
   return (
     <div className="flex flex-col gap-0 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
       

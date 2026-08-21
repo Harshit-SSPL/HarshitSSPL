@@ -84,12 +84,9 @@ export function AnimatedThemeToggler({
 
   useEffect(() => {
     setMounted(true);
-    const storedTheme = localStorage.getItem("theme");
-    const isDarkMode =
-      storedTheme === "dark" ||
-      (!storedTheme && document.documentElement.classList.contains("dark"));
-    setIsDark(isDarkMode);
-    applyTheme(isDarkMode);
+    // On fresh browser reload, website always initializes in LIGHT MODE
+    setIsDark(false);
+    applyTheme(false);
   }, []);
 
   const toggle = () => {
