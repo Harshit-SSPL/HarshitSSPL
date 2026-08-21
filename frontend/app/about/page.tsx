@@ -28,7 +28,7 @@ export default function AboutPage() {
   return (
     <div className="flex flex-col gap-0 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
       
-      {/* 1. HERO SECTION: Red SSIL Lamp Component */}
+      {/* 1. HERO SECTION: Red SSIL Lamp Component (Positioned comfortably below navbar) */}
       <section className="relative w-full overflow-hidden">
         <LampContainer>
           <motion.div
@@ -41,13 +41,13 @@ export default function AboutPage() {
             }}
             className="flex flex-col items-center text-center max-w-3xl"
           >
-            <span className="text-xs sm:text-sm font-black uppercase tracking-widest text-ssil-red block mb-3">
-              ABOUT SHIV SHAKTI INDIA LIMITED (SSIL)
-            </span>
-            <h1 className="bg-gradient-to-br from-white via-slate-100 to-slate-300 py-2 bg-clip-text text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-transparent leading-tight drop-shadow-md">
+            {/* Main Hero Heading: Pure White, Refined Corporate Sizing */}
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight drop-shadow-md">
               Engineering Lighting Solutions with Purpose
             </h1>
-            <p className="mt-4 text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl leading-relaxed font-normal">
+
+            {/* Supporting Description */}
+            <p className="mt-4 text-xs sm:text-base text-slate-200 max-w-2xl leading-relaxed font-normal">
               One of the most equipped manufacturers of complete lighting solution providers in the global market, enclosing all infrastructure &amp; architectural requirements in a single basket.
             </p>
           </motion.div>

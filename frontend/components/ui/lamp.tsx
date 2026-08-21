@@ -15,9 +15,9 @@ export function LampDemo() {
           duration: 0.8,
           ease: "easeInOut",
         }}
-        className="mt-8 bg-gradient-to-br from-slate-100 via-slate-200 to-slate-400 py-4 bg-clip-text text-center text-4xl font-extrabold tracking-tight text-transparent md:text-7xl"
+        className="mt-6 text-center text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl"
       >
-        Engineering Lighting <br /> Solutions with Purpose
+        Engineering Lighting Solutions with Purpose
       </motion.h1>
     </LampContainer>
   );
@@ -33,7 +33,7 @@ export const LampContainer = ({
   return (
     <div
       className={cn(
-        "relative flex min-h-[65vh] md:min-h-[75vh] flex-col items-center justify-center overflow-hidden bg-slate-950 w-full rounded-none z-0 pt-28 pb-16 md:pt-36 md:pb-20",
+        "relative flex min-h-[58vh] sm:min-h-[64vh] md:min-h-[70vh] flex-col items-center justify-center overflow-hidden bg-slate-950 w-full rounded-none z-0 pt-36 sm:pt-44 md:pt-52 pb-14 md:pb-20",
         className
       )}
     >
@@ -106,8 +106,8 @@ export const LampContainer = ({
         <div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-slate-950"></div>
       </div>
 
-      {/* Children Content Container */}
-      <div className="relative z-50 flex -translate-y-24 md:-translate-y-32 flex-col items-center px-5 max-w-4xl mx-auto text-center">
+      {/* Children Content Container (Positioned comfortably below navbar) */}
+      <div className="relative z-50 flex -translate-y-10 sm:-translate-y-12 md:-translate-y-16 flex-col items-center px-5 max-w-4xl mx-auto text-center">
         {children}
       </div>
     </div>
