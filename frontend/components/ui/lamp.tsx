@@ -15,9 +15,9 @@ export function LampDemo() {
           duration: 0.8,
           ease: "easeInOut",
         }}
-        className="mt-6 text-center text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl"
+        className="text-center text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white"
       >
-        Engineering Lighting Solutions with Purpose
+        About Us
       </motion.h1>
     </LampContainer>
   );
@@ -33,11 +33,11 @@ export const LampContainer = ({
   return (
     <div
       className={cn(
-        "relative flex min-h-[58vh] sm:min-h-[64vh] md:min-h-[70vh] flex-col items-center justify-center overflow-hidden bg-slate-950 w-full rounded-none z-0 pt-36 sm:pt-44 md:pt-52 pb-14 md:pb-20",
+        "relative flex flex-col items-center justify-start overflow-hidden bg-slate-950 w-full rounded-none z-0 pt-36 sm:pt-40 md:pt-44 pb-16 sm:pb-20 md:pb-24 border-b border-slate-800/80",
         className
       )}
     >
-      <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0">
+      <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0 pointer-events-none">
         {/* Left Conic Red Gradient */}
         <motion.div
           initial={{ opacity: 0.5, width: "15rem" }}
@@ -106,8 +106,8 @@ export const LampContainer = ({
         <div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-slate-950"></div>
       </div>
 
-      {/* Children Content Container (Positioned comfortably below navbar) */}
-      <div className="relative z-50 flex -translate-y-10 sm:-translate-y-12 md:-translate-y-16 flex-col items-center px-5 max-w-4xl mx-auto text-center">
+      {/* Children Content Container */}
+      <div className="relative z-50 flex flex-col items-center px-4 md:px-6 w-full max-w-6xl mx-auto">
         {children}
       </div>
     </div>
