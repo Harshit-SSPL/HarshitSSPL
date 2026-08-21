@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Stats2 } from "@/components/ui/stats-2";
+import { ClientMarquee } from "@/components/ui/client-marquee";
 import { FeaturedProducts } from "@/components/ui/featured-products";
 import { FeatureCardDemo } from "@/components/ui/feature-card";
 import { HeroVideoCarousel } from "@/components/ui/hero-video-carousel";
@@ -76,10 +77,13 @@ export default function HomePage() {
       {/* Component 1: 4-Metric Company Credibility & Scale Section */}
       <Stats2 />
 
-      {/* Component 2: Featured Lighting Solutions (6 Products with Day/Night Crossfade) */}
+      {/* Component 2: Continuous Client & Company Marquee */}
+      <ClientMarquee />
+
+      {/* Component 3: Featured Lighting Solutions (6 Products with Day/Night Crossfade) */}
       <FeaturedProducts />
 
-      {/* Component 3: Feature Card Process Workflow */}
+      {/* Component 4: Feature Card Process Workflow */}
       <FeatureCardDemo />
     </div>
   );
