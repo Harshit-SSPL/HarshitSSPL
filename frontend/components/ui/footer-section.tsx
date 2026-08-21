@@ -11,7 +11,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Facebook, Instagram, Linkedin, Send, Twitter, Phone, Mail, MapPin } from "lucide-react";
+import { Facebook, Linkedin, Send, Twitter, Phone, Mail, MapPin } from "lucide-react";
 
 export function Footerdemo() {
   return (
@@ -68,7 +68,7 @@ export function Footerdemo() {
                 About SSIL
               </Link>
               <Link href="/products" className="block transition-colors hover:text-ssil-red">
-                Lighting Solutions
+                View Products
               </Link>
               <Link href="/projects" className="block transition-colors hover:text-ssil-red">
                 Executed Projects
@@ -89,17 +89,17 @@ export function Footerdemo() {
                 <MapPin className="h-4 w-4 text-ssil-red shrink-0 mt-1" />
                 <p className="leading-snug">Office No-812A, Puri High Street, Sector 81-121002, Faridabad, Haryana, India</p>
               </div>
-              <div className="flex items-start gap-2.5">
-                <Phone className="h-4 w-4 text-ssil-blue shrink-0 mt-0.5" />
-                <div className="flex flex-col gap-1">
-                  <a href="tel:9999590064" className="hover:text-ssil-red transition-colors">9999590064</a>
-                  <a href="tel:9999990064" className="hover:text-ssil-red transition-colors">9999990064</a>
-                </div>
+              <div className="flex items-center gap-2.5">
+                <Phone className="h-4 w-4 text-ssil-blue shrink-0" />
+                <p className="flex flex-wrap items-center gap-1 font-medium">
+                  <a href="tel:+919999590064" className="hover:text-ssil-red transition-colors">+91 9999590064</a>,
+                  <a href="tel:+919999990064" className="hover:text-ssil-red transition-colors">+91 9999990064</a>
+                </p>
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="h-4 w-4 text-ssil-red shrink-0" />
-                <a href="mailto:Ssindia2006@gmail.com" className="hover:text-ssil-red transition-colors">
-                  Ssindia2006@gmail.com
+                <a href="mailto:ssindia2006@gmail.com" className="hover:text-ssil-red transition-colors">
+                  ssindia2006@gmail.com
                 </a>
               </div>
             </address>
@@ -138,20 +138,6 @@ export function Footerdemo() {
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Follow SSIL on Twitter</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="outline" size="icon" className="rounded-full border-slate-700 bg-slate-800 text-slate-300 hover:text-ssil-red hover:border-ssil-red">
-                      <Instagram className="h-4 w-4" />
-                      <span className="sr-only">Instagram</span>
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Follow SSIL on Instagram</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -199,9 +185,6 @@ export function Footerdemo() {
             </Link>
             <Link href="/terms" className="transition-colors hover:text-ssil-red">
               Terms of Service
-            </Link>
-            <Link href="/sitemap" className="transition-colors hover:text-ssil-red">
-              Sitemap
             </Link>
           </nav>
         </div>
