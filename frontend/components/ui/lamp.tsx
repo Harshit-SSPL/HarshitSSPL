@@ -33,11 +33,12 @@ export const LampContainer = ({
   return (
     <div
       className={cn(
-        "relative flex flex-col items-center justify-start overflow-hidden bg-slate-950 w-full rounded-none z-0 pt-32 sm:pt-36 md:pt-40 pb-12 sm:pb-16 md:pb-20 border-b border-slate-800/80",
+        "relative flex flex-col items-center justify-start overflow-hidden bg-slate-950 w-full rounded-none z-0 pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20 border-b border-slate-800/80",
         className
       )}
     >
-      <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0 pointer-events-none">
+      {/* Red Lamp Light Animation Origin (Positioned with top margin to originate 100% visibly below fixed navbar) */}
+      <div className="relative flex w-full h-[220px] sm:h-[260px] md:h-[280px] items-center justify-center isolate z-0 pointer-events-none mt-14 sm:mt-16 md:mt-20">
         {/* Left Conic Red Gradient */}
         <motion.div
           initial={{ opacity: 0.5, width: "15rem" }}
@@ -107,7 +108,7 @@ export const LampContainer = ({
       </div>
 
       {/* Children Content Container */}
-      <div className="relative z-50 flex flex-col items-center px-4 md:px-6 w-full max-w-6xl mx-auto -translate-y-4 sm:-translate-y-6 md:-translate-y-8">
+      <div className="relative z-50 flex flex-col items-center px-4 md:px-6 w-full max-w-6xl mx-auto -translate-y-12 sm:-translate-y-16 md:-translate-y-20">
         {children}
       </div>
     </div>
