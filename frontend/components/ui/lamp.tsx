@@ -33,12 +33,12 @@ export const LampContainer = ({
   return (
     <div
       className={cn(
-        "relative flex flex-col items-center justify-start overflow-hidden bg-slate-950 w-full rounded-none z-0 pt-24 sm:pt-28 md:pt-32 pb-14 sm:pb-18 md:pb-22 border-b border-slate-800/80",
+        "relative flex flex-col items-center justify-start overflow-hidden bg-slate-950 w-full rounded-none z-0 pt-20 sm:pt-24 pb-14 sm:pb-18 md:pb-22 border-b border-slate-800/80",
         className
       )}
     >
-      {/* Original Lamp Animation Graphics (Originates with natural clearance directly below 80px fixed navbar) */}
-      <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0 pointer-events-none">
+      {/* Visual Lamp Graphics Wrapper (Top offset pt-14 sm:pt-16 compensates for -7rem element translation, placing lamp apex at ~88px immediately below 80px navbar) */}
+      <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0 pointer-events-none pt-14 sm:pt-16 md:pt-18">
         {/* Left Conic Red Gradient */}
         <motion.div
           initial={{ opacity: 0.5, width: "15rem" }}
@@ -110,7 +110,7 @@ export const LampContainer = ({
         <div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-slate-950"></div>
       </div>
 
-      {/* Children Content Container (About Us heading illuminated inside the red spotlight reflection) */}
+      {/* Children Content Container (About Us, Who We Are & Reputation Card remain in their exact current visual positions) */}
       <div className="relative z-50 flex flex-col items-center px-4 md:px-6 w-full max-w-6xl mx-auto -translate-y-10 sm:-translate-y-12 md:-translate-y-16">
         {children}
       </div>
