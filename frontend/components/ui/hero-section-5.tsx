@@ -59,7 +59,7 @@ export function HeroSection() {
                 </div>
             </section>
 
-            {/* Client Partners Infinite Slider Strip (Comfortable Speed = 18, Gentle Hover = 24 for 100% Legibility) */}
+            {/* Client Partners Infinite Slider Strip (Constant Speed = 7, NO hover speed acceleration) */}
             <section className="bg-white dark:bg-black pb-6 border-t border-b border-slate-200/80 dark:border-zinc-800/80 transition-colors">
                 <div className="group relative m-auto max-w-7xl px-6">
                     <div className="flex flex-col items-center md:flex-row">
@@ -70,8 +70,7 @@ export function HeroSection() {
                         </div>
                         <div className="relative py-4 md:w-[calc(100%-12rem)]">
                             <InfiniteSlider
-                                speedOnHover={24}
-                                speed={18}
+                                speed={7}
                                 gap={80}
                             >
                                 <div className="flex items-center text-sm font-extrabold text-slate-700 dark:text-zinc-300">

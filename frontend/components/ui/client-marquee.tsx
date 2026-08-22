@@ -25,9 +25,9 @@ export const ClientMarquee = () => {
             </p>
           </div>
 
-          {/* Gliding Marquee Slider (Half Speed = speed 7, speedOnHover 7 so it stays slow & readable) */}
+          {/* Gliding Marquee Slider (Constant Speed = 7, NO hover speed acceleration) */}
           <div className="relative py-2 md:w-[calc(100%-12rem)] w-full overflow-hidden">
-            <InfiniteSlider speedOnHover={7} speed={7} gap={64}>
+            <InfiniteSlider speed={7} gap={64}>
               {duplicatedClients.map((client, index) => (
                 <div
                   key={`${client.id}-${index}`}
