@@ -42,65 +42,35 @@ export default function AboutPage() {
             About Us
           </motion.h1>
 
-          {/* Who We Are & Established Market Reputation Grid (Inside Dark Section) */}
+          {/* Who We Are Content Area (Expanded Single-Column Layout After Removing Reputation Card) */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35, duration: 0.7 }}
-            className="grid gap-8 lg:gap-10 lg:grid-cols-2 lg:items-center w-full text-left"
+            className="max-w-4xl mx-auto w-full text-left space-y-3.5 sm:space-y-4"
           >
-            {/* Left Column: Who We Are Content */}
-            <div className="space-y-3.5 sm:space-y-4">
-              <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block">
-                WHO WE ARE
-              </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug">
-                Complete Lighting Infrastructure Under One Roof
-              </h2>
-              <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
-                SSIL is one of the most equipped and major manufacturers of lighting solution providers in the global market. We are an experienced organization in the field of complete lighting solutions, enclosing all your requirements in a single basket.
-              </p>
-              <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
-                We are engaged in the export and supply of a wide range of commercial and household products, enclosing outdoor, indoor, solar, decorative LED lights, and solar plants.
-              </p>
+            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block">
+              WHO WE ARE
+            </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug">
+              Complete Lighting Infrastructure Under One Roof
+            </h2>
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+              SSIL is one of the most equipped and major manufacturers of lighting solution providers in the global market. We are an experienced organization in the field of complete lighting solutions, enclosing all your requirements in a single basket.
+            </p>
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+              We are engaged in the export and supply of a wide range of commercial and household products, enclosing outdoor, indoor, solar, decorative LED lights, and solar plants.
+            </p>
 
-              {/* Feature Pills */}
-              <div className="pt-1.5 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="flex items-center gap-2.5 p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-                  <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
-                  <span className="text-xs font-bold text-slate-200">Global Export &amp; Supply</span>
-                </div>
-                <div className="flex items-center gap-2.5 p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-                  <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
-                  <span className="text-xs font-bold text-slate-200">End-to-End Solutions</span>
-                </div>
+            {/* Feature Pills */}
+            <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl">
+              <div className="flex items-center gap-2.5 p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+                <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
+                <span className="text-xs font-bold text-slate-200">Global Export &amp; Supply</span>
               </div>
-            </div>
-
-            {/* Right Column: Established Market Reputation Card (Premium Glassmorphism + SSIL Red Ambient Glow) */}
-            <div className="group relative rounded-2xl transition-all duration-300">
-              {/* Translucent Soft Red Ambient Backlight Layer */}
-              <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-red-600/30 via-rose-500/20 to-red-600/30 opacity-75 blur-xl transition-all duration-500 group-hover:opacity-100 -z-10" />
-
-              {/* Glass Panel Surface */}
-              <div className="relative h-full w-full rounded-2xl bg-slate-900/65 dark:bg-slate-950/75 backdrop-blur-md border border-white/20 dark:border-slate-800/80 p-6 sm:p-8 shadow-[0_10px_30px_-5px_rgba(0,0,0,0.5)] group-hover:border-red-500/40 transition-all duration-300">
-                <div className="flex items-center gap-3 mb-3.5">
-                  <div className="h-10 w-10 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center text-ssil-red shrink-0">
-                    <Award className="h-5 w-5" />
-                  </div>
-                  <h3 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
-                    Established Market Reputation
-                  </h3>
-                </div>
-                
-                <p className="text-sm text-slate-200/90 dark:text-slate-300 leading-relaxed mb-5 font-normal">
-                  Company holds the reputation of one of the leading manufacturers and suppliers of lighting fixtures, LED luminaires, all types of decorative poles, ornamental designer poles, octagonal poles, and high mast / flag mast poles.
-                </p>
-                
-                <div className="pt-4 border-t border-white/10 dark:border-slate-800/80 flex items-center justify-between text-xs font-bold tracking-wider">
-                  <span className="text-ssil-red font-black">ESTABLISHED 2015</span>
-                  <span className="text-slate-300 dark:text-slate-400">HARYANA, INDIA</span>
-                </div>
+              <div className="flex items-center gap-2.5 p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+                <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
+                <span className="text-xs font-bold text-slate-200">End-to-End Solutions</span>
               </div>
             </div>
           </motion.div>
