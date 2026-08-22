@@ -32,7 +32,7 @@ export default function AboutPage() {
       {/* ============================================================ */}
       <section className="relative w-full overflow-hidden">
         <LampContainer>
-          {/* Main Title: About Us (Illuminated by Red Lamp, tight controlled bottom margin) */}
+          {/* Main Title: About Us (Illuminated by 2.5x Expanded Red Lamp) */}
           <motion.h1
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -102,28 +102,28 @@ export default function AboutPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 2. STAGE 2: OUR EXPERTISE / PRODUCT & FIXTURE RANGE (6 CARDS WITH RED HOVER GLOW) */}
+      {/* 2. STAGE 2: OUR EXPERTISE / PRODUCT RANGE (STARTS IMMEDIATELY AFTER DARK SECTION) */}
       {/* ============================================================ */}
-      <section className="py-16 md:py-24 bg-slate-50 dark:bg-slate-900/40 border-b border-slate-200/60 dark:border-slate-800/80 transition-colors">
+      <section className="pt-10 md:pt-14 pb-16 md:pb-24 bg-slate-50 dark:bg-slate-900/40 border-b border-slate-200/60 dark:border-slate-800/80 transition-colors">
         <div className="container mx-auto px-4 md:px-6 max-w-6xl">
           {/* Section Header */}
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block mb-2.5">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block mb-2">
               OUR EXPERTISE
             </span>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
               Comprehensive Product &amp; Fixture Range
             </h2>
-            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3.5 leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 leading-relaxed">
               Manufactured with high-precision engineering to serve urban infrastructure, highway developments, and commercial projects.
             </p>
           </div>
 
-          {/* 6 Product Cards with Red Hover Glow & Pop-Up Interaction */}
+          {/* 6 Product Cards with 2x Stronger Red Neon Hover Glow & Pop-Up Interaction */}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             
             {/* Card 1: Outdoor & Indoor LED Luminaires */}
-            <div className="group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-ssil-red/60 hover:shadow-[0_12px_30px_-5px_rgba(225,29,72,0.25)] dark:hover:shadow-[0_12px_30px_-5px_rgba(225,29,72,0.35)] overflow-hidden">
+            <div className="group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-ssil-red/80 hover:shadow-[0_16px_45px_-5px_rgba(225,29,72,0.45)] dark:hover:shadow-[0_16px_50px_-5px_rgba(225,29,72,0.55)] overflow-hidden">
               <Lightbulb className="h-7 w-7 text-ssil-red mb-4 transition-transform group-hover:scale-110 duration-300" />
               <h3 className="text-lg font-extrabold text-slate-900 dark:text-white mb-2 group-hover:text-ssil-red transition-colors">
                 Outdoor &amp; Indoor LED Luminaires
@@ -134,7 +134,7 @@ export default function AboutPage() {
             </div>
 
             {/* Card 2: Solar Lights & Power Plants */}
-            <div className="group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-ssil-red/60 hover:shadow-[0_12px_30px_-5px_rgba(225,29,72,0.25)] dark:hover:shadow-[0_12px_30px_-5px_rgba(225,29,72,0.35)] overflow-hidden">
+            <div className="group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-ssil-red/80 hover:shadow-[0_16px_45px_-5px_rgba(225,29,72,0.45)] dark:hover:shadow-[0_16px_50px_-5px_rgba(225,29,72,0.55)] overflow-hidden">
               <Zap className="h-7 w-7 text-ssil-red mb-4 transition-transform group-hover:scale-110 duration-300" />
               <h3 className="text-lg font-extrabold text-slate-900 dark:text-white mb-2 group-hover:text-ssil-red transition-colors">
                 Solar Lights &amp; Power Plants
@@ -145,7 +145,7 @@ export default function AboutPage() {
             </div>
 
             {/* Card 3: Ornamental & Designer Poles */}
-            <div className="group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-ssil-red/60 hover:shadow-[0_12px_30px_-5px_rgba(225,29,72,0.25)] dark:hover:shadow-[0_12px_30px_-5px_rgba(225,29,72,0.35)] overflow-hidden">
+            <div className="group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-ssil-red/80 hover:shadow-[0_16px_45px_-5px_rgba(225,29,72,0.45)] dark:hover:shadow-[0_16px_50px_-5px_rgba(225,29,72,0.55)] overflow-hidden">
               <Building className="h-7 w-7 text-ssil-red mb-4 transition-transform group-hover:scale-110 duration-300" />
               <h3 className="text-lg font-extrabold text-slate-900 dark:text-white mb-2 group-hover:text-ssil-red transition-colors">
                 Ornamental &amp; Designer Poles
@@ -156,7 +156,7 @@ export default function AboutPage() {
             </div>
 
             {/* Card 4: Octagonal & High Mast Poles */}
-            <div className="group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-ssil-red/60 hover:shadow-[0_12px_30px_-5px_rgba(225,29,72,0.25)] dark:hover:shadow-[0_12px_30px_-5px_rgba(225,29,72,0.35)] overflow-hidden">
+            <div className="group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-ssil-red/80 hover:shadow-[0_16px_45px_-5px_rgba(225,29,72,0.45)] dark:hover:shadow-[0_16px_50px_-5px_rgba(225,29,72,0.55)] overflow-hidden">
               <Layers className="h-7 w-7 text-ssil-red mb-4 transition-transform group-hover:scale-110 duration-300" />
               <h3 className="text-lg font-extrabold text-slate-900 dark:text-white mb-2 group-hover:text-ssil-red transition-colors">
                 Octagonal &amp; High Mast Poles
@@ -166,8 +166,8 @@ export default function AboutPage() {
               </p>
             </div>
 
-            {/* Card 5: Indian Flag Poles (Replaces GI Street Lights) */}
-            <div className="group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-ssil-red/60 hover:shadow-[0_12px_30px_-5px_rgba(225,29,72,0.25)] dark:hover:shadow-[0_12px_30px_-5px_rgba(225,29,72,0.35)] overflow-hidden">
+            {/* Card 5: Indian Flag Poles */}
+            <div className="group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-ssil-red/80 hover:shadow-[0_16px_45px_-5px_rgba(225,29,72,0.45)] dark:hover:shadow-[0_16px_50px_-5px_rgba(225,29,72,0.55)] overflow-hidden">
               <Flag className="h-7 w-7 text-ssil-red mb-4 transition-transform group-hover:scale-110 duration-300" />
               <h3 className="text-lg font-extrabold text-slate-900 dark:text-white mb-2 group-hover:text-ssil-red transition-colors">
                 Indian Flag Poles
@@ -178,7 +178,7 @@ export default function AboutPage() {
             </div>
 
             {/* Card 6: Decorative LED Lighting */}
-            <div className="group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-ssil-red/60 hover:shadow-[0_12px_30px_-5px_rgba(225,29,72,0.25)] dark:hover:shadow-[0_12px_30px_-5px_rgba(225,29,72,0.35)] overflow-hidden">
+            <div className="group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-ssil-red/80 hover:shadow-[0_16px_45px_-5px_rgba(225,29,72,0.45)] dark:hover:shadow-[0_16px_50px_-5px_rgba(225,29,72,0.55)] overflow-hidden">
               <Sparkles className="h-7 w-7 text-ssil-red mb-4 transition-transform group-hover:scale-110 duration-300" />
               <h3 className="text-lg font-extrabold text-slate-900 dark:text-white mb-2 group-hover:text-ssil-red transition-colors">
                 Decorative LED Lighting
