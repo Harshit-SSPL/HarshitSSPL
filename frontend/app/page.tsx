@@ -23,8 +23,8 @@ export default function HomePage() {
   return (
     <div className="flex flex-col gap-0 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
       
-      {/* Primary Hero Section with SSIL Multi-Video Carousel Background */}
-      <section className="relative min-h-[85vh] lg:min-h-[92vh] flex items-center justify-start overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-28 lg:pt-48 lg:pb-32">
+      {/* Primary Hero Section with SSIL Multi-Video Carousel Background (Full 100vh Height) */}
+      <section className="relative min-h-screen flex items-center justify-start overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-20 lg:pt-40 lg:pb-24">
         
         {/* Multi-Video Carousel (3 videos with smooth crossfade and indicator dots) */}
         <HeroVideoCarousel />
