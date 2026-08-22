@@ -14,7 +14,7 @@ export const featuredProducts: FeaturedProduct[] = [
   },
   {
     id: "product-02",
-    name: "Bulkhead Pathway Illuminaires",
+    name: "LED Decorative Pole",
     dayImage: "/images/products/homepage/product-02/day.png",
     nightImage: "/images/products/homepage/product-02/night.png",
   },
