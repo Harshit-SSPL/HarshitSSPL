@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Mail, Phone, MapPin, Send, CheckCircle2 } from "lucide-react";
+import { MeshDriftBackground } from "@/components/ui/mesh-drift-background";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -44,8 +45,11 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="w-full bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300 pt-32 sm:pt-36 md:pt-40 pb-16 md:pb-24">
-      <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+    <div className="relative min-h-screen w-full text-slate-900 dark:text-slate-100 transition-colors duration-300 pt-32 sm:pt-36 md:pt-40 pb-16 md:pb-24 overflow-hidden">
+      {/* Animated WebGL Mesh Drift Shader Background (Red & White in Light Mode / Red & Black in Dark Mode) */}
+      <MeshDriftBackground />
+
+      <div className="container mx-auto px-4 md:px-6 max-w-6xl relative z-10">
         <div className="grid gap-12 lg:grid-cols-5 lg:items-start">
           
           {/* Left Column (40% width / lg:col-span-2) */}
@@ -59,19 +63,19 @@ export default function ContactPage() {
               </h1>
             </div>
 
-            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-700 dark:text-slate-200 leading-relaxed font-medium">
               Have questions about our lighting solutions, products, or project requirements? Our team is ready to assist you with complete lighting solutions tailored to your needs.
             </p>
 
-            {/* Contact Info Blocks */}
+            {/* Contact Info Blocks with Glassmorphism */}
             <div className="space-y-4 pt-4">
               {/* Email Block */}
-              <div className="flex items-start gap-4 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 shadow-sm transition-all hover:border-ssil-red/50">
+              <div className="flex items-start gap-4 p-4 rounded-xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 shadow-md transition-all hover:border-ssil-red/60 hover:shadow-lg">
                 <div className="h-10 w-10 rounded-lg bg-red-100 dark:bg-slate-800 flex items-center justify-center text-ssil-red shrink-0 mt-0.5">
                   <Mail className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
                     Email Us
                   </h3>
                   <a
@@ -84,12 +88,12 @@ export default function ContactPage() {
               </div>
 
               {/* Phone Block */}
-              <div className="flex items-start gap-4 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 shadow-sm transition-all hover:border-ssil-red/50">
+              <div className="flex items-start gap-4 p-4 rounded-xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 shadow-md transition-all hover:border-ssil-red/60 hover:shadow-lg">
                 <div className="h-10 w-10 rounded-lg bg-red-100 dark:bg-slate-800 flex items-center justify-center text-ssil-red shrink-0 mt-0.5">
                   <Phone className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
                     Call Us
                   </h3>
                   <a
@@ -102,12 +106,12 @@ export default function ContactPage() {
               </div>
 
               {/* Address Block */}
-              <div className="flex items-start gap-4 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 shadow-sm transition-all hover:border-ssil-red/50">
+              <div className="flex items-start gap-4 p-4 rounded-xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 shadow-md transition-all hover:border-ssil-red/60 hover:shadow-lg">
                 <div className="h-10 w-10 rounded-lg bg-red-100 dark:bg-slate-800 flex items-center justify-center text-ssil-red shrink-0 mt-0.5">
                   <MapPin className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
                     Corporate Location
                   </h3>
                   <p className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
@@ -120,14 +124,14 @@ export default function ContactPage() {
 
           {/* Right Column Form (60% width / lg:col-span-3) */}
           <div className="lg:col-span-3">
-            <div className="rounded-2xl bg-white dark:bg-slate-900 p-6 sm:p-8 md:p-10 border border-slate-200/80 dark:border-slate-800/80 shadow-xl dark:shadow-2xl">
+            <div className="rounded-2xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-lg p-6 sm:p-8 md:p-10 border border-slate-200/90 dark:border-slate-800/90 shadow-2xl">
               
               <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mb-6">
                 Send Us A Message
               </h2>
 
               {submitted ? (
-                <div className="p-6 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-center space-y-3">
+                <div className="p-6 rounded-xl bg-red-50/90 dark:bg-red-950/50 backdrop-blur-md border border-red-200 dark:border-red-900 text-center space-y-3">
                   <CheckCircle2 className="h-12 w-12 text-ssil-red mx-auto" />
                   <h3 className="text-lg font-extrabold text-slate-900 dark:text-white">
                     Inquiry Received
@@ -151,7 +155,7 @@ export default function ContactPage() {
                         value={formData.firstName}
                         onChange={handleChange}
                         placeholder="John"
-                        className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red transition-all"
+                        className="w-full px-4 py-3 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red transition-all"
                       />
                     </div>
 
@@ -166,7 +170,7 @@ export default function ContactPage() {
                         value={formData.lastName}
                         onChange={handleChange}
                         placeholder="Doe"
-                        className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red transition-all"
+                        className="w-full px-4 py-3 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red transition-all"
                       />
                     </div>
                   </div>
@@ -184,7 +188,7 @@ export default function ContactPage() {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="john@example.com"
-                        className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red transition-all"
+                        className="w-full px-4 py-3 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red transition-all"
                       />
                     </div>
 
@@ -198,7 +202,7 @@ export default function ContactPage() {
                         value={formData.phone}
                         onChange={handleChange}
                         placeholder="+91 9999590064"
-                        className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red transition-all"
+                        className="w-full px-4 py-3 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red transition-all"
                       />
                     </div>
                   </div>
@@ -215,7 +219,7 @@ export default function ContactPage() {
                       value={formData.message}
                       onChange={handleChange}
                       placeholder="Tell us about your project requirements or inquiry..."
-                      className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red transition-all resize-none"
+                      className="w-full px-4 py-3 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red transition-all resize-none"
                     ></textarea>
                   </div>
 
