@@ -1,13 +1,11 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
-import { LampContainer } from "@/components/ui/lamp";
+import ResponsiveHeroBanner from "@/components/ui/responsive-hero-banner";
 import {
   Lightbulb,
   Building,
   CheckCircle2,
-  Award,
   Layers,
   Zap,
   Flag,
@@ -28,59 +26,54 @@ export default function AboutPage() {
     <div className="flex flex-col gap-0 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
       
       {/* ============================================================ */}
-      {/* 1. STAGE 1: UNIFIED DARK LAMP SECTION (HERO + ABOUT US + WHO WE ARE) */}
+      {/* 1. STAGE 1: RESPONSIVE HERO BANNER (REPLACES FRONT LIGHT ANIMATION) */}
       {/* ============================================================ */}
-      <section className="relative w-full overflow-hidden">
-        <LampContainer>
-          {/* Main Title: About Us (Illuminated by 2.5x Expanded Red Lamp) */}
-          <motion.h1
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.7 }}
-            className="text-center text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white mb-5 sm:mb-7 drop-shadow-md"
-          >
-            About Us
-          </motion.h1>
+      <ResponsiveHeroBanner
+        badgeLabel="SSIL INDIA"
+        badgeText="Premier Infrastructure & Architectural Lighting Manufacturer"
+        title="Complete Lighting Infrastructure"
+        titleLine2="Under One Roof"
+        description="SSIL is one of the most equipped and major manufacturers of lighting solution providers in the global market. We are an experienced organization in the field of complete lighting solutions, enclosing all your requirements in a single basket."
+        primaryButtonText="Explore Product Range"
+        primaryButtonHref="/products"
+        secondaryButtonText="Contact Our Engineers"
+        secondaryButtonHref="/contact"
+        partnersTitle="Trusted by leading infrastructure developers & municipal bodies nationwide"
+      />
 
-          {/* Who We Are Content Area (Expanded Single-Column Layout After Removing Reputation Card) */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, duration: 0.7 }}
-            className="max-w-4xl mx-auto w-full text-left space-y-3.5 sm:space-y-4"
-          >
-            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block">
-              WHO WE ARE
-            </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug">
-              Complete Lighting Infrastructure Under One Roof
-            </h2>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
-              SSIL is one of the most equipped and major manufacturers of lighting solution providers in the global market. We are an experienced organization in the field of complete lighting solutions, enclosing all your requirements in a single basket.
-            </p>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
-              We are engaged in the export and supply of a wide range of commercial and household products, enclosing outdoor, indoor, solar, decorative LED lights, and solar plants.
-            </p>
+      {/* ============================================================ */}
+      {/* 1.5 WHO WE ARE DETAILS & FEATURE PILLS */}
+      {/* ============================================================ */}
+      <section className="py-12 sm:py-16 bg-slate-900 text-white border-b border-slate-800 transition-colors">
+        <div className="container mx-auto px-4 md:px-6 max-w-4xl text-left">
+          <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block mb-3">
+            WHO WE ARE
+          </span>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug mb-4">
+            Global Supply &amp; Specialized Engineering
+          </h2>
+          <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal mb-6">
+            We are engaged in the export and supply of a wide range of commercial and household products, enclosing outdoor, indoor, solar, decorative LED lights, and solar plants.
+          </p>
 
-            {/* Feature Pills */}
-            <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl">
-              <div className="flex items-center gap-2.5 p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-                <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
-                <span className="text-xs font-bold text-slate-200">Global Export &amp; Supply</span>
-              </div>
-              <div className="flex items-center gap-2.5 p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-                <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
-                <span className="text-xs font-bold text-slate-200">End-to-End Solutions</span>
-              </div>
+          {/* Feature Pills */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl">
+            <div className="flex items-center gap-2.5 p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 shadow-sm">
+              <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
+              <span className="text-xs font-bold text-slate-200">Global Export &amp; Supply</span>
             </div>
-          </motion.div>
-        </LampContainer>
+            <div className="flex items-center gap-2.5 p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 shadow-sm">
+              <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
+              <span className="text-xs font-bold text-slate-200">End-to-End Solutions</span>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ============================================================ */}
-      {/* 2. STAGE 2: OUR EXPERTISE / PRODUCT RANGE (STARTS IMMEDIATELY AFTER DARK SECTION) */}
+      {/* 2. STAGE 2: OUR EXPERTISE / PRODUCT RANGE */}
       {/* ============================================================ */}
-      <section className="pt-10 md:pt-14 pb-16 md:pb-24 bg-slate-50 dark:bg-slate-900/40 border-b border-slate-200/60 dark:border-slate-800/80 transition-colors">
+      <section className="pt-12 md:pt-16 pb-16 md:pb-24 bg-slate-50 dark:bg-slate-900/40 border-b border-slate-200/60 dark:border-slate-800/80 transition-colors">
         <div className="container mx-auto px-4 md:px-6 max-w-6xl">
           {/* Section Header */}
           <div className="text-center max-w-3xl mx-auto mb-12">
@@ -95,7 +88,7 @@ export default function AboutPage() {
             </p>
           </div>
 
-          {/* 6 Product Cards with 2x Stronger Red Neon Hover Glow & Pop-Up Interaction */}
+          {/* 6 Product Cards with Red Hover Glow */}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             
             {/* Card 1: Outdoor & Indoor LED Luminaires */}
