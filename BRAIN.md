@@ -4,7 +4,6 @@
 **Repository**: `https://github.com/Harshit-SSPL/HarshitSSPL`  
 **Current Phase**: Phase 0 — Project Initialization  
 
----
 
 ## 1. EXECUTIVE SUMMARY & COMPANY CONTEXT
 
