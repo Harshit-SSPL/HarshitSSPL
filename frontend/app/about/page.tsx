@@ -3,6 +3,7 @@
 import React from "react";
 import { HeroSection } from "@/components/ui/hero-section-5";
 import { BackgroundPaths } from "@/components/ui/background-paths";
+import { StandardCard } from "@/components/ui/standard-card";
 import {
   Lightbulb,
   Building,
@@ -10,7 +11,63 @@ import {
   Zap,
   Flag,
   Sparkles,
+  Sun,
+  ShieldCheck,
+  Wrench,
+  Trees,
+  Landmark,
 } from "lucide-react";
+
+const offeringData = [
+  {
+    title: "1. Urban Lighting",
+    categoryTag: "Municipal & Smart",
+    description: "Energy-efficient smart street lights and civic luminaires engineered for municipal roadways and urban thoroughfares.",
+    icon: <Lightbulb className="h-6 w-6" />,
+  },
+  {
+    title: "2. Architectural Lighting",
+    categoryTag: "Facade & Aesthetic",
+    description: "Custom facade illuminators, structural highlights, and aesthetic building luminaires for modern commercial architecture.",
+    icon: <Building className="h-6 w-6" />,
+  },
+  {
+    title: "3. Highway & Infrastructural",
+    categoryTag: "Expressways & Heavy-Duty",
+    description: "Heavy-duty octagonal poles, expressway floodlights, and high-tensile roadway fixtures for state and national highways.",
+    icon: <Layers className="h-6 w-6" />,
+  },
+  {
+    title: "4. Park & Landscape",
+    categoryTag: "Outdoor & Green Spaces",
+    description: "Decorative bollards, garden pathway illuminators, and eco-friendly outdoor lawn lighting for public parks and resorts.",
+    icon: <Trees className="h-6 w-6" />,
+  },
+  {
+    title: "5. Heritage & Decorative",
+    categoryTag: "Classic & Vintage",
+    description: "Ornamental vintage poles, cast iron heritage brackets, and royal civic plaza luminaires blending classic charm with modern LEDs.",
+    icon: <Landmark className="h-6 w-6" />,
+  },
+  {
+    title: "6. High Mast & Sports",
+    categoryTag: "Stadiums & High-Output",
+    description: "Monumental high mast towers, stadium floodlighting, and multi-fixture high-output masts for sports arenas and industrial hubs.",
+    icon: <Zap className="h-6 w-6" />,
+  },
+  {
+    title: "7. CCTV & Security",
+    categoryTag: "Surveillance & IoT",
+    description: "Integrated smart poles equipped with surveillance camera mounts, IoT sensors, and civic security infrastructure.",
+    icon: <ShieldCheck className="h-6 w-6" />,
+  },
+  {
+    title: "8. Custom Engineered Structure",
+    categoryTag: "Bespoke & Tailored",
+    description: "Bespoke flag mast poles, tailored steel brackets, and specialized architectural frameworks manufactured to tender specifications.",
+    icon: <Wrench className="h-6 w-6" />,
+  },
+];
 
 export default function AboutPage() {
   React.useEffect(() => {
@@ -54,9 +111,44 @@ export default function AboutPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 3. OUR EXPERTISE (CENTERED HEADING & 6 CARDS) */}
+      {/* 3. NEW SECTION: WHAT WE OFFER (8 STANDARD CARDS GRID) */}
       {/* ============================================================ */}
-      <section className="py-16 md:py-24 bg-slate-50 dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors">
+      <section className="py-16 md:py-24 bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
+          
+          {/* Section Header */}
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block mb-2">
+              OUR SOLUTIONS
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
+              What We Offer
+            </h2>
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3.5 leading-relaxed font-medium">
+              Comprehensive architectural, infrastructural, and specialized lighting engineering designed for municipal expressways, urban plazas, and commercial developments.
+            </p>
+          </div>
+
+          {/* 8 Offering Cards Grid */}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {offeringData.map((item, index) => (
+              <StandardCard
+                key={index}
+                title={item.title}
+                categoryTag={item.categoryTag}
+                description={item.description}
+                icon={item.icon}
+              />
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* 4. OUR EXPERTISE (CENTERED HEADING & 6 CARDS) */}
+      {/* ============================================================ */}
+      <section className="py-16 md:py-24 bg-white dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors">
         <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
           
           {/* Centered Section Header */}
@@ -76,7 +168,7 @@ export default function AboutPage() {
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             
             {/* Card 1: Outdoor & Indoor LED Luminaires */}
-            <div className="group relative p-6 rounded-2xl bg-white dark:bg-zinc-950 border border-slate-200/90 dark:border-zinc-800/90 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-ssil-red/80 hover:shadow-[0_16px_45px_-5px_rgba(225,29,72,0.35)] dark:hover:shadow-[0_16px_50px_-5px_rgba(225,29,72,0.55)] overflow-hidden">
+            <div className="group relative p-6 rounded-2xl bg-slate-50 dark:bg-zinc-950 border border-slate-200/90 dark:border-zinc-800/90 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-ssil-red/80 hover:shadow-[0_16px_45px_-5px_rgba(225,29,72,0.35)] dark:hover:shadow-[0_16px_50px_-5px_rgba(225,29,72,0.55)] overflow-hidden">
               <Lightbulb className="h-8 w-8 text-ssil-red mb-4 transition-transform group-hover:scale-110 duration-300" />
               <h3 className="text-lg font-extrabold text-slate-900 dark:text-white mb-2 group-hover:text-ssil-red transition-colors">
                 Outdoor &amp; Indoor LED Luminaires
@@ -87,7 +179,7 @@ export default function AboutPage() {
             </div>
 
             {/* Card 2: Solar Lights & Power Plants */}
-            <div className="group relative p-6 rounded-2xl bg-white dark:bg-zinc-950 border border-slate-200/90 dark:border-zinc-800/90 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-ssil-red/80 hover:shadow-[0_16px_45px_-5px_rgba(225,29,72,0.35)] dark:hover:shadow-[0_16px_50px_-5px_rgba(225,29,72,0.55)] overflow-hidden">
+            <div className="group relative p-6 rounded-2xl bg-slate-50 dark:bg-zinc-950 border border-slate-200/90 dark:border-zinc-800/90 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-ssil-red/80 hover:shadow-[0_16px_45px_-5px_rgba(225,29,72,0.35)] dark:hover:shadow-[0_16px_50px_-5px_rgba(225,29,72,0.55)] overflow-hidden">
               <Zap className="h-8 w-8 text-ssil-red mb-4 transition-transform group-hover:scale-110 duration-300" />
               <h3 className="text-lg font-extrabold text-slate-900 dark:text-white mb-2 group-hover:text-ssil-red transition-colors">
                 Solar Lights &amp; Power Plants
@@ -98,7 +190,7 @@ export default function AboutPage() {
             </div>
 
             {/* Card 3: Ornamental & Designer Poles */}
-            <div className="group relative p-6 rounded-2xl bg-white dark:bg-zinc-950 border border-slate-200/90 dark:border-zinc-800/90 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-ssil-red/80 hover:shadow-[0_16px_45px_-5px_rgba(225,29,72,0.35)] dark:hover:shadow-[0_16px_50px_-5px_rgba(225,29,72,0.55)] overflow-hidden">
+            <div className="group relative p-6 rounded-2xl bg-slate-50 dark:bg-zinc-950 border border-slate-200/90 dark:border-zinc-800/90 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-ssil-red/80 hover:shadow-[0_16px_45px_-5px_rgba(225,29,72,0.35)] dark:hover:shadow-[0_16px_50px_-5px_rgba(225,29,72,0.55)] overflow-hidden">
               <Building className="h-8 w-8 text-ssil-red mb-4 transition-transform group-hover:scale-110 duration-300" />
               <h3 className="text-lg font-extrabold text-slate-900 dark:text-white mb-2 group-hover:text-ssil-red transition-colors">
                 Ornamental &amp; Designer Poles
@@ -109,7 +201,7 @@ export default function AboutPage() {
             </div>
 
             {/* Card 4: Octagonal & High Mast Poles */}
-            <div className="group relative p-6 rounded-2xl bg-white dark:bg-zinc-950 border border-slate-200/90 dark:border-zinc-800/90 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-ssil-red/80 hover:shadow-[0_16px_45px_-5px_rgba(225,29,72,0.35)] dark:hover:shadow-[0_16px_50px_-5px_rgba(225,29,72,0.55)] overflow-hidden">
+            <div className="group relative p-6 rounded-2xl bg-slate-50 dark:bg-zinc-950 border border-slate-200/90 dark:border-zinc-800/90 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-ssil-red/80 hover:shadow-[0_16px_45px_-5px_rgba(225,29,72,0.35)] dark:hover:shadow-[0_16px_50px_-5px_rgba(225,29,72,0.55)] overflow-hidden">
               <Layers className="h-8 w-8 text-ssil-red mb-4 transition-transform group-hover:scale-110 duration-300" />
               <h3 className="text-lg font-extrabold text-slate-900 dark:text-white mb-2 group-hover:text-ssil-red transition-colors">
                 Octagonal &amp; High Mast Poles
@@ -120,7 +212,7 @@ export default function AboutPage() {
             </div>
 
             {/* Card 5: Indian Flag Poles */}
-            <div className="group relative p-6 rounded-2xl bg-white dark:bg-zinc-950 border border-slate-200/90 dark:border-zinc-800/90 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-ssil-red/80 hover:shadow-[0_16px_45px_-5px_rgba(225,29,72,0.35)] dark:hover:shadow-[0_16px_50px_-5px_rgba(225,29,72,0.55)] overflow-hidden">
+            <div className="group relative p-6 rounded-2xl bg-slate-50 dark:bg-zinc-950 border border-slate-200/90 dark:border-zinc-800/90 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-ssil-red/80 hover:shadow-[0_16px_45px_-5px_rgba(225,29,72,0.35)] dark:hover:shadow-[0_16px_50px_-5px_rgba(225,29,72,0.55)] overflow-hidden">
               <Flag className="h-8 w-8 text-ssil-red mb-4 transition-transform group-hover:scale-110 duration-300" />
               <h3 className="text-lg font-extrabold text-slate-900 dark:text-white mb-2 group-hover:text-ssil-red transition-colors">
                 Indian Flag Poles
@@ -131,7 +223,7 @@ export default function AboutPage() {
             </div>
 
             {/* Card 6: Decorative LED Lighting */}
-            <div className="group relative p-6 rounded-2xl bg-white dark:bg-zinc-950 border border-slate-200/90 dark:border-zinc-800/90 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-ssil-red/80 hover:shadow-[0_16px_45px_-5px_rgba(225,29,72,0.35)] dark:hover:shadow-[0_16px_50px_-5px_rgba(225,29,72,0.55)] overflow-hidden">
+            <div className="group relative p-6 rounded-2xl bg-slate-50 dark:bg-zinc-950 border border-slate-200/90 dark:border-zinc-800/90 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-ssil-red/80 hover:shadow-[0_16px_45px_-5px_rgba(225,29,72,0.35)] dark:hover:shadow-[0_16px_50px_-5px_rgba(225,29,72,0.55)] overflow-hidden">
               <Sparkles className="h-8 w-8 text-ssil-red mb-4 transition-transform group-hover:scale-110 duration-300" />
               <h3 className="text-lg font-extrabold text-slate-900 dark:text-white mb-2 group-hover:text-ssil-red transition-colors">
                 Decorative LED Lighting
@@ -146,7 +238,7 @@ export default function AboutPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 4. COMPANY REGISTRATION & BACKGROUND (BOTTOM CENTERED) */}
+      {/* 5. COMPANY REGISTRATION & BACKGROUND (BOTTOM CENTERED) */}
       {/* ============================================================ */}
       <section className="py-14 bg-slate-100 dark:bg-zinc-950 border-t border-slate-200/80 dark:border-zinc-900 transition-colors">
         <div className="container mx-auto px-4 md:px-6 max-w-4xl text-center">
