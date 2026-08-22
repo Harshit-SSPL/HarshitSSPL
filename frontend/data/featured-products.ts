@@ -26,7 +26,7 @@ export const featuredProducts: FeaturedProduct[] = [
   },
   {
     id: "product-04",
-    name: "LED Indoor/Outdoor",
+    name: "Indian Flag",
     dayImage: "/images/products/homepage/product-04/day.png",
     nightImage: "/images/products/homepage/product-04/night.png",
   },
