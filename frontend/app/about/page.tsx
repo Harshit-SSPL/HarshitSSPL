@@ -77,24 +77,30 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* Right Column: Established Market Reputation Card (WHITE / LIGHT CARD for Contrast) */}
-            <div className="relative rounded-2xl bg-white text-slate-900 p-6 sm:p-8 shadow-2xl border border-slate-200/90 transition-all">
-              <div className="flex items-center gap-3 mb-3.5">
-                <div className="h-10 w-10 rounded-full bg-red-100 flex items-center justify-center text-ssil-red shrink-0">
-                  <Award className="h-5 w-5" />
+            {/* Right Column: Established Market Reputation Card (Premium Glassmorphism + SSIL Red Ambient Glow) */}
+            <div className="group relative rounded-2xl transition-all duration-300">
+              {/* Translucent Soft Red Ambient Backlight Layer */}
+              <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-red-600/30 via-rose-500/20 to-red-600/30 opacity-75 blur-xl transition-all duration-500 group-hover:opacity-100 -z-10" />
+
+              {/* Glass Panel Surface */}
+              <div className="relative h-full w-full rounded-2xl bg-slate-900/65 dark:bg-slate-950/75 backdrop-blur-md border border-white/20 dark:border-slate-800/80 p-6 sm:p-8 shadow-[0_10px_30px_-5px_rgba(0,0,0,0.5)] group-hover:border-red-500/40 transition-all duration-300">
+                <div className="flex items-center gap-3 mb-3.5">
+                  <div className="h-10 w-10 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center text-ssil-red shrink-0">
+                    <Award className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
+                    Established Market Reputation
+                  </h3>
                 </div>
-                <h3 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">
-                  Established Market Reputation
-                </h3>
-              </div>
-              
-              <p className="text-sm text-slate-700 leading-relaxed mb-5 font-medium">
-                Company holds the reputation of one of the leading manufacturers and suppliers of lighting fixtures, LED luminaires, all types of decorative poles, ornamental designer poles, octagonal poles, and high mast / flag mast poles.
-              </p>
-              
-              <div className="pt-4 border-t border-slate-200/80 flex items-center justify-between text-xs font-bold text-slate-500 tracking-wider">
-                <span className="text-ssil-red font-black">ESTABLISHED 2015</span>
-                <span>HARYANA, INDIA</span>
+                
+                <p className="text-sm text-slate-200/90 dark:text-slate-300 leading-relaxed mb-5 font-normal">
+                  Company holds the reputation of one of the leading manufacturers and suppliers of lighting fixtures, LED luminaires, all types of decorative poles, ornamental designer poles, octagonal poles, and high mast / flag mast poles.
+                </p>
+                
+                <div className="pt-4 border-t border-white/10 dark:border-slate-800/80 flex items-center justify-between text-xs font-bold tracking-wider">
+                  <span className="text-ssil-red font-black">ESTABLISHED 2015</span>
+                  <span className="text-slate-300 dark:text-slate-400">HARYANA, INDIA</span>
+                </div>
               </div>
             </div>
           </motion.div>
