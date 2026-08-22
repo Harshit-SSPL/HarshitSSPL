@@ -1,81 +1,53 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
-import { clientCompanies, ClientCompany } from "@/data/clients";
-
-// Single Marquee Item Component: LOGO ABOVE NAME
-const MarqueeItem = ({ client }: { client: ClientCompany }) => {
-  const [imgError, setImgError] = React.useState(false);
-
-  // Extract initials for fallback brand mark emblem
-  const initials = client.name
-    .split(" ")
-    .map((word) => word[0])
-    .join("")
-    .substring(0, 3)
-    .toUpperCase();
-
-  return (
-    <div className="flex flex-col items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl bg-white/90 dark:bg-slate-900/70 border border-red-200/60 dark:border-red-900/40 shadow-xs hover:border-ssil-red/60 hover:shadow-sm transition-all group shrink-0 min-w-[105px]">
-      {/* Top: Actual Brand Logo or Authentic Initial Emblem (Zero Generic Icons) */}
-      <div className="h-7 sm:h-8 flex items-center justify-center w-full overflow-hidden">
-        {client.logoUrl && !imgError ? (
-          <img
-            src={client.logoUrl}
-            alt={`${client.name} Logo`}
-            className="h-full max-h-7 sm:max-h-8 w-auto object-contain max-w-[95px] transition-transform duration-300 group-hover:scale-105"
-            onError={() => setImgError(true)}
-            loading="eager"
-          />
-        ) : (
-          <div className="h-6 w-10 rounded bg-red-100/80 dark:bg-red-950/60 border border-red-300/60 dark:border-red-800/60 flex items-center justify-center text-[11px] font-black tracking-tighter text-ssil-red uppercase">
-            {initials}
-          </div>
-        )}
-      </div>
-
-      {/* Bottom: Concise Company Name */}
-      <span className="text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-100 tracking-tight text-center whitespace-nowrap group-hover:text-ssil-red transition-colors">
-        {client.name}
-      </span>
-    </div>
-  );
-};
+import { InfiniteSlider } from "@/components/ui/infinite-slider";
+import { ProgressiveBlur } from "@/components/ui/progressive-blur";
+import { clientCompanies } from "@/data/clients";
 
 export const ClientMarquee = () => {
-  // Duplicate array for infinite seamless loop
-  const duplicatedClients = [...clientCompanies, ...clientCompanies];
-
   return (
-    <section className="relative py-4 sm:py-5 bg-gradient-to-r from-red-50/90 via-rose-50/80 to-red-50/90 dark:from-red-950/30 dark:via-rose-950/20 dark:to-red-950/30 border-y border-red-200/70 dark:border-red-900/50 overflow-hidden transition-colors shadow-inner">
-      {/* Section Header Eyebrow */}
-      <div className="container mx-auto px-4 md:px-6 mb-2.5 text-center">
-        <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-ssil-red/90 dark:text-red-400">
-          TRUSTED BY LEADING CORPORATE &amp; INFRASTRUCTURE DEVELOPERS
-        </span>
-      </div>
+    <section className="relative py-4 sm:py-5 bg-ssil-red dark:bg-black text-white dark:text-white border-y border-red-700/80 dark:border-zinc-800/80 transition-colors shadow-sm overflow-hidden">
+      <div className="group relative m-auto max-w-7xl px-4 sm:px-6">
+        <div className="flex flex-col items-center md:flex-row">
+          
+          {/* Left Title Label */}
+          <div className="md:max-w-48 md:border-r border-white/30 dark:border-zinc-800 md:pr-6 mb-3 md:mb-0">
+            <p className="text-center md:text-end text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white dark:text-zinc-400">
+              POWERING NATIONAL PROJECTS
+            </p>
+          </div>
 
-      {/* Edge Gradient Mask Overlays for Smooth Enter/Exit */}
-      <div className="absolute inset-y-0 left-0 w-12 sm:w-24 bg-gradient-to-r from-red-50/90 dark:from-[#0F172A] to-transparent z-10 pointer-events-none" />
-      <div className="absolute inset-y-0 right-0 w-12 sm:w-24 bg-gradient-to-l from-red-50/90 dark:from-[#0F172A] to-transparent z-10 pointer-events-none" />
+          {/* Gliding Marquee Slider */}
+          <div className="relative py-2 md:w-[calc(100%-12rem)] w-full overflow-hidden">
+            <InfiniteSlider speedOnHover={20} speed={35} gap={64}>
+              {clientCompanies.map((client, index) => (
+                <div
+                  key={`${client.id}-${index}`}
+                  className="flex items-center text-sm font-extrabold text-white dark:text-zinc-200 shrink-0 hover:scale-105 transition-transform cursor-default"
+                >
+                  {client.name}
+                </div>
+              ))}
+            </InfiniteSlider>
 
-      {/* Continuous Automatic Right-to-Left Track */}
-      <div className="flex w-full overflow-hidden">
-        <motion.div
-          className="flex items-center gap-4 sm:gap-5 shrink-0"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{
-            ease: "linear",
-            duration: 35,
-            repeat: Infinity,
-          }}
-        >
-          {duplicatedClients.map((client, index) => (
-            <MarqueeItem key={`${client.id}-${index}`} client={client} />
-          ))}
-        </motion.div>
+            {/* Edge Fade Progressive Blur */}
+            <ProgressiveBlur
+              className="pointer-events-none absolute left-0 top-0 h-full w-16"
+              direction="left"
+              blurIntensity={1}
+            />
+            <ProgressiveBlur
+              className="pointer-events-none absolute right-0 top-0 h-full w-16"
+              direction="right"
+              blurIntensity={1}
+            />
+          </div>
+
+        </div>
       </div>
     </section>
   );
 };
+
+export default ClientMarquee;
