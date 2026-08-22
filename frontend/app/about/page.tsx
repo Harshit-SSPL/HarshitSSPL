@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import ResponsiveHeroBanner from "@/components/ui/responsive-hero-banner";
 import {
   Lightbulb,
   Building,
@@ -26,52 +25,61 @@ export default function AboutPage() {
     <div className="flex flex-col gap-0 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
       
       {/* ============================================================ */}
-      {/* 1. STAGE 1: RESPONSIVE HERO BANNER (REPLACES FRONT LIGHT ANIMATION) */}
+      {/* 1. STAGE 1: SIMPLIFIED & RESTRUCTURED ABOUT US TOP SECTION */}
       {/* ============================================================ */}
-      <ResponsiveHeroBanner
-        badgeLabel="SSIL INDIA"
-        badgeText="Premier Infrastructure & Architectural Lighting Manufacturer"
-        title="Complete Lighting Infrastructure"
-        titleLine2="Under One Roof"
-        description="SSIL is one of the most equipped and major manufacturers of lighting solution providers in the global market. We are an experienced organization in the field of complete lighting solutions, enclosing all your requirements in a single basket."
-        primaryButtonText="Explore Product Range"
-        primaryButtonHref="/products"
-        secondaryButtonText="Contact Our Engineers"
-        secondaryButtonHref="/contact"
-        partnersTitle="Trusted by leading infrastructure developers & municipal bodies nationwide"
-      />
+      <section className="relative w-full bg-slate-950 text-white pt-28 sm:pt-32 pb-14 sm:pb-16 border-b border-slate-800/80 transition-colors overflow-hidden">
+        {/* Subtle Ambient Red Light Effect */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[300px] bg-ssil-red/20 rounded-full blur-[130px] pointer-events-none" />
 
-      {/* ============================================================ */}
-      {/* 1.5 WHO WE ARE DETAILS & FEATURE PILLS */}
-      {/* ============================================================ */}
-      <section className="py-12 sm:py-16 bg-slate-900 text-white border-b border-slate-800 transition-colors">
-        <div className="container mx-auto px-4 md:px-6 max-w-4xl text-left">
-          <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block mb-3">
-            WHO WE ARE
-          </span>
+        <div className="container mx-auto px-4 md:px-6 max-w-4xl text-left relative z-10">
+          
+          {/* Main Large Title: About Us */}
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white mb-2">
+            About Us
+          </h1>
+
+          {/* Eyebrow Label: WHO WE ARE (Slightly Offset to the Right) */}
+          <div className="ml-1 sm:ml-3 mb-6">
+            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red">
+              WHO WE ARE
+            </span>
+          </div>
+
+          {/* Subheading */}
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug mb-4">
             Global Supply &amp; Specialized Engineering
           </h2>
-          <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal mb-6">
-            We are engaged in the export and supply of a wide range of commercial and household products, enclosing outdoor, indoor, solar, decorative LED lights, and solar plants.
-          </p>
 
-          {/* Feature Pills */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl">
-            <div className="flex items-center gap-2.5 p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 shadow-sm">
+          {/* Consolidated 3 About SSIL Paragraphs */}
+          <div className="space-y-4 text-sm sm:text-base text-slate-300 leading-relaxed font-normal mb-6">
+            <p>
+              Shiv Shakti India Limited (SSIL) is one of the most equipped and major manufacturers of lighting solution providers in the global market. We are an experienced organization in the field of complete lighting solutions, enclosing all your requirements in a single basket.
+            </p>
+            <p>
+              We are engaged in the export and supply of a wide range of commercial and household products, enclosing outdoor, indoor, solar, decorative LED lights, and solar plants.
+            </p>
+            <p>
+              Engineered for long-lasting durability, SSIL&apos;s infrastructure luminaires, decorative poles, octagonal poles, and high mast installations serve municipal expressways, real estate developments, and public landmarks across India.
+            </p>
+          </div>
+
+          {/* Existing Feature Tags */}
+          <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl">
+            <div className="flex items-center gap-2.5 p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 shadow-sm">
               <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
               <span className="text-xs font-bold text-slate-200">Global Export &amp; Supply</span>
             </div>
-            <div className="flex items-center gap-2.5 p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 shadow-sm">
+            <div className="flex items-center gap-2.5 p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 shadow-sm">
               <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
               <span className="text-xs font-bold text-slate-200">End-to-End Solutions</span>
             </div>
           </div>
+
         </div>
       </section>
 
       {/* ============================================================ */}
-      {/* 2. STAGE 2: OUR EXPERTISE / PRODUCT RANGE */}
+      {/* 2. STAGE 2: OUR EXPERTISE / PRODUCT RANGE (UNCHANGED) */}
       {/* ============================================================ */}
       <section className="pt-12 md:pt-16 pb-16 md:pb-24 bg-slate-50 dark:bg-slate-900/40 border-b border-slate-200/60 dark:border-slate-800/80 transition-colors">
         <div className="container mx-auto px-4 md:px-6 max-w-6xl">
@@ -162,7 +170,7 @@ export default function AboutPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 3. STAGE 3: COMPANY REGISTRATION & BACKGROUND */}
+      {/* 3. STAGE 3: COMPANY REGISTRATION & BACKGROUND (UNCHANGED) */}
       {/* ============================================================ */}
       <section className="py-14 bg-slate-50 dark:bg-slate-950 border-t border-slate-200/60 dark:border-slate-800/80">
         <div className="container mx-auto px-4 md:px-6 max-w-4xl text-center">
