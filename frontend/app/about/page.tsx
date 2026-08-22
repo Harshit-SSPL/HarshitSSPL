@@ -2,6 +2,7 @@
 
 import React from "react";
 import { HeroSection } from "@/components/ui/hero-section-5";
+import { BackgroundPaths } from "@/components/ui/background-paths";
 import {
   Lightbulb,
   Building,
@@ -25,18 +26,20 @@ export default function AboutPage() {
     <div className="flex flex-col gap-0 bg-white dark:bg-black text-slate-900 dark:text-white min-h-screen transition-colors duration-300">
       
       {/* ============================================================ */}
-      {/* 1. TOP COMPONENT: HERO SECTION 5 (DIRECTLY AFTER NAVBAR) */}
+      {/* 1. TOP COMPONENT WITH RED BACKGROUND PATHS ANIMATION */}
       {/* ============================================================ */}
-      <HeroSection />
+      <BackgroundPaths className="bg-white dark:bg-black">
+        <HeroSection />
+      </BackgroundPaths>
 
       {/* ============================================================ */}
-      {/* 2. MAIN ABOUT US DESCRIPTION (FIRST WORD WRITTEN: ABOUT US) */}
+      {/* 2. MAIN ABOUT US DESCRIPTION (RED ABOUT US HEADING) */}
       {/* ============================================================ */}
-      <section className="py-16 md:py-24 bg-white dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors">
-        <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl text-left">
+      <section className="py-16 md:py-24 bg-white dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors relative overflow-hidden">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl text-left relative z-10">
           
-          {/* First Word Written on Page: About Us (Left-Aligned) */}
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight mb-6">
+          {/* Main Title: About Us in SSIL Red Color */}
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-ssil-red tracking-tight mb-6">
             About Us
           </h2>
 
