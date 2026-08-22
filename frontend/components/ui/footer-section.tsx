@@ -180,7 +180,7 @@ export function Footerdemo() {
             © {new Date().getFullYear()} Shiv Shakti India Limited / Shiv Shakti Private Limited. All rights reserved.
           </p>
           <nav className="flex gap-6 text-xs font-semibold text-slate-300">
-            <Link href="/privacy" className="transition-colors hover:text-ssil-red">
+            <Link href="/privacy-policy" className="transition-colors hover:text-ssil-red">
               Privacy Policy
             </Link>
             <Link href="/terms" className="transition-colors hover:text-ssil-red">
