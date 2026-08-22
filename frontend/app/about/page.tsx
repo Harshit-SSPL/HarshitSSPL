@@ -25,54 +25,73 @@ export default function AboutPage() {
     <div className="flex flex-col gap-0 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
       
       {/* ============================================================ */}
-      {/* 1. STAGE 1: SIMPLIFIED & RESTRUCTURED ABOUT US TOP SECTION */}
+      {/* 1. STAGE 1: ASYMMETRIC FULL-WIDTH EDITORIAL TOP SECTION */}
       {/* ============================================================ */}
-      <section className="relative w-full bg-slate-950 text-white pt-28 sm:pt-32 pb-14 sm:pb-16 border-b border-slate-800/80 transition-colors overflow-hidden">
-        {/* Subtle Ambient Red Light Effect */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[300px] bg-ssil-red/20 rounded-full blur-[130px] pointer-events-none" />
+      <section className="relative w-full bg-slate-950 text-white pt-28 sm:pt-32 pb-16 md:pb-20 border-b border-slate-800/80 transition-colors overflow-hidden">
+        {/* Subtle Architectural Ambient Red/Navy Glow Backlight */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[380px] bg-ssil-red/20 rounded-full blur-[140px] pointer-events-none animate-ambient-glow-slow" />
 
-        <div className="container mx-auto px-4 md:px-6 max-w-4xl text-left relative z-10">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl relative z-10">
           
-          {/* Main Large Title: About Us */}
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white mb-2">
-            About Us
-          </h1>
+          {/* Asymmetric 12-Column Grid (Left: 5 Cols Title Stack | Right: 7 Cols Staggered Content) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 lg:items-start">
+            
+            {/* LEFT COLUMN: ABOUT US + WHO WE ARE + SUBHEADING (5 COLS) */}
+            <div className="lg:col-span-5 text-left space-y-4">
+              
+              {/* Primary Large Title: About Us */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-none">
+                About Us
+              </h1>
 
-          {/* Eyebrow Label: WHO WE ARE (Slightly Offset to the Right) */}
-          <div className="ml-1 sm:ml-3 mb-6">
-            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red">
-              WHO WE ARE
-            </span>
-          </div>
+              {/* Eyebrow Label: WHO WE ARE (Slightly Offset to the Right) */}
+              <div className="ml-2 sm:ml-4 pt-1">
+                <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red">
+                  WHO WE ARE
+                </span>
+              </div>
 
-          {/* Subheading */}
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug mb-4">
-            Global Supply &amp; Specialized Engineering
-          </h2>
+              {/* Main Subheading */}
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug pt-3">
+                Global Supply &amp; Specialized Engineering
+              </h2>
 
-          {/* Consolidated 3 About SSIL Paragraphs */}
-          <div className="space-y-4 text-sm sm:text-base text-slate-300 leading-relaxed font-normal mb-6">
-            <p>
-              Shiv Shakti India Limited (SSIL) is one of the most equipped and major manufacturers of lighting solution providers in the global market. We are an experienced organization in the field of complete lighting solutions, enclosing all your requirements in a single basket.
-            </p>
-            <p>
-              We are engaged in the export and supply of a wide range of commercial and household products, enclosing outdoor, indoor, solar, decorative LED lights, and solar plants.
-            </p>
-            <p>
-              Engineered for long-lasting durability, SSIL&apos;s infrastructure luminaires, decorative poles, octagonal poles, and high mast installations serve municipal expressways, real estate developments, and public landmarks across India.
-            </p>
-          </div>
-
-          {/* Existing Feature Tags */}
-          <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl">
-            <div className="flex items-center gap-2.5 p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 shadow-sm">
-              <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
-              <span className="text-xs font-bold text-slate-200">Global Export &amp; Supply</span>
             </div>
-            <div className="flex items-center gap-2.5 p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 shadow-sm">
-              <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
-              <span className="text-xs font-bold text-slate-200">End-to-End Solutions</span>
+
+            {/* RIGHT COLUMN: 3 STAGGERED PARAGRAPHS & FEATURE TAGS (7 COLS) */}
+            <div className="lg:col-span-7 text-left space-y-6 lg:space-y-7">
+              
+              {/* Paragraph 1 */}
+              <p className="text-sm sm:text-base md:text-lg text-slate-200 leading-relaxed font-normal lg:ml-0">
+                Shiv Shakti India Limited (SSIL) is one of the most equipped and major manufacturers of lighting solution providers in the global market. We are an experienced organization in the field of complete lighting solutions, enclosing all your requirements in a single basket.
+              </p>
+
+              {/* Paragraph 2 (Staggered Indent & Subtle Left Accent) */}
+              <div className="lg:ml-6 pl-4 border-l-2 border-ssil-red/60 py-0.5">
+                <p className="text-sm sm:text-base md:text-lg text-slate-300 leading-relaxed font-normal">
+                  We are engaged in the export and supply of a wide range of commercial and household products, enclosing outdoor, indoor, solar, decorative LED lights, and solar plants.
+                </p>
+              </div>
+
+              {/* Paragraph 3 (Staggered Offset) */}
+              <p className="text-sm sm:text-base md:text-lg text-slate-300 leading-relaxed font-normal lg:ml-10">
+                Engineered for long-lasting durability, SSIL&apos;s infrastructure luminaires, decorative poles, octagonal poles, and high mast installations serve municipal expressways, real estate developments, and public landmarks across India.
+              </p>
+
+              {/* Existing Feature Tags */}
+              <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-3.5 max-w-xl lg:ml-6">
+                <div className="flex items-center gap-2.5 p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 shadow-sm">
+                  <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
+                  <span className="text-xs font-bold text-slate-200">Global Export &amp; Supply</span>
+                </div>
+                <div className="flex items-center gap-2.5 p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 shadow-sm">
+                  <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
+                  <span className="text-xs font-bold text-slate-200">End-to-End Solutions</span>
+                </div>
+              </div>
+
             </div>
+
           </div>
 
         </div>
