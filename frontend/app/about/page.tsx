@@ -1,9 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { HeroSection } from "@/components/ui/hero-section-5";
 import { BackgroundPaths } from "@/components/ui/background-paths";
 import { StandardCard } from "@/components/ui/standard-card";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Lightbulb,
   Building,
@@ -11,11 +12,12 @@ import {
   Zap,
   Flag,
   Sparkles,
-  Sun,
   ShieldCheck,
   Wrench,
   Trees,
   Landmark,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 const offeringData = [
@@ -70,6 +72,8 @@ const offeringData = [
 ];
 
 export default function AboutPage() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       if ("scrollRestoration" in window.history) {
@@ -78,6 +82,22 @@ export default function AboutPage() {
       window.scrollTo(0, 0);
     }
   }, []);
+
+  // 3 cards visible per view on desktop, max index is 8 - 3 = 5
+  const cardsPerPage = 3;
+  const maxIndex = offeringData.length - cardsPerPage;
+
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex((prev) => prev - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentIndex < maxIndex) {
+      setCurrentIndex((prev) => prev + 1);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-0 bg-white dark:bg-black text-slate-900 dark:text-white min-h-screen transition-colors duration-300">
@@ -111,33 +131,88 @@ export default function AboutPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 3. NEW SECTION: WHAT WE OFFER (8 STANDARD CARDS GRID) */}
+      {/* 3. WHAT WE OFFER: 3 RECTANGULAR CARDS CAROUSEL WITH ARROWS */}
       {/* ============================================================ */}
-      <section className="py-16 md:py-24 bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors">
+      <section className="py-16 md:py-24 bg-slate-50 dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors relative overflow-hidden">
         <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
           
-          {/* Section Header */}
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block mb-2">
-              OUR SOLUTIONS
-            </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
-              What We Offer
-            </h2>
-            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3.5 leading-relaxed font-medium">
-              Comprehensive architectural, infrastructural, and specialized lighting engineering designed for municipal expressways, urban plazas, and commercial developments.
-            </p>
+          {/* Header Row: Title & Subtitle + Boundary Arrow Controls */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div className="max-w-3xl">
+              <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block mb-2">
+                OUR SOLUTIONS
+              </span>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
+                What We Offer
+              </h2>
+              <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 leading-relaxed font-medium">
+                Comprehensive architectural, infrastructural, and specialized lighting engineering designed for municipal expressways, urban plazas, and commercial developments.
+              </p>
+            </div>
+
+            {/* Left / Right Boundary Navigation Arrow Controls */}
+            <div className="flex items-center gap-3 shrink-0 self-start md:self-end">
+              <button
+                onClick={handlePrev}
+                disabled={currentIndex === 0}
+                aria-label="Previous Offerings"
+                className="h-12 w-12 rounded-full border border-slate-300 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex items-center justify-center text-slate-900 dark:text-white transition-all duration-200 hover:scale-105 hover:bg-ssil-red hover:text-white hover:border-ssil-red disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-white dark:disabled:hover:bg-zinc-900 disabled:hover:text-slate-900 dark:disabled:hover:text-white disabled:hover:border-slate-300 dark:disabled:hover:border-zinc-800 shadow-sm"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+
+              <button
+                onClick={handleNext}
+                disabled={currentIndex >= maxIndex}
+                aria-label="Next Offerings"
+                className="h-12 w-12 rounded-full border border-slate-300 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex items-center justify-center text-slate-900 dark:text-white transition-all duration-200 hover:scale-105 hover:bg-ssil-red hover:text-white hover:border-ssil-red disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-white dark:disabled:hover:bg-zinc-900 disabled:hover:text-slate-900 dark:disabled:hover:text-white disabled:hover:border-slate-300 dark:disabled:hover:border-zinc-800 shadow-sm"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+            </div>
           </div>
 
-          {/* 8 Offering Cards Grid */}
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {offeringData.map((item, index) => (
-              <StandardCard
-                key={index}
-                title={item.title}
-                categoryTag={item.categoryTag}
-                description={item.description}
-                icon={item.icon}
+          {/* 3 Rectangular Cards Sliding Window Display */}
+          <div className="overflow-hidden">
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-3 gap-6"
+              initial={false}
+              animate={{ x: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            >
+              {offeringData
+                .slice(currentIndex, currentIndex + cardsPerPage)
+                .map((item, index) => (
+                  <motion.div
+                    key={`${item.title}-${currentIndex + index}`}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.35, ease: "easeOut" }}
+                  >
+                    <StandardCard
+                      title={item.title}
+                      categoryTag={item.categoryTag}
+                      description={item.description}
+                      icon={item.icon}
+                    />
+                  </motion.div>
+                ))}
+            </motion.div>
+          </div>
+
+          {/* Progress Indicator Dots */}
+          <div className="flex items-center justify-center gap-2 mt-8">
+            {Array.from({ length: maxIndex + 1 }).map((_, dotIndex) => (
+              <button
+                key={dotIndex}
+                onClick={() => setCurrentIndex(dotIndex)}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  currentIndex === dotIndex
+                    ? "w-8 bg-ssil-red"
+                    : "w-2 bg-slate-300 dark:bg-zinc-800 hover:bg-ssil-red/50"
+                }`}
+                aria-label={`Go to slide ${dotIndex + 1}`}
               />
             ))}
           </div>
