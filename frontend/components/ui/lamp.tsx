@@ -37,8 +37,8 @@ export const LampContainer = ({
         className
       )}
     >
-      {/* Visual Lamp Graphics Wrapper (Top offset pt-14 sm:pt-16 compensates for -7rem element translation, placing lamp apex at ~88px immediately below 80px navbar) */}
-      <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0 pointer-events-none pt-14 sm:pt-16 md:pt-18">
+      {/* Visual Lamp Animation Wrapper (Configured so red laser bar & conic apex originate at ~84px immediately below 80px navbar) */}
+      <div className="relative flex w-full flex-1 items-center justify-center isolate z-0 pointer-events-none pt-20 sm:pt-24 md:pt-28">
         {/* Left Conic Red Gradient */}
         <motion.div
           initial={{ opacity: 0.5, width: "15rem" }}
