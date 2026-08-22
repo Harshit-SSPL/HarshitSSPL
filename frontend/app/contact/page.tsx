@@ -46,7 +46,7 @@ export default function ContactPage() {
 
   return (
     <div className="relative min-h-screen w-full text-slate-900 dark:text-slate-100 transition-colors duration-300 pt-32 sm:pt-36 md:pt-40 pb-16 md:pb-24 overflow-hidden">
-      {/* Animated WebGL Mesh Drift Shader Background (Red & White in Light Mode / Red & Black in Dark Mode) */}
+      {/* Animated WebGL Mesh Drift Shader Background */}
       <MeshDriftBackground />
 
       <div className="container mx-auto px-4 md:px-6 max-w-6xl relative z-10">
@@ -154,7 +154,7 @@ export default function ContactPage() {
                         required
                         value={formData.firstName}
                         onChange={handleChange}
-                        placeholder="John"
+                        placeholder="Your Name"
                         className="w-full px-4 py-3 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red transition-all"
                       />
                     </div>
@@ -169,7 +169,7 @@ export default function ContactPage() {
                         required
                         value={formData.lastName}
                         onChange={handleChange}
-                        placeholder="Doe"
+                        placeholder="Your Last Name"
                         className="w-full px-4 py-3 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red transition-all"
                       />
                     </div>
@@ -187,7 +187,7 @@ export default function ContactPage() {
                         required
                         value={formData.email}
                         onChange={handleChange}
-                        placeholder="john@example.com"
+                        placeholder="Your Email"
                         className="w-full px-4 py-3 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red transition-all"
                       />
                     </div>
@@ -201,7 +201,7 @@ export default function ContactPage() {
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        placeholder="+91 9999590064"
+                        placeholder="+91 XXXXXXXXXX"
                         className="w-full px-4 py-3 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red transition-all"
                       />
                     </div>

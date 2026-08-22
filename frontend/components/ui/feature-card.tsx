@@ -23,9 +23,9 @@ export const FeatureCard = ({
   return (
     <div
       className={cn(
-        "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 p-8 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col items-center text-center relative",
-        "transition-all duration-300 ease-in-out shadow-sm",
-        "hover:shadow-md hover:-translate-y-1 hover:border-ssil-red/40",
+        "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 p-8 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col items-center text-center relative overflow-hidden",
+        "transition-all duration-300 ease-in-out shadow-sm cursor-pointer",
+        "hover:-translate-y-2.5 hover:scale-[1.02] hover:border-ssil-red hover:shadow-[0_20px_45px_-8px_rgba(225,29,72,0.35)] dark:hover:shadow-[0_20px_50px_-8px_rgba(225,29,72,0.45)]",
         className
       )}
     >
@@ -36,12 +36,12 @@ export const FeatureCard = ({
       )}
 
       {/* Icon container */}
-      <div className="mb-6 bg-slate-50 dark:bg-slate-800/80 p-4 rounded-full border border-slate-100 dark:border-slate-700/60 shadow-inner text-ssil-red">
+      <div className="mb-6 bg-slate-50 dark:bg-slate-800/80 p-4 rounded-full border border-slate-100 dark:border-slate-700/60 shadow-inner text-ssil-red transition-transform duration-300 hover:scale-110">
         {icon}
       </div>
 
       {/* Title */}
-      <h3 className="text-lg font-bold mb-2.5 tracking-tight text-slate-900 dark:text-white">
+      <h3 className="text-lg font-bold mb-2.5 tracking-tight text-slate-900 dark:text-white transition-colors duration-300">
         {title}
       </h3>
 

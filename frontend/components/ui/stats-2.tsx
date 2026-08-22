@@ -77,7 +77,7 @@ const Stats2 = () => {
           </p>
         </motion.div>
 
-        {/* 4 Metric Cards Grid */}
+        {/* 4 Metric Cards Grid with Enhanced Pop-Up & Shadow Hover Effect */}
         <motion.div
           className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           initial="hidden"
@@ -89,19 +89,19 @@ const Stats2 = () => {
             <motion.div
               key={index}
               variants={itemVariants}
-              className="group bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 flex h-44 flex-col justify-between rounded-xl p-6 shadow-xs transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.015] hover:border-ssil-red/60 hover:shadow-[0_14px_32px_-8px_rgba(229,62,62,0.22)]"
+              className="group bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 flex h-44 flex-col justify-between rounded-xl p-6 shadow-sm transition-all duration-300 hover:-translate-y-2.5 hover:scale-[1.02] hover:border-ssil-red hover:shadow-[0_20px_45px_-8px_rgba(225,29,72,0.35)] dark:hover:shadow-[0_20px_50px_-8px_rgba(225,29,72,0.45)] cursor-pointer overflow-hidden"
             >
               <div className="flex items-center justify-between">
                 <span className="text-ssil-red font-extrabold text-[10px] tracking-wider uppercase">
                   {item.sublabel}
                 </span>
-                <div className="p-1.5 rounded-lg bg-ssil-red/10 text-ssil-red transition-transform group-hover:scale-110">
+                <div className="p-1.5 rounded-lg bg-ssil-red/10 text-ssil-red transition-transform group-hover:scale-110 duration-300">
                   {item.icon}
                 </div>
               </div>
 
               <div className="mt-2">
-                <h3 className="text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-none">
+                <h3 className="text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-none group-hover:text-ssil-red transition-colors duration-300">
                   {item.number}
                 </h3>
                 <p className="text-slate-600 dark:text-slate-300 text-xs font-bold uppercase tracking-wider mt-2.5 leading-snug">

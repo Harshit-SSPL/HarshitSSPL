@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { InfiniteSlider } from '@/components/ui/infinite-slider';
 import { ProgressiveBlur } from '@/components/ui/progressive-blur';
-import { cn } from '@/lib/utils';
 import { ChevronRight } from 'lucide-react';
 
 export function HeroSection() {
@@ -60,19 +59,19 @@ export function HeroSection() {
                 </div>
             </section>
 
-            {/* Client Partners Infinite Slider Strip */}
+            {/* Client Partners Infinite Slider Strip (Comfortable Speed = 18, Gentle Hover = 24 for 100% Legibility) */}
             <section className="bg-white dark:bg-black pb-6 border-t border-b border-slate-200/80 dark:border-zinc-800/80 transition-colors">
                 <div className="group relative m-auto max-w-7xl px-6">
                     <div className="flex flex-col items-center md:flex-row">
                         <div className="md:max-w-48 md:border-r md:border-slate-200 dark:md:border-zinc-800 md:pr-6 mb-4 md:mb-0">
                             <p className="text-center md:text-end text-xs sm:text-sm font-extrabold text-slate-500 dark:text-zinc-400 uppercase tracking-wider">
-                                Powering National Projects
+                                POWERING NATIONAL PROJECTS
                             </p>
                         </div>
                         <div className="relative py-4 md:w-[calc(100%-12rem)]">
                             <InfiniteSlider
-                                speedOnHover={20}
-                                speed={40}
+                                speedOnHover={24}
+                                speed={18}
                                 gap={80}
                             >
                                 <div className="flex items-center text-sm font-extrabold text-slate-700 dark:text-zinc-300">

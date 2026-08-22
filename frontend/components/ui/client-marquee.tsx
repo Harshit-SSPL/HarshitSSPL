@@ -18,9 +18,9 @@ export const ClientMarquee = () => {
             </p>
           </div>
 
-          {/* Gliding Marquee Slider */}
+          {/* Gliding Marquee Slider (Comfortable Speed = 18, Gentle Hover = 24 for 100% Legibility) */}
           <div className="relative py-2 md:w-[calc(100%-12rem)] w-full overflow-hidden">
-            <InfiniteSlider speedOnHover={20} speed={35} gap={64}>
+            <InfiniteSlider speedOnHover={24} speed={18} gap={64}>
               {clientCompanies.map((client, index) => (
                 <div
                   key={`${client.id}-${index}`}

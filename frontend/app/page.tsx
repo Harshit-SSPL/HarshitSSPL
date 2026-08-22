@@ -49,11 +49,6 @@ export default function HomePage() {
                   Explore Products Catalog <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="bg-slate-900/40 hover:bg-white/20 text-white border border-white/40 backdrop-blur-md font-semibold px-8 shadow-sm transition-all duration-200">
-                <Link href="/projects">
-                  View Executed Projects
-                </Link>
-              </Button>
             </div>
 
             <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 border-t border-white/20 max-w-xl">
