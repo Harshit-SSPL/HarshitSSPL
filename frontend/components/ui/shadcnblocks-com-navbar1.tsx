@@ -45,7 +45,7 @@ const defaultSsilMenu: MenuItem[] = [
 const Navbar1 = ({
   menu = defaultSsilMenu,
   auth = {
-    login: { text: "LOGIN", url: "/contact" },
+    login: { text: "LOGIN", url: "/login" },
     signup: { text: "Catalog", url: "/products" },
   },
 }: Navbar1Props) => {
