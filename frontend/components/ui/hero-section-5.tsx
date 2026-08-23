@@ -43,9 +43,9 @@ export function HeroSection() {
     const duplicatedClients = [...clientCompanies, ...clientCompanies];
 
     return (
-        <div className="overflow-x-hidden relative w-full">
+        <div className="relative w-full overflow-hidden">
             <section className="relative">
-                <div className="pt-20 pb-8 sm:pt-24 sm:pb-10 lg:pt-26 lg:pb-12">
+                <div className="pt-24 pb-12 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-20">
                     <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:block lg:px-12">
                         <div className="mx-auto max-w-2xl text-center lg:ml-0 lg:max-w-3xl lg:text-left">
                             <h1 className="mt-2 text-balance text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.1]">
@@ -80,7 +80,7 @@ export function HeroSection() {
                     </div>
 
                     {/* Video Background Layer */}
-                    <div className="aspect-[2/3] absolute inset-1 overflow-hidden rounded-3xl border border-black/10 sm:aspect-video lg:rounded-[3rem] dark:border-white/5 pointer-events-none">
+                    <div className="absolute inset-0 overflow-hidden rounded-3xl border border-black/10 sm:rounded-[3rem] dark:border-white/5 pointer-events-none">
                         <video
                             autoPlay
                             loop
@@ -94,7 +94,7 @@ export function HeroSection() {
             </section>
 
             {/* Client Partners Infinite Slider Strip */}
-            <section className="bg-white dark:bg-black py-2.5 sm:py-3.5 border-t border-b border-slate-200/80 dark:border-zinc-800/80 transition-colors">
+            <section className="bg-white dark:bg-black py-4 border-t border-b border-slate-200/80 dark:border-zinc-800/80 transition-colors relative z-20">
                 <div className="group relative m-auto max-w-7xl px-6">
                     <div className="flex flex-col items-center md:flex-row">
                         <div className="md:max-w-48 md:border-r md:border-slate-200 dark:md:border-zinc-800 md:pr-6 mb-3 md:mb-0 shrink-0">
