@@ -8,24 +8,24 @@ import { ProgressiveBlur } from '@/components/ui/progressive-blur';
 import { clientCompanies, ClientCompany } from '@/data/clients';
 import { ChevronRight } from 'lucide-react';
 
-// Single Gliding Item: Logo Image Top + Company Name Bottom
+// Single Gliding Item: Floating 3D PNG Sticker Logo Top (NO White Box/Border) + Company Name Bottom
 const MarqueeItem = ({ client }: { client: ClientCompany }) => {
   const [imgError, setImgError] = React.useState(false);
 
   return (
-    <div className="flex flex-col items-center justify-center gap-2 shrink-0 px-2 cursor-default group">
-      {/* Top: PNG Sticker Logo in White High-Contrast Card */}
-      <div className="h-10 sm:h-12 w-28 sm:w-32 bg-white/95 dark:bg-white/95 rounded-xl p-1.5 shadow-sm border border-slate-200/80 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105">
+    <div className="flex flex-col items-center justify-center gap-2.5 shrink-0 px-4 cursor-default group">
+      {/* Top: Floating 3D PNG Sticker Logo */}
+      <div className="h-12 sm:h-14 w-auto flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
         {client.logoUrl && !imgError ? (
           <img
             src={client.logoUrl}
             alt={`${client.name} Logo`}
-            className="h-full w-full object-contain max-h-9"
+            className="h-full w-auto max-w-[130px] object-contain filter drop-shadow-md brightness-105 dark:invert-0"
             onError={() => setImgError(true)}
             loading="eager"
           />
         ) : (
-          <span className="text-[11px] font-black tracking-wider text-slate-900 uppercase text-center truncate">
+          <span className="text-xs font-black tracking-wider text-slate-800 dark:text-white uppercase text-center">
             {client.name}
           </span>
         )}
@@ -93,7 +93,7 @@ export function HeroSection() {
                 </div>
             </section>
 
-            {/* Client Partners Infinite Slider Strip (Logo Top + Name Bottom, 19 Companies, Constant Speed = 7) */}
+            {/* Client Partners Infinite Slider Strip (Floating Logo Top + Name Bottom, 19 Companies, Constant Speed = 7) */}
             <section className="bg-white dark:bg-black pb-6 border-t border-b border-slate-200/80 dark:border-zinc-800/80 transition-colors">
                 <div className="group relative m-auto max-w-7xl px-6">
                     <div className="flex flex-col items-center md:flex-row">
@@ -105,7 +105,7 @@ export function HeroSection() {
                         <div className="relative py-3 md:w-[calc(100%-12rem)] w-full overflow-hidden">
                             <InfiniteSlider
                                 speed={7}
-                                gap={48}
+                                gap={56}
                             >
                                 {duplicatedClients.map((client, index) => (
                                   <MarqueeItem key={`${client.id}-${index}`} client={client} />
