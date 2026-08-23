@@ -5,9 +5,43 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { InfiniteSlider } from '@/components/ui/infinite-slider';
 import { ProgressiveBlur } from '@/components/ui/progressive-blur';
+import { clientCompanies, ClientCompany } from '@/data/clients';
 import { ChevronRight } from 'lucide-react';
 
+// Single Gliding Item: Logo Image Top + Company Name Bottom
+const MarqueeItem = ({ client }: { client: ClientCompany }) => {
+  const [imgError, setImgError] = React.useState(false);
+
+  return (
+    <div className="flex flex-col items-center justify-center gap-2 shrink-0 px-2 cursor-default group">
+      {/* Top: PNG Sticker Logo in White High-Contrast Card */}
+      <div className="h-10 sm:h-12 w-28 sm:w-32 bg-white/95 dark:bg-white/95 rounded-xl p-1.5 shadow-sm border border-slate-200/80 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105">
+        {client.logoUrl && !imgError ? (
+          <img
+            src={client.logoUrl}
+            alt={`${client.name} Logo`}
+            className="h-full w-full object-contain max-h-9"
+            onError={() => setImgError(true)}
+            loading="eager"
+          />
+        ) : (
+          <span className="text-[11px] font-black tracking-wider text-slate-900 uppercase text-center truncate">
+            {client.name}
+          </span>
+        )}
+      </div>
+
+      {/* Bottom: Company Name */}
+      <span className="text-[11px] sm:text-xs font-extrabold text-slate-800 dark:text-zinc-200 tracking-wider text-center uppercase whitespace-nowrap">
+        {client.name}
+      </span>
+    </div>
+  );
+};
+
 export function HeroSection() {
+    const duplicatedClients = [...clientCompanies, ...clientCompanies];
+
     return (
         <main className="overflow-x-hidden relative w-full">
             <section className="relative">
@@ -59,41 +93,23 @@ export function HeroSection() {
                 </div>
             </section>
 
-            {/* Client Partners Infinite Slider Strip (Constant Speed = 7, NO hover speed acceleration) */}
+            {/* Client Partners Infinite Slider Strip (Logo Top + Name Bottom, 19 Companies, Constant Speed = 7) */}
             <section className="bg-white dark:bg-black pb-6 border-t border-b border-slate-200/80 dark:border-zinc-800/80 transition-colors">
                 <div className="group relative m-auto max-w-7xl px-6">
                     <div className="flex flex-col items-center md:flex-row">
-                        <div className="md:max-w-48 md:border-r md:border-slate-200 dark:md:border-zinc-800 md:pr-6 mb-4 md:mb-0">
+                        <div className="md:max-w-48 md:border-r md:border-slate-200 dark:md:border-zinc-800 md:pr-6 mb-4 md:mb-0 shrink-0">
                             <p className="text-center md:text-end text-xs sm:text-sm font-extrabold text-slate-500 dark:text-zinc-400 uppercase tracking-wider">
                                 POWERING NATIONAL PROJECTS
                             </p>
                         </div>
-                        <div className="relative py-4 md:w-[calc(100%-12rem)]">
+                        <div className="relative py-3 md:w-[calc(100%-12rem)] w-full overflow-hidden">
                             <InfiniteSlider
                                 speed={7}
-                                gap={80}
+                                gap={48}
                             >
-                                <div className="flex items-center text-sm font-extrabold text-slate-700 dark:text-zinc-300">
-                                    IndianOil
-                                </div>
-                                <div className="flex items-center text-sm font-extrabold text-slate-700 dark:text-zinc-300">
-                                    M3M India
-                                </div>
-                                <div className="flex items-center text-sm font-extrabold text-slate-700 dark:text-zinc-300">
-                                    DAE Government
-                                </div>
-                                <div className="flex items-center text-sm font-extrabold text-slate-700 dark:text-zinc-300">
-                                    BPTP Infra
-                                </div>
-                                <div className="flex items-center text-sm font-extrabold text-slate-700 dark:text-zinc-300">
-                                    Mahagun Group
-                                </div>
-                                <div className="flex items-center text-sm font-extrabold text-slate-700 dark:text-zinc-300">
-                                    ACE Group
-                                </div>
-                                <div className="flex items-center text-sm font-extrabold text-slate-700 dark:text-zinc-300">
-                                    Eros Infra
-                                </div>
+                                {duplicatedClients.map((client, index) => (
+                                  <MarqueeItem key={`${client.id}-${index}`} client={client} />
+                                ))}
                             </InfiniteSlider>
 
                             <ProgressiveBlur
