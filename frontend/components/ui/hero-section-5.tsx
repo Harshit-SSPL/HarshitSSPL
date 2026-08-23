@@ -13,14 +13,14 @@ const MarqueeItem = ({ client }: { client: ClientCompany }) => {
   const [imgError, setImgError] = React.useState(false);
 
   return (
-    <div className="flex flex-col items-center justify-center gap-2.5 shrink-0 px-4 cursor-default group">
+    <div className="flex flex-col items-center justify-center gap-2 shrink-0 px-4 cursor-default group">
       {/* Top: Floating 3D PNG Sticker Logo */}
-      <div className="h-12 sm:h-14 w-auto flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+      <div className="h-10 sm:h-12 w-auto flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
         {client.logoUrl && !imgError ? (
           <img
             src={client.logoUrl}
             alt={`${client.name} Logo`}
-            className="h-full w-auto max-w-[130px] object-contain filter drop-shadow-md brightness-105 dark:invert-0"
+            className="h-full w-auto max-w-[120px] object-contain filter drop-shadow-md brightness-105 dark:invert-0"
             onError={() => setImgError(true)}
             loading="eager"
           />
@@ -32,7 +32,7 @@ const MarqueeItem = ({ client }: { client: ClientCompany }) => {
       </div>
 
       {/* Bottom: Company Name */}
-      <span className="text-[11px] sm:text-xs font-extrabold text-slate-800 dark:text-zinc-200 tracking-wider text-center uppercase whitespace-nowrap">
+      <span className="text-[10px] sm:text-[11px] font-extrabold text-slate-800 dark:text-zinc-200 tracking-wider text-center uppercase whitespace-nowrap">
         {client.name}
       </span>
     </div>
@@ -43,23 +43,23 @@ export function HeroSection() {
     const duplicatedClients = [...clientCompanies, ...clientCompanies];
 
     return (
-        <main className="overflow-x-hidden relative w-full">
-            <section className="relative">
-                <div className="pt-24 pb-16 md:pb-24 lg:pt-32 lg:pb-28">
+        <main className="overflow-x-hidden relative w-full min-h-[85vh] lg:min-h-screen flex flex-col justify-between">
+            <section className="relative flex-1 flex flex-col justify-center">
+                <div className="pt-20 pb-6 sm:pt-24 sm:pb-8 lg:pt-26 lg:pb-10">
                     <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:block lg:px-12">
                         <div className="mx-auto max-w-2xl text-center lg:ml-0 lg:max-w-3xl lg:text-left">
-                            <h1 className="mt-4 text-balance text-4xl font-black sm:text-5xl md:text-6xl lg:text-7xl text-slate-900 dark:text-white tracking-tight leading-[1.1]">
+                            <h1 className="mt-2 text-balance text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.1]">
                                 Complete Infrastructure &amp; Architectural Lighting
                             </h1>
-                            <p className="mt-6 text-balance text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 font-normal leading-relaxed">
+                            <p className="mt-4 sm:mt-6 text-balance text-sm sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 font-normal leading-relaxed">
                                 SSIL is one of the most equipped manufacturers of lighting solutions in the global market. We engineer energy-efficient LED luminaires, solar power systems, and monumental poles across India.
                             </p>
 
-                            <div className="mt-10 flex flex-col items-center justify-center gap-3.5 sm:flex-row lg:justify-start">
+                            <div className="mt-6 sm:mt-8 flex flex-col items-center justify-center gap-3.5 sm:flex-row lg:justify-start">
                                 <Button
                                     asChild
                                     size="lg"
-                                    className="h-12 rounded-full pl-6 pr-4 text-base font-extrabold bg-ssil-red hover:bg-red-700 text-white shadow-lg shadow-red-900/20">
+                                    className="h-11 sm:h-12 rounded-full pl-6 pr-4 text-sm sm:text-base font-extrabold bg-ssil-red hover:bg-red-700 text-white shadow-lg shadow-red-900/20">
                                     <Link href="/products">
                                         <span className="text-nowrap">Explore Products</span>
                                         <ChevronRight className="ml-1 h-5 w-5" />
@@ -70,7 +70,7 @@ export function HeroSection() {
                                     asChild
                                     size="lg"
                                     variant="ghost"
-                                    className="h-12 rounded-full px-6 text-base font-extrabold text-slate-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/10 ring-1 ring-slate-300 dark:ring-slate-800">
+                                    className="h-11 sm:h-12 rounded-full px-6 text-sm sm:text-base font-extrabold text-slate-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/10 ring-1 ring-slate-300 dark:ring-slate-800">
                                     <Link href="/contact">
                                         <span className="text-nowrap">Contact Engineers</span>
                                     </Link>
@@ -93,19 +93,19 @@ export function HeroSection() {
                 </div>
             </section>
 
-            {/* Client Partners Infinite Slider Strip (Floating Logo Top + Name Bottom, 19 Companies, Constant Speed = 5) */}
-            <section className="bg-white dark:bg-black pb-6 border-t border-b border-slate-200/80 dark:border-zinc-800/80 transition-colors">
+            {/* Client Partners Infinite Slider Strip (Full line & company names visible without scrolling) */}
+            <section className="bg-white dark:bg-black py-3 sm:py-4 border-t border-b border-slate-200/80 dark:border-zinc-800/80 transition-colors shrink-0">
                 <div className="group relative m-auto max-w-7xl px-6">
                     <div className="flex flex-col items-center md:flex-row">
-                        <div className="md:max-w-48 md:border-r md:border-slate-200 dark:md:border-zinc-800 md:pr-6 mb-4 md:mb-0 shrink-0">
+                        <div className="md:max-w-48 md:border-r md:border-slate-200 dark:md:border-zinc-800 md:pr-6 mb-3 md:mb-0 shrink-0">
                             <p className="text-center md:text-end text-xs sm:text-sm font-extrabold text-slate-500 dark:text-zinc-400 uppercase tracking-wider">
                                 POWERING NATIONAL PROJECTS
                             </p>
                         </div>
-                        <div className="relative py-3 md:w-[calc(100%-12rem)] w-full overflow-hidden">
+                        <div className="relative py-2 md:w-[calc(100%-12rem)] w-full overflow-hidden">
                             <InfiniteSlider
                                 speed={5}
-                                gap={56}
+                                gap={48}
                             >
                                 {duplicatedClients.map((client, index) => (
                                   <MarqueeItem key={`${client.id}-${index}`} client={client} />
