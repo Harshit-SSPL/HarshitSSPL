@@ -93,7 +93,7 @@ export function HeroSection() {
                 </div>
             </section>
 
-            {/* Client Partners Infinite Slider Strip (Floating Logo Top + Name Bottom, 19 Companies, Constant Speed = 7) */}
+            {/* Client Partners Infinite Slider Strip (Floating Logo Top + Name Bottom, 19 Companies, Constant Speed = 5) */}
             <section className="bg-white dark:bg-black pb-6 border-t border-b border-slate-200/80 dark:border-zinc-800/80 transition-colors">
                 <div className="group relative m-auto max-w-7xl px-6">
                     <div className="flex flex-col items-center md:flex-row">
@@ -104,7 +104,7 @@ export function HeroSection() {
                         </div>
                         <div className="relative py-3 md:w-[calc(100%-12rem)] w-full overflow-hidden">
                             <InfiniteSlider
-                                speed={7}
+                                speed={5}
                                 gap={56}
                             >
                                 {duplicatedClients.map((client, index) => (
