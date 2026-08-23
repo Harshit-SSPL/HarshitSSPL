@@ -4,215 +4,119 @@ import React, { useEffect, useRef, useState } from "react";
 import { User, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 
-// Vertex shader source code
-const vertexSmokeySource = `
-  attribute vec4 a_position;
-  void main() {
-    gl_Position = a_position;
-  }
-`;
-
-// Fragment shader source code for the smokey background effect
-const fragmentSmokeySource = `
-precision mediump float;
-
-uniform vec2 iResolution;
-uniform float iTime;
-uniform vec2 iMouse;
-uniform vec3 u_color;
-uniform float u_bgLightness;
-
-void mainImage(out vec4 fragColor, in vec2 fragCoord){
-    vec2 uv = fragCoord / iResolution;
-    vec2 centeredUV = (2.0 * fragCoord - iResolution.xy) / min(iResolution.x, iResolution.y);
-
-    float time = iTime * 0.5;
-
-    // Normalize mouse input (0.0 - 1.0) and remap to -1.0 ~ 1.0
-    vec2 mouse = iMouse / iResolution;
-    vec2 rippleCenter = 2.0 * mouse - 1.0;
-
-    vec2 distortion = centeredUV;
-    // Apply distortion for a wavy, smokey effect
-    for (float i = 1.0; i < 8.0; i++) {
-        distortion.x += 0.5 / i * cos(i * 2.0 * distortion.y + time + rippleCenter.x * 3.1415);
-        distortion.y += 0.5 / i * cos(i * 2.0 * distortion.x + time + rippleCenter.y * 3.1415);
-    }
-
-    // Create a glowing wave pattern
-    float wave = abs(sin(distortion.x + distortion.y + time));
-    float glow = smoothstep(0.9, 0.25, wave);
-
-    // Mix base background with glowing wave color
-    vec3 baseBg = vec3(u_bgLightness);
-    vec3 finalColor = mix(baseBg, u_color, glow * 0.7);
-
-    fragColor = vec4(finalColor, 1.0);
-}
-
-void main() {
-    mainImage(gl_FragColor, gl_FragCoord.xy);
-}
-`;
-
-type BlurSize = "none" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
-
-interface SmokeyBackgroundProps {
-  backdropBlurAmount?: string;
+interface RibbonGradientProps {
   color?: string;
-  className?: string;
+  backdropBlurAmount?: string;
   isDark?: boolean;
+  className?: string;
 }
 
-const blurClassMap: Record<BlurSize, string> = {
-  none: "backdrop-blur-none",
-  sm: "backdrop-blur-sm",
-  md: "backdrop-blur-md",
-  lg: "backdrop-blur-lg",
-  xl: "backdrop-blur-xl",
-  "2xl": "backdrop-blur-2xl",
-  "3xl": "backdrop-blur-3xl",
-};
-
+/**
+ * Animated Ribbon Field Gradient Component (21st.dev inspired recipe)
+ * - Light Mode: Red & White Palette (#FFFFFF, #FFE4E6, #F43F5E, #E11D48)
+ * - Dark Mode: Black & Red Palette (#020617, #450A0A, #991B1B, #E11D48)
+ */
 export function SmokeyBackground({
-  backdropBlurAmount = "sm",
-  color = "#E11D48", // SSIL Red accent
-  className = "",
+  color = "#E11D48",
+  backdropBlurAmount = "md",
   isDark = true,
-}: SmokeyBackgroundProps): JSX.Element {
+  className = "",
+}: RibbonGradientProps): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
-
-  const hexToRgb = (hex: string): [number, number, number] => {
-    const cleanHex = hex.replace("#", "");
-    const r = parseInt(cleanHex.substring(0, 2), 16) / 255;
-    const g = parseInt(cleanHex.substring(2, 4), 16) / 255;
-    const b = parseInt(cleanHex.substring(4, 6), 16) / 255;
-    return [r, g, b];
-  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
-    const gl = canvas.getContext("webgl");
-    if (!gl) {
-      console.error("WebGL not supported");
-      return;
-    }
-
-    const compileShader = (type: number, source: string): WebGLShader | null => {
-      const shader = gl.createShader(type);
-      if (!shader) return null;
-      gl.shaderSource(shader, source);
-      gl.compileShader(shader);
-      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        console.error("Shader compilation error:", gl.getShaderInfoLog(shader));
-        gl.deleteShader(shader);
-        return null;
-      }
-      return shader;
-    };
-
-    const vertexShader = compileShader(gl.VERTEX_SHADER, vertexSmokeySource);
-    const fragmentShader = compileShader(gl.FRAGMENT_SHADER, fragmentSmokeySource);
-    if (!vertexShader || !fragmentShader) return;
-
-    const program = gl.createProgram();
-    if (!program) return;
-    gl.attachShader(program, vertexShader);
-    gl.attachShader(program, fragmentShader);
-    gl.linkProgram(program);
-
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      console.error("Program linking error:", gl.getProgramInfoLog(program));
-      return;
-    }
-
-    gl.useProgram(program);
-
-    const positionBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    gl.bufferData(
-      gl.ARRAY_BUFFER,
-      new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
-      gl.STATIC_DRAW
-    );
-
-    const positionLocation = gl.getAttribLocation(program, "a_position");
-    gl.enableVertexAttribArray(positionLocation);
-    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
-
-    const iResolutionLocation = gl.getUniformLocation(program, "iResolution");
-    const iTimeLocation = gl.getUniformLocation(program, "iTime");
-    const iMouseLocation = gl.getUniformLocation(program, "iMouse");
-    const uColorLocation = gl.getUniformLocation(program, "u_color");
-    const uBgLightnessLocation = gl.getUniformLocation(program, "u_bgLightness");
-
-    const startTime = Date.now();
-    const [r, g, b] = hexToRgb(color);
-    gl.uniform3f(uColorLocation, r, g, b);
-    gl.uniform1f(uBgLightnessLocation, isDark ? 0.02 : 0.96);
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
     let animationFrameId: number;
+    const startTime = performance.now();
 
-    const render = () => {
+    // Red & White Palette for Light Mode
+    const lightColors = ["#FFFFFF", "#FFE4E6", "#F43F5E", color, "#FFFFFF", color];
+    // Black & Red Palette for Dark Mode
+    const darkColors = ["#020617", "#450A0A", "#991B1B", color, "#020617", color];
+
+    const render = (now: number) => {
       const width = canvas.clientWidth;
       const height = canvas.clientHeight;
       if (canvas.width !== width || canvas.height !== height) {
         canvas.width = width;
         canvas.height = height;
-        gl.viewport(0, 0, width, height);
       }
 
-      const currentTime = (Date.now() - startTime) / 1000;
+      const elapsed = (now - startTime) / 1000;
+      const waveClock = 20.75 + elapsed * 1.2;
 
-      gl.uniform2f(iResolutionLocation, width, height);
-      gl.uniform1f(iTimeLocation, currentTime);
-      gl.uniform2f(
-        iMouseLocation,
-        isHovering ? mousePosition.x : width / 2,
-        isHovering ? height - mousePosition.y : height / 2
-      );
+      ctx.clearRect(0, 0, width, height);
 
-      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      // Base Backdrop Fill
+      const backdrop = isDark ? "#020617" : "#FFFFFF";
+      ctx.fillStyle = backdrop;
+      ctx.fillRect(0, 0, width, height);
+
+      const colors = isDark ? darkColors : lightColors;
+      const angleRad = (32 * Math.PI) / 180;
+
+      const numStripes = 7;
+      const stripeWidth = Math.max(width, height) * 0.28;
+
+      for (let i = 0; i < numStripes; i++) {
+        const progress = i / (numStripes - 1);
+        const waveOffset = (14 / 100) * 0.35 * Math.sin(progress * 2.4 * Math.PI * 2 + waveClock) * width;
+        const sway = Math.sin(elapsed * 0.6) * 0.05;
+
+        ctx.save();
+        ctx.translate(width / 2 + waveOffset, height / 2);
+        ctx.rotate(angleRad + sway);
+
+        const xPos = (progress - 0.5) * Math.max(width, height) * 1.3;
+
+        const grad = ctx.createLinearGradient(xPos - stripeWidth / 2, 0, xPos + stripeWidth / 2, 0);
+        const c1 = colors[i % colors.length];
+        const c2 = colors[(i + 1) % colors.length];
+
+        grad.addColorStop(0, c1);
+        grad.addColorStop(0.5, c2);
+        grad.addColorStop(1, c1);
+
+        ctx.fillStyle = grad;
+        ctx.globalAlpha = isDark ? 0.8 : 0.65;
+        ctx.fillRect(xPos - stripeWidth / 2, -height * 1.5, stripeWidth, height * 3);
+        ctx.restore();
+      }
+
       animationFrameId = requestAnimationFrame(render);
     };
 
-    const handleMouseMove = (event: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      setMousePosition({ x: event.clientX - rect.left, y: event.clientY - rect.top });
-    };
-    const handleMouseEnter = () => setIsHovering(true);
-    const handleMouseLeave = () => setIsHovering(false);
-
-    canvas.addEventListener("mousemove", handleMouseMove);
-    canvas.addEventListener("mouseenter", handleMouseEnter);
-    canvas.addEventListener("mouseleave", handleMouseLeave);
-
-    render();
+    animationFrameId = requestAnimationFrame(render);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      canvas.removeEventListener("mousemove", handleMouseMove);
-      canvas.removeEventListener("mouseenter", handleMouseEnter);
-      canvas.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [isHovering, mousePosition, color, isDark]);
-
-  const finalBlurClass = blurClassMap[backdropBlurAmount as BlurSize] || blurClassMap["sm"];
+  }, [isDark, color]);
 
   return (
     <div className={`absolute inset-0 w-full h-full overflow-hidden ${className}`}>
-      <canvas ref={canvasRef} className="w-full h-full" />
-      <div className={`absolute inset-0 ${finalBlurClass}`}></div>
+      {/* Dynamic Ribbon Field Canvas */}
+      <canvas ref={canvasRef} className="w-full h-full block" />
+
+      {/* SVG Grain Noise Overlay (21st.dev specification) */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-25 mix-blend-overlay"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.21'/></svg>")`,
+          backgroundSize: "120px 120px",
+        }}
+      />
+      <div className="absolute inset-0 backdrop-blur-md"></div>
     </div>
   );
 }
 
 /**
- * A glassmorphism-style login form component with light & dark theme compatibility and Eye toggle for password visibility.
+ * Glassmorphism Login Form component with Eye/EyeOff password toggle and light/dark theme support.
  */
 export function LoginForm() {
   const [email, setEmail] = useState("");
@@ -224,7 +128,7 @@ export function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-sm p-8 space-y-6 bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl rounded-2xl border border-white/60 dark:border-white/15 shadow-2xl transition-colors duration-300">
+    <div className="w-full max-w-sm p-8 space-y-6 bg-white/70 dark:bg-slate-900/65 backdrop-blur-xl rounded-2xl border border-white/60 dark:border-white/15 shadow-2xl transition-colors duration-300">
       <div className="text-center">
         <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
           Welcome Back
