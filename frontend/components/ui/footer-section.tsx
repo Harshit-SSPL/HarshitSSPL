@@ -175,7 +175,7 @@ export function Footerdemo() {
             <Link href="/privacy-policy" className="transition-colors hover:text-ssil-red">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="transition-colors hover:text-ssil-red">
+            <Link href="/terms-of-service" className="transition-colors hover:text-ssil-red">
               Terms of Service
             </Link>
           </nav>
