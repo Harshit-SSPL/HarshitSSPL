@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { User, Lock, ArrowRight } from "lucide-react";
+import { User, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 
 // Vertex shader source code
@@ -212,11 +212,12 @@ export function SmokeyBackground({
 }
 
 /**
- * A glassmorphism-style login form component with light & dark theme compatibility.
+ * A glassmorphism-style login form component with light & dark theme compatibility and Eye toggle for password visibility.
  */
 export function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -254,14 +255,14 @@ export function LoginForm() {
           </label>
         </div>
 
-        {/* Password Input with Animated Floating Label */}
+        {/* Password Input with Animated Floating Label and Eye Toggle */}
         <div className="relative z-0">
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             id="floating_password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="block py-2.5 px-0 w-full text-sm text-slate-900 dark:text-white bg-transparent border-0 border-b-2 border-slate-300 dark:border-slate-600 appearance-none focus:outline-none focus:ring-0 focus:border-ssil-red dark:focus:border-ssil-red peer font-medium"
+            className="block py-2.5 pr-8 pl-0 w-full text-sm text-slate-900 dark:text-white bg-transparent border-0 border-b-2 border-slate-300 dark:border-slate-600 appearance-none focus:outline-none focus:ring-0 focus:border-ssil-red dark:focus:border-ssil-red peer font-medium"
             placeholder=" "
             required
           />
@@ -272,6 +273,20 @@ export function LoginForm() {
             <Lock className="inline-block mr-2 -mt-1 text-slate-500 dark:text-slate-400" size={16} />
             Password
           </label>
+
+          {/* Eye Toggle Icon for Hide/Unhide Password */}
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-0 top-3 text-slate-400 hover:text-slate-700 dark:hover:text-white focus:outline-none transition-colors p-0.5"
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+            {showPassword ? (
+              <EyeOff className="h-4 w-4 text-slate-500 dark:text-slate-300" />
+            ) : (
+              <Eye className="h-4 w-4 text-slate-500 dark:text-slate-300" />
+            )}
+          </button>
         </div>
 
         {/* Forgot Password Link */}
