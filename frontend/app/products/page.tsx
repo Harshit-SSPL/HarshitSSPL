@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { featuredProducts, FeaturedProduct } from "@/data/featured-products";
+import { MeshDriftBackground } from "@/components/ui/mesh-drift-background";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -32,8 +33,8 @@ const cardVariants = {
 const ProductCard = ({ product }: { product: FeaturedProduct }) => {
   return (
     <motion.div variants={cardVariants} className="w-full">
-      {/* Product Image Frame with Rounded Radius & Inside Overlay (NO Outer Div, Tight Spacing) */}
-      <div className="group relative w-full aspect-[10/14] rounded-[18px] overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer shadow-sm hover:shadow-lg">
+      {/* Product Image Frame with Rounded Radius & Inside Overlay (100% Inside Image) */}
+      <div className="group relative w-full aspect-[10/14] rounded-[18px] overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer shadow-md hover:shadow-xl border border-slate-200/40 dark:border-slate-800/40">
         
         {/* Day Image (Default Mode) */}
         <Image
@@ -78,12 +79,14 @@ const ProductCard = ({ product }: { product: FeaturedProduct }) => {
 
 export default function ProductsPage() {
   return (
-    <div className="min-h-screen silk-blend-gradient text-slate-900 dark:text-white transition-colors duration-300">
-      
+    <div className="relative min-h-screen w-full text-slate-900 dark:text-white transition-colors duration-300 overflow-hidden">
+      {/* Animated WebGL Mesh Drift Shader Background (Same as Contact Us Page) */}
+      <MeshDriftBackground />
+
       {/* ============================================================ */}
       {/* 1. FULL-BLEED HERO BANNER (EXTREME LEFT ALIGNED TEXT, RED HIGHLIGHT WORD) */}
       {/* ============================================================ */}
-      <section className="relative w-full h-[52vh] sm:h-[60vh] max-h-[500px] flex items-end overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
+      <section className="relative z-10 w-full h-[52vh] sm:h-[60vh] max-h-[500px] flex items-end overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
         
         {/* Full-bleed Background Image */}
         <img
@@ -109,9 +112,9 @@ export default function ProductsPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 2. OUR PRODUCTS SECTION (21st.dev SILK BLEND GRAIN GRADIENT BACKGROUND) */}
+      {/* 2. OUR PRODUCTS SECTION (CONTACT PAGE ANIMATED MESH DRIFT SHADER BACKGROUND) */}
       {/* ============================================================ */}
-      <section className="py-14 sm:py-20">
+      <section className="relative z-10 py-14 sm:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           
           {/* Left Slide-In Animated Header (Triggers whenever scrolled into view from top or bottom) */}
@@ -125,7 +128,7 @@ export default function ProductsPage() {
             <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
               OUR PRODUCTS
             </h2>
-            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-2.5 leading-relaxed font-normal">
+            <p className="text-sm sm:text-base text-slate-700 dark:text-slate-200 mt-2.5 leading-relaxed font-medium">
               Shiv Shakti India Limited (SSIL) manufactures and supplies complete commercial, municipal, and highway outdoor lighting systems engineered for public landmarks and urban infrastructure across India.
             </p>
           </motion.div>
