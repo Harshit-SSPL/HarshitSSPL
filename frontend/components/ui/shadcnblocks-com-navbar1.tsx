@@ -69,15 +69,16 @@ const Navbar1 = ({
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-slate-950/35 dark:bg-slate-950/40 backdrop-blur-2xl border-b border-white/10 dark:border-white/10 shadow-md py-2.5"
-          : "bg-slate-950/20 dark:bg-slate-950/25 backdrop-blur-xl border-b border-white/10 dark:border-white/10 shadow-sm py-3"
+          ? "bg-slate-950/25 dark:bg-slate-950/30 backdrop-blur-2xl border-b border-white/10 dark:border-white/10 shadow-md py-2.5"
+          : "bg-slate-950/10 dark:bg-slate-950/15 backdrop-blur-xl border-b border-white/10 dark:border-white/10 shadow-none py-3.5"
       }`}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      {/* Full-width Container: SSIL Logo on Extreme Left Edge, Controls on Extreme Right Edge */}
+      <div className="w-full px-6 sm:px-10 lg:px-12">
         {/* Desktop Navigation */}
         <nav className="hidden items-center justify-between lg:flex">
           {/* Extreme Left SSIL Logo */}
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-8 lg:gap-10">
             <Link href="/" className="flex items-center gap-3 shrink-0 group">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/95 shadow-sm p-1 border border-white/80 shrink-0 overflow-hidden transition-transform group-hover:scale-105">
                 <Image
@@ -123,7 +124,7 @@ const Navbar1 = ({
             </div>
           </div>
 
-          {/* Action Buttons & Theme Toggler (NO Outside Boxes / Borders) */}
+          {/* Action Buttons & Theme Toggler on Extreme Right Edge (NO Outside Boxes / Borders) */}
           <div className="flex items-center gap-4">
             <Link
               href={auth.signup.url}

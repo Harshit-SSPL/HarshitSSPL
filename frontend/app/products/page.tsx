@@ -84,9 +84,9 @@ export default function ProductsPage() {
     <div className="min-h-screen bg-white dark:bg-black text-slate-900 dark:text-white transition-colors duration-300">
       
       {/* ============================================================ */}
-      {/* 1. FULL-BLEED HERO BANNER (BALANCED GOLDEN MIDDLE HEIGHT) */}
+      {/* 1. FULL-BLEED HERO BANNER (SLIGHTLY TALLER HEIGHT, SHIFTED RIGHT TEXT) */}
       {/* ============================================================ */}
-      <section className="relative w-full h-[46vh] sm:h-[54vh] max-h-[460px] flex items-end overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
+      <section className="relative w-full h-[52vh] sm:h-[60vh] max-h-[500px] flex items-end overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
         
         {/* Full-bleed Background Image */}
         <img
@@ -99,39 +99,36 @@ export default function ProductsPage() {
         {/* Glass Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/45 to-transparent rounded-none pointer-events-none" />
 
-        {/* Left-Aligned Minimal Hero Content */}
-        <div className="relative z-10 container mx-auto px-6 sm:px-10 lg:px-12 max-w-7xl text-left flex flex-col items-start">
-          <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-snug drop-shadow-md max-w-3xl">
+        {/* Left-Aligned Hero Content Shifted Slightly Towards Right */}
+        <div className="relative z-10 container mx-auto px-6 sm:px-10 lg:px-12 pl-8 sm:pl-16 lg:pl-20 max-w-7xl text-left flex flex-col items-start">
+          <h1 className="text-[20px] sm:text-[30px] md:text-[36px] font-black text-white tracking-tight leading-snug drop-shadow-md max-w-2xl">
             Infrastructure &amp; Architectural Luminaires
           </h1>
 
-          <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-200 font-medium max-w-2xl leading-relaxed drop-shadow-xs">
+          <p className="mt-2 text-xs sm:text-[13px] text-slate-200 font-medium max-w-xl leading-relaxed drop-shadow-xs">
             Engineered for high performance, long-lasting durability, and energy efficiency across municipal roads, expressways, and commercial plazas.
           </p>
         </div>
       </section>
 
       {/* ============================================================ */}
-      {/* 2. OUR PRODUCTS SECTION WITH LEFT SLIDE-IN ANIMATION */}
+      {/* 2. OUR PRODUCTS SECTION (LEFT RED ACCENT LINE, REPEATABLE SMOOTH LEFT SLIDE GLIDE) */}
       {/* ============================================================ */}
       <section className="py-14 sm:py-20 bg-white dark:bg-black transition-colors">
         <div className="container mx-auto px-6 sm:px-10 lg:px-12 max-w-7xl">
           
-          {/* Left Slide-In Animated Header */}
+          {/* Left Slide-In Animated Header (Triggers whenever scrolled into view from top or bottom) */}
           <motion.div
-            className="text-left max-w-4xl mb-12 sm:mb-14"
+            className="text-left max-w-4xl mb-12 sm:mb-14 border-l-[5px] border-ssil-red pl-5 sm:pl-6"
             initial={{ opacity: 0, x: -60 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.65, ease: "easeOut" }}
           >
-            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block mb-2">
-              SSIL CATALOGUE
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
               OUR PRODUCTS
             </h2>
-            <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 mt-3 leading-relaxed font-normal">
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-2.5 leading-relaxed font-normal">
               Shiv Shakti India Limited (SSIL) manufactures and supplies complete commercial, municipal, and highway outdoor lighting systems engineered for public landmarks and urban infrastructure across India.
             </p>
           </motion.div>
