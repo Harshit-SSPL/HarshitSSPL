@@ -13,7 +13,7 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.08,
+      staggerChildren: 0.06,
     },
   },
 };
@@ -41,7 +41,7 @@ const ProductCard = ({ product }: { product: FeaturedProduct }) => {
           src={product.dayImage}
           alt={`${product.name} Daytime`}
           fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           className="object-cover object-center opacity-100 group-hover:opacity-0 transition-opacity duration-500 ease-in-out"
           priority
         />
@@ -51,24 +51,24 @@ const ProductCard = ({ product }: { product: FeaturedProduct }) => {
           src={product.nightImage}
           alt={`${product.name} Nighttime`}
           fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           className="object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
         />
 
         {/* Inside Bottom Overlay Bar: Product Name on Left + View All Button on Right (100% Inside Image) */}
-        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950/90 via-slate-950/60 to-transparent px-3.5 py-3 sm:px-4 sm:py-3.5 flex items-center justify-between z-10">
+        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950/90 via-slate-950/60 to-transparent px-3 py-2.5 sm:px-3.5 sm:py-3 flex items-center justify-between z-10">
           {/* Left Side: Product Name */}
-          <h3 className="text-xs sm:text-sm font-black text-white tracking-tight drop-shadow-md group-hover:text-ssil-red transition-colors duration-300">
+          <h3 className="text-xs sm:text-sm font-black text-white tracking-tight drop-shadow-md group-hover:text-ssil-red transition-colors duration-300 truncate max-w-[130px] sm:max-w-[150px]">
             {product.name}
           </h3>
 
           {/* Right Side: Small View All Button */}
           <Link
             href="/contact"
-            className="inline-flex items-center text-xs font-black text-ssil-red hover:text-red-400 transition-colors gap-0.5 shrink-0 bg-black/40 backdrop-blur-xs px-2.5 py-1 rounded-full border border-ssil-red/30 shadow-xs"
+            className="inline-flex items-center text-[11px] sm:text-xs font-black text-ssil-red hover:text-red-400 transition-colors gap-0.5 shrink-0 bg-black/40 backdrop-blur-xs px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-ssil-red/30 shadow-xs"
           >
             <span>View All</span>
-            <ChevronRight className="h-3.5 w-3.5" />
+            <ChevronRight className="h-3 w-3" />
           </Link>
         </div>
 
@@ -112,12 +112,12 @@ export default function ProductsPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 2. OUR PRODUCTS SECTION (CONTACT PAGE ANIMATED MESH DRIFT SHADER BACKGROUND) */}
+      {/* 2. OUR PRODUCTS SECTION (12 PRODUCTS: 3 ROWS x 4 COLUMNS) */}
       {/* ============================================================ */}
       <section className="relative z-10 py-14 sm:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           
-          {/* Left Slide-In Animated Header (Triggers whenever scrolled into view from top or bottom) */}
+          {/* Left Slide-In Animated Header */}
           <motion.div
             className="text-left max-w-4xl mb-10 sm:mb-12 border-l-[5px] border-ssil-red pl-4 sm:pl-5"
             initial={{ opacity: 0, x: -60 }}
@@ -133,10 +133,10 @@ export default function ProductsPage() {
             </p>
           </motion.div>
 
-          {/* 6 Products Grid (Closer Image Gaps, Name & View All 100% Inside Image Overlay) */}
+          {/* 12 Products Grid (3 Rows x 4 Columns) */}
           <div className="mb-8">
             <motion.div
-              className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-5"
+              className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-40px" }}
