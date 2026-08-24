@@ -69,12 +69,12 @@ const Navbar1 = ({
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-slate-950/25 dark:bg-slate-950/30 backdrop-blur-2xl border-b border-white/10 dark:border-white/10 shadow-md py-2.5"
+          ? "bg-slate-950/20 dark:bg-slate-950/25 backdrop-blur-2xl border-b border-white/10 dark:border-white/10 shadow-md py-2.5"
           : "bg-slate-950/10 dark:bg-slate-950/15 backdrop-blur-xl border-b border-white/10 dark:border-white/10 shadow-none py-3.5"
       }`}
     >
-      {/* Full-width Container: SSIL Logo on Extreme Left Edge, Controls on Extreme Right Edge */}
-      <div className="w-full px-6 sm:px-10 lg:px-12">
+      {/* Full-width Container with Extreme Left & Extreme Right Alignment */}
+      <div className="w-full px-3 sm:px-6 md:px-8 lg:px-10">
         {/* Desktop Navigation */}
         <nav className="hidden items-center justify-between lg:flex">
           {/* Extreme Left SSIL Logo */}
@@ -124,7 +124,7 @@ const Navbar1 = ({
             </div>
           </div>
 
-          {/* Action Buttons & Theme Toggler on Extreme Right Edge (NO Outside Boxes / Borders) */}
+          {/* Action Buttons & Theme Toggler on Extreme Right Edge */}
           <div className="flex items-center gap-4">
             <Link
               href={auth.signup.url}

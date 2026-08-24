@@ -32,42 +32,39 @@ const cardVariants = {
 const ProductCard = ({ product }: { product: FeaturedProduct }) => {
   return (
     <motion.div variants={cardVariants} className="w-full">
-      {/* Product Container Card with Rounded Border Radius */}
-      <div className="group bg-slate-50 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800/80 p-4 sm:p-5 rounded-2xl flex flex-col justify-between transition-all duration-300 hover:border-ssil-red/60 hover:shadow-lg">
+      {/* Product Image Frame with Rounded Border Radius (NO Outer Box Container Div) */}
+      <div className="group relative w-full aspect-[10/14] rounded-xl sm:rounded-2xl overflow-hidden bg-white dark:bg-slate-950 border border-slate-200/60 dark:border-slate-800/60 transition-all duration-300 hover:-translate-y-1.5 shadow-md hover:shadow-xl hover:border-ssil-red/50">
         
-        {/* Slightly Smaller Image Frame with Rounded Radius (rounded-xl) */}
-        <div className="relative w-full aspect-[10/13] rounded-xl overflow-hidden bg-white dark:bg-slate-950 transition-transform duration-300 group-hover:-translate-y-1">
-          {/* Day Image (Default Mode) */}
-          <Image
-            src={product.dayImage}
-            alt={`${product.name} Daytime`}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-contain object-center p-3 opacity-100 group-hover:opacity-0 transition-opacity duration-500 ease-in-out"
-            priority
-          />
+        {/* Day Image (Default Mode) */}
+        <Image
+          src={product.dayImage}
+          alt={`${product.name} Daytime`}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-contain object-center p-4 pb-14 opacity-100 group-hover:opacity-0 transition-opacity duration-500 ease-in-out"
+          priority
+        />
 
-          {/* Night Image (Hover Crossfade Mode) */}
-          <Image
-            src={product.nightImage}
-            alt={`${product.name} Nighttime`}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-contain object-center p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
-          />
-        </div>
+        {/* Night Image (Hover Crossfade Mode) */}
+        <Image
+          src={product.nightImage}
+          alt={`${product.name} Nighttime`}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-contain object-center p-4 pb-14 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
+        />
 
-        {/* Bottom Bar: Product Name on Left + View All Button on Right */}
-        <div className="mt-4 flex items-center justify-between pt-2 border-t border-slate-200/60 dark:border-slate-800/60">
+        {/* Inside Image Bottom Overlay Bar: Product Name on Left + View All Button on Right */}
+        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950/95 via-slate-950/75 to-transparent p-3.5 sm:p-4 flex items-center justify-between z-10">
           {/* Left Side: Product Name */}
-          <h3 className="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white tracking-tight group-hover:text-ssil-red transition-colors duration-300">
+          <h3 className="text-xs sm:text-sm font-black text-white tracking-tight group-hover:text-ssil-red transition-colors duration-300">
             {product.name}
           </h3>
 
           {/* Right Side: Small View All Button */}
           <Link
             href="/contact"
-            className="inline-flex items-center text-xs font-extrabold text-ssil-red hover:text-red-700 dark:hover:text-red-400 transition-colors gap-0.5 shrink-0"
+            className="inline-flex items-center text-xs font-extrabold text-ssil-red hover:text-red-400 transition-colors gap-0.5 shrink-0"
           >
             <span>View All</span>
             <ChevronRight className="h-3.5 w-3.5" />
@@ -81,10 +78,10 @@ const ProductCard = ({ product }: { product: FeaturedProduct }) => {
 
 export default function ProductsPage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-black text-slate-900 dark:text-white transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-b from-white via-red-50/40 to-white dark:from-black dark:via-red-950/25 dark:to-black text-slate-900 dark:text-white transition-colors duration-300">
       
       {/* ============================================================ */}
-      {/* 1. FULL-BLEED HERO BANNER (SLIGHTLY TALLER HEIGHT, SHIFTED RIGHT TEXT) */}
+      {/* 1. FULL-BLEED HERO BANNER (EXTREME LEFT ALIGNED TEXT, RED HIGHLIGHT WORD) */}
       {/* ============================================================ */}
       <section className="relative w-full h-[52vh] sm:h-[60vh] max-h-[500px] flex items-end overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
         
@@ -97,16 +94,16 @@ export default function ProductsPage() {
         />
 
         {/* Glass Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/45 to-transparent rounded-none pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/45 to-transparent rounded-none pointer-events-none" />
 
-        {/* Left-Aligned Hero Content Shifted Slightly Towards Right */}
-        <div className="relative z-10 container mx-auto px-6 sm:px-10 lg:px-12 pl-8 sm:pl-16 lg:pl-20 max-w-7xl text-left flex flex-col items-start">
+        {/* Extreme Left Hero Content (No Left Offset) */}
+        <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 text-left flex flex-col items-start">
           <h1 className="text-[20px] sm:text-[30px] md:text-[36px] font-black text-white tracking-tight leading-snug drop-shadow-md max-w-2xl">
-            Infrastructure &amp; Architectural Luminaires
+            Engineered Lighting for <span className="text-ssil-red">Modern</span> Infrastructure
           </h1>
 
           <p className="mt-2 text-xs sm:text-[13px] text-slate-200 font-medium max-w-xl leading-relaxed drop-shadow-xs">
-            Engineered for high performance, long-lasting durability, and energy efficiency across municipal roads, expressways, and commercial plazas.
+            SSIL designs and delivers customized lighting systems for highways, urban infrastructure, commercial developments, architectural spaces, and large-scale projects.
           </p>
         </div>
       </section>
@@ -114,12 +111,12 @@ export default function ProductsPage() {
       {/* ============================================================ */}
       {/* 2. OUR PRODUCTS SECTION (LEFT RED ACCENT LINE, REPEATABLE SMOOTH LEFT SLIDE GLIDE) */}
       {/* ============================================================ */}
-      <section className="py-14 sm:py-20 bg-white dark:bg-black transition-colors">
-        <div className="container mx-auto px-6 sm:px-10 lg:px-12 max-w-7xl">
+      <section className="py-14 sm:py-20 transition-colors">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           
           {/* Left Slide-In Animated Header (Triggers whenever scrolled into view from top or bottom) */}
           <motion.div
-            className="text-left max-w-4xl mb-12 sm:mb-14 border-l-[5px] border-ssil-red pl-5 sm:pl-6"
+            className="text-left max-w-4xl mb-10 sm:mb-12 border-l-[5px] border-ssil-red pl-4 sm:pl-5"
             initial={{ opacity: 0, x: -60 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false, amount: 0.2 }}
@@ -133,10 +130,10 @@ export default function ProductsPage() {
             </p>
           </motion.div>
 
-          {/* 6 Products Container Grid */}
+          {/* 6 Products Container Grid (Compact Gap Side-to-Side & Top-to-Bottom) */}
           <div className="mb-8">
             <motion.div
-              className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+              className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-40px" }}
