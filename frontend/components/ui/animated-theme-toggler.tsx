@@ -101,7 +101,7 @@ export function AnimatedThemeToggler({
   if (!mounted) {
     return (
       <button
-        className="att-btn hover:bg-ssil-red/10 dark:hover:bg-sky-500/20"
+        className="att-btn hover:bg-ssil-red/10 dark:hover:bg-ssil-red/10"
         style={{
           background: "none",
           border: "none",
@@ -145,7 +145,7 @@ export function AnimatedThemeToggler({
 
   return (
     <motion.button
-      className="att-btn hover:bg-ssil-red/10 dark:hover:bg-sky-500/20"
+      className="att-btn hover:bg-ssil-red/10 dark:hover:bg-ssil-red/10"
       onClick={toggle}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.86 }}

@@ -60,13 +60,13 @@
   background-blend-mode: overlay, normal;
 }
 
-/* Animated Theme Toggler static ink variables */
+/* Animated Theme Toggler static ink variables (Always SSIL Red in Light and Dark Mode) */
 .att-btn {
-  --at-ink: #E53E3E;
+  --at-ink: #E11D48;
 }
 .dark .att-btn,
 [data-theme="dark"] .att-btn {
-  --at-ink: #38BDF8;
+  --at-ink: #E11D48;
 }
 
 /* Responsive Hero Banner Animations */
