@@ -32,8 +32,8 @@ const cardVariants = {
 const ProductCard = ({ product }: { product: FeaturedProduct }) => {
   return (
     <motion.div variants={cardVariants} className="w-full">
-      {/* Product Image Frame with Rounded Border Radius (NO Outer Box Container Div) */}
-      <div className="group relative w-full aspect-[10/14] rounded-xl sm:rounded-2xl overflow-hidden bg-white dark:bg-slate-950 border border-slate-200/60 dark:border-slate-800/60 transition-all duration-300 hover:-translate-y-1.5 shadow-md hover:shadow-xl hover:border-ssil-red/50">
+      {/* Pure Floating Image Frame (NO Box Container Div, NO Inner Background, NO Borders) */}
+      <div className="group relative w-full aspect-[10/13] rounded-xl sm:rounded-2xl overflow-hidden transition-transform duration-300 hover:-translate-y-1.5 cursor-pointer">
         
         {/* Day Image (Default Mode) */}
         <Image
@@ -41,7 +41,7 @@ const ProductCard = ({ product }: { product: FeaturedProduct }) => {
           alt={`${product.name} Daytime`}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-contain object-center p-4 pb-14 opacity-100 group-hover:opacity-0 transition-opacity duration-500 ease-in-out"
+          className="object-contain object-center pb-8 opacity-100 group-hover:opacity-0 transition-opacity duration-500 ease-in-out"
           priority
         />
 
@@ -51,20 +51,20 @@ const ProductCard = ({ product }: { product: FeaturedProduct }) => {
           alt={`${product.name} Nighttime`}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-contain object-center p-4 pb-14 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
+          className="object-contain object-center pb-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
         />
 
-        {/* Inside Image Bottom Overlay Bar: Product Name on Left + View All Button on Right */}
-        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950/95 via-slate-950/75 to-transparent p-3.5 sm:p-4 flex items-center justify-between z-10">
+        {/* Floating Product Name & View All Button directly on image artwork */}
+        <div className="absolute bottom-1 inset-x-0 px-2 py-1 flex items-center justify-between pointer-events-auto z-10">
           {/* Left Side: Product Name */}
-          <h3 className="text-xs sm:text-sm font-black text-white tracking-tight group-hover:text-ssil-red transition-colors duration-300">
+          <h3 className="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white tracking-tight group-hover:text-ssil-red transition-colors duration-300">
             {product.name}
           </h3>
 
-          {/* Right Side: Small View All Button */}
+          {/* Right Side: View All Button */}
           <Link
             href="/contact"
-            className="inline-flex items-center text-xs font-extrabold text-ssil-red hover:text-red-400 transition-colors gap-0.5 shrink-0"
+            className="inline-flex items-center text-xs font-extrabold text-ssil-red hover:text-red-700 dark:hover:text-red-400 transition-colors gap-0.5 shrink-0"
           >
             <span>View All</span>
             <ChevronRight className="h-3.5 w-3.5" />
@@ -78,7 +78,7 @@ const ProductCard = ({ product }: { product: FeaturedProduct }) => {
 
 export default function ProductsPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-red-50/40 to-white dark:from-black dark:via-red-950/25 dark:to-black text-slate-900 dark:text-white transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-b from-white via-red-100/40 to-white dark:from-black dark:via-red-950/30 dark:to-black text-slate-900 dark:text-white transition-colors duration-300">
       
       {/* ============================================================ */}
       {/* 1. FULL-BLEED HERO BANNER (EXTREME LEFT ALIGNED TEXT, RED HIGHLIGHT WORD) */}
@@ -109,9 +109,9 @@ export default function ProductsPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 2. OUR PRODUCTS SECTION (LEFT RED ACCENT LINE, REPEATABLE SMOOTH LEFT SLIDE GLIDE) */}
+      {/* 2. OUR PRODUCTS SECTION (WHITE & RED LIGHT GRADIENT, BLACK & RED DARK GRADIENT) */}
       {/* ============================================================ */}
-      <section className="py-14 sm:py-20 transition-colors">
+      <section className="py-14 sm:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           
           {/* Left Slide-In Animated Header (Triggers whenever scrolled into view from top or bottom) */}
@@ -130,10 +130,10 @@ export default function ProductsPage() {
             </p>
           </motion.div>
 
-          {/* 6 Products Container Grid (Compact Gap Side-to-Side & Top-to-Bottom) */}
+          {/* 6 Products Grid (Pure Floating Images, No Box Divs) */}
           <div className="mb-8">
             <motion.div
-              className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6"
+              className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-40px" }}
