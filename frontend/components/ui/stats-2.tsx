@@ -28,19 +28,19 @@ const itemVariants = {
 
 const metricsData = [
   {
-    number: "5,000+",
+    number: "20,000+",
     label: "Poles & Lighting Installations",
     sublabel: "DEPLOYED FOOTPRINT",
     icon: <Zap className="h-4 w-4" />,
   },
   {
-    number: "10+",
+    number: "12+",
     label: "Years of Experience",
     sublabel: "ENGINEERING HERITAGE",
     icon: <Award className="h-4 w-4" />,
   },
   {
-    number: "18+",
+    number: "22+",
     label: "States Served",
     sublabel: "PAN-INDIA REACH",
     icon: <Globe className="h-4 w-4" />,
