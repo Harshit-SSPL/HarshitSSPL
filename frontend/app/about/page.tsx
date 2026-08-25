@@ -152,37 +152,37 @@ const expertiseData = [
     tag: "01 / 06",
     title: "Outdoor & Indoor LED Luminaires",
     description: "Energy-efficient LED luminaires and lighting fixtures engineered for high performance, commercial facilities, and residential developments.",
-    icon: <Lightbulb className="h-8 w-8 text-ssil-red mb-4 transition-transform group-hover:scale-110 duration-300" />,
+    icon: <Lightbulb className="h-7 w-7 text-ssil-red mb-3 transition-transform group-hover:scale-105 duration-300" />,
   },
   {
     tag: "02 / 06",
     title: "Solar Lights & Power Plants",
     description: "Integrated solar lighting systems, standalone solar LED poles, and commercial solar power plant installations for sustainable infrastructure.",
-    icon: <Zap className="h-8 w-8 text-ssil-red mb-4 transition-transform group-hover:scale-110 duration-300" />,
+    icon: <Zap className="h-7 w-7 text-ssil-red mb-3 transition-transform group-hover:scale-105 duration-300" />,
   },
   {
     tag: "03 / 06",
     title: "Ornamental & Designer Poles",
     description: "Ornamental heritage poles and custom designer poles created for urban beautification, public parks, resorts, and civic plazas.",
-    icon: <Building className="h-8 w-8 text-ssil-red mb-4 transition-transform group-hover:scale-110 duration-300" />,
+    icon: <Building className="h-7 w-7 text-ssil-red mb-3 transition-transform group-hover:scale-105 duration-300" />,
   },
   {
     tag: "04 / 06",
     title: "Octagonal & High Mast Poles",
     description: "Heavy-duty octagonal poles, high mast poles, and flag mast poles designed for highways, stadiums, airports, and industrial complexes.",
-    icon: <Layers className="h-8 w-8 text-ssil-red mb-4 transition-transform group-hover:scale-110 duration-300" />,
+    icon: <Layers className="h-7 w-7 text-ssil-red mb-3 transition-transform group-hover:scale-105 duration-300" />,
   },
   {
     tag: "05 / 06",
     title: "Indian Flag Poles",
     description: "High-tensile monumental flag mast poles and custom structural flag installations designed for civic landmarks and government infrastructure.",
-    icon: <Flag className="h-8 w-8 text-ssil-red mb-4 transition-transform group-hover:scale-110 duration-300" />,
+    icon: <Flag className="h-7 w-7 text-ssil-red mb-3 transition-transform group-hover:scale-105 duration-300" />,
   },
   {
     tag: "06 / 06",
     title: "Decorative LED Lighting",
     description: "Architectural decorative LED solutions blending aesthetic elegance with industrial durability for modern urban lifestyles.",
-    icon: <Sparkles className="h-8 w-8 text-ssil-red mb-4 transition-transform group-hover:scale-110 duration-300" />,
+    icon: <Sparkles className="h-7 w-7 text-ssil-red mb-3 transition-transform group-hover:scale-105 duration-300" />,
   },
 ];
 
@@ -528,7 +528,7 @@ export default function AboutPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 6. OUR EXPERTISE (ALWAYS BLACK BACKGROUND & PREMIUM RED GLOW HOVER) */}
+      {/* 6. OUR EXPERTISE (EDITORIAL LEFT-ALIGNED & BOTTOM ACCENT LINE HOVER) */}
       {/* ============================================================ */}
       <motion.section
         className="py-16 md:py-24 bg-black text-white border-b border-zinc-900 transition-colors relative overflow-hidden"
@@ -539,37 +539,33 @@ export default function AboutPage() {
       >
         <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
           
-          {/* Centered Section Header */}
-          <motion.div variants={childVariants} className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block mb-3">
-              CORE CAPABILITIES
-            </span>
-            <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.08]">
+          {/* Left-Aligned Editorial Section Header */}
+          <motion.div variants={childVariants} className="max-w-4xl mb-14 sm:mb-16">
+            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-300 block mb-4">
               OUR EXPERTISE
+            </span>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.12]">
+              Engineered for infrastructure,<br />
+              <span className="text-ssil-red">built for what comes next.</span>
             </h2>
-            <p className="text-sm sm:text-base text-slate-400 mt-4 leading-relaxed font-normal">
-              Comprehensive lighting products and engineered infrastructure solutions developed to support highways, urban environments, commercial developments and public spaces.
-            </p>
           </motion.div>
 
-          {/* 3 Columns x 2 Rows Expertise Cards Grid */}
+          {/* 3 Columns x 2 Rows Compact Cards Grid */}
           <motion.div variants={childVariants} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
             {expertiseData.map((card) => (
               <div
                 key={card.tag}
-                className="group relative p-6 sm:p-8 rounded-2xl bg-zinc-950/90 border border-zinc-800/90 shadow-xl transition-all duration-300 hover:-translate-y-2 hover:border-ssil-red/80 hover:shadow-[0_16px_50px_-5px_rgba(225,29,72,0.5)] overflow-hidden flex flex-col justify-between"
+                className="group relative p-6 sm:p-7 rounded-2xl bg-[#121214] border border-zinc-800/80 transition-all duration-300 hover:-translate-y-1 overflow-hidden flex flex-col justify-between shadow-none"
               >
-                {/* Top Section: Tag & Icon */}
+                {/* Top Section: Index Tag, Icon, and Title */}
                 <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <span className="text-xs font-mono text-zinc-500 font-semibold tracking-wider select-none">
-                      {card.tag}
-                    </span>
-                  </div>
+                  <span className="text-xs font-mono text-zinc-500 font-semibold tracking-wider block mb-4 select-none">
+                    {card.tag}
+                  </span>
 
                   {card.icon}
 
-                  <h3 className="text-xl font-extrabold text-white mb-3 group-hover:text-ssil-red transition-colors duration-300 tracking-tight">
+                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-ssil-red transition-colors duration-300 tracking-tight">
                     {card.title}
                   </h3>
                 </div>
@@ -578,6 +574,9 @@ export default function AboutPage() {
                 <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-normal mt-2">
                   {card.description}
                 </p>
+
+                {/* Bottom Accent Line (Animates Left to Right on Hover) */}
+                <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-ssil-red origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
               </div>
             ))}
           </motion.div>
