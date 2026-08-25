@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar1 } from "@/components/ui/shadcnblocks-com-navbar1";
 import { Footerdemo } from "@/components/ui/footer-section";
-import { ScrollBottomBlur } from "@/components/ui/scroll-bottom-blur";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -27,7 +26,6 @@ export default function RootLayout({
       <body className={`${inter.variable} font-sans min-h-screen flex flex-col bg-white text-slate-900 antialiased`}>
         <Navbar1 />
         <main className="flex-1">{children}</main>
-        <ScrollBottomBlur />
         <Footerdemo />
       </body>
     </html>
