@@ -149,37 +149,37 @@ const processData = [
 
 const expertiseData = [
   {
-    tag: "01 / 06",
+    id: "exp-01",
     title: "Outdoor & Indoor LED Luminaires",
     description: "Energy-efficient LED luminaires and lighting fixtures engineered for high performance, commercial facilities, and residential developments.",
     icon: <Lightbulb className="h-6 w-6 text-ssil-red mb-2.5 transition-transform group-hover:scale-105 duration-300" />,
   },
   {
-    tag: "02 / 06",
+    id: "exp-02",
     title: "Solar Lights & Power Plants",
     description: "Integrated solar lighting systems, standalone solar LED poles, and commercial solar power plant installations for sustainable infrastructure.",
     icon: <Zap className="h-6 w-6 text-ssil-red mb-2.5 transition-transform group-hover:scale-105 duration-300" />,
   },
   {
-    tag: "03 / 06",
+    id: "exp-03",
     title: "Ornamental & Designer Poles",
     description: "Ornamental heritage poles and custom designer poles created for urban beautification, public parks, resorts, and civic plazas.",
     icon: <Building className="h-6 w-6 text-ssil-red mb-2.5 transition-transform group-hover:scale-105 duration-300" />,
   },
   {
-    tag: "04 / 06",
+    id: "exp-04",
     title: "Octagonal & High Mast Poles",
     description: "Heavy-duty octagonal poles, high mast poles, and flag mast poles designed for highways, stadiums, airports, and industrial complexes.",
     icon: <Layers className="h-6 w-6 text-ssil-red mb-2.5 transition-transform group-hover:scale-105 duration-300" />,
   },
   {
-    tag: "05 / 06",
+    id: "exp-05",
     title: "Indian Flag Poles",
     description: "High-tensile monumental flag mast poles and custom structural flag installations designed for civic landmarks and government infrastructure.",
     icon: <Flag className="h-6 w-6 text-ssil-red mb-2.5 transition-transform group-hover:scale-105 duration-300" />,
   },
   {
-    tag: "06 / 06",
+    id: "exp-06",
     title: "Decorative LED Lighting",
     description: "Architectural decorative LED solutions blending aesthetic elegance with industrial durability for modern urban lifestyles.",
     icon: <Sparkles className="h-6 w-6 text-ssil-red mb-2.5 transition-transform group-hover:scale-105 duration-300" />,
@@ -552,28 +552,24 @@ export default function AboutPage() {
             </h2>
           </motion.div>
 
-          {/* 3 Columns x 2 Rows Cards Grid (Increased Width to max-w-7xl) */}
+          {/* 3 Columns x 2 Rows Cards Grid (Clean Cards without index numbers) */}
           <motion.div variants={childVariants} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto">
             {expertiseData.map((card) => (
               <div
-                key={card.tag}
-                className="group relative p-4.5 sm:p-5 rounded-2xl bg-[#121214] border border-zinc-800/80 transition-all duration-300 hover:-translate-y-1 overflow-hidden flex flex-col justify-between shadow-none"
+                key={card.id}
+                className="group relative p-5 sm:p-6 rounded-2xl bg-[#121214] border border-zinc-800/80 transition-all duration-300 hover:-translate-y-1 overflow-hidden flex flex-col justify-between shadow-none"
               >
-                {/* Top Section: Index Tag, Icon, and Title */}
+                {/* Top Section: Icon and Title */}
                 <div>
-                  <span className="text-xs font-mono text-zinc-500 font-semibold tracking-wider block mb-3 select-none">
-                    {card.tag}
-                  </span>
-
                   {card.icon}
 
-                  <h3 className="text-base sm:text-lg font-bold text-white mb-1.5 group-hover:text-ssil-red transition-colors duration-300 tracking-tight">
+                  <h3 className="text-base sm:text-lg font-bold text-white mb-2 group-hover:text-ssil-red transition-colors duration-300 tracking-tight">
                     {card.title}
                   </h3>
                 </div>
 
                 {/* Bottom Section: Description */}
-                <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-normal mt-1.5">
+                <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-normal mt-1">
                   {card.description}
                 </p>
 
