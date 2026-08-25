@@ -119,6 +119,34 @@ const whySsilData = [
   },
 ];
 
+const processData = [
+  {
+    num: "01",
+    title: "1. Project Requirements & Specs",
+    description: "Comprehensive evaluation of site conditions, lighting levels, architectural drawings, and tender technical specifications.",
+  },
+  {
+    num: "02",
+    title: "2. Solution Engineering & Design",
+    description: "Custom structural calculations, photometrics, pole design, bracket geometry, and luminaire selection tailored to project goals.",
+  },
+  {
+    num: "03",
+    title: "3. Precision Manufacturing & Quality",
+    description: "In-house production of octagonal poles, high mast towers, heritage brackets, and LED luminaires with strict ISO quality controls.",
+  },
+  {
+    num: "04",
+    title: "4. Logistics & Transportation",
+    description: "Coordinated fleet freight, protective heavy-duty packaging, and synchronized logistics for safe on-time site arrival.",
+  },
+  {
+    num: "05",
+    title: "5. On-Site Deployment & Support",
+    description: "Technical supply chain support, erection guidance, and final commissioning verification for civic and industrial infrastructure.",
+  },
+];
+
 // Repeatable Viewport Entrance Animation Variants
 const sectionVariants = {
   hidden: {
@@ -386,7 +414,82 @@ export default function AboutPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 5. OUR EXPERTISE (REPEATABLE ENTRANCE ANIMATION) */}
+      {/* 5. HOW WE DELIVER / OUR PROCESS (OVERSIZED RED NUMBERS & EDITORIAL ROWS) */}
+      {/* ============================================================ */}
+      <motion.section
+        className="py-16 md:py-24 bg-slate-50 dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors relative overflow-hidden"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.15 }}
+        variants={sectionVariants}
+      >
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
+          
+          {/* Section Header: Eyebrow + 2-Line High-Impact Title + Right Badge */}
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-14 sm:mb-20 gap-6">
+            <motion.div variants={childVariants} className="max-w-4xl">
+              <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-4">
+                HOW WE DELIVER
+              </span>
+              <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.08]">
+                From requirement<br />
+                <span className="text-ssil-red">to reality.</span>
+              </h2>
+            </motion.div>
+
+            <motion.div variants={childVariants} className="shrink-0 self-start lg:self-end">
+              <span className="text-xs sm:text-sm font-extrabold tracking-widest uppercase text-slate-500 dark:text-slate-400 border border-slate-300 dark:border-zinc-800 px-4 py-2 rounded-full bg-slate-100/80 dark:bg-zinc-900/80 shadow-sm">
+                END-TO-END LIGHTING INFRASTRUCTURE
+              </span>
+            </motion.div>
+          </div>
+
+          {/* Process Rows Container with Oversized Red Numbers & Inset Dividers */}
+          <motion.div
+            variants={childVariants}
+            className="w-full max-w-6xl mx-auto"
+          >
+            {/* Top Divider */}
+            <div className="w-full h-[1px] bg-slate-200/90 dark:bg-slate-800/90" />
+
+            {processData.map((item, index) => (
+              <React.Fragment key={item.num}>
+                {index > 0 && (
+                  <div className="w-full h-[1px] bg-slate-200/90 dark:bg-slate-800/90" />
+                )}
+
+                <motion.div
+                  whileHover={{ x: -10 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                  className="group relative py-10 sm:py-14 px-4 sm:px-6 transition-colors duration-300 ease-out flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-12 hover:bg-slate-100/70 dark:hover:bg-slate-900/60 cursor-pointer"
+                >
+                  {/* Oversized Red Number (Left Column) */}
+                  <span className="text-6xl sm:text-8xl lg:text-[120px] font-extralight text-ssil-red leading-none min-w-[120px] sm:min-w-[160px] select-none group-hover:brightness-110 transition-all duration-300">
+                    {item.num}
+                  </span>
+
+                  {/* Process Title (Center Column) */}
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors duration-300 tracking-tight md:w-5/12 lg:w-4/12">
+                    {item.title}
+                  </h3>
+
+                  {/* Description (Right Column) */}
+                  <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 font-normal leading-relaxed md:w-5/12 lg:w-5/12">
+                    {item.description}
+                  </p>
+                </motion.div>
+              </React.Fragment>
+            ))}
+
+            {/* Bottom Divider */}
+            <div className="w-full h-[1px] bg-slate-200/90 dark:bg-slate-800/90" />
+          </motion.div>
+
+        </div>
+      </motion.section>
+
+      {/* ============================================================ */}
+      {/* 6. OUR EXPERTISE (REPEATABLE ENTRANCE ANIMATION) */}
       {/* ============================================================ */}
       <motion.section
         className="py-16 md:py-24 bg-white dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors"
@@ -484,7 +587,7 @@ export default function AboutPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 6. COMPANY REGISTRATION & BACKGROUND (BOTTOM CENTERED) */}
+      {/* 7. COMPANY REGISTRATION & BACKGROUND (BOTTOM CENTERED) */}
       {/* ============================================================ */}
       <section className="py-14 bg-slate-100 dark:bg-zinc-950 border-t border-slate-200/80 dark:border-zinc-900 transition-colors">
         <div className="container mx-auto px-4 md:px-6 max-w-4xl text-center">
