@@ -276,7 +276,7 @@ export default function AboutPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 3. OUR SOLUTIONS / WHAT WE OFFER (EDITORIAL HIGH-IMPACT TYPOGRAPHY & SMOOTH GLIDE) */}
+      {/* 3. OUR SOLUTIONS / WHAT WE OFFER (FULL ROW SSIL RED HOVER FILL & WHITE CONTENT) */}
       {/* ============================================================ */}
       <motion.section
         className="py-16 md:py-24 bg-slate-50 dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors relative overflow-hidden"
@@ -312,31 +312,33 @@ export default function AboutPage() {
                   <div className="w-full h-[1px] bg-slate-200/90 dark:bg-slate-800/90" />
                 )}
                 
-                <motion.div
-                  whileHover={{ x: -10 }}
-                  transition={{ type: "spring", stiffness: 350, damping: 25 }}
-                  className="group relative py-8 sm:py-10 px-4 sm:px-6 transition-colors duration-300 ease-out flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-8 hover:bg-slate-100/70 dark:hover:bg-slate-900/60 cursor-pointer"
+                <div
+                  tabIndex={0}
+                  className="group relative py-8 sm:py-10 px-4 sm:px-6 transition-all duration-300 ease-out flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-8 cursor-pointer overflow-hidden focus-visible:outline-none"
                 >
+                  {/* Left-to-Right Animated Red Background Fill Layer */}
+                  <div className="absolute inset-0 bg-ssil-red origin-left scale-x-0 group-hover:scale-x-100 group-focus-visible:scale-x-100 transition-transform duration-500 ease-out z-0 pointer-events-none" />
+
                   {/* Left Side: Large Editorial Index Number & Solution Title */}
-                  <div className="flex items-center gap-5 sm:gap-8 lg:gap-12 shrink-0 md:w-5/12 lg:w-5/12">
-                    <span className="text-xl sm:text-2xl font-bold text-slate-400 dark:text-slate-500 group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors duration-300 w-8 sm:w-12 shrink-0">
+                  <div className="relative z-10 flex items-center gap-5 sm:gap-8 lg:gap-12 shrink-0 md:w-5/12 lg:w-5/12">
+                    <span className="text-xl sm:text-2xl font-bold text-slate-400 dark:text-slate-500 group-hover:text-white group-focus-visible:text-white transition-colors duration-300 w-8 sm:w-12 shrink-0">
                       {item.num}
                     </span>
-                    <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors duration-300 tracking-tight">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 dark:text-white group-hover:text-white group-focus-visible:text-white transition-colors duration-300 tracking-tight">
                       {item.title}
                     </h3>
                   </div>
 
                   {/* Center / Right: Description */}
-                  <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 font-normal leading-relaxed md:w-5/12 lg:w-5/12">
+                  <p className="relative z-10 text-sm sm:text-base text-slate-600 dark:text-slate-300 group-hover:text-white group-focus-visible:text-white transition-colors duration-300 font-normal leading-relaxed md:w-5/12 lg:w-5/12">
                     {item.description}
                   </p>
 
-                  {/* Far Right: Staggered Lucide Icon Asset */}
-                  <div className={`shrink-0 flex items-center justify-start md:justify-end md:w-2/12 text-slate-400 dark:text-slate-500 group-hover:text-ssil-red group-hover:scale-110 transition-all duration-300 ${item.offsetClass}`}>
+                  {/* Far Right: Lucide Icon Asset */}
+                  <div className={`relative z-10 shrink-0 flex items-center justify-start md:justify-end md:w-2/12 text-slate-400 dark:text-slate-500 group-hover:text-white group-focus-visible:text-white transition-colors duration-300 ${item.offsetClass}`}>
                     {item.icon}
                   </div>
-                </motion.div>
+                </div>
               </React.Fragment>
             ))}
 
