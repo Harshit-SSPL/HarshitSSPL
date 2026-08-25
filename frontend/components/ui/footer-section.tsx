@@ -15,14 +15,14 @@ import { Facebook, Linkedin, Send, Twitter, Phone, Mail, MapPin } from "lucide-r
 
 export function Footerdemo() {
   return (
-    <footer className="relative border-t border-slate-700/60 bg-[#1E293B] dark:bg-[#0F172A] text-slate-100 transition-colors duration-300">
+    <footer className="relative border-t border-zinc-900 bg-black text-slate-100 transition-colors duration-300">
       <div className="container mx-auto px-4 py-10 sm:py-12 md:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           
           {/* Column 1: SSIL Authentic Logo & Catalog Request */}
           <div className="relative">
             <div className="mb-3 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm p-1 border border-slate-200 shrink-0 overflow-hidden">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm p-1 border border-zinc-700 shrink-0 overflow-hidden">
                 <Image
                   src="/branding/companylogo-ui.png"
                   alt="Shiv Shakti India Limited Logo"
@@ -42,7 +42,7 @@ export function Footerdemo() {
               <Input
                 type="email"
                 placeholder="Enter work email..."
-                className="pr-12 bg-slate-800/80 border-slate-700 text-white placeholder:text-slate-400 focus:border-ssil-blue text-xs sm:text-sm"
+                className="pr-12 bg-zinc-900/90 border-zinc-800 text-white placeholder:text-slate-500 focus:border-ssil-red text-xs sm:text-sm"
               />
               <Button
                 type="submit"
@@ -90,7 +90,7 @@ export function Footerdemo() {
                 <p className="leading-snug">Office No-812A, Puri High Street, Sector 81-121002, Faridabad, Haryana, India</p>
               </div>
               <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-ssil-blue shrink-0" />
+                <Phone className="h-4 w-4 text-ssil-red shrink-0" />
                 <p className="flex flex-wrap items-center gap-1 font-medium">
                   <a href="tel:+919999590064" className="hover:text-ssil-red transition-colors">+91 9999590064</a>,
                   <a href="tel:+919999990064" className="hover:text-ssil-red transition-colors">+91 9999990064</a>
@@ -117,7 +117,7 @@ export function Footerdemo() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="outline" size="icon" className="h-9 w-9 rounded-full border-slate-700 bg-slate-800 text-slate-300 hover:text-ssil-blue hover:border-ssil-blue">
+                    <Button variant="outline" size="icon" className="h-9 w-9 rounded-full border-zinc-800 bg-zinc-900 text-slate-300 hover:text-ssil-red hover:border-ssil-red">
                       <Facebook className="h-4 w-4" />
                       <span className="sr-only">Facebook</span>
                     </Button>
@@ -131,7 +131,7 @@ export function Footerdemo() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="outline" size="icon" className="h-9 w-9 rounded-full border-slate-700 bg-slate-800 text-slate-300 hover:text-ssil-blue hover:border-ssil-blue">
+                    <Button variant="outline" size="icon" className="h-9 w-9 rounded-full border-zinc-800 bg-zinc-900 text-slate-300 hover:text-ssil-red hover:border-ssil-red">
                       <Twitter className="h-4 w-4" />
                       <span className="sr-only">Twitter</span>
                     </Button>
@@ -150,7 +150,7 @@ export function Footerdemo() {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <Button variant="outline" size="icon" className="h-9 w-9 rounded-full border-slate-700 bg-slate-800 text-slate-300 hover:text-ssil-blue hover:border-ssil-blue">
+                      <Button variant="outline" size="icon" className="h-9 w-9 rounded-full border-zinc-800 bg-zinc-900 text-slate-300 hover:text-ssil-red hover:border-ssil-red">
                         <Linkedin className="h-4 w-4" />
                         <span className="sr-only">LinkedIn</span>
                       </Button>
@@ -167,7 +167,7 @@ export function Footerdemo() {
         </div>
 
         {/* Divider & Copyright Row */}
-        <div className="mt-8 sm:mt-10 flex flex-col items-center justify-between gap-3 border-t border-slate-700/60 pt-5 sm:pt-6 text-center md:flex-row">
+        <div className="mt-8 sm:mt-10 flex flex-col items-center justify-between gap-3 border-t border-zinc-800/80 pt-5 sm:pt-6 text-center md:flex-row">
           <p className="text-xs font-medium text-slate-400">
             © {new Date().getFullYear()} Shiv Shakti India Limited / Shiv Shakti Private Limited. All rights reserved.
           </p>
