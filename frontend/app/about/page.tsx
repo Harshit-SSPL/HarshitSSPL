@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { HeroSection } from "@/components/ui/hero-section-5";
 import { BackgroundPaths } from "@/components/ui/background-paths";
 import { StandardCard } from "@/components/ui/standard-card";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Lightbulb,
   Building,
@@ -71,6 +71,42 @@ const offeringData = [
   },
 ];
 
+// Repeatable Viewport Entrance Animation Variants (slide up + subtle scale + fade in with staggered children)
+const sectionVariants = {
+  hidden: {
+    opacity: 0,
+    y: 45,
+    scale: 0.97,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.75,
+      ease: [0.21, 0.47, 0.32, 0.98],
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const childVariants = {
+  hidden: {
+    opacity: 0,
+    y: 30,
+    scale: 0.98,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: [0.21, 0.47, 0.32, 0.98],
+    },
+  },
+};
+
 export default function AboutPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -110,35 +146,53 @@ export default function AboutPage() {
       </BackgroundPaths>
 
       {/* ============================================================ */}
-      {/* 2. MAIN ABOUT US DESCRIPTION (RED ABOUT US HEADING) */}
+      {/* 2. MAIN ABOUT US DESCRIPTION (REPEATABLE ENTRANCE ANIMATION) */}
       {/* ============================================================ */}
-      <section className="py-16 md:py-24 bg-white dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors relative overflow-hidden">
+      <motion.section
+        className="py-16 md:py-24 bg-white dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors relative overflow-hidden"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.2 }}
+        variants={sectionVariants}
+      >
         <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl text-left relative z-10">
           
           {/* Main Title: About Us in SSIL Red Color */}
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-ssil-red tracking-tight mb-6">
+          <motion.h2
+            variants={childVariants}
+            className="text-3xl sm:text-5xl lg:text-6xl font-black text-ssil-red tracking-tight mb-6"
+          >
             About Us
-          </h2>
+          </motion.h2>
 
-          {/* 5 to 6 Lines Corporate Description (Left-Aligned Wide Paragraph) */}
-          <div className="w-full text-slate-700 dark:text-slate-200 text-base sm:text-lg md:text-xl leading-relaxed font-normal">
+          {/* Corporate Description Paragraph */}
+          <motion.div
+            variants={childVariants}
+            className="w-full text-slate-700 dark:text-slate-200 text-base sm:text-lg md:text-xl leading-relaxed font-normal"
+          >
             <p className="max-w-6xl">
               Shiv Shakti India Limited (SSIL) is one of the most equipped and major manufacturers of lighting solution providers in the global market. We are an experienced organization in the field of complete lighting solutions, enclosing all your requirements in a single basket. We are engaged in the export and supply of a wide range of commercial and household products, enclosing outdoor, indoor, solar, decorative LED lights, and solar plants. Engineered for long-lasting durability, SSIL&apos;s infrastructure luminaires, decorative poles, octagonal poles, and high mast installations serve municipal expressways, real estate developments, and public landmarks across India.
             </p>
-          </div>
+          </motion.div>
 
         </div>
-      </section>
+      </motion.section>
 
       {/* ============================================================ */}
-      {/* 3. WHAT WE OFFER: 3 RECTANGULAR CARDS CAROUSEL WITH ARROWS */}
+      {/* 3. WHAT WE OFFER: 3 RECTANGULAR CARDS CAROUSEL (REPEATABLE STAGGERED ANIMATION) */}
       {/* ============================================================ */}
-      <section className="py-16 md:py-24 bg-slate-50 dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors relative overflow-hidden">
+      <motion.section
+        className="py-16 md:py-24 bg-slate-50 dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors relative overflow-hidden"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.2 }}
+        variants={sectionVariants}
+      >
         <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
           
           {/* Header Row: Title & Subtitle + Boundary Arrow Controls */}
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-            <div className="max-w-3xl">
+            <motion.div variants={childVariants} className="max-w-3xl">
               <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block mb-2">
                 OUR SOLUTIONS
               </span>
@@ -148,10 +202,10 @@ export default function AboutPage() {
               <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 leading-relaxed font-medium">
                 Comprehensive architectural, infrastructural, and specialized lighting engineering designed for municipal expressways, urban plazas, and commercial developments.
               </p>
-            </div>
+            </motion.div>
 
             {/* Left / Right Boundary Navigation Arrow Controls */}
-            <div className="flex items-center gap-3 shrink-0 self-start md:self-end">
+            <motion.div variants={childVariants} className="flex items-center gap-3 shrink-0 self-start md:self-end">
               <button
                 onClick={handlePrev}
                 disabled={currentIndex === 0}
@@ -169,11 +223,11 @@ export default function AboutPage() {
               >
                 <ChevronRight className="h-6 w-6" />
               </button>
-            </div>
+            </motion.div>
           </div>
 
           {/* 3 Rectangular Cards Sliding Window Display */}
-          <div className="overflow-hidden">
+          <motion.div variants={childVariants} className="overflow-hidden">
             <motion.div
               className="grid grid-cols-1 md:grid-cols-3 gap-6"
               initial={false}
@@ -199,10 +253,10 @@ export default function AboutPage() {
                   </motion.div>
                 ))}
             </motion.div>
-          </div>
+          </motion.div>
 
           {/* Progress Indicator Dots */}
-          <div className="flex items-center justify-center gap-2 mt-8">
+          <motion.div variants={childVariants} className="flex items-center justify-center gap-2 mt-8">
             {Array.from({ length: maxIndex + 1 }).map((_, dotIndex) => (
               <button
                 key={dotIndex}
@@ -215,19 +269,25 @@ export default function AboutPage() {
                 aria-label={`Go to slide ${dotIndex + 1}`}
               />
             ))}
-          </div>
+          </motion.div>
 
         </div>
-      </section>
+      </motion.section>
 
       {/* ============================================================ */}
-      {/* 4. OUR EXPERTISE (CENTERED HEADING & 6 CARDS) */}
+      {/* 4. OUR EXPERTISE (REPEATABLE ENTRANCE ANIMATION) */}
       {/* ============================================================ */}
-      <section className="py-16 md:py-24 bg-white dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors">
+      <motion.section
+        className="py-16 md:py-24 bg-white dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.2 }}
+        variants={sectionVariants}
+      >
         <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
           
           {/* Centered Section Header */}
-          <div className="text-center max-w-3xl mx-auto mb-14">
+          <motion.div variants={childVariants} className="text-center max-w-3xl mx-auto mb-14">
             <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block mb-2">
               CORE CAPABILITIES
             </span>
@@ -237,10 +297,10 @@ export default function AboutPage() {
             <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 leading-relaxed">
               Comprehensive product and fixture range manufactured with high-precision engineering to serve urban infrastructure, highway developments, and commercial projects.
             </p>
-          </div>
+          </motion.div>
 
           {/* 6 Expertise Cards */}
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <motion.div variants={childVariants} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             
             {/* Card 1: Outdoor & Indoor LED Luminaires */}
             <div className="group relative p-6 rounded-2xl bg-slate-50 dark:bg-zinc-950 border border-slate-200/90 dark:border-zinc-800/90 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-ssil-red/80 hover:shadow-[0_16px_45px_-5px_rgba(225,29,72,0.35)] dark:hover:shadow-[0_16px_50px_-5px_rgba(225,29,72,0.55)] overflow-hidden">
@@ -308,9 +368,9 @@ export default function AboutPage() {
               </p>
             </div>
 
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* ============================================================ */}
       {/* 5. COMPANY REGISTRATION & BACKGROUND (BOTTOM CENTERED) */}
