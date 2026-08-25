@@ -44,9 +44,9 @@ export function HeroSection() {
     const duplicatedClients = [...clientCompanies, ...clientCompanies];
 
     return (
-        <div className="relative w-full overflow-hidden">
-            <section className="relative">
-                <div className="pt-14 pb-10 sm:pt-16 sm:pb-12 lg:pt-20 lg:pb-14">
+        <div className="relative w-full overflow-hidden flex flex-col justify-between min-h-[75vh] sm:min-h-[calc(100vh-5rem)]">
+            <section className="relative flex-1 flex flex-col justify-center">
+                <div className="pt-16 pb-12 sm:pt-20 sm:pb-16 lg:pt-24 lg:pb-16">
                     <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:px-8">
                         <div className="max-w-3xl text-left">
                             
@@ -122,7 +122,7 @@ export function HeroSection() {
             </section>
 
             {/* Client Partners Infinite Slider Strip */}
-            <section className="bg-white dark:bg-black py-4 border-t border-b border-slate-200/80 dark:border-zinc-800/80 transition-colors relative z-20">
+            <section className="bg-white dark:bg-black py-4 border-t border-b border-slate-200/80 dark:border-zinc-800/80 transition-colors relative z-20 shrink-0">
                 <div className="group relative m-auto max-w-7xl px-6">
                     <div className="flex flex-col items-center md:flex-row">
                         <div className="md:max-w-48 md:border-r md:border-slate-200 dark:md:border-zinc-800 md:pr-6 mb-3 md:mb-0 shrink-0">

@@ -238,7 +238,7 @@ export default function AboutPage() {
       {/* ============================================================ */}
       {/* 1. TOP COMPONENT WITH RED BACKGROUND PATHS ANIMATION */}
       {/* ============================================================ */}
-      <BackgroundPaths className="bg-white dark:bg-black">
+      <BackgroundPaths className="bg-white dark:bg-black min-h-[75vh] sm:min-h-[calc(100vh-5rem)] flex flex-col justify-between">
         <HeroSection />
       </BackgroundPaths>
 
