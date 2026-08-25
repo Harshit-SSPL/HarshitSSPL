@@ -281,10 +281,10 @@ export default function AboutPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 4. WHY SSIL / THE SSIL DIFFERENCE (COMPARISON TABLE) */}
+      {/* 4. WHY SSIL / THE SSIL DIFFERENCE (ALWAYS BLACK BACKGROUND) */}
       {/* ============================================================ */}
       <motion.section
-        className="py-16 md:py-24 bg-white dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors relative overflow-hidden"
+        className="py-16 md:py-24 bg-black text-white border-b border-zinc-900 transition-colors relative overflow-hidden"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.15 }}
@@ -295,17 +295,17 @@ export default function AboutPage() {
           {/* Section Header: Eyebrow + 2-Line Title + Right Badge */}
           <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-14 sm:mb-20 gap-6">
             <motion.div variants={childVariants} className="max-w-4xl">
-              <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-4">
+              <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-300 block mb-4">
                 WHY SSIL
               </span>
-              <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.08]">
+              <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.08]">
                 The difference,<br />
                 <span className="text-ssil-red">built for what&apos;s next.</span>
               </h2>
             </motion.div>
 
             <motion.div variants={childVariants} className="shrink-0 self-start lg:self-end">
-              <span className="text-xs sm:text-sm font-extrabold tracking-widest uppercase text-slate-500 dark:text-slate-400 border border-slate-300 dark:border-zinc-800 px-4 py-2 rounded-full bg-slate-100/80 dark:bg-zinc-900/80 shadow-sm">
+              <span className="text-xs sm:text-sm font-extrabold tracking-widest uppercase text-slate-300 border border-zinc-800 px-4 py-2 rounded-full bg-zinc-900/90 shadow-sm">
                 SSIL VS. CONVENTIONAL LIGHTING
               </span>
             </motion.div>
@@ -314,53 +314,53 @@ export default function AboutPage() {
           {/* Comparison Table Container */}
           <motion.div
             variants={childVariants}
-            className="w-full max-w-6xl mx-auto rounded-3xl bg-slate-50/90 dark:bg-zinc-950/80 border border-slate-200/90 dark:border-zinc-800/90 shadow-xl backdrop-blur-md overflow-hidden"
+            className="w-full max-w-6xl mx-auto rounded-3xl bg-zinc-950 border border-zinc-800 shadow-2xl backdrop-blur-md overflow-hidden"
           >
             {/* Table Header Row (Desktop & Tablet) */}
-            <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-5 bg-slate-100/90 dark:bg-zinc-900/90 border-b border-slate-200/90 dark:border-zinc-800/90 text-xs sm:text-sm font-black uppercase tracking-wider">
-              <div className="col-span-4 text-slate-500 dark:text-slate-400">
+            <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-5 bg-zinc-900 border-b border-zinc-800 text-xs sm:text-sm font-black uppercase tracking-wider">
+              <div className="col-span-4 text-slate-400">
                 Feature
               </div>
-              <div className="col-span-4 text-slate-900 dark:text-white flex items-center gap-2">
+              <div className="col-span-4 text-white flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-ssil-red inline-block" />
                 <span className="text-ssil-red font-black">SSIL Infrastructure</span>
               </div>
-              <div className="col-span-4 text-slate-400 dark:text-slate-500">
+              <div className="col-span-4 text-slate-400">
                 Conventional Supplier
               </div>
             </div>
 
             {/* Rows Container */}
-            <div className="divide-y divide-slate-200/90 dark:divide-zinc-800/90">
+            <div className="divide-y divide-zinc-800/90">
               {whySsilData.map((item, index) => (
                 <motion.div
                   key={index}
                   whileHover={{ y: -2 }}
                   transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="p-5 sm:p-7 transition-colors duration-300 hover:bg-white/80 dark:hover:bg-zinc-900/60"
+                  className="p-5 sm:p-7 transition-colors duration-300 hover:bg-zinc-900/70"
                 >
                   {/* Desktop Grid Layout */}
                   <div className="hidden md:grid grid-cols-12 gap-4 items-center">
-                    <div className="col-span-4 font-black text-sm sm:text-base text-slate-900 dark:text-white tracking-tight">
+                    <div className="col-span-4 font-black text-sm sm:text-base text-white tracking-tight">
                       {item.category}
                     </div>
-                    <div className="col-span-4 flex items-start gap-3 text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-medium leading-relaxed bg-ssil-red/5 dark:bg-ssil-red/10 p-3.5 rounded-xl border border-ssil-red/20">
+                    <div className="col-span-4 flex items-start gap-3 text-xs sm:text-sm text-slate-100 font-medium leading-relaxed bg-ssil-red/15 p-3.5 rounded-xl border border-ssil-red/30">
                       <Check className="h-4 w-4 text-ssil-red shrink-0 mt-0.5" />
                       <span>{item.ssil}</span>
                     </div>
-                    <div className="col-span-4 flex items-start gap-3 text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-normal leading-relaxed p-3.5">
-                      <X className="h-4 w-4 text-slate-400 dark:text-slate-600 shrink-0 mt-0.5" />
+                    <div className="col-span-4 flex items-start gap-3 text-xs sm:text-sm text-slate-400 font-normal leading-relaxed p-3.5">
+                      <X className="h-4 w-4 text-slate-500 shrink-0 mt-0.5" />
                       <span>{item.conventional}</span>
                     </div>
                   </div>
 
                   {/* Mobile Stacked Card Layout */}
                   <div className="flex md:hidden flex-col gap-3">
-                    <span className="font-black text-sm text-slate-900 dark:text-white tracking-tight">
+                    <span className="font-black text-sm text-white tracking-tight">
                       {item.category}
                     </span>
                     
-                    <div className="flex items-start gap-2.5 text-xs text-slate-800 dark:text-slate-200 font-medium leading-relaxed bg-ssil-red/5 dark:bg-ssil-red/10 p-3 rounded-xl border border-ssil-red/20">
+                    <div className="flex items-start gap-2.5 text-xs text-slate-100 font-medium leading-relaxed bg-ssil-red/15 p-3 rounded-xl border border-ssil-red/30">
                       <Check className="h-4 w-4 text-ssil-red shrink-0 mt-0.5" />
                       <div>
                         <span className="text-[10px] font-black uppercase text-ssil-red block mb-0.5">SSIL:</span>
@@ -368,10 +368,10 @@ export default function AboutPage() {
                       </div>
                     </div>
 
-                    <div className="flex items-start gap-2.5 text-xs text-slate-500 dark:text-slate-400 font-normal leading-relaxed p-3 bg-slate-100/50 dark:bg-zinc-900/50 rounded-xl border border-slate-200/50 dark:border-zinc-800/50">
-                      <X className="h-4 w-4 text-slate-400 dark:text-slate-600 shrink-0 mt-0.5" />
+                    <div className="flex items-start gap-2.5 text-xs text-slate-400 font-normal leading-relaxed p-3 bg-zinc-900/60 rounded-xl border border-zinc-800">
+                      <X className="h-4 w-4 text-slate-500 shrink-0 mt-0.5" />
                       <div>
-                        <span className="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 block mb-0.5">Conventional:</span>
+                        <span className="text-[10px] font-extrabold uppercase text-slate-400 block mb-0.5">Conventional:</span>
                         {item.conventional}
                       </div>
                     </div>
