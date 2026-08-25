@@ -1,8 +1,40 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useRef } from "react";
+import { motion, useInView, animate } from "framer-motion";
 import { Zap, Award, Globe, Building2 } from "lucide-react";
+
+interface CounterProps {
+  value: number;
+  suffix?: string;
+  hasCommas?: boolean;
+}
+
+const Counter = ({ value, suffix = "+", hasCommas = false }: CounterProps) => {
+  const nodeRef = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(nodeRef, { once: false, margin: "-30px" });
+
+  useEffect(() => {
+    const node = nodeRef.current;
+    if (!node) return;
+
+    if (isInView) {
+      const controls = animate(0, value, {
+        duration: 1.8,
+        ease: [0.16, 1, 0.3, 1],
+        onUpdate(latest) {
+          const rounded = Math.floor(latest);
+          node.textContent = (hasCommas ? rounded.toLocaleString("en-US") : rounded.toString()) + suffix;
+        },
+      });
+      return () => controls.stop();
+    } else {
+      node.textContent = "0" + suffix;
+    }
+  }, [isInView, value, suffix, hasCommas]);
+
+  return <span ref={nodeRef}>0{suffix}</span>;
+};
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -28,25 +60,33 @@ const itemVariants = {
 
 const metricsData = [
   {
-    number: "20,000+",
+    targetValue: 20000,
+    hasCommas: true,
+    suffix: "+",
     label: "Poles & Lighting Installations",
     sublabel: "DEPLOYED FOOTPRINT",
     icon: <Zap className="h-4 w-4" />,
   },
   {
-    number: "12+",
+    targetValue: 12,
+    hasCommas: false,
+    suffix: "+",
     label: "Years of Experience",
     sublabel: "ENGINEERING HERITAGE",
     icon: <Award className="h-4 w-4" />,
   },
   {
-    number: "22+",
+    targetValue: 22,
+    hasCommas: false,
+    suffix: "+",
     label: "States Served",
     sublabel: "PAN-INDIA REACH",
     icon: <Globe className="h-4 w-4" />,
   },
   {
-    number: "200+",
+    targetValue: 200,
+    hasCommas: false,
+    suffix: "+",
     label: "Projects Completed",
     sublabel: "EXECUTED DELIVERIES",
     icon: <Building2 className="h-4 w-4" />,
@@ -63,7 +103,7 @@ const Stats2 = () => {
           className="text-center max-w-4xl mx-auto mb-12"
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
+          viewport={{ once: false, margin: "-40px" }}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
           <span className="text-sm sm:text-base font-extrabold uppercase tracking-widest text-ssil-red block mb-2.5">
@@ -77,12 +117,12 @@ const Stats2 = () => {
           </p>
         </motion.div>
 
-        {/* 4 Metric Cards Grid with Enhanced Pop-Up & Shadow Hover Effect */}
+        {/* 4 Metric Cards Grid with Enhanced Pop-Up & Scroll-Triggered Counting Animation */}
         <motion.div
           className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-40px" }}
+          viewport={{ once: false, margin: "-40px" }}
           variants={containerVariants}
         >
           {metricsData.map((item, index) => (
@@ -102,7 +142,7 @@ const Stats2 = () => {
 
               <div className="mt-2">
                 <h3 className="text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-none group-hover:text-ssil-red transition-colors duration-300">
-                  {item.number}
+                  <Counter value={item.targetValue} suffix={item.suffix} hasCommas={item.hasCommas} />
                 </h3>
                 <p className="text-slate-600 dark:text-slate-300 text-xs font-bold uppercase tracking-wider mt-2.5 leading-snug">
                   {item.label}
