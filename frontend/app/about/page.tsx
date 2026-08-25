@@ -24,6 +24,7 @@ const offeringData = [
     categoryTag: "Municipal & Smart",
     description: "Energy-efficient smart street lights and civic luminaires engineered for municipal roadways and urban thoroughfares.",
     icon: <Lightbulb className="h-6 w-6 sm:h-7 sm:w-7" />,
+    offsetClass: "pr-0",
   },
   {
     num: "02",
@@ -31,6 +32,7 @@ const offeringData = [
     categoryTag: "Facade & Aesthetic",
     description: "Custom facade illuminators, structural highlights, and aesthetic building luminaires for modern commercial architecture.",
     icon: <Building className="h-6 w-6 sm:h-7 sm:w-7" />,
+    offsetClass: "pr-4 sm:pr-6",
   },
   {
     num: "03",
@@ -38,6 +40,7 @@ const offeringData = [
     categoryTag: "Expressways & Heavy-Duty",
     description: "Heavy-duty octagonal poles, expressway floodlights, and high-tensile roadway fixtures for state and national highways.",
     icon: <Layers className="h-6 w-6 sm:h-7 sm:w-7" />,
+    offsetClass: "pr-1 sm:pr-2",
   },
   {
     num: "04",
@@ -45,6 +48,7 @@ const offeringData = [
     categoryTag: "Outdoor & Green Spaces",
     description: "Decorative bollards, garden pathway illuminators, and eco-friendly outdoor lawn lighting for public parks and resorts.",
     icon: <Trees className="h-6 w-6 sm:h-7 sm:w-7" />,
+    offsetClass: "pr-5 sm:pr-8",
   },
   {
     num: "05",
@@ -52,6 +56,7 @@ const offeringData = [
     categoryTag: "Classic & Vintage",
     description: "Ornamental vintage poles, cast iron heritage brackets, and royal civic plaza luminaires blending classic charm with modern LEDs.",
     icon: <Landmark className="h-6 w-6 sm:h-7 sm:w-7" />,
+    offsetClass: "pr-0",
   },
   {
     num: "06",
@@ -59,6 +64,7 @@ const offeringData = [
     categoryTag: "Stadiums & High-Output",
     description: "Monumental high mast towers, stadium floodlighting, and multi-fixture high-output masts for sports arenas and industrial hubs.",
     icon: <Zap className="h-6 w-6 sm:h-7 sm:w-7" />,
+    offsetClass: "pr-3 sm:pr-5",
   },
   {
     num: "07",
@@ -66,6 +72,7 @@ const offeringData = [
     categoryTag: "Surveillance & IoT",
     description: "Integrated smart poles equipped with surveillance camera mounts, IoT sensors, and civic security infrastructure.",
     icon: <ShieldCheck className="h-6 w-6 sm:h-7 sm:w-7" />,
+    offsetClass: "pr-1 sm:pr-3",
   },
   {
     num: "08",
@@ -73,10 +80,11 @@ const offeringData = [
     categoryTag: "Bespoke & Tailored",
     description: "Bespoke flag mast poles, tailored steel brackets, and specialized architectural frameworks manufactured to tender specifications.",
     icon: <Wrench className="h-6 w-6 sm:h-7 sm:w-7" />,
+    offsetClass: "pr-4 sm:pr-7",
   },
 ];
 
-// Repeatable Viewport Entrance Animation Variants (slide up + subtle scale + fade in with staggered children)
+// Repeatable Viewport Entrance Animation Variants
 const sectionVariants = {
   hidden: {
     opacity: 0,
@@ -166,7 +174,7 @@ export default function AboutPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 3. OUR SOLUTIONS / WHAT WE OFFER (INSET STRAIGHT LINES & HOVER SLIDE LEFT EFFECT) */}
+      {/* 3. OUR SOLUTIONS / WHAT WE OFFER (EDITORIAL HIGH-IMPACT TYPOGRAPHY & SMOOTH GLIDE) */}
       {/* ============================================================ */}
       <motion.section
         className="py-16 md:py-24 bg-slate-50 dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors relative overflow-hidden"
@@ -177,17 +185,15 @@ export default function AboutPage() {
       >
         <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
           
-          {/* Section Header */}
-          <motion.div variants={childVariants} className="max-w-3xl mb-12 sm:mb-16">
-            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block mb-2">
-              OUR SOLUTIONS
+          {/* Section Header: Editorial Eyebrow + 2-Line High Impact Title */}
+          <motion.div variants={childVariants} className="max-w-4xl mb-14 sm:mb-20">
+            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-4">
+              WHAT WE OFFER
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
-              What We Offer
+            <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.08]">
+              Complete lighting solutions,<br />
+              <span className="text-ssil-red">engineered to last.</span>
             </h2>
-            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 leading-relaxed font-medium">
-              Comprehensive architectural, infrastructural, and specialized lighting engineering designed for municipal expressways, urban plazas, and commercial developments.
-            </p>
           </motion.div>
 
           {/* Solution Rows Container with Inset Straight Horizontal Lines */}
@@ -205,27 +211,27 @@ export default function AboutPage() {
                 )}
                 
                 <motion.div
-                  whileHover={{ x: [-12, 0] }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                  className="group relative py-7 sm:py-8 px-4 sm:px-6 transition-colors duration-300 ease-out flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-8 hover:bg-slate-100/60 dark:hover:bg-slate-900/50 cursor-pointer"
+                  whileHover={{ x: -10 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                  className="group relative py-8 sm:py-10 px-4 sm:px-6 transition-colors duration-300 ease-out flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-8 hover:bg-slate-100/70 dark:hover:bg-slate-900/60 cursor-pointer"
                 >
-                  {/* Left Side: Number & Solution Title */}
-                  <div className="flex items-center gap-4 sm:gap-6 lg:gap-10 shrink-0 md:w-5/12 lg:w-4/12">
-                    <span className="text-sm sm:text-base font-bold text-slate-400 dark:text-slate-500 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors duration-300 w-6 sm:w-8 shrink-0">
+                  {/* Left Side: Large Editorial Index Number & Solution Title */}
+                  <div className="flex items-center gap-5 sm:gap-8 lg:gap-12 shrink-0 md:w-5/12 lg:w-5/12">
+                    <span className="text-xl sm:text-2xl font-bold text-slate-400 dark:text-slate-500 group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors duration-300 w-8 sm:w-12 shrink-0">
                       {item.num}
                     </span>
-                    <h3 className="text-base sm:text-lg md:text-xl font-black text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors duration-300 tracking-tight">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors duration-300 tracking-tight">
                       {item.title}
                     </h3>
                   </div>
 
                   {/* Center / Right: Description */}
-                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed md:w-6/12 lg:w-6/12">
+                  <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 font-normal leading-relaxed md:w-5/12 lg:w-5/12">
                     {item.description}
                   </p>
 
-                  {/* Far Right: Lucide Icon */}
-                  <div className="shrink-0 flex items-center justify-start md:justify-end md:w-1/12 text-slate-400 dark:text-slate-500 group-hover:text-ssil-red group-hover:scale-110 transition-all duration-300">
+                  {/* Far Right: Staggered Lucide Icon Asset */}
+                  <div className={`shrink-0 flex items-center justify-start md:justify-end md:w-2/12 text-slate-400 dark:text-slate-500 group-hover:text-ssil-red group-hover:scale-110 transition-all duration-300 ${item.offsetClass}`}>
                     {item.icon}
                   </div>
                 </motion.div>
