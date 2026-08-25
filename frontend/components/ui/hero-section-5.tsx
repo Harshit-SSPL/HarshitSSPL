@@ -45,8 +45,8 @@ export function HeroSection() {
 
     return (
         <div className="relative w-full overflow-hidden flex flex-col">
-            {/* Top Main Hero Viewport Canvas (Adjusted so company names in partner strip below are 100% visible on initial load) */}
-            <section className="relative w-full flex-1 flex flex-col justify-center min-h-[65vh] sm:min-h-[calc(100vh-13.5rem)] py-12 sm:py-16 lg:py-20">
+            {/* Top Main Hero Viewport Canvas (Reduced by exactly 45px from full height) */}
+            <section className="relative w-full flex-1 flex flex-col justify-center min-h-[70vh] sm:min-h-[calc(100vh-125px)] py-14 sm:py-20 lg:py-24">
                 <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:px-8 w-full">
                     <div className="max-w-3xl text-left">
                         
