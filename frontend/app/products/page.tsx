@@ -55,18 +55,20 @@ const ProductCard = ({ product }: { product: CatalogProduct }) => {
             className="object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
           />
 
-          {/* Inside Bottom Overlay Bar: Product Name on Left + View All Button on Right (100% Inside Image) */}
-          <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950/90 via-slate-950/60 to-transparent px-3 py-2.5 sm:px-3.5 sm:py-3 flex items-center justify-between z-10">
-            {/* Left Side: Product Name */}
-            <h3 className="text-xs sm:text-sm font-black text-white tracking-tight drop-shadow-md group-hover:text-ssil-red transition-colors duration-300 truncate max-w-[130px] sm:max-w-[150px]">
+          {/* Bottom Glass Overlay: Full Width Translucent Bar matching Transparent Navbar styling */}
+          <div className="absolute bottom-0 inset-x-0 bg-slate-950/45 dark:bg-slate-950/50 backdrop-blur-md border-t border-white/10 px-3.5 py-3 sm:px-4 sm:py-3.5 flex items-center justify-between gap-3 z-10 transition-all duration-300 group-hover:bg-slate-950/65 group-hover:border-white/20">
+            
+            {/* Left Side: Product Name (Full Name Visible, Navbar Medium Weight, Natural 2-Line Wrap) */}
+            <h3 className="text-xs sm:text-sm font-medium text-white tracking-normal leading-snug text-left flex-1 min-w-0">
               {product.name}
             </h3>
 
-            {/* Right Side: View All Link */}
-            <span className="inline-flex items-center text-[11px] sm:text-xs font-black text-ssil-red hover:text-red-400 transition-colors gap-0.5 shrink-0 bg-black/40 backdrop-blur-xs px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-ssil-red/30 shadow-xs">
+            {/* Right Side: Full Red View All Button with White Text */}
+            <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-medium text-white shrink-0 bg-ssil-red hover:bg-ssil-red-600 transition-all duration-200 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-md shadow-sm group-hover:scale-[1.03]">
               <span>View All</span>
-              <ChevronRight className="h-3 w-3" />
+              <ChevronRight className="h-3.5 w-3.5 text-white shrink-0" />
             </span>
+
           </div>
 
         </div>
