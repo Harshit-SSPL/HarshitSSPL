@@ -7,8 +7,9 @@ import { InfiniteSlider } from '@/components/ui/infinite-slider';
 import { ProgressiveBlur } from '@/components/ui/progressive-blur';
 import { clientCompanies, ClientCompany } from '@/data/clients';
 import { ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 
-// Single Gliding Item: Floating 3D PNG Sticker Logo Top (NO White Box/Border) + Company Name Bottom
+// Single Gliding Item: Floating 3D PNG Sticker Logo Top + Company Name Bottom
 const MarqueeItem = ({ client }: { client: ClientCompany }) => {
   const [imgError, setImgError] = React.useState(false);
 
@@ -45,48 +46,75 @@ export function HeroSection() {
     return (
         <div className="relative w-full overflow-hidden">
             <section className="relative">
-                <div className="pt-24 pb-12 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-20">
-                    <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:block lg:px-12">
-                        <div className="mx-auto max-w-2xl text-center lg:ml-0 lg:max-w-3xl lg:text-left">
-                            <h1 className="mt-2 text-balance text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.1]">
-                                Complete Infrastructure &amp; Architectural Lighting
+                <div className="pt-16 pb-12 sm:pt-20 sm:pb-16 lg:pt-24 lg:pb-16">
+                    <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:px-8">
+                        <div className="max-w-4xl text-left">
+                            
+                            {/* Eyebrow: Small, Tracked Uppercase Eyebrow */}
+                            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-500 dark:text-slate-400 block mb-4">
+                                ABOUT US
+                            </span>
+
+                            {/* Headline: Editorial Scale & Selective SSIL RED Accent */}
+                            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.12] mb-6">
+                                Complete infrastructure &amp;<br />
+                                architectural lighting, <span className="text-ssil-red">engineered to endure.</span>
                             </h1>
-                            <p className="mt-4 sm:mt-6 text-balance text-sm sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 font-normal leading-relaxed">
-                                SSIL is one of the most equipped manufacturers of lighting solutions in the global market. We engineer energy-efficient LED luminaires, solar power systems, and monumental poles across India.
+
+                            {/* Supporting Paragraph: Clean 2-Line Desktop Typography */}
+                            <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-3xl mb-8">
+                                SSIL is one of India&apos;s premier lighting and infrastructure manufacturers, engineering energy-efficient LED luminaires, solar power systems, monumental flag poles, and architectural lighting for major civic and commercial projects across the nation.
                             </p>
 
-                            <div className="mt-6 sm:mt-8 flex flex-col items-center justify-center gap-3.5 sm:flex-row lg:justify-start">
+                            {/* CTA Buttons: Explore Products (Periodic Shine) + Contact Engineers */}
+                            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 lg:justify-start">
                                 <Button
                                     asChild
                                     size="lg"
-                                    className="h-11 sm:h-12 rounded-full pl-6 pr-4 text-sm sm:text-base font-extrabold bg-ssil-red hover:bg-red-700 text-white shadow-lg shadow-red-900/20">
-                                    <Link href="/products">
-                                        <span className="text-nowrap">Explore Products</span>
-                                        <ChevronRight className="ml-1 h-5 w-5" />
+                                    className="h-12 rounded-full px-7 text-sm sm:text-base font-extrabold bg-ssil-red hover:bg-red-700 text-white shadow-lg shadow-red-900/20 relative overflow-hidden group border-0">
+                                    <Link href="/products" className="flex items-center gap-1">
+                                        <span className="text-nowrap relative z-10">Explore Products</span>
+                                        <ChevronRight className="h-5 w-5 relative z-10" />
+
+                                        {/* Subtle Periodic Translucent Light Sweep Animation */}
+                                        <motion.span
+                                            className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-[-20deg] pointer-events-none"
+                                            animate={{
+                                                x: ["-150%", "300%"],
+                                            }}
+                                            transition={{
+                                                duration: 1.8,
+                                                repeat: Number.POSITIVE_INFINITY,
+                                                repeatDelay: 3.5,
+                                                ease: "easeInOut",
+                                            }}
+                                        />
                                     </Link>
                                 </Button>
+
                                 <Button
                                     key={2}
                                     asChild
                                     size="lg"
                                     variant="ghost"
-                                    className="h-11 sm:h-12 rounded-full px-6 text-sm sm:text-base font-extrabold text-slate-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/10 ring-1 ring-slate-300 dark:ring-slate-800">
+                                    className="h-12 rounded-full px-7 text-sm sm:text-base font-extrabold text-slate-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/10 border border-slate-300 dark:border-zinc-800">
                                     <Link href="/contact">
                                         <span className="text-nowrap">Contact Engineers</span>
                                     </Link>
                                 </Button>
                             </div>
+
                         </div>
                     </div>
 
-                    {/* Video Background Layer */}
-                    <div className="absolute inset-0 overflow-hidden rounded-3xl border border-black/10 sm:rounded-[3rem] dark:border-white/5 pointer-events-none">
+                    {/* Subtle Backdrop Video Layer */}
+                    <div className="absolute inset-0 overflow-hidden rounded-3xl border border-black/5 sm:rounded-[3rem] dark:border-white/5 pointer-events-none opacity-20">
                         <video
                             autoPlay
                             loop
                             muted
                             playsInline
-                            className="size-full object-cover opacity-30 invert dark:opacity-40 dark:invert-0"
+                            className="size-full object-cover opacity-20 invert dark:opacity-30 dark:invert-0"
                             src="https://ik.imagekit.io/lrigu76hy/tailark/dna-video.mp4?updatedAt=1745736251477"
                         />
                     </div>
