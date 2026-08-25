@@ -6,7 +6,6 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { featuredProducts, FeaturedProduct } from "@/data/featured-products";
-import { MeshDriftBackground } from "@/components/ui/mesh-drift-background";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -79,10 +78,7 @@ const ProductCard = ({ product }: { product: FeaturedProduct }) => {
 
 export default function ProductsPage() {
   return (
-    <div className="relative min-h-screen w-full text-slate-900 dark:text-white transition-colors duration-300 overflow-hidden">
-      {/* Animated WebGL Mesh Drift Shader Background (Same as Contact Us Page) */}
-      <MeshDriftBackground />
-
+    <div className="relative min-h-screen w-full bg-white dark:bg-black text-slate-900 dark:text-white transition-colors duration-300 overflow-hidden">
       {/* ============================================================ */}
       {/* 1. FULL-BLEED HERO BANNER (EXTREME LEFT ALIGNED TEXT, RED HIGHLIGHT WORD) */}
       {/* ============================================================ */}
@@ -112,9 +108,9 @@ export default function ProductsPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 2. OUR PRODUCTS SECTION (ZERO BORDER RADIUS / ROUNDED-NONE PRODUCT CARDS) */}
+      {/* 2. OUR PRODUCTS SECTION (CLEAN WHITE/BLACK BACKGROUND, ROUNDED-NONE CARDS) */}
       {/* ============================================================ */}
-      <section className="relative z-10 py-14 sm:py-20">
+      <section className="relative z-10 py-14 sm:py-20 bg-white dark:bg-black">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           
           {/* Left Slide-In Animated Header */}
