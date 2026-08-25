@@ -166,7 +166,7 @@ export default function AboutPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 3. OUR SOLUTIONS / WHAT WE OFFER (EDITORIAL HORIZONTAL ROWS CATALOGUE) */}
+      {/* 3. OUR SOLUTIONS / WHAT WE OFFER (INSET STRAIGHT LINES & HOVER SLIDE LEFT EFFECT) */}
       {/* ============================================================ */}
       <motion.section
         className="py-16 md:py-24 bg-slate-50 dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors relative overflow-hidden"
@@ -190,38 +190,50 @@ export default function AboutPage() {
             </p>
           </motion.div>
 
-          {/* Full-Width Horizontal Catalogue Rows with Dividers & Interactive Hover */}
+          {/* Solution Rows Container with Inset Straight Horizontal Lines */}
           <motion.div
             variants={childVariants}
-            className="w-full border-t border-b border-slate-200/90 dark:border-slate-800/90 divide-y divide-slate-200/90 dark:divide-slate-800/90"
+            className="w-full max-w-6xl mx-auto"
           >
-            {offeringData.map((item) => (
-              <motion.div
-                key={item.num}
-                variants={childVariants}
-                className="group relative py-7 sm:py-9 px-3 sm:px-6 transition-all duration-300 ease-out flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-8 hover:bg-slate-100/70 dark:hover:bg-slate-900/60 rounded-xl cursor-pointer hover:translate-x-2 sm:hover:translate-x-3"
-              >
-                {/* Left Side: Number & Solution Title */}
-                <div className="flex items-center gap-4 sm:gap-6 lg:gap-10 shrink-0 md:w-5/12 lg:w-4/12">
-                  <span className="text-sm sm:text-base font-bold text-slate-400 dark:text-slate-500 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors duration-300 w-6 sm:w-8 shrink-0">
-                    {item.num}
-                  </span>
-                  <h3 className="text-base sm:text-lg md:text-xl font-black text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors duration-300 tracking-tight">
-                    {item.title}
-                  </h3>
-                </div>
+            {/* Top Straight Line (Not Touching Screen Edges) */}
+            <div className="w-full h-[1px] bg-slate-200/90 dark:bg-slate-800/90" />
 
-                {/* Center / Right: Description */}
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed md:w-6/12 lg:w-6/12">
-                  {item.description}
-                </p>
+            {offeringData.map((item, index) => (
+              <React.Fragment key={item.num}>
+                {index > 0 && (
+                  <div className="w-full h-[1px] bg-slate-200/90 dark:bg-slate-800/90" />
+                )}
+                
+                <motion.div
+                  whileHover={{ x: [-12, 0] }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  className="group relative py-7 sm:py-8 px-4 sm:px-6 transition-colors duration-300 ease-out flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-8 hover:bg-slate-100/60 dark:hover:bg-slate-900/50 cursor-pointer"
+                >
+                  {/* Left Side: Number & Solution Title */}
+                  <div className="flex items-center gap-4 sm:gap-6 lg:gap-10 shrink-0 md:w-5/12 lg:w-4/12">
+                    <span className="text-sm sm:text-base font-bold text-slate-400 dark:text-slate-500 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors duration-300 w-6 sm:w-8 shrink-0">
+                      {item.num}
+                    </span>
+                    <h3 className="text-base sm:text-lg md:text-xl font-black text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors duration-300 tracking-tight">
+                      {item.title}
+                    </h3>
+                  </div>
 
-                {/* Far Right: Lucide Icon */}
-                <div className="shrink-0 flex items-center justify-start md:justify-end md:w-1/12 text-slate-400 dark:text-slate-500 group-hover:text-ssil-red group-hover:scale-110 transition-all duration-300">
-                  {item.icon}
-                </div>
-              </motion.div>
+                  {/* Center / Right: Description */}
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed md:w-6/12 lg:w-6/12">
+                    {item.description}
+                  </p>
+
+                  {/* Far Right: Lucide Icon */}
+                  <div className="shrink-0 flex items-center justify-start md:justify-end md:w-1/12 text-slate-400 dark:text-slate-500 group-hover:text-ssil-red group-hover:scale-110 transition-all duration-300">
+                    {item.icon}
+                  </div>
+                </motion.div>
+              </React.Fragment>
             ))}
+
+            {/* Bottom Straight Line (Not Touching Screen Edges) */}
+            <div className="w-full h-[1px] bg-slate-200/90 dark:bg-slate-800/90" />
           </motion.div>
 
         </div>
