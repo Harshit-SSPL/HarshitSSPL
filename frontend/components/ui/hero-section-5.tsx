@@ -46,35 +46,35 @@ export function HeroSection() {
     return (
         <div className="relative w-full overflow-hidden">
             <section className="relative">
-                <div className="pt-16 pb-12 sm:pt-20 sm:pb-16 lg:pt-24 lg:pb-16">
+                <div className="pt-14 pb-10 sm:pt-16 sm:pb-12 lg:pt-20 lg:pb-14">
                     <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:px-8">
-                        <div className="max-w-4xl text-left">
+                        <div className="max-w-3xl text-left">
                             
                             {/* Eyebrow: Small, Tracked Uppercase Eyebrow */}
-                            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-500 dark:text-slate-400 block mb-4">
+                            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-500 dark:text-slate-400 block mb-3">
                                 ABOUT US
                             </span>
 
-                            {/* Headline: Editorial Scale & Selective SSIL RED Accent */}
-                            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.12] mb-6">
+                            {/* Headline: Clean 2-Line Desktop Typography (Second Line Red) */}
+                            <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mb-4">
                                 Complete infrastructure &amp;<br />
-                                architectural lighting, <span className="text-ssil-red">engineered to endure.</span>
+                                <span className="text-ssil-red">architectural lighting.</span>
                             </h1>
 
-                            {/* Supporting Paragraph: Clean 2-Line Desktop Typography */}
-                            <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-3xl mb-8">
-                                SSIL is one of India&apos;s premier lighting and infrastructure manufacturers, engineering energy-efficient LED luminaires, solar power systems, monumental flag poles, and architectural lighting for major civic and commercial projects across the nation.
+                            {/* Supporting Paragraph: Short & Concise 1-2 Lines */}
+                            <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-2xl mb-6">
+                                SSIL manufactures and delivers complete energy-efficient LED luminaires, solar power systems, monumental flag poles, and infrastructure lighting across India.
                             </p>
 
                             {/* CTA Buttons: Explore Products (Periodic Shine) + Contact Engineers */}
-                            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 lg:justify-start">
+                            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 lg:justify-start">
                                 <Button
                                     asChild
                                     size="lg"
-                                    className="h-12 rounded-full px-7 text-sm sm:text-base font-extrabold bg-ssil-red hover:bg-red-700 text-white shadow-lg shadow-red-900/20 relative overflow-hidden group border-0">
+                                    className="h-11 sm:h-12 rounded-full px-6 text-xs sm:text-sm font-extrabold bg-ssil-red hover:bg-red-700 text-white shadow-md shadow-red-900/20 relative overflow-hidden group border-0">
                                     <Link href="/products" className="flex items-center gap-1">
                                         <span className="text-nowrap relative z-10">Explore Products</span>
-                                        <ChevronRight className="h-5 w-5 relative z-10" />
+                                        <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5 relative z-10" />
 
                                         {/* Subtle Periodic Translucent Light Sweep Animation */}
                                         <motion.span
@@ -97,7 +97,7 @@ export function HeroSection() {
                                     asChild
                                     size="lg"
                                     variant="ghost"
-                                    className="h-12 rounded-full px-7 text-sm sm:text-base font-extrabold text-slate-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/10 border border-slate-300 dark:border-zinc-800">
+                                    className="h-11 sm:h-12 rounded-full px-6 text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/10 border border-slate-300 dark:border-zinc-800">
                                     <Link href="/contact">
                                         <span className="text-nowrap">Contact Engineers</span>
                                     </Link>
@@ -108,13 +108,13 @@ export function HeroSection() {
                     </div>
 
                     {/* Subtle Backdrop Video Layer */}
-                    <div className="absolute inset-0 overflow-hidden rounded-3xl border border-black/5 sm:rounded-[3rem] dark:border-white/5 pointer-events-none opacity-20">
+                    <div className="absolute inset-0 overflow-hidden rounded-3xl border border-black/5 sm:rounded-[3rem] dark:border-white/5 pointer-events-none opacity-15">
                         <video
                             autoPlay
                             loop
                             muted
                             playsInline
-                            className="size-full object-cover opacity-20 invert dark:opacity-30 dark:invert-0"
+                            className="size-full object-cover opacity-15 invert dark:opacity-25 dark:invert-0"
                             src="https://ik.imagekit.io/lrigu76hy/tailark/dna-video.mp4?updatedAt=1745736251477"
                         />
                     </div>
