@@ -9,20 +9,20 @@ import {
   Building,
   Layers,
   Zap,
-  Flag,
-  Sparkles,
   ShieldCheck,
   Wrench,
   Trees,
   Landmark,
   Check,
   X,
+  Flag,
+  Sparkles,
 } from "lucide-react";
 
 const offeringData = [
   {
     num: "01",
-    title: "1. Urban Lighting",
+    title: "Urban Lighting",
     categoryTag: "Municipal & Smart",
     description: "Energy-efficient smart street lights and civic luminaires engineered for municipal roadways and urban thoroughfares.",
     icon: <Lightbulb className="h-5 w-5 sm:h-6 sm:w-6" />,
@@ -30,7 +30,7 @@ const offeringData = [
   },
   {
     num: "02",
-    title: "2. Architectural Lighting",
+    title: "Architectural Lighting",
     categoryTag: "Facade & Aesthetic",
     description: "Custom facade illuminators, structural highlights, and aesthetic building luminaires for modern commercial architecture.",
     icon: <Building className="h-5 w-5 sm:h-6 sm:w-6" />,
@@ -38,7 +38,7 @@ const offeringData = [
   },
   {
     num: "03",
-    title: "3. Highway & Infrastructural",
+    title: "Highway & Infrastructural",
     categoryTag: "Expressways & Heavy-Duty",
     description: "Heavy-duty octagonal poles, expressway floodlights, and high-tensile roadway fixtures for state and national highways.",
     icon: <Layers className="h-5 w-5 sm:h-6 sm:w-6" />,
@@ -46,7 +46,7 @@ const offeringData = [
   },
   {
     num: "04",
-    title: "4. Park & Landscape",
+    title: "Park & Landscape",
     categoryTag: "Outdoor & Green Spaces",
     description: "Decorative bollards, garden pathway illuminators, and eco-friendly outdoor lawn lighting for public parks and resorts.",
     icon: <Trees className="h-5 w-5 sm:h-6 sm:w-6" />,
@@ -54,7 +54,7 @@ const offeringData = [
   },
   {
     num: "05",
-    title: "5. Heritage & Decorative",
+    title: "Heritage & Decorative",
     categoryTag: "Classic & Vintage",
     description: "Ornamental vintage poles, cast iron heritage brackets, and royal civic plaza luminaires blending classic charm with modern LEDs.",
     icon: <Landmark className="h-5 w-5 sm:h-6 sm:w-6" />,
@@ -62,7 +62,7 @@ const offeringData = [
   },
   {
     num: "06",
-    title: "6. High Mast & Sports",
+    title: "High Mast & Sports",
     categoryTag: "Stadiums & High-Output",
     description: "Monumental high mast towers, stadium floodlighting, and multi-fixture high-output masts for sports arenas and industrial hubs.",
     icon: <Zap className="h-5 w-5 sm:h-6 sm:w-6" />,
@@ -70,7 +70,7 @@ const offeringData = [
   },
   {
     num: "07",
-    title: "7. CCTV & Security",
+    title: "CCTV & Security",
     categoryTag: "Surveillance & IoT",
     description: "Integrated smart poles equipped with surveillance camera mounts, IoT sensors, and civic security infrastructure.",
     icon: <ShieldCheck className="h-5 w-5 sm:h-6 sm:w-6" />,
@@ -78,7 +78,7 @@ const offeringData = [
   },
   {
     num: "08",
-    title: "8. Custom Engineered Structure",
+    title: "Custom Engineered Structure",
     categoryTag: "Bespoke & Tailored",
     description: "Bespoke flag mast poles, tailored steel brackets, and specialized architectural frameworks manufactured to tender specifications.",
     icon: <Wrench className="h-5 w-5 sm:h-6 sm:w-6" />,
@@ -122,27 +122,27 @@ const whySsilData = [
 const processData = [
   {
     num: "01",
-    title: "1. Project Requirements & Specs",
+    title: "Project Requirements & Specs",
     description: "Comprehensive evaluation of site conditions, lighting levels, architectural drawings, and tender technical specifications.",
   },
   {
     num: "02",
-    title: "2. Solution Engineering & Design",
+    title: "Solution Engineering & Design",
     description: "Custom structural calculations, photometrics, pole design, bracket geometry, and luminaire selection tailored to project goals.",
   },
   {
     num: "03",
-    title: "3. Precision Manufacturing & Quality",
+    title: "Precision Manufacturing & Quality",
     description: "In-house production of octagonal poles, high mast towers, heritage brackets, and LED luminaires with strict ISO quality controls.",
   },
   {
     num: "04",
-    title: "4. Logistics & Transportation",
+    title: "Logistics & Transportation",
     description: "Coordinated fleet freight, protective heavy-duty packaging, and synchronized logistics for safe on-time site arrival.",
   },
   {
     num: "05",
-    title: "5. On-Site Deployment & Support",
+    title: "On-Site Deployment & Support",
     description: "Technical supply chain support, erection guidance, and final commissioning verification for civic and industrial infrastructure.",
   },
 ];
@@ -276,7 +276,7 @@ export default function AboutPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 3. OUR SOLUTIONS / WHAT WE OFFER (COMPACT EDITORIAL ROWS) */}
+      {/* 3. OUR SOLUTIONS / WHAT WE OFFER (SPACIOUS 7XL CONTAINER + POP-UP HOVER) */}
       {/* ============================================================ */}
       <motion.section
         className="py-10 md:py-14 bg-slate-50 dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors relative overflow-hidden"
@@ -298,10 +298,10 @@ export default function AboutPage() {
             </h2>
           </motion.div>
 
-          {/* Solution Rows Container with Inset Straight Horizontal Lines */}
+          {/* Solution Rows Container (Increased Width to max-w-7xl) */}
           <motion.div
             variants={childVariants}
-            className="w-full max-w-6xl mx-auto"
+            className="w-full max-w-7xl mx-auto"
           >
             {/* Top Straight Line (Not Touching Screen Edges) */}
             <div className="w-full h-[1px] bg-slate-200/90 dark:bg-slate-800/90" />
@@ -314,12 +314,12 @@ export default function AboutPage() {
                 
                 <div
                   tabIndex={0}
-                  className="group relative py-4 sm:py-5 px-3 sm:px-5 transition-all duration-300 ease-out flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-6 cursor-pointer overflow-hidden focus-visible:outline-none"
+                  className="group relative py-4 sm:py-5 px-4 sm:px-6 transition-all duration-300 ease-out flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-6 cursor-pointer overflow-hidden focus-visible:outline-none hover:-translate-y-1.5 hover:scale-[1.008] hover:shadow-xl hover:z-20 rounded-lg sm:rounded-xl"
                 >
                   {/* Left-to-Right Animated Red Background Fill Layer */}
                   <div className="absolute inset-0 bg-ssil-red origin-left scale-x-0 group-hover:scale-x-100 group-focus-visible:scale-x-100 transition-transform duration-500 ease-out z-0 pointer-events-none" />
 
-                  {/* Left Side: Editorial Index Number & Solution Title */}
+                  {/* Left Side: Editorial Index Number & Clean Title (No Duplicate Numbers) */}
                   <div className="relative z-10 flex items-center gap-4 sm:gap-6 lg:gap-8 shrink-0 md:w-5/12 lg:w-5/12">
                     <span className="text-base sm:text-xl font-bold text-slate-400 dark:text-slate-500 group-hover:text-white group-focus-visible:text-white transition-colors duration-300 w-6 sm:w-10 shrink-0">
                       {item.num}
@@ -350,7 +350,7 @@ export default function AboutPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 4. WHY SSIL / THE SSIL DIFFERENCE (COMPACT COMPARISON TABLE) */}
+      {/* 4. WHY SSIL / THE SSIL DIFFERENCE (SPACIOUS 7XL COMPARISON TABLE) */}
       {/* ============================================================ */}
       <motion.section
         className="py-10 md:py-14 bg-black text-white border-b border-zinc-900 transition-colors relative overflow-hidden"
@@ -380,10 +380,10 @@ export default function AboutPage() {
             </motion.div>
           </div>
 
-          {/* Comparison Table Container */}
+          {/* Comparison Table Container (Increased Width to max-w-7xl) */}
           <motion.div
             variants={childVariants}
-            className="w-full max-w-6xl mx-auto rounded-2xl sm:rounded-3xl bg-zinc-950 border border-zinc-800 shadow-2xl backdrop-blur-md overflow-hidden"
+            className="w-full max-w-7xl mx-auto rounded-2xl sm:rounded-3xl bg-zinc-950 border border-zinc-800 shadow-2xl backdrop-blur-md overflow-hidden"
           >
             {/* Table Header Row (Desktop & Tablet) */}
             <div className="hidden md:grid grid-cols-12 gap-4 px-5 py-3.5 bg-zinc-900 border-b border-zinc-800 text-xs font-black uppercase tracking-wider">
@@ -455,7 +455,7 @@ export default function AboutPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 5. HOW WE DELIVER / OUR PROCESS (COMPACT PROCESS ROWS) */}
+      {/* 5. HOW WE DELIVER / OUR PROCESS (SPACIOUS 7XL PROCESS ROWS) */}
       {/* ============================================================ */}
       <motion.section
         className="py-10 md:py-14 bg-slate-50 dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors relative overflow-hidden"
@@ -485,10 +485,10 @@ export default function AboutPage() {
             </motion.div>
           </div>
 
-          {/* Process Rows Container with Inset Dividers */}
+          {/* Process Rows Container (Increased Width to max-w-7xl) */}
           <motion.div
             variants={childVariants}
-            className="w-full max-w-6xl mx-auto"
+            className="w-full max-w-7xl mx-auto"
           >
             {/* Top Divider */}
             <div className="w-full h-[1px] bg-slate-200/90 dark:bg-slate-800/90" />
@@ -500,16 +500,16 @@ export default function AboutPage() {
                 )}
 
                 <motion.div
-                  whileHover={{ x: -8 }}
+                  whileHover={{ x: -8, scale: 1.005 }}
                   transition={{ type: "spring", stiffness: 350, damping: 25 }}
-                  className="group relative py-6 sm:py-8 px-3 sm:px-5 transition-colors duration-300 ease-out flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-8 hover:bg-slate-100/70 dark:hover:bg-slate-900/60 cursor-pointer"
+                  className="group relative py-6 sm:py-8 px-4 sm:px-6 transition-colors duration-300 ease-out flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-8 hover:bg-slate-100/70 dark:hover:bg-slate-900/60 cursor-pointer rounded-lg sm:rounded-xl"
                 >
                   {/* Process Index Number (Left Column) */}
                   <span className="text-4xl sm:text-6xl lg:text-7xl font-extralight text-ssil-red leading-none min-w-[70px] sm:min-w-[100px] select-none group-hover:brightness-110 transition-all duration-300">
                     {item.num}
                   </span>
 
-                  {/* Process Title (Center Column) */}
+                  {/* Process Title (Center Column - Clean Title without Duplicate Number) */}
                   <h3 className="text-base sm:text-xl md:text-2xl font-black text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors duration-300 tracking-tight md:w-5/12 lg:w-4/12">
                     {item.title}
                   </h3>
@@ -530,7 +530,7 @@ export default function AboutPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 6. OUR EXPERTISE (COMPACT 3X2 CARDS GRID & HOVER ACCENT) */}
+      {/* 6. OUR EXPERTISE (SPACIOUS 7XL CARDS GRID) */}
       {/* ============================================================ */}
       <motion.section
         className="py-10 md:py-14 bg-black text-white border-b border-zinc-900 transition-colors relative overflow-hidden"
@@ -552,8 +552,8 @@ export default function AboutPage() {
             </h2>
           </motion.div>
 
-          {/* 3 Columns x 2 Rows Compact Cards Grid */}
-          <motion.div variants={childVariants} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
+          {/* 3 Columns x 2 Rows Cards Grid (Increased Width to max-w-7xl) */}
+          <motion.div variants={childVariants} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto">
             {expertiseData.map((card) => (
               <div
                 key={card.tag}
