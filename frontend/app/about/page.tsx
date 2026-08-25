@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { HeroSection } from "@/components/ui/hero-section-5";
 import { BackgroundPaths } from "@/components/ui/background-paths";
-import { StandardCard } from "@/components/ui/standard-card";
 import { motion } from "framer-motion";
 import {
   Lightbulb,
@@ -16,58 +15,64 @@ import {
   Wrench,
   Trees,
   Landmark,
-  ChevronLeft,
-  ChevronRight,
 } from "lucide-react";
 
 const offeringData = [
   {
+    num: "01",
     title: "1. Urban Lighting",
     categoryTag: "Municipal & Smart",
     description: "Energy-efficient smart street lights and civic luminaires engineered for municipal roadways and urban thoroughfares.",
-    icon: <Lightbulb className="h-6 w-6" />,
+    icon: <Lightbulb className="h-6 w-6 sm:h-7 sm:w-7" />,
   },
   {
+    num: "02",
     title: "2. Architectural Lighting",
     categoryTag: "Facade & Aesthetic",
     description: "Custom facade illuminators, structural highlights, and aesthetic building luminaires for modern commercial architecture.",
-    icon: <Building className="h-6 w-6" />,
+    icon: <Building className="h-6 w-6 sm:h-7 sm:w-7" />,
   },
   {
+    num: "03",
     title: "3. Highway & Infrastructural",
     categoryTag: "Expressways & Heavy-Duty",
     description: "Heavy-duty octagonal poles, expressway floodlights, and high-tensile roadway fixtures for state and national highways.",
-    icon: <Layers className="h-6 w-6" />,
+    icon: <Layers className="h-6 w-6 sm:h-7 sm:w-7" />,
   },
   {
+    num: "04",
     title: "4. Park & Landscape",
     categoryTag: "Outdoor & Green Spaces",
     description: "Decorative bollards, garden pathway illuminators, and eco-friendly outdoor lawn lighting for public parks and resorts.",
-    icon: <Trees className="h-6 w-6" />,
+    icon: <Trees className="h-6 w-6 sm:h-7 sm:w-7" />,
   },
   {
+    num: "05",
     title: "5. Heritage & Decorative",
     categoryTag: "Classic & Vintage",
     description: "Ornamental vintage poles, cast iron heritage brackets, and royal civic plaza luminaires blending classic charm with modern LEDs.",
-    icon: <Landmark className="h-6 w-6" />,
+    icon: <Landmark className="h-6 w-6 sm:h-7 sm:w-7" />,
   },
   {
+    num: "06",
     title: "6. High Mast & Sports",
     categoryTag: "Stadiums & High-Output",
     description: "Monumental high mast towers, stadium floodlighting, and multi-fixture high-output masts for sports arenas and industrial hubs.",
-    icon: <Zap className="h-6 w-6" />,
+    icon: <Zap className="h-6 w-6 sm:h-7 sm:w-7" />,
   },
   {
+    num: "07",
     title: "7. CCTV & Security",
     categoryTag: "Surveillance & IoT",
     description: "Integrated smart poles equipped with surveillance camera mounts, IoT sensors, and civic security infrastructure.",
-    icon: <ShieldCheck className="h-6 w-6" />,
+    icon: <ShieldCheck className="h-6 w-6 sm:h-7 sm:w-7" />,
   },
   {
+    num: "08",
     title: "8. Custom Engineered Structure",
     categoryTag: "Bespoke & Tailored",
     description: "Bespoke flag mast poles, tailored steel brackets, and specialized architectural frameworks manufactured to tender specifications.",
-    icon: <Wrench className="h-6 w-6" />,
+    icon: <Wrench className="h-6 w-6 sm:h-7 sm:w-7" />,
   },
 ];
 
@@ -93,7 +98,7 @@ const sectionVariants = {
 const childVariants = {
   hidden: {
     opacity: 0,
-    y: 30,
+    y: 25,
     scale: 0.98,
   },
   visible: {
@@ -101,15 +106,13 @@ const childVariants = {
     y: 0,
     scale: 1,
     transition: {
-      duration: 0.6,
+      duration: 0.55,
       ease: [0.21, 0.47, 0.32, 0.98],
     },
   },
 };
 
 export default function AboutPage() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       if ("scrollRestoration" in window.history) {
@@ -118,22 +121,6 @@ export default function AboutPage() {
       window.scrollTo(0, 0);
     }
   }, []);
-
-  // 3 cards visible per view on desktop, max index is 8 - 3 = 5
-  const cardsPerPage = 3;
-  const maxIndex = offeringData.length - cardsPerPage;
-
-  const handlePrev = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex((prev) => prev - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentIndex < maxIndex) {
-      setCurrentIndex((prev) => prev + 1);
-    }
-  };
 
   return (
     <div className="flex flex-col gap-0 bg-white dark:bg-black text-slate-900 dark:text-white min-h-screen transition-colors duration-300">
@@ -179,95 +166,61 @@ export default function AboutPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 3. WHAT WE OFFER: 3 RECTANGULAR CARDS CAROUSEL (REPEATABLE STAGGERED ANIMATION) */}
+      {/* 3. OUR SOLUTIONS / WHAT WE OFFER (EDITORIAL HORIZONTAL ROWS CATALOGUE) */}
       {/* ============================================================ */}
       <motion.section
         className="py-16 md:py-24 bg-slate-50 dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors relative overflow-hidden"
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: false, amount: 0.2 }}
+        viewport={{ once: false, amount: 0.15 }}
         variants={sectionVariants}
       >
         <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
           
-          {/* Header Row: Title & Subtitle + Boundary Arrow Controls */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-            <motion.div variants={childVariants} className="max-w-3xl">
-              <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block mb-2">
-                OUR SOLUTIONS
-              </span>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
-                What We Offer
-              </h2>
-              <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 leading-relaxed font-medium">
-                Comprehensive architectural, infrastructural, and specialized lighting engineering designed for municipal expressways, urban plazas, and commercial developments.
-              </p>
-            </motion.div>
-
-            {/* Left / Right Boundary Navigation Arrow Controls */}
-            <motion.div variants={childVariants} className="flex items-center gap-3 shrink-0 self-start md:self-end">
-              <button
-                onClick={handlePrev}
-                disabled={currentIndex === 0}
-                aria-label="Previous Offerings"
-                className="h-12 w-12 rounded-full border border-slate-300 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex items-center justify-center text-slate-900 dark:text-white transition-all duration-200 hover:scale-105 hover:bg-ssil-red hover:text-white hover:border-ssil-red disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-white dark:disabled:hover:bg-zinc-900 disabled:hover:text-slate-900 dark:disabled:hover:text-white disabled:hover:border-slate-300 dark:disabled:hover:border-zinc-800 shadow-sm"
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </button>
-
-              <button
-                onClick={handleNext}
-                disabled={currentIndex >= maxIndex}
-                aria-label="Next Offerings"
-                className="h-12 w-12 rounded-full border border-slate-300 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex items-center justify-center text-slate-900 dark:text-white transition-all duration-200 hover:scale-105 hover:bg-ssil-red hover:text-white hover:border-ssil-red disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-white dark:disabled:hover:bg-zinc-900 disabled:hover:text-slate-900 dark:disabled:hover:text-white disabled:hover:border-slate-300 dark:disabled:hover:border-zinc-800 shadow-sm"
-              >
-                <ChevronRight className="h-6 w-6" />
-              </button>
-            </motion.div>
-          </div>
-
-          {/* 3 Rectangular Cards Sliding Window Display */}
-          <motion.div variants={childVariants} className="overflow-hidden">
-            <motion.div
-              className="grid grid-cols-1 md:grid-cols-3 gap-6"
-              initial={false}
-              animate={{ x: 0 }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            >
-              {offeringData
-                .slice(currentIndex, currentIndex + cardsPerPage)
-                .map((item, index) => (
-                  <motion.div
-                    key={`${item.title}-${currentIndex + index}`}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.35, ease: "easeOut" }}
-                  >
-                    <StandardCard
-                      title={item.title}
-                      categoryTag={item.categoryTag}
-                      description={item.description}
-                      icon={item.icon}
-                    />
-                  </motion.div>
-                ))}
-            </motion.div>
+          {/* Section Header */}
+          <motion.div variants={childVariants} className="max-w-3xl mb-12 sm:mb-16">
+            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block mb-2">
+              OUR SOLUTIONS
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
+              What We Offer
+            </h2>
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 leading-relaxed font-medium">
+              Comprehensive architectural, infrastructural, and specialized lighting engineering designed for municipal expressways, urban plazas, and commercial developments.
+            </p>
           </motion.div>
 
-          {/* Progress Indicator Dots */}
-          <motion.div variants={childVariants} className="flex items-center justify-center gap-2 mt-8">
-            {Array.from({ length: maxIndex + 1 }).map((_, dotIndex) => (
-              <button
-                key={dotIndex}
-                onClick={() => setCurrentIndex(dotIndex)}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  currentIndex === dotIndex
-                    ? "w-8 bg-ssil-red"
-                    : "w-2 bg-slate-300 dark:bg-zinc-800 hover:bg-ssil-red/50"
-                }`}
-                aria-label={`Go to slide ${dotIndex + 1}`}
-              />
+          {/* Full-Width Horizontal Catalogue Rows with Dividers & Interactive Hover */}
+          <motion.div
+            variants={childVariants}
+            className="w-full border-t border-b border-slate-200/90 dark:border-slate-800/90 divide-y divide-slate-200/90 dark:divide-slate-800/90"
+          >
+            {offeringData.map((item) => (
+              <motion.div
+                key={item.num}
+                variants={childVariants}
+                className="group relative py-7 sm:py-9 px-3 sm:px-6 transition-all duration-300 ease-out flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-8 hover:bg-slate-100/70 dark:hover:bg-slate-900/60 rounded-xl cursor-pointer hover:translate-x-2 sm:hover:translate-x-3"
+              >
+                {/* Left Side: Number & Solution Title */}
+                <div className="flex items-center gap-4 sm:gap-6 lg:gap-10 shrink-0 md:w-5/12 lg:w-4/12">
+                  <span className="text-sm sm:text-base font-bold text-slate-400 dark:text-slate-500 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors duration-300 w-6 sm:w-8 shrink-0">
+                    {item.num}
+                  </span>
+                  <h3 className="text-base sm:text-lg md:text-xl font-black text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors duration-300 tracking-tight">
+                    {item.title}
+                  </h3>
+                </div>
+
+                {/* Center / Right: Description */}
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed md:w-6/12 lg:w-6/12">
+                  {item.description}
+                </p>
+
+                {/* Far Right: Lucide Icon */}
+                <div className="shrink-0 flex items-center justify-start md:justify-end md:w-1/12 text-slate-400 dark:text-slate-500 group-hover:text-ssil-red group-hover:scale-110 transition-all duration-300">
+                  {item.icon}
+                </div>
+              </motion.div>
             ))}
           </motion.div>
 
