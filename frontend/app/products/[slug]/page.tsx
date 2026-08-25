@@ -7,7 +7,8 @@ import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { ArrowLeft, ChevronRight, CheckCircle2, PhoneCall, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { catalogProducts, CatalogProduct, GalleryItem } from "@/data/products-catalog";
+import { catalogProducts } from "@/data/products-catalog";
+import { ProductCard } from "@/components/ui/product-card";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -17,71 +18,6 @@ const containerVariants = {
       staggerChildren: 0.04,
     },
   },
-};
-
-const cardVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.4,
-      ease: [0.21, 0.47, 0.32, 0.98],
-    },
-  },
-};
-
-const GalleryCard = ({ item, categoryName }: { item: GalleryItem; categoryName: string }) => {
-  return (
-    <motion.div variants={cardVariants} className="w-full">
-      <div className="group relative w-full aspect-[10/14] rounded-none overflow-hidden transition-all duration-300 hover:-translate-y-1.5 cursor-pointer shadow-md hover:shadow-2xl border border-slate-200/50 dark:border-slate-800/60 bg-slate-900">
-        
-        {/* Primary Image */}
-        <Image
-          src={item.dayImage}
-          alt={`${item.name} Day`}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          className="object-cover object-center opacity-100 group-hover:opacity-0 transition-opacity duration-500 ease-in-out"
-          priority
-        />
-
-        {/* Night Image (Hover Crossfade) */}
-        <Image
-          src={item.nightImage || item.dayImage}
-          alt={`${item.name} Night`}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          className="object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
-        />
-
-        {/* Ambient Red Edge Glow on Hover */}
-        <div className="absolute inset-0 ring-1 ring-transparent group-hover:ring-ssil-red/40 transition-all duration-300 pointer-events-none" />
-
-        {/* Inside Bottom Overlay Bar */}
-        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950 via-slate-950/75 to-transparent px-3.5 py-3 flex flex-col justify-end z-10">
-          <span className="text-[10px] font-extrabold uppercase text-ssil-red tracking-wider mb-0.5">
-            {categoryName}
-          </span>
-          
-          <div className="flex items-center justify-between gap-2">
-            <h3 className="text-xs sm:text-sm font-black text-white tracking-tight drop-shadow-md truncate">
-              {item.name}
-            </h3>
-
-            <Link
-              href="/contact"
-              className="inline-flex items-center text-[10px] sm:text-[11px] font-black text-white hover:text-ssil-red transition-colors gap-0.5 shrink-0 bg-ssil-red hover:bg-ssil-red-600 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-none shadow-xs"
-            >
-              <span>Inquire</span>
-              <ChevronRight className="h-3 w-3" />
-            </Link>
-          </div>
-        </div>
-
-      </div>
-    </motion.div>
-  );
 };
 
 export default function ProductDetailPage() {
@@ -199,7 +135,7 @@ export default function ProductDetailPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 3. PRODUCT IMAGE GALLERY (4 PER ROW DESKTOP GRID) */}
+      {/* 3. PRODUCT IMAGE GALLERY (SAME 4 PER ROW DESKTOP GRID & PRODUCTCARD DESIGN) */}
       {/* ============================================================ */}
       <section className="relative z-10 py-14 sm:py-20 bg-white dark:bg-black">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
@@ -220,16 +156,24 @@ export default function ProductDetailPage() {
             </span>
           </div>
 
-          {/* 4 Images per Row Desktop Grid */}
+          {/* 4 Images per Row Desktop Grid (Using Reusable ProductCard with Enquire Button) */}
           <motion.div
-            className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5"
+            className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-3.5"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-40px" }}
             variants={containerVariants}
           >
             {product.galleryImages.map((item) => (
-              <GalleryCard key={item.id} item={item} categoryName={product.name} />
+              <ProductCard
+                key={item.id}
+                name={item.name}
+                dayImage={item.dayImage}
+                nightImage={item.nightImage}
+                href="/contact"
+                buttonText="Enquire"
+                showArrow={false}
+              />
             ))}
           </motion.div>
 
