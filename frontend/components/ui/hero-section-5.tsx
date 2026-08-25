@@ -44,84 +44,83 @@ export function HeroSection() {
     const duplicatedClients = [...clientCompanies, ...clientCompanies];
 
     return (
-        <div className="relative w-full overflow-hidden flex flex-col justify-between min-h-[75vh] sm:min-h-[calc(100vh-5rem)]">
-            <section className="relative flex-1 flex flex-col justify-center">
-                <div className="pt-16 pb-12 sm:pt-20 sm:pb-16 lg:pt-24 lg:pb-16">
-                    <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:px-8">
-                        <div className="max-w-3xl text-left">
-                            
-                            {/* Eyebrow: Small, Tracked Uppercase Eyebrow */}
-                            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-500 dark:text-slate-400 block mb-3">
-                                ABOUT US
-                            </span>
+        <div className="relative w-full overflow-hidden flex flex-col">
+            {/* Top Main Hero Viewport (Full-Height Screen Canvas below Navbar) */}
+            <section className="relative w-full flex-1 flex flex-col justify-start min-h-[78vh] sm:min-h-[calc(100vh-5rem)] pt-16 pb-12 sm:pt-24 sm:pb-16 lg:pt-28 lg:pb-24">
+                <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:px-8 w-full">
+                    <div className="max-w-3xl text-left">
+                        
+                        {/* Eyebrow: Small, Tracked Uppercase Eyebrow */}
+                        <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-500 dark:text-slate-400 block mb-3">
+                            ABOUT US
+                        </span>
 
-                            {/* Headline: Clean 2-Line Desktop Typography (Second Line Red) */}
-                            <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mb-4">
-                                Complete infrastructure &amp;<br />
-                                <span className="text-ssil-red">architectural lighting.</span>
-                            </h1>
+                        {/* Headline: Clean 2-Line Desktop Typography (Second Line Red) */}
+                        <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mb-4">
+                            Complete infrastructure &amp;<br />
+                            <span className="text-ssil-red">architectural lighting.</span>
+                        </h1>
 
-                            {/* Supporting Paragraph: Short & Concise 1-2 Lines */}
-                            <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-2xl mb-6">
-                                SSIL manufactures and delivers complete energy-efficient LED luminaires, solar power systems, monumental flag poles, and infrastructure lighting across India.
-                            </p>
+                        {/* Supporting Paragraph: Short & Concise 1-2 Lines */}
+                        <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-2xl mb-6">
+                            SSIL manufactures and delivers complete energy-efficient LED luminaires, solar power systems, monumental flag poles, and infrastructure lighting across India.
+                        </p>
 
-                            {/* CTA Buttons: Explore Products (Periodic Shine) + Contact Engineers */}
-                            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 lg:justify-start">
-                                <Button
-                                    asChild
-                                    size="lg"
-                                    className="h-11 sm:h-12 rounded-full px-6 text-xs sm:text-sm font-extrabold bg-ssil-red hover:bg-red-700 text-white shadow-md shadow-red-900/20 relative overflow-hidden group border-0">
-                                    <Link href="/products" className="flex items-center gap-1">
-                                        <span className="text-nowrap relative z-10">Explore Products</span>
-                                        <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5 relative z-10" />
+                        {/* CTA Buttons: Explore Products (Periodic Shine) + Contact Engineers */}
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 lg:justify-start">
+                            <Button
+                                asChild
+                                size="lg"
+                                className="h-11 sm:h-12 rounded-full px-6 text-xs sm:text-sm font-extrabold bg-ssil-red hover:bg-red-700 text-white shadow-md shadow-red-900/20 relative overflow-hidden group border-0">
+                                <Link href="/products" className="flex items-center gap-1">
+                                    <span className="text-nowrap relative z-10">Explore Products</span>
+                                    <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5 relative z-10" />
 
-                                        {/* Subtle Periodic Translucent Light Sweep Animation */}
-                                        <motion.span
-                                            className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-[-20deg] pointer-events-none"
-                                            animate={{
-                                                x: ["-150%", "300%"],
-                                            }}
-                                            transition={{
-                                                duration: 1.8,
-                                                repeat: Number.POSITIVE_INFINITY,
-                                                repeatDelay: 3.5,
-                                                ease: "easeInOut",
-                                            }}
-                                        />
-                                    </Link>
-                                </Button>
+                                    {/* Subtle Periodic Translucent Light Sweep Animation */}
+                                    <motion.span
+                                        className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-[-20deg] pointer-events-none"
+                                        animate={{
+                                            x: ["-150%", "300%"],
+                                        }}
+                                        transition={{
+                                            duration: 1.8,
+                                            repeat: Number.POSITIVE_INFINITY,
+                                            repeatDelay: 3.5,
+                                            ease: "easeInOut",
+                                        }}
+                                    />
+                                </Link>
+                            </Button>
 
-                                <Button
-                                    key={2}
-                                    asChild
-                                    size="lg"
-                                    variant="ghost"
-                                    className="h-11 sm:h-12 rounded-full px-6 text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/10 border border-slate-300 dark:border-zinc-800">
-                                    <Link href="/contact">
-                                        <span className="text-nowrap">Contact Engineers</span>
-                                    </Link>
-                                </Button>
-                            </div>
-
+                            <Button
+                                key={2}
+                                asChild
+                                size="lg"
+                                variant="ghost"
+                                className="h-11 sm:h-12 rounded-full px-6 text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/10 border border-slate-300 dark:border-zinc-800">
+                                <Link href="/contact">
+                                    <span className="text-nowrap">Contact Engineers</span>
+                                </Link>
+                            </Button>
                         </div>
-                    </div>
 
-                    {/* Subtle Backdrop Video Layer */}
-                    <div className="absolute inset-0 overflow-hidden rounded-3xl border border-black/5 sm:rounded-[3rem] dark:border-white/5 pointer-events-none opacity-15">
-                        <video
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            className="size-full object-cover opacity-15 invert dark:opacity-25 dark:invert-0"
-                            src="https://ik.imagekit.io/lrigu76hy/tailark/dna-video.mp4?updatedAt=1745736251477"
-                        />
                     </div>
+                </div>
+
+                {/* Subtle Backdrop Video Layer */}
+                <div className="absolute inset-0 overflow-hidden rounded-3xl border border-black/5 sm:rounded-[3rem] dark:border-white/5 pointer-events-none opacity-15">
+                    <video
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="size-full object-cover opacity-15 invert dark:opacity-25 dark:invert-0"
+                        src="https://ik.imagekit.io/lrigu76hy/tailark/dna-video.mp4?updatedAt=1745736251477"
+                    />
                 </div>
             </section>
 
-            {/* Client Partners Infinite Slider Strip */}
+            {/* Client Partners Infinite Slider Strip (Positioned immediately after full-viewport Hero) */}
             <section className="bg-white dark:bg-black py-4 border-t border-b border-slate-200/80 dark:border-zinc-800/80 transition-colors relative z-20 shrink-0">
                 <div className="group relative m-auto max-w-7xl px-6">
                     <div className="flex flex-col items-center md:flex-row">
