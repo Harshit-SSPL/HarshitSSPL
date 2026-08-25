@@ -8,9 +8,19 @@ interface CounterProps {
   value: number;
   suffix?: string;
   hasCommas?: boolean;
+  duration?: number;
+  delay?: number;
+  ease?: number[] | string;
 }
 
-const Counter = ({ value, suffix = "+", hasCommas = false }: CounterProps) => {
+const Counter = ({
+  value,
+  suffix = "+",
+  hasCommas = false,
+  duration = 2.0,
+  delay = 0,
+  ease = [0.16, 1, 0.3, 1],
+}: CounterProps) => {
   const nodeRef = useRef<HTMLSpanElement>(null);
   const isInView = useInView(nodeRef, { once: false, margin: "-30px" });
 
@@ -20,8 +30,9 @@ const Counter = ({ value, suffix = "+", hasCommas = false }: CounterProps) => {
 
     if (isInView) {
       const controls = animate(0, value, {
-        duration: 1.8,
-        ease: [0.16, 1, 0.3, 1],
+        duration: duration,
+        delay: delay,
+        ease: ease as any,
         onUpdate(latest) {
           const rounded = Math.floor(latest);
           node.textContent = (hasCommas ? rounded.toLocaleString("en-US") : rounded.toString()) + suffix;
@@ -31,7 +42,7 @@ const Counter = ({ value, suffix = "+", hasCommas = false }: CounterProps) => {
     } else {
       node.textContent = "0" + suffix;
     }
-  }, [isInView, value, suffix, hasCommas]);
+  }, [isInView, value, suffix, hasCommas, duration, delay, ease]);
 
   return <span ref={nodeRef}>0{suffix}</span>;
 };
@@ -63,6 +74,9 @@ const metricsData = [
     targetValue: 20000,
     hasCommas: true,
     suffix: "+",
+    duration: 2.5,
+    delay: 0,
+    ease: [0.12, 0.8, 0.25, 1],
     label: "Poles & Lighting Installations",
     sublabel: "DEPLOYED FOOTPRINT",
     icon: <Zap className="h-4 w-4" />,
@@ -71,6 +85,9 @@ const metricsData = [
     targetValue: 12,
     hasCommas: false,
     suffix: "+",
+    duration: 2.1,
+    delay: 0.1,
+    ease: [0.25, 0.1, 0.25, 1], // Ticks to 11 early, holds briefly, completes at 2.1s
     label: "Years of Experience",
     sublabel: "ENGINEERING HERITAGE",
     icon: <Award className="h-4 w-4" />,
@@ -79,6 +96,9 @@ const metricsData = [
     targetValue: 22,
     hasCommas: false,
     suffix: "+",
+    duration: 2.3,
+    delay: 0.15,
+    ease: [0.2, 0.15, 0.25, 1], // Ticks to 21, completes at 2.3s
     label: "States Served",
     sublabel: "PAN-INDIA REACH",
     icon: <Globe className="h-4 w-4" />,
@@ -87,6 +107,9 @@ const metricsData = [
     targetValue: 200,
     hasCommas: false,
     suffix: "+",
+    duration: 2.6,
+    delay: 0.2,
+    ease: [0.16, 0.85, 0.2, 1], // Ticks to 199, completes at 2.6s
     label: "Projects Completed",
     sublabel: "EXECUTED DELIVERIES",
     icon: <Building2 className="h-4 w-4" />,
@@ -117,7 +140,7 @@ const Stats2 = () => {
           </p>
         </motion.div>
 
-        {/* 4 Metric Cards Grid with Enhanced Pop-Up & Scroll-Triggered Counting Animation */}
+        {/* 4 Metric Cards Grid with Enhanced Pop-Up & Staggered Finish Counting Animation */}
         <motion.div
           className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           initial="hidden"
@@ -142,7 +165,14 @@ const Stats2 = () => {
 
               <div className="mt-2">
                 <h3 className="text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-none group-hover:text-ssil-red transition-colors duration-300">
-                  <Counter value={item.targetValue} suffix={item.suffix} hasCommas={item.hasCommas} />
+                  <Counter
+                    value={item.targetValue}
+                    suffix={item.suffix}
+                    hasCommas={item.hasCommas}
+                    duration={item.duration}
+                    delay={item.delay}
+                    ease={item.ease}
+                  />
                 </h3>
                 <p className="text-slate-600 dark:text-slate-300 text-xs font-bold uppercase tracking-wider mt-2.5 leading-snug">
                   {item.label}
