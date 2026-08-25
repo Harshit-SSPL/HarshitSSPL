@@ -45,8 +45,8 @@ export function HeroSection() {
 
     return (
         <div className="relative w-full overflow-hidden flex flex-col">
-            {/* Top Main Hero Viewport (Full-Height Screen Canvas below Navbar) */}
-            <section className="relative w-full flex-1 flex flex-col justify-start min-h-[78vh] sm:min-h-[calc(100vh-5rem)] pt-16 pb-12 sm:pt-24 sm:pb-16 lg:pt-28 lg:pb-24">
+            {/* Top Main Hero Viewport (Vertically Centered Content Group inside Full-Height Canvas) */}
+            <section className="relative w-full flex-1 flex flex-col justify-center min-h-[78vh] sm:min-h-[calc(100vh-5rem)] py-16 sm:py-24 lg:py-28">
                 <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:px-8 w-full">
                     <div className="max-w-3xl text-left">
                         
