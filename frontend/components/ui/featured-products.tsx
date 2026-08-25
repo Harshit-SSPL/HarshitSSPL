@@ -67,6 +67,9 @@ const ProductCard = ({ product }: { product: FeaturedProduct }) => {
 };
 
 export const FeaturedProducts = () => {
+  // Homepage showcases exactly the first 6 main featured products (2 rows x 3 columns)
+  const homepageProducts = featuredProducts.slice(0, 6);
+
   return (
     <section className="py-16 md:py-24 bg-white dark:bg-slate-950 border-b border-slate-200/60 dark:border-slate-800/80 transition-colors overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
@@ -90,7 +93,7 @@ export const FeaturedProducts = () => {
           </p>
         </motion.div>
 
-        {/* 6 Featured Products Grid (Symmetrical ~2px gap between columns) */}
+        {/* 6 Featured Products Grid (2 Rows x 3 Columns) */}
         <motion.div
           className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-0.5 sm:gap-x-1 lg:gap-x-[2px] gap-y-8"
           initial="hidden"
@@ -98,7 +101,7 @@ export const FeaturedProducts = () => {
           viewport={{ once: true, margin: "-40px" }}
           variants={containerVariants}
         >
-          {featuredProducts.map((product) => (
+          {homepageProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </motion.div>
