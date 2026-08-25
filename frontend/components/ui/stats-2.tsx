@@ -19,7 +19,7 @@ const Counter = ({
   hasCommas = false,
   duration = 2.0,
   delay = 0,
-  ease = [0.16, 1, 0.3, 1],
+  ease = "easeOut",
 }: CounterProps) => {
   const nodeRef = useRef<HTMLSpanElement>(null);
   const isInView = useInView(nodeRef, { once: false, margin: "-30px" });
@@ -74,9 +74,9 @@ const metricsData = [
     targetValue: 20000,
     hasCommas: true,
     suffix: "+",
-    duration: 2.5,
+    duration: 2.6,
     delay: 0,
-    ease: [0.12, 0.8, 0.25, 1],
+    ease: "easeOut",
     label: "Poles & Lighting Installations",
     sublabel: "DEPLOYED FOOTPRINT",
     icon: <Zap className="h-4 w-4" />,
@@ -85,9 +85,9 @@ const metricsData = [
     targetValue: 12,
     hasCommas: false,
     suffix: "+",
-    duration: 2.1,
-    delay: 0.1,
-    ease: [0.25, 0.1, 0.25, 1], // Ticks to 11 early, holds briefly, completes at 2.1s
+    duration: 0.6,
+    delay: 0.05,
+    ease: "easeOut",
     label: "Years of Experience",
     sublabel: "ENGINEERING HERITAGE",
     icon: <Award className="h-4 w-4" />,
@@ -96,9 +96,9 @@ const metricsData = [
     targetValue: 22,
     hasCommas: false,
     suffix: "+",
-    duration: 2.3,
-    delay: 0.15,
-    ease: [0.2, 0.15, 0.25, 1], // Ticks to 21, completes at 2.3s
+    duration: 0.9,
+    delay: 0.1,
+    ease: "easeOut",
     label: "States Served",
     sublabel: "PAN-INDIA REACH",
     icon: <Globe className="h-4 w-4" />,
@@ -107,9 +107,9 @@ const metricsData = [
     targetValue: 200,
     hasCommas: false,
     suffix: "+",
-    duration: 2.6,
-    delay: 0.2,
-    ease: [0.16, 0.85, 0.2, 1], // Ticks to 199, completes at 2.6s
+    duration: 1.6,
+    delay: 0.15,
+    ease: "easeOut",
     label: "Projects Completed",
     sublabel: "EXECUTED DELIVERIES",
     icon: <Building2 className="h-4 w-4" />,
@@ -140,7 +140,7 @@ const Stats2 = () => {
           </p>
         </motion.div>
 
-        {/* 4 Metric Cards Grid with Enhanced Pop-Up & Staggered Finish Counting Animation */}
+        {/* 4 Metric Cards Grid with Enhanced Pop-Up & Natural Independent-Finish Counting Animation */}
         <motion.div
           className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           initial="hidden"
