@@ -33,8 +33,8 @@ const cardVariants = {
 const ProductCard = ({ product }: { product: FeaturedProduct }) => {
   return (
     <motion.div variants={cardVariants} className="w-full">
-      {/* Product Image Frame with Sleek Reduced Radius & Inside Overlay (100% Inside Image) */}
-      <div className="group relative w-full aspect-[10/14] rounded-lg sm:rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer shadow-md hover:shadow-xl border border-slate-200/40 dark:border-slate-800/40">
+      {/* Product Image Frame with Zero Border Radius (rounded-none) */}
+      <div className="group relative w-full aspect-[10/14] rounded-none overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer shadow-md hover:shadow-xl border border-slate-200/40 dark:border-slate-800/40">
         
         {/* Day Image (Default Mode) */}
         <Image
@@ -112,7 +112,7 @@ export default function ProductsPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 2. OUR PRODUCTS SECTION (TIGHTER GAP & REDUCED BORDER RADIUS) */}
+      {/* 2. OUR PRODUCTS SECTION (ZERO BORDER RADIUS / ROUNDED-NONE PRODUCT CARDS) */}
       {/* ============================================================ */}
       <section className="relative z-10 py-14 sm:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
@@ -133,7 +133,7 @@ export default function ProductsPage() {
             </p>
           </motion.div>
 
-          {/* 12 Products Grid (Tighter Gap: gap-2.5 sm:gap-3 lg:gap-3.5) */}
+          {/* 12 Products Grid (Tighter Gap & Rounded-None Frames) */}
           <div className="mb-8">
             <motion.div
               className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-3.5"
