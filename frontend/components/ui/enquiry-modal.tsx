@@ -111,12 +111,12 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
             </div>
 
             {submitted ? (
-              <div className="py-8 text-center space-y-3 border border-ssil-red/30 bg-ssil-red/10 p-5 rounded-xl">
-                <CheckCircle2 className="h-12 w-12 text-ssil-red mx-auto" />
-                <h3 className="text-lg font-extrabold text-white">
+              <div className="py-10 text-center space-y-4 border border-emerald-500/40 bg-emerald-500/10 p-6 rounded-xl backdrop-blur-md shadow-lg">
+                <CheckCircle2 className="h-16 w-16 text-emerald-400 mx-auto stroke-[2.2]" />
+                <h3 className="text-xl font-extrabold text-white tracking-tight">
                   Enquiry Received
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-200 max-w-md mx-auto leading-relaxed font-medium">
+                <p className="text-sm text-slate-200 max-w-md mx-auto leading-relaxed font-medium">
                   Thank you for inquiring about{" "}
                   <span className="text-white font-bold">{formData.model || formData.category || "our product"}</span>.
                   Our engineering team will get back to you shortly.
