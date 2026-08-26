@@ -197,7 +197,7 @@ export function MediaShowcaseSection() {
       </div>
 
       {/* ============================================================ */}
-      {/* VIDEO LIGHTBOX / MODAL PLAYER */}
+      {/* VIDEO LIGHTBOX / GLASS MODAL PLAYER */}
       {/* ============================================================ */}
       <AnimatePresence>
         {selectedVideo && (
@@ -206,9 +206,9 @@ export function MediaShowcaseSection() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedVideo(null)}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-8 bg-black/90 backdrop-blur-xl"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-8 bg-slate-950/40 backdrop-blur-md"
           >
-            {/* Modal Content Container */}
+            {/* Glassmorphic Modal Content Container */}
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -216,7 +216,7 @@ export function MediaShowcaseSection() {
               transition={{ duration: 0.25, ease: "easeOut" }}
               onClick={(e) => e.stopPropagation()}
               className={cn(
-                "relative bg-zinc-950 border border-zinc-800 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl flex flex-col items-center max-h-[88vh]",
+                "relative bg-slate-950/30 dark:bg-slate-950/35 backdrop-blur-2xl border border-white/15 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl flex flex-col items-center max-h-[88vh]",
                 selectedVideo.aspectRatio === "9:16"
                   ? "w-full max-w-sm sm:max-w-md aspect-[9/16]"
                   : "w-full max-w-4xl aspect-[16/9]"
@@ -225,17 +225,14 @@ export function MediaShowcaseSection() {
               {/* Close Button Top-Right */}
               <button
                 onClick={() => setSelectedVideo(null)}
-                className="absolute top-4 right-4 z-30 text-white bg-black/70 hover:bg-ssil-red border border-white/20 p-2 rounded-full transition-colors duration-200 shadow-lg focus:outline-none"
+                className="absolute top-4 right-4 z-30 text-white bg-black/60 hover:bg-ssil-red border border-white/20 p-2 rounded-full transition-colors duration-200 shadow-lg focus:outline-none"
                 aria-label="Close video player"
               >
                 <X className="h-5 w-5" />
               </button>
 
-              {/* Top Title Overlay */}
-              <div className="absolute top-0 inset-x-0 z-20 bg-gradient-to-b from-slate-950/90 via-slate-950/40 to-transparent p-4 sm:p-5 pointer-events-none">
-                <span className="text-[10px] font-extrabold uppercase text-ssil-red tracking-wider block mb-0.5">
-                  SSIL MEDIA
-                </span>
+              {/* Top Title Overlay (SSIL MEDIA badge removed) */}
+              <div className="absolute top-0 inset-x-0 z-20 bg-gradient-to-b from-slate-950/80 via-slate-950/30 to-transparent p-4 sm:p-5 pointer-events-none pr-14">
                 <h3 className="text-xs sm:text-sm font-extrabold text-white tracking-tight drop-shadow-md">
                   {selectedVideo.title}
                 </h3>
@@ -247,7 +244,7 @@ export function MediaShowcaseSection() {
                 autoPlay
                 controls
                 playsInline
-                className="w-full h-full object-contain rounded-2xl sm:rounded-3xl bg-black"
+                className="w-full h-full object-contain rounded-2xl sm:rounded-3xl bg-black/40"
               />
             </motion.div>
           </motion.div>
