@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Play } from "lucide-react";
+import { X, Play, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export interface MediaItem {
@@ -177,6 +179,21 @@ export function MediaShowcaseSection() {
             );
           })}
         </motion.div>
+      </div>
+
+      {/* ============================================================ */}
+      {/* CENTERED ENQUIRE NOW BUTTON */}
+      {/* ============================================================ */}
+      <div className="mt-8 sm:mt-10 flex justify-center items-center relative z-20">
+        <Button
+          asChild
+          size="lg"
+          className="bg-ssil-red hover:bg-ssil-red-600 font-bold px-8 py-3.5 rounded-full text-white text-sm sm:text-base shadow-lg shadow-ssil-red/25 hover:shadow-ssil-red/40 transition-all duration-300 hover:scale-105"
+        >
+          <Link href="/contact">
+            Enquire Now <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+          </Link>
+        </Button>
       </div>
 
       {/* ============================================================ */}
