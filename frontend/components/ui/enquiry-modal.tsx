@@ -75,63 +75,57 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-          {/* Glassmorphic Backdrop Blur Overlay */}
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          {/* Glassmorphic Backdrop Overlay */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-slate-950/70 backdrop-blur-md"
+            className="fixed inset-0 bg-slate-950/40 backdrop-blur-sm"
           />
 
-          {/* Modal Container: Navbar-inspired Glassmorphism with Zero Border Radius */}
+          {/* Modal Container: Navbar-inspired Glassmorphism with Sleek Rounded Radius & Translucent Background */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 15 }}
+            initial={{ opacity: 0, scale: 0.95, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 15 }}
+            exit={{ opacity: 0, scale: 0.95, y: 12 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="relative z-10 w-full max-w-2xl rounded-none bg-slate-950/80 dark:bg-slate-950/85 backdrop-blur-2xl border border-white/15 p-6 sm:p-8 md:p-10 shadow-2xl text-white my-8 overflow-hidden"
+            className="relative z-10 w-full max-w-lg sm:max-w-xl rounded-2xl bg-slate-950/20 dark:bg-slate-950/25 backdrop-blur-2xl border border-white/10 shadow-2xl p-5 sm:p-6 md:p-7 text-white my-4 overflow-hidden"
           >
-            {/* Top Close Button */}
+            {/* Small Red Close Cross Icon (No Outer Box) */}
             <button
               onClick={onClose}
               type="button"
-              className="absolute top-5 right-5 h-9 w-9 flex items-center justify-center rounded-none bg-white/10 hover:bg-ssil-red text-white transition-colors duration-200"
+              className="absolute top-4 right-4 p-1 text-ssil-red hover:text-red-400 bg-transparent border-0 transition-transform hover:scale-110 focus:outline-none"
               aria-label="Close Enquiry Modal"
             >
-              <X className="h-5 w-5" />
+              <X className="h-5 w-5 stroke-[2.5]" />
             </button>
 
-            {/* Header */}
-            <div className="mb-6 pr-8">
-              <span className="text-[11px] font-black uppercase tracking-widest text-ssil-red block mb-1">
-                SSIL TECHNICAL INQUIRY
-              </span>
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-tight">
+            {/* Header: Title Only */}
+            <div className="mb-4 pr-8">
+              <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
                 Send us an enquiry
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 mt-1 font-medium leading-relaxed">
-                Provide your details below to receive custom tender drawings, photometrics, and quotation.
-              </p>
             </div>
 
             {submitted ? (
-              <div className="py-10 text-center space-y-4 border border-ssil-red/30 bg-ssil-red/10 p-6 rounded-none">
-                <CheckCircle2 className="h-14 w-14 text-ssil-red mx-auto" />
-                <h3 className="text-xl font-extrabold text-white">
+              <div className="py-8 text-center space-y-3 border border-ssil-red/30 bg-ssil-red/10 p-5 rounded-xl">
+                <CheckCircle2 className="h-12 w-12 text-ssil-red mx-auto" />
+                <h3 className="text-lg font-extrabold text-white">
                   Enquiry Received
                 </h3>
-                <p className="text-sm text-slate-300 max-w-md mx-auto leading-relaxed font-medium">
+                <p className="text-xs sm:text-sm text-slate-200 max-w-md mx-auto leading-relaxed font-medium">
                   Thank you for inquiring about{" "}
                   <span className="text-white font-bold">{formData.model || formData.category || "our product"}</span>.
                   Our engineering team will get back to you shortly.
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-3.5">
                 {/* First & Last Name Row */}
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-3 sm:grid-cols-2">
                   <div className="space-y-1">
                     <label className="text-[11px] font-bold uppercase tracking-wider text-slate-300">
                       First Name <span className="text-ssil-red">*</span>
@@ -143,7 +137,7 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                       value={formData.firstName}
                       onChange={handleChange}
                       placeholder="First Name"
-                      className="w-full px-4 py-2.5 rounded-none bg-slate-900/90 border border-white/15 text-white text-xs sm:text-sm placeholder:text-slate-500 focus:outline-none focus:border-ssil-red transition-all"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/15 text-white text-xs sm:text-sm placeholder:text-slate-500 focus:outline-none focus:border-ssil-red transition-all"
                     />
                   </div>
 
@@ -158,16 +152,16 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                       value={formData.lastName}
                       onChange={handleChange}
                       placeholder="Last Name"
-                      className="w-full px-4 py-2.5 rounded-none bg-slate-900/90 border border-white/15 text-white text-xs sm:text-sm placeholder:text-slate-500 focus:outline-none focus:border-ssil-red transition-all"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/15 text-white text-xs sm:text-sm placeholder:text-slate-500 focus:outline-none focus:border-ssil-red transition-all"
                     />
                   </div>
                 </div>
 
                 {/* Email & Phone Row */}
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-3 sm:grid-cols-2">
                   <div className="space-y-1">
                     <label className="text-[11px] font-bold uppercase tracking-wider text-slate-300">
-                      Work Email <span className="text-ssil-red">*</span>
+                      Email <span className="text-ssil-red">*</span>
                     </label>
                     <input
                       type="email"
@@ -175,8 +169,8 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      placeholder="workemail@company.com"
-                      className="w-full px-4 py-2.5 rounded-none bg-slate-900/90 border border-white/15 text-white text-xs sm:text-sm placeholder:text-slate-500 focus:outline-none focus:border-ssil-red transition-all"
+                      placeholder="Email Address"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/15 text-white text-xs sm:text-sm placeholder:text-slate-500 focus:outline-none focus:border-ssil-red transition-all"
                     />
                   </div>
 
@@ -191,12 +185,12 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                       value={formData.phone}
                       onChange={handleChange}
                       placeholder="+91 XXXXXXXXXX"
-                      className="w-full px-4 py-2.5 rounded-none bg-slate-900/90 border border-white/15 text-white text-xs sm:text-sm placeholder:text-slate-500 focus:outline-none focus:border-ssil-red transition-all"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/15 text-white text-xs sm:text-sm placeholder:text-slate-500 focus:outline-none focus:border-ssil-red transition-all"
                     />
                   </div>
                 </div>
 
-                {/* Product Category Field */}
+                {/* Non-editable Product Category Field */}
                 <div className="space-y-1">
                   <label className="text-[11px] font-bold uppercase tracking-wider text-slate-300">
                     Product
@@ -204,14 +198,13 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                   <input
                     type="text"
                     name="category"
+                    readOnly
                     value={formData.category}
-                    onChange={handleChange}
-                    placeholder="Product Name"
-                    className="w-full px-4 py-2.5 rounded-none bg-slate-900/90 border border-white/15 text-white text-xs sm:text-sm placeholder:text-slate-500 focus:outline-none focus:border-ssil-red transition-all"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-200 cursor-not-allowed text-xs sm:text-sm font-medium focus:outline-none select-none"
                   />
                 </div>
 
-                {/* Product ID / Model Field */}
+                {/* Non-editable Product ID / Model Field */}
                 <div className="space-y-1">
                   <label className="text-[11px] font-bold uppercase tracking-wider text-slate-300">
                     Product ID
@@ -219,10 +212,9 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                   <input
                     type="text"
                     name="model"
+                    readOnly
                     value={formData.model}
-                    onChange={handleChange}
-                    placeholder="Product ID / Model Name"
-                    className="w-full px-4 py-2.5 rounded-none bg-slate-900/90 border border-white/15 text-white text-xs sm:text-sm placeholder:text-slate-500 focus:outline-none focus:border-ssil-red transition-all"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-200 cursor-not-allowed text-xs sm:text-sm font-medium focus:outline-none select-none"
                   />
                 </div>
 
@@ -238,15 +230,15 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                     value={formData.enquiry}
                     onChange={handleChange}
                     placeholder="Tell us about your project requirements, quantities, or technical specifications..."
-                    className="w-full px-4 py-2.5 rounded-none bg-slate-900/90 border border-white/15 text-white text-xs sm:text-sm placeholder:text-slate-500 focus:outline-none focus:border-ssil-red transition-all resize-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/15 text-white text-xs sm:text-sm placeholder:text-slate-500 focus:outline-none focus:border-ssil-red transition-all resize-none"
                   ></textarea>
                 </div>
 
                 {/* Submit Button */}
-                <div className="pt-2">
+                <div className="pt-1.5">
                   <button
                     type="submit"
-                    className="w-full px-8 py-3.5 rounded-none bg-ssil-red hover:bg-ssil-red-600 text-white font-extrabold text-xs sm:text-sm tracking-wider uppercase transition-all duration-200 shadow-lg flex items-center justify-center gap-2 group"
+                    className="w-full px-6 py-3 rounded-xl bg-ssil-red hover:bg-ssil-red-600 text-white font-extrabold text-xs sm:text-sm tracking-wider uppercase transition-all duration-200 shadow-md flex items-center justify-center gap-2 group"
                   >
                     <span>Submit Enquiry</span>
                     <Send className="h-4 w-4 transition-transform group-hover:translate-x-1" />
