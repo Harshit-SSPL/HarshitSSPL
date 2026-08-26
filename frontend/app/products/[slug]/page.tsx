@@ -205,9 +205,13 @@ export default function ProductDetailPage() {
                   <PhoneCall className="mr-2 h-4 w-4" /> Request Technical Tender Quote
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="border-zinc-700 text-white hover:bg-zinc-900 font-bold px-6 text-xs sm:text-sm">
+              <Button
+                asChild
+                size="lg"
+                className="bg-zinc-900 hover:bg-zinc-800 text-white border border-zinc-700 hover:border-zinc-500 font-bold px-6 text-xs sm:text-sm transition-all duration-200"
+              >
                 <Link href="/contact">
-                  <FileText className="mr-2 h-4 w-4" /> Download Catalogue Specs
+                  <FileText className="mr-2 h-4 w-4 text-ssil-red" /> Download Catalogue Specs
                 </Link>
               </Button>
             </div>
