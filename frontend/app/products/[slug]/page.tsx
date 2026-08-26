@@ -156,7 +156,7 @@ export default function ProductDetailPage() {
             </span>
           </div>
 
-          {/* 4 Images per Row Desktop Grid (Using ProductCard with Single Image & Smooth Hover Popup) */}
+          {/* 4 Images per Row Desktop Grid (Using ProductCard with "Enquire Now →" Button & Smooth Hover Popup) */}
           <motion.div
             className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-3.5"
             initial="hidden"
@@ -170,8 +170,8 @@ export default function ProductDetailPage() {
                 name={item.name}
                 dayImage={item.dayImage}
                 href="/contact"
-                buttonText="Enquire"
-                showArrow={false}
+                buttonText="Enquire Now"
+                showArrow={true}
                 enableImageCrossfade={false}
               />
             ))}

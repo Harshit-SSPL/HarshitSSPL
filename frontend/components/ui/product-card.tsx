@@ -12,7 +12,7 @@ export interface ProductCardProps {
   dayImage: string;
   nightImage?: string;
   href: string;
-  buttonText?: "View All" | "Enquire";
+  buttonText?: string;
   showArrow?: boolean;
   enableImageCrossfade?: boolean;
 }
@@ -88,7 +88,7 @@ export const ProductCard = ({
               {name}
             </h3>
 
-            {/* Right Side: Solid SSIL Red Button with White Text */}
+            {/* Right Side: Solid SSIL Red Button with White Text & Chevron Right Arrow */}
             <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-medium text-white shrink-0 bg-ssil-red hover:bg-ssil-red-600 transition-all duration-200 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-md shadow-sm group-hover:scale-[1.03]">
               <span>{buttonText}</span>
               {showArrow && <ChevronRight className="h-3.5 w-3.5 text-white shrink-0" />}
