@@ -127,7 +127,7 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                 {/* First & Last Name Row */}
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold uppercase tracking-wider text-slate-300">
+                    <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-200">
                       First Name <span className="text-ssil-red">*</span>
                     </label>
                     <input
@@ -137,12 +137,12 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                       value={formData.firstName}
                       onChange={handleChange}
                       placeholder="First Name"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/15 text-white text-xs sm:text-sm placeholder:text-slate-500 focus:outline-none focus:border-ssil-red transition-all"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white text-slate-900 text-xs sm:text-sm font-medium placeholder:text-slate-400 border border-slate-200 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red shadow-sm transition-all"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold uppercase tracking-wider text-slate-300">
+                    <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-200">
                       Last Name <span className="text-ssil-red">*</span>
                     </label>
                     <input
@@ -152,7 +152,7 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                       value={formData.lastName}
                       onChange={handleChange}
                       placeholder="Last Name"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/15 text-white text-xs sm:text-sm placeholder:text-slate-500 focus:outline-none focus:border-ssil-red transition-all"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white text-slate-900 text-xs sm:text-sm font-medium placeholder:text-slate-400 border border-slate-200 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red shadow-sm transition-all"
                     />
                   </div>
                 </div>
@@ -160,7 +160,7 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                 {/* Email & Phone Row */}
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold uppercase tracking-wider text-slate-300">
+                    <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-200">
                       Email <span className="text-ssil-red">*</span>
                     </label>
                     <input
@@ -170,12 +170,12 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="Email Address"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/15 text-white text-xs sm:text-sm placeholder:text-slate-500 focus:outline-none focus:border-ssil-red transition-all"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white text-slate-900 text-xs sm:text-sm font-medium placeholder:text-slate-400 border border-slate-200 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red shadow-sm transition-all"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold uppercase tracking-wider text-slate-300">
+                    <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-200">
                       Phone Number <span className="text-ssil-red">*</span>
                     </label>
                     <input
@@ -185,14 +185,14 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                       value={formData.phone}
                       onChange={handleChange}
                       placeholder="+91 XXXXXXXXXX"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/15 text-white text-xs sm:text-sm placeholder:text-slate-500 focus:outline-none focus:border-ssil-red transition-all"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white text-slate-900 text-xs sm:text-sm font-medium placeholder:text-slate-400 border border-slate-200 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red shadow-sm transition-all"
                     />
                   </div>
                 </div>
 
                 {/* Non-editable Product Category Field */}
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold uppercase tracking-wider text-slate-300">
+                  <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-200">
                     Product
                   </label>
                   <input
@@ -200,13 +200,13 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                     name="category"
                     readOnly
                     value={formData.category}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-200 cursor-not-allowed text-xs sm:text-sm font-medium focus:outline-none select-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/60 border border-white/15 text-slate-200 cursor-not-allowed text-xs sm:text-sm font-semibold focus:outline-none select-none"
                   />
                 </div>
 
                 {/* Non-editable Product ID / Model Field */}
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold uppercase tracking-wider text-slate-300">
+                  <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-200">
                     Product ID
                   </label>
                   <input
@@ -214,13 +214,13 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                     name="model"
                     readOnly
                     value={formData.model}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-200 cursor-not-allowed text-xs sm:text-sm font-medium focus:outline-none select-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/60 border border-white/15 text-slate-200 cursor-not-allowed text-xs sm:text-sm font-semibold focus:outline-none select-none"
                   />
                 </div>
 
-                {/* Enquiry Text Area */}
+                {/* Enquiry Text Area (White Background) */}
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold uppercase tracking-wider text-slate-300">
+                  <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-200">
                     Enquiry <span className="text-ssil-red">*</span>
                   </label>
                   <textarea
@@ -230,7 +230,7 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                     value={formData.enquiry}
                     onChange={handleChange}
                     placeholder="Tell us about your project requirements, quantities, or technical specifications..."
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/15 text-white text-xs sm:text-sm placeholder:text-slate-500 focus:outline-none focus:border-ssil-red transition-all resize-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white text-slate-900 text-xs sm:text-sm font-medium placeholder:text-slate-400 border border-slate-200 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red shadow-sm transition-all resize-none"
                   ></textarea>
                 </div>
 
