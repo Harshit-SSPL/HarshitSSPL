@@ -71,7 +71,7 @@ export function Footerdemo() {
                 View Products
               </Link>
               <Link href="/projects" className="block transition-colors hover:text-ssil-red">
-                Executed Projects
+                Gallery
               </Link>
               <Link href="/contact" className="block transition-colors hover:text-ssil-red">
                 Contact &amp; Inquiry

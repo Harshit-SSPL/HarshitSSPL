@@ -39,7 +39,7 @@ const defaultSsilMenu: MenuItem[] = [
   { title: "Home", url: "/" },
   { title: "About Us", url: "/about" },
   { title: "Products", url: "/products" },
-  { title: "Projects", url: "/projects" },
+  { title: "Gallery", url: "/projects" },
   { title: "Contact Us", url: "/contact" },
 ];
 
