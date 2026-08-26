@@ -71,7 +71,7 @@ export default function ProductDetailPage() {
     <div className="relative min-h-screen w-full bg-white dark:bg-black text-slate-900 dark:text-white transition-colors duration-300 overflow-hidden">
       
       {/* ============================================================ */}
-      {/* 1. PRODUCT HERO BANNER (EXTREME LEFT ALIGNED TEXT & TAGLINE) */}
+      {/* 1. PRODUCT HERO BANNER */}
       {/* ============================================================ */}
       <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex items-end overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
         
@@ -158,7 +158,7 @@ export default function ProductDetailPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 3. PRODUCT IMAGE GALLERY (SAME 4 PER ROW DESKTOP GRID & ENQUIRY MODAL TRIGGER) */}
+      {/* 3. PRODUCT IMAGE GALLERY */}
       {/* ============================================================ */}
       <section className="relative z-10 py-14 sm:py-20 bg-white dark:bg-black">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
@@ -179,7 +179,7 @@ export default function ProductDetailPage() {
             </span>
           </div>
 
-          {/* 4 Images per Row Desktop Grid (Clicking Enquire Now opens glassmorphic EnquiryModal) */}
+          {/* 4 Images per Row Desktop Grid */}
           <motion.div
             className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-3.5"
             initial="hidden"
@@ -224,11 +224,13 @@ export default function ProductDetailPage() {
 
             <div className="flex flex-wrap items-center gap-3 shrink-0">
               <Button
-                onClick={() => openEnquiry(`${product.name} (Tender Quote)`)}
+                asChild
                 size="lg"
                 className="bg-ssil-red hover:bg-ssil-red-600 font-bold px-6 text-white text-xs sm:text-sm rounded-none"
               >
-                <PhoneCall className="mr-2 h-4 w-4" /> Request Technical Tender Quote
+                <Link href="/contact">
+                  <PhoneCall className="mr-2 h-4 w-4" /> Request Technical Tender Quote
+                </Link>
               </Button>
               <Button
                 onClick={() => openEnquiry(`${product.name} (Master Specs)`)}
