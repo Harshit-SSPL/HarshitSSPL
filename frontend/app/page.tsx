@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Stats2 } from "@/components/ui/stats-2";
 import { ClientMarquee } from "@/components/ui/client-marquee";
 import { FeaturedProducts } from "@/components/ui/featured-products";
-import { MediaShowcaseSection } from "@/components/ui/media-showcase";
+import { WhySsilSection } from "@/components/ui/why-ssil";
 import { FeatureCardDemo } from "@/components/ui/feature-card";
 import { HeroVideoCarousel } from "@/components/ui/hero-video-carousel";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
@@ -79,8 +79,8 @@ export default function HomePage() {
       {/* Component 3: Featured Lighting Solutions (6 Products with Day/Night Crossfade) */}
       <FeaturedProducts />
 
-      {/* Component 4: Company / Media / Brand Film Section (Inserted Immediately Above FeatureCardDemo) */}
-      <MediaShowcaseSection />
+      {/* Component 4: Why SSIL / The Difference, Built for What's Next */}
+      <WhySsilSection />
 
       {/* Component 5: Feature Card Process Workflow ("From Design Specification to Infrastructure Execution") */}
       <FeatureCardDemo />
