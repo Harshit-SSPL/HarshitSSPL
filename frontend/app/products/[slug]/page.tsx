@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -9,6 +9,7 @@ import { ArrowLeft, ChevronRight, CheckCircle2, PhoneCall, FileText } from "luci
 import { Button } from "@/components/ui/button";
 import { catalogProducts } from "@/data/products-catalog";
 import { ProductCard } from "@/components/ui/product-card";
+import { EnquiryModal } from "@/components/ui/enquiry-modal";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -25,6 +26,16 @@ export default function ProductDetailPage() {
   const slug = params?.slug as string;
 
   const product = catalogProducts.find((p) => p.slug === slug);
+
+  const [enquiryState, setEnquiryState] = useState<{
+    isOpen: boolean;
+    productCategory: string;
+    productModel: string;
+  }>({
+    isOpen: false,
+    productCategory: "",
+    productModel: "",
+  });
 
   if (!product) {
     return (
@@ -43,6 +54,18 @@ export default function ProductDetailPage() {
       </div>
     );
   }
+
+  const openEnquiry = (modelName: string) => {
+    setEnquiryState({
+      isOpen: true,
+      productCategory: product.name,
+      productModel: modelName,
+    });
+  };
+
+  const closeEnquiry = () => {
+    setEnquiryState((prev) => ({ ...prev, isOpen: false }));
+  };
 
   return (
     <div className="relative min-h-screen w-full bg-white dark:bg-black text-slate-900 dark:text-white transition-colors duration-300 overflow-hidden">
@@ -135,7 +158,7 @@ export default function ProductDetailPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 3. PRODUCT IMAGE GALLERY (SAME 4 PER ROW DESKTOP GRID & PRODUCTCARD DESIGN) */}
+      {/* 3. PRODUCT IMAGE GALLERY (SAME 4 PER ROW DESKTOP GRID & ENQUIRY MODAL TRIGGER) */}
       {/* ============================================================ */}
       <section className="relative z-10 py-14 sm:py-20 bg-white dark:bg-black">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
@@ -156,7 +179,7 @@ export default function ProductDetailPage() {
             </span>
           </div>
 
-          {/* 4 Images per Row Desktop Grid (Using ProductCard with "Enquire Now →" Button & Smooth Hover Popup) */}
+          {/* 4 Images per Row Desktop Grid (Clicking Enquire Now opens glassmorphic EnquiryModal) */}
           <motion.div
             className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-3.5"
             initial="hidden"
@@ -169,10 +192,10 @@ export default function ProductDetailPage() {
                 key={item.id}
                 name={item.name}
                 dayImage={item.dayImage}
-                href="/contact"
                 buttonText="Enquire Now"
                 showArrow={true}
                 enableImageCrossfade={false}
+                onEnquire={(modelName) => openEnquiry(modelName)}
               />
             ))}
           </motion.div>
@@ -200,25 +223,33 @@ export default function ProductDetailPage() {
             </div>
 
             <div className="flex flex-wrap items-center gap-3 shrink-0">
-              <Button asChild size="lg" className="bg-ssil-red hover:bg-ssil-red-600 font-bold px-6 text-white text-xs sm:text-sm">
-                <Link href="/contact">
-                  <PhoneCall className="mr-2 h-4 w-4" /> Request Technical Tender Quote
-                </Link>
+              <Button
+                onClick={() => openEnquiry(`${product.name} (Tender Quote)`)}
+                size="lg"
+                className="bg-ssil-red hover:bg-ssil-red-600 font-bold px-6 text-white text-xs sm:text-sm rounded-none"
+              >
+                <PhoneCall className="mr-2 h-4 w-4" /> Request Technical Tender Quote
               </Button>
               <Button
-                asChild
+                onClick={() => openEnquiry(`${product.name} (Master Specs)`)}
                 size="lg"
-                className="bg-zinc-900 hover:bg-zinc-800 text-white border border-zinc-700 hover:border-zinc-500 font-bold px-6 text-xs sm:text-sm transition-all duration-200"
+                className="bg-zinc-900 hover:bg-zinc-800 text-white border border-zinc-700 hover:border-zinc-500 font-bold px-6 text-xs sm:text-sm transition-all duration-200 rounded-none"
               >
-                <Link href="/contact">
-                  <FileText className="mr-2 h-4 w-4 text-ssil-red" /> Download Catalogue Specs
-                </Link>
+                <FileText className="mr-2 h-4 w-4 text-ssil-red" /> Download Catalogue Specs
               </Button>
             </div>
 
           </div>
         </div>
       </section>
+
+      {/* Glassmorphic Enquiry Modal with pre-filled Product Category & Product Model ID */}
+      <EnquiryModal
+        isOpen={enquiryState.isOpen}
+        onClose={closeEnquiry}
+        productCategory={enquiryState.productCategory}
+        productModel={enquiryState.productModel}
+      />
 
     </div>
   );
