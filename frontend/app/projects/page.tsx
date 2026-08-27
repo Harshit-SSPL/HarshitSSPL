@@ -104,53 +104,52 @@ export default function GalleryPage() {
                 className="relative group grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center"
               >
                 
-                {/* Large Background Project Index Number - subtle normal red, darkens noticeably on image/card hover */}
-                <span
-                  className={`absolute -top-10 sm:-top-16 text-7xl sm:text-8xl md:text-9xl font-black select-none pointer-events-none transition-colors duration-500 text-ssil-red/15 group-hover:text-ssil-red/45 ${
-                    isEven ? "left-0" : "right-0"
-                  }`}
-                  aria-hidden="true"
-                >
-                  {project.number}
-                </span>
-
                 {/* -------------------------------------------------- */}
-                {/* IMAGE CONTAINER (ALTERNATES LEFT / RIGHT) */}
+                {/* IMAGE CONTAINER WITH NUMBER ABOVE (ALTERNATES LEFT / RIGHT) */}
                 {/* -------------------------------------------------- */}
                 <motion.div
                   variants={childVariants}
-                  className={`lg:col-span-6 relative rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-200 dark:border-zinc-800/90 bg-slate-100 dark:bg-zinc-900 shadow-xl transition-all duration-500 group-hover:border-ssil-red/50 group-hover:shadow-ssil-red/10 ${
+                  className={`lg:col-span-6 flex flex-col ${
                     isEven ? "lg:order-1" : "lg:order-2"
                   }`}
                 >
-                  {/* Natural Image Container */}
-                  <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] overflow-hidden">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-                    />
-
-                    {/* Gradient Overlay for visual richness */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-300" />
-                    
-                    {/* Floating Category Badge with Navbar-inspired transparency and white text */}
-                    <div className="absolute top-4 left-4 z-20">
-                      <span className="text-[10px] sm:text-xs font-extrabold uppercase tracking-wider text-white bg-slate-950/40 dark:bg-slate-950/50 backdrop-blur-xl border border-ssil-red/40 px-3.5 py-1.5 rounded-full shadow-lg inline-block">
-                        {project.categoryTag}
-                      </span>
-                    </div>
-
-                    {/* Bottom Location Indicator */}
-                    <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center gap-1.5 text-xs text-slate-200 font-semibold drop-shadow-md">
-                      <MapPin className="h-3.5 w-3.5 text-ssil-red shrink-0" />
-                      <span className="truncate">{project.location}</span>
-                    </div>
+                  {/* Large Project Index Number Positioned Above the Photo */}
+                  <div className="mb-2 sm:mb-3">
+                    <span className="text-6xl sm:text-7xl md:text-8xl font-black tracking-tight leading-none select-none text-ssil-red/25 dark:text-ssil-red/30 group-hover:text-ssil-red transition-colors duration-500 inline-block">
+                      {project.number}
+                    </span>
                   </div>
 
-                  {/* Red Bottom Hover Accent Bar */}
-                  <div className="h-1 w-full bg-ssil-red origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out" />
+                  {/* Image Card Container */}
+                  <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-200 dark:border-zinc-800/90 bg-slate-100 dark:bg-zinc-900 shadow-xl transition-all duration-500 group-hover:border-ssil-red/50 group-hover:shadow-ssil-red/10">
+                    <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] overflow-hidden">
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                      />
+
+                      {/* Gradient Overlay for visual richness */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-300" />
+                      
+                      {/* Floating Category Badge with Navbar-inspired transparency and white text */}
+                      <div className="absolute top-4 left-4 z-20">
+                        <span className="text-[10px] sm:text-xs font-extrabold uppercase tracking-wider text-white bg-slate-950/40 dark:bg-slate-950/50 backdrop-blur-xl border border-ssil-red/40 px-3.5 py-1.5 rounded-full shadow-lg inline-block">
+                          {project.categoryTag}
+                        </span>
+                      </div>
+
+                      {/* Bottom Location Indicator */}
+                      <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center gap-1.5 text-xs text-slate-200 font-semibold drop-shadow-md">
+                        <MapPin className="h-3.5 w-3.5 text-ssil-red shrink-0" />
+                        <span className="truncate">{project.location}</span>
+                      </div>
+                    </div>
+
+                    {/* Red Bottom Hover Accent Bar */}
+                    <div className="h-1 w-full bg-ssil-red origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out" />
+                  </div>
                 </motion.div>
 
                 {/* -------------------------------------------------- */}
