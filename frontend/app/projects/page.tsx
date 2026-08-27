@@ -6,7 +6,6 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { MapPin, ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ClientMarquee } from "@/components/ui/client-marquee";
 import { galleryProjects } from "@/data/gallery-projects";
 
 // Animation Variants matching Home & About Us design system
@@ -87,51 +86,10 @@ export default function GalleryPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 2. CONTINUOUS COMPANY & PROJECT GLIDE (REUSED FROM HOME PAGE) */}
+      {/* 2. REAL-WORLD PROJECT CASE STUDIES GALLERY (ALTERNATING RHYTHM) */}
       {/* ============================================================ */}
-      <ClientMarquee />
-
-      {/* ============================================================ */}
-      {/* 3. GALLERY INTRODUCTION SECTION */}
-      {/* ============================================================ */}
-      <motion.section
-        className="py-12 sm:py-16 md:py-20 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-900 transition-colors duration-300 relative overflow-hidden"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: false, amount: 0.2 }}
-        variants={sectionVariants}
-      >
-        {/* Ambient Subtle Background Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-ssil-red/10 blur-[140px] rounded-full pointer-events-none" />
-
-        <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl relative z-10">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-8 border-b border-slate-200 dark:border-zinc-900">
-            
-            <motion.div variants={childVariants} className="max-w-3xl">
-              <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-600 dark:text-slate-400 block mb-2">
-                WHERE WE WORK
-              </span>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.1]">
-                Built for real spaces,<br />
-                <span className="text-ssil-red">engineered for impact.</span>
-              </h2>
-            </motion.div>
-
-            <motion.div variants={childVariants} className="max-w-md">
-              <p className="text-xs sm:text-sm md:text-base text-slate-700 dark:text-slate-300 font-normal leading-relaxed">
-                From architectural environments to civic infrastructure, SSIL solutions are custom-designed, precision-manufactured, and deployed for projects demanding structural integrity, high photometrics, and long-term durability.
-              </p>
-            </motion.div>
-
-          </div>
-        </div>
-      </motion.section>
-
-      {/* ============================================================ */}
-      {/* 4. REAL-WORLD PROJECT CASE STUDIES GALLERY (ALTERNATING RHYTHM) */}
-      {/* ============================================================ */}
-      <section className="py-12 sm:py-16 md:py-24 bg-white dark:bg-slate-950 text-slate-900 dark:text-white space-y-16 sm:space-y-24 md:space-y-32 transition-colors duration-300">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl space-y-16 sm:space-y-24 md:space-y-32">
+      <section className="py-16 sm:py-20 md:py-28 bg-white dark:bg-slate-950 text-slate-900 dark:text-white space-y-20 sm:space-y-28 md:space-y-36 transition-colors duration-300">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl space-y-20 sm:space-y-28 md:space-y-36">
           
           {galleryProjects.map((project, idx) => {
             const isEven = idx % 2 === 0;
@@ -143,14 +101,15 @@ export default function GalleryPage() {
                 whileInView="visible"
                 viewport={{ once: false, amount: 0.15 }}
                 variants={sectionVariants}
-                className="relative group grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
+                className="relative group grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center"
               >
                 
-                {/* Large Background Project Index Number */}
+                {/* Large Background Project Index Number - subtle normal red, darkens noticeably on image/card hover */}
                 <span
-                  className={`absolute -top-10 sm:-top-16 text-6xl sm:text-8xl md:text-9xl font-black text-slate-900/[0.04] dark:text-white/[0.04] select-none pointer-events-none transition-colors duration-500 group-hover:text-ssil-red/[0.08] ${
+                  className={`absolute -top-10 sm:-top-16 text-7xl sm:text-8xl md:text-9xl font-black select-none pointer-events-none transition-colors duration-500 text-ssil-red/15 group-hover:text-ssil-red/45 ${
                     isEven ? "left-0" : "right-0"
                   }`}
+                  aria-hidden="true"
                 >
                   {project.number}
                 </span>
@@ -176,9 +135,9 @@ export default function GalleryPage() {
                     {/* Gradient Overlay for visual richness */}
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-300" />
                     
-                    {/* Floating Category Badge */}
+                    {/* Floating Category Badge with Navbar-inspired transparency and white text */}
                     <div className="absolute top-4 left-4 z-20">
-                      <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider bg-slate-950/80 backdrop-blur-md text-ssil-red border border-ssil-red/30 px-3 py-1.5 rounded-full shadow-md">
+                      <span className="text-[10px] sm:text-xs font-extrabold uppercase tracking-wider text-white bg-slate-950/40 dark:bg-slate-950/50 backdrop-blur-xl border border-ssil-red/40 px-3.5 py-1.5 rounded-full shadow-lg inline-block">
                         {project.categoryTag}
                       </span>
                     </div>
@@ -195,67 +154,32 @@ export default function GalleryPage() {
                 </motion.div>
 
                 {/* -------------------------------------------------- */}
-                {/* PROJECT INFORMATION EDITORIAL CARD */}
+                {/* PROJECT INFORMATION EDITORIAL AREA */}
                 {/* -------------------------------------------------- */}
                 <motion.div
                   variants={childVariants}
-                  className={`lg:col-span-6 flex flex-col justify-center space-y-4 sm:space-y-5 ${
+                  className={`lg:col-span-6 flex flex-col justify-center space-y-5 sm:space-y-6 ${
                     isEven ? "lg:order-2" : "lg:order-1"
                   }`}
                 >
-                  {/* Project Index + Subtitle */}
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs font-black uppercase tracking-widest text-slate-700 dark:text-slate-400 bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 px-3 py-1 rounded-md">
-                      PROJECT {project.number}
-                    </span>
-                    <span className="h-px w-8 bg-ssil-red/60" />
-                    <span className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 truncate">
-                      {project.subtitle}
-                    </span>
-                  </div>
-
                   {/* Project Title */}
-                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight leading-tight group-hover:text-ssil-red transition-colors duration-300">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.15] group-hover:text-ssil-red transition-colors duration-300">
                     {project.title}
-                  </h3>
+                  </h2>
 
                   {/* WHAT SSIL PROVIDED BADGE & DESCRIPTION */}
-                  <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-zinc-900/90 border border-slate-200/90 dark:border-zinc-800/80 space-y-2 relative overflow-hidden shadow-xs">
-                    <div className="absolute top-0 left-0 bottom-0 w-1 bg-ssil-red" />
+                  <div className="p-5 sm:p-7 rounded-2xl bg-slate-50 dark:bg-zinc-900/90 border border-slate-200/90 dark:border-zinc-800/80 space-y-3 relative overflow-hidden shadow-sm">
+                    <div className="absolute top-0 left-0 bottom-0 w-1.5 bg-ssil-red" />
 
-                    <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-ssil-red">
-                      <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
+                    <div className="flex items-center gap-2.5 text-xs sm:text-sm font-black uppercase tracking-widest text-ssil-red">
+                      <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5 text-ssil-red shrink-0" />
                       <span>WHAT SSIL PROVIDED</span>
                     </div>
 
-                    <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-semibold leading-relaxed">
+                    <p className="text-sm sm:text-base text-slate-700 dark:text-slate-200 font-medium leading-relaxed">
                       {project.provided}
                     </p>
                   </div>
-
-                  {/* Detailed Project Story */}
-                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-normal leading-relaxed">
-                    {project.description}
-                  </p>
-
-                  {/* Key Project Specs / Stats Badges Grid */}
-                  {project.stats && (
-                    <div className="grid grid-cols-3 gap-3 pt-2">
-                      {project.stats.map((st, sIdx) => (
-                        <div
-                          key={sIdx}
-                          className="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-200 dark:border-zinc-800/60 text-center shadow-xs"
-                        >
-                          <span className="text-xs sm:text-sm font-black text-slate-900 dark:text-white block">
-                            {st.value}
-                          </span>
-                          <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium block mt-0.5">
-                            {st.label}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
 
                 </motion.div>
 
@@ -267,7 +191,7 @@ export default function GalleryPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 5. CLOSING CTA SECTION BEFORE FOOTER */}
+      {/* 3. CLOSING CTA SECTION BEFORE FOOTER */}
       {/* ============================================================ */}
       <section className="py-14 sm:py-18 md:py-24 bg-slate-100 dark:bg-black text-slate-900 dark:text-white border-t border-slate-200 dark:border-zinc-900 relative overflow-hidden transition-colors duration-300">
         
