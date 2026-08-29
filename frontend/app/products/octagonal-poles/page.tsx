@@ -126,12 +126,12 @@ const poleSpecifications: PoleSpec[] = [
 ];
 
 const sectionVariants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.55,
+      duration: 0.5,
       ease: [0.21, 0.47, 0.32, 0.98],
       staggerChildren: 0.08,
     },
@@ -139,11 +139,11 @@ const sectionVariants = {
 };
 
 const childVariants = {
-  hidden: { opacity: 0, y: 14 },
+  hidden: { opacity: 0, y: 12 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.4, ease: [0.21, 0.47, 0.32, 0.98] },
+    transition: { duration: 0.35, ease: [0.21, 0.47, 0.32, 0.98] },
   },
 };
 
@@ -170,9 +170,9 @@ export default function OctagonalPolesPage() {
     <div className="relative min-h-screen w-full bg-white dark:bg-black text-slate-900 dark:text-white transition-colors duration-300 overflow-hidden">
       
       {/* ============================================================ */}
-      {/* 1. BREADCRUMB NAVIGATION */}
+      {/* 1. BREADCRUMB NAVIGATION (TIGHT SPACING BELOW NAVBAR) */}
       {/* ============================================================ */}
-      <div className="pt-24 pb-3 px-4 sm:px-6 lg:px-12 max-w-7xl mx-auto border-b border-slate-200/80 dark:border-zinc-800/80">
+      <div className="pt-20 pb-2 px-4 sm:px-6 lg:px-12 max-w-7xl mx-auto border-b border-slate-200/80 dark:border-zinc-800/80">
         <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
           <Link href="/products" className="hover:text-ssil-red transition-colors flex items-center gap-1">
             <ArrowLeft className="h-3.5 w-3.5" />
@@ -184,22 +184,22 @@ export default function OctagonalPolesPage() {
       </div>
 
       {/* ============================================================ */}
-      {/* 2. HERO / PRODUCT INTRODUCTION (COMPACT & BALANCED) */}
+      {/* 2. COMPACT HERO SECTION (HIGH POSITIONING & BALANCED COMPOSITION) */}
       {/* ============================================================ */}
       <motion.section
-        className="relative pt-8 pb-12 sm:pt-10 sm:pb-14 lg:pt-12 lg:pb-16 overflow-hidden border-b border-slate-200 dark:border-zinc-900"
+        className="relative pt-4 pb-8 sm:pt-6 sm:pb-10 lg:pt-6 lg:pb-12 border-b border-slate-200 dark:border-zinc-900"
         initial="hidden"
         animate="visible"
         variants={sectionVariants}
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
             
-            {/* Left Content Column */}
-            <motion.div variants={childVariants} className="lg:col-span-7 space-y-5 text-left">
+            {/* Left Content Column (High Placement & Clear Typography) */}
+            <motion.div variants={childVariants} className="lg:col-span-7 space-y-4 text-left">
               
-              <div className="space-y-3">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.08]">
+              <div className="space-y-2.5">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.05]">
                   GI OCTAGONAL <br />
                   <span className="text-ssil-red">POLES.</span>
                 </h1>
@@ -209,7 +209,7 @@ export default function OctagonalPolesPage() {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-3.5 pt-2">
+              <div className="flex flex-wrap items-center gap-3 pt-1">
                 <Button
                   onClick={() => openEnquiry()}
                   size="lg"
@@ -233,12 +233,12 @@ export default function OctagonalPolesPage() {
 
             </motion.div>
 
-            {/* Right Hero Image Column with Pure Day/Night Hover Crossfade */}
+            {/* Right Hero Image Column (Top-Aligned, Full Visibility, Day/Night Crossfade on Hover) */}
             <motion.div variants={childVariants} className="lg:col-span-5">
-              <div className="group relative rounded-2xl sm:rounded-3xl border border-slate-200/90 dark:border-zinc-800 overflow-hidden shadow-xl bg-slate-100 dark:bg-zinc-900 cursor-pointer">
+              <div className="group relative rounded-2xl sm:rounded-3xl border border-slate-200/90 dark:border-zinc-800 overflow-hidden shadow-lg bg-slate-100 dark:bg-zinc-900 cursor-pointer max-w-[420px] mx-auto lg:max-w-none">
                 
-                {/* Image Container with Day (default) and Night (on hover) crossfade */}
-                <div className="relative aspect-[4/5] w-full overflow-hidden">
+                {/* Image Container with Day/Night hover transition */}
+                <div className="relative aspect-[4/4.5] sm:aspect-[4/4.8] w-full overflow-hidden">
                   {/* Day Version (Default) */}
                   <img
                     src="/images/products/homepage/product-05/day.png"
@@ -246,7 +246,7 @@ export default function OctagonalPolesPage() {
                     className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                   />
 
-                  {/* Night Version (Fades in on Hover) */}
+                  {/* Night Version (Smoothly crossfades in on hover) */}
                   <img
                     src="/images/products/homepage/product-05/night.png"
                     alt="SSIL Hot-Dip Galvanized Octagonal Pole Night Illumination"
@@ -257,7 +257,7 @@ export default function OctagonalPolesPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 pointer-events-none" />
 
                   {/* Translucent Glass Caption Pill matching Navbar styling */}
-                  <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between p-3.5 rounded-xl bg-white/80 dark:bg-black/60 backdrop-blur-md border border-white/30 dark:border-white/10 shadow-lg text-slate-900 dark:text-white transition-all">
+                  <div className="absolute bottom-3.5 left-3.5 right-3.5 z-20 flex items-center justify-between p-3 sm:p-3.5 rounded-xl bg-white/80 dark:bg-black/60 backdrop-blur-md border border-white/30 dark:border-white/10 shadow-lg text-slate-900 dark:text-white transition-all">
                     <div>
                       <span className="text-[10px] font-extrabold uppercase tracking-widest text-ssil-red block">
                         OCTAGONAL POLE
@@ -280,10 +280,10 @@ export default function OctagonalPolesPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 3. PRODUCT OVERVIEW / STRUCTURAL RELIABILITY */}
+      {/* 3. PRODUCT OVERVIEW (COMPACT & WITHOUT STATISTIC BOXES) */}
       {/* ============================================================ */}
       <motion.section
-        className="py-14 sm:py-16 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-900 transition-colors"
+        className="py-10 sm:py-12 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-900 transition-colors"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.15 }}
@@ -291,10 +291,10 @@ export default function OctagonalPolesPage() {
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
           
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
             
             {/* Header Column */}
-            <motion.div variants={childVariants} className="lg:col-span-5 space-y-3 text-left">
+            <motion.div variants={childVariants} className="lg:col-span-5 space-y-2 text-left">
               <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block">
                 PRODUCT OVERVIEW
               </span>
@@ -302,11 +302,11 @@ export default function OctagonalPolesPage() {
                 STRUCTURAL RELIABILITY.<br />
                 <span className="text-ssil-red">BUILT TO LAST.</span>
               </h2>
-              <div className="w-16 h-1 bg-ssil-red rounded-full mt-2" />
+              <div className="w-14 h-1 bg-ssil-red rounded-full mt-2" />
             </motion.div>
 
-            {/* Description Paragraphs Column */}
-            <motion.div variants={childVariants} className="lg:col-span-7 space-y-3.5 text-left text-slate-700 dark:text-slate-300 leading-relaxed font-normal text-sm sm:text-base">
+            {/* Description Paragraphs Column (No Stat Cards Below) */}
+            <motion.div variants={childVariants} className="lg:col-span-7 space-y-3 text-left text-slate-700 dark:text-slate-300 leading-relaxed font-normal text-sm sm:text-base">
               <p>
                 We use high-quality raw materials to manufacture hot-dip galvanized octagonal poles designed for strength, stability and long service life.
               </p>
@@ -320,33 +320,6 @@ export default function OctagonalPolesPage() {
 
           </div>
 
-          {/* 4 Key Engineering Metric Cards */}
-          <motion.div variants={childVariants} className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-10 pt-8 border-t border-slate-200/90 dark:border-zinc-800/90">
-            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 shadow-sm text-left">
-              <span className="text-2xl sm:text-3xl font-black text-ssil-red block">3M–13M</span>
-              <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 mt-1 block">Dimensional Heights</span>
-              <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 block">Standard &amp; custom profiles</span>
-            </div>
-
-            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 shadow-sm text-left">
-              <span className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white block">86+ µm</span>
-              <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 mt-1 block">Galvanizing Thickness</span>
-              <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 block">IS 2629 / IS 4759 Standards</span>
-            </div>
-
-            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 shadow-sm text-left">
-              <span className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white block">180 km/h</span>
-              <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 mt-1 block">Wind Load Tested</span>
-              <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 block">IS 875 Structural Compliance</span>
-            </div>
-
-            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 shadow-sm text-left">
-              <span className="text-2xl sm:text-3xl font-black text-ssil-red block">25+ Yrs</span>
-              <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 mt-1 block">Design Service Life</span>
-              <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 block">Zero maintenance finish</span>
-            </div>
-          </motion.div>
-
         </div>
       </motion.section>
 
@@ -355,7 +328,7 @@ export default function OctagonalPolesPage() {
       {/* ============================================================ */}
       <motion.section
         id="technical-data-sheet"
-        className="py-14 sm:py-16 md:py-20 bg-white dark:bg-black text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-900 transition-colors"
+        className="py-12 sm:py-14 md:py-16 bg-white dark:bg-black text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-900 transition-colors"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.15 }}
@@ -364,15 +337,15 @@ export default function OctagonalPolesPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
           
           {/* Section Header */}
-          <div className="mb-8 pb-5 border-b border-slate-200/90 dark:border-zinc-800/90 text-left">
+          <div className="mb-6 pb-4 border-b border-slate-200/90 dark:border-zinc-800/90 text-left">
             <motion.div variants={childVariants} className="max-w-3xl">
-              <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-1.5">
+              <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-1">
                 DIMENSIONAL SPECIFICATIONS
               </span>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.1]">
                 TECHNICAL DATA <span className="text-ssil-red">SHEET.</span>
               </h2>
-              <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-2xl">
+              <p className="mt-1.5 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-2xl">
                 SSIL offers high-quality Hot Dip Galvanized (HDG) Octagonal Poles ranging from 3 meters to 13 meters in height. Designed for strength, durability and long service life, the poles are manufactured using quality steel and production processes intended for reliable performance in outdoor environments.
               </p>
             </motion.div>
@@ -387,14 +360,14 @@ export default function OctagonalPolesPage() {
               <table className="w-full text-left border-collapse min-w-[760px]">
                 <thead>
                   <tr className="bg-slate-900 text-white text-xs font-extrabold uppercase tracking-wider border-b border-slate-800">
-                    <th className="py-4 px-4 sm:px-6">POLE TYPE</th>
-                    <th className="py-4 px-3 sm:px-4">HEIGHT (Mtr)</th>
-                    <th className="py-4 px-3 sm:px-4">TOP DIA (mm)</th>
-                    <th className="py-4 px-3 sm:px-4">BOTTOM DIA (mm)</th>
-                    <th className="py-4 px-3 sm:px-4">SHEET THICKNESS</th>
-                    <th className="py-4 px-3 sm:px-4">BASE PLATE LxWxT</th>
-                    <th className="py-4 px-3 sm:px-4">FOUNDATION BOLT (No.xDiaxmm)</th>
-                    <th className="py-4 px-4 sm:px-6 text-right">ACTION</th>
+                    <th className="py-3.5 px-4 sm:px-6">POLE TYPE</th>
+                    <th className="py-3.5 px-3 sm:px-4">HEIGHT (Mtr)</th>
+                    <th className="py-3.5 px-3 sm:px-4">TOP DIA (mm)</th>
+                    <th className="py-3.5 px-3 sm:px-4">BOTTOM DIA (mm)</th>
+                    <th className="py-3.5 px-3 sm:px-4">SHEET THICKNESS</th>
+                    <th className="py-3.5 px-3 sm:px-4">BASE PLATE LxWxT</th>
+                    <th className="py-3.5 px-3 sm:px-4">FOUNDATION BOLT (No.xDiaxmm)</th>
+                    <th className="py-3.5 px-4 sm:px-6 text-right">ACTION</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200 dark:divide-zinc-800 text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200">
@@ -403,23 +376,23 @@ export default function OctagonalPolesPage() {
                       key={row.poleType}
                       className="group hover:bg-ssil-red/5 dark:hover:bg-zinc-900/80 transition-colors"
                     >
-                      <td className="py-3.5 px-4 sm:px-6 font-black text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors flex items-center gap-2">
+                      <td className="py-3 px-4 sm:px-6 font-black text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors flex items-center gap-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0" />
                         {row.poleType}
                       </td>
-                      <td className="py-3.5 px-3 sm:px-4 font-bold text-slate-900 dark:text-white">
+                      <td className="py-3 px-3 sm:px-4 font-bold text-slate-900 dark:text-white">
                         {row.height} M
                       </td>
-                      <td className="py-3.5 px-3 sm:px-4">{row.topDia}</td>
-                      <td className="py-3.5 px-3 sm:px-4">{row.bottomDia}</td>
-                      <td className="py-3.5 px-3 sm:px-4">{row.sheetThk}</td>
-                      <td className="py-3.5 px-3 sm:px-4 font-mono text-[11px] sm:text-xs">
+                      <td className="py-3 px-3 sm:px-4">{row.topDia}</td>
+                      <td className="py-3 px-3 sm:px-4">{row.bottomDia}</td>
+                      <td className="py-3 px-3 sm:px-4">{row.sheetThk}</td>
+                      <td className="py-3 px-3 sm:px-4 font-mono text-[11px] sm:text-xs">
                         {row.basePlate}
                       </td>
-                      <td className="py-3.5 px-3 sm:px-4 font-mono text-[11px] sm:text-xs text-slate-600 dark:text-slate-400">
+                      <td className="py-3 px-3 sm:px-4 font-mono text-[11px] sm:text-xs text-slate-600 dark:text-slate-400">
                         {row.foundationBolt}
                       </td>
-                      <td className="py-3.5 px-4 sm:px-6 text-right">
+                      <td className="py-3 px-4 sm:px-6 text-right">
                         <Button
                           size="sm"
                           onClick={() => openEnquiry(`${row.poleType} (${row.height}M Octagonal Pole)`)}
@@ -435,7 +408,7 @@ export default function OctagonalPolesPage() {
             </div>
 
             {/* Table Footer Note */}
-            <div className="p-4 bg-slate-50 dark:bg-zinc-900/50 border-t border-slate-200 dark:border-zinc-800 text-left flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-slate-600 dark:text-slate-400">
+            <div className="p-3.5 bg-slate-50 dark:bg-zinc-900/50 border-t border-slate-200 dark:border-zinc-800 text-left flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-slate-600 dark:text-slate-400">
               <span className="flex items-center gap-1.5">
                 <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
                 Custom bracket outreaches (Single Arm / Double Arm / Four Arm) available across all pole heights.
@@ -453,7 +426,7 @@ export default function OctagonalPolesPage() {
       {/* 5. ENGINEERING BLUEPRINT / TECHNICAL DRAWING */}
       {/* ============================================================ */}
       <motion.section
-        className="py-14 sm:py-16 md:py-20 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-900 transition-colors"
+        className="py-12 sm:py-14 md:py-16 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-900 transition-colors"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.15 }}
@@ -461,15 +434,15 @@ export default function OctagonalPolesPage() {
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
           
-          <div className="max-w-4xl mb-8 sm:mb-10 text-left">
-            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-1.5">
+          <div className="max-w-4xl mb-6 sm:mb-8 text-left">
+            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-1">
               ENGINEERING DRAWING
             </span>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.1]">
               DRAWING OF GI <br />
               <span className="text-ssil-red">OCTAGONAL POLE.</span>
             </h2>
-            <p className="mt-2.5 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-2xl">
+            <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-2xl">
               Our detailed Octagonal Pole technical drawing covers poles ranging from 3M to 13M in height. Manufactured from high-quality steel and protected with Hot-Dip Galvanization (HDG), these poles are designed for corrosion resistance, durability and long service life. The drawing includes details relating to the pole structure, base plate, foundation bolts, door opening and civil foundation design.
             </p>
           </div>
@@ -477,15 +450,15 @@ export default function OctagonalPolesPage() {
           {/* Technical Drawing Blueprint Representation */}
           <motion.div
             variants={childVariants}
-            className="w-full rounded-2xl sm:rounded-3xl border border-slate-300 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-8 md:p-10 shadow-lg overflow-hidden relative"
+            className="w-full rounded-2xl sm:rounded-3xl border border-slate-300 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 sm:p-7 md:p-8 shadow-lg overflow-hidden relative"
           >
             {/* Blueprint Grid Lines Background Accent */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808010_1px,transparent_1px),linear-gradient(to_bottom,#80808010_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
 
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
               
               {/* Preserved Visual Engineering Schematic Drawing */}
-              <div className="lg:col-span-6 flex items-center justify-center p-6 bg-slate-100/80 dark:bg-black/60 rounded-2xl border border-slate-200 dark:border-zinc-800">
+              <div className="lg:col-span-6 flex items-center justify-center p-5 bg-slate-100/80 dark:bg-black/60 rounded-2xl border border-slate-200 dark:border-zinc-800">
                 <svg
                   viewBox="0 0 320 540"
                   className="w-full max-w-[280px] sm:max-w-[320px] h-auto drop-shadow-md text-slate-800 dark:text-slate-200"
@@ -554,8 +527,8 @@ export default function OctagonalPolesPage() {
               </div>
 
               {/* Technical Engineering Information beside Drawing */}
-              <div className="lg:col-span-6 space-y-3.5 text-left">
-                <div className="p-4 rounded-xl bg-slate-100/80 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800 space-y-1">
+              <div className="lg:col-span-6 space-y-3 text-left">
+                <div className="p-3.5 rounded-xl bg-slate-100/80 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800 space-y-1">
                   <span className="font-bold text-sm sm:text-base text-slate-900 dark:text-white block">
                     1. Continuous Taper Shaft
                   </span>
@@ -564,7 +537,7 @@ export default function OctagonalPolesPage() {
                   </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-slate-100/80 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800 space-y-1">
+                <div className="p-3.5 rounded-xl bg-slate-100/80 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800 space-y-1">
                   <span className="font-bold text-sm sm:text-base text-slate-900 dark:text-white block">
                     2. Flush Weatherproof Inspection Door
                   </span>
@@ -573,7 +546,7 @@ export default function OctagonalPolesPage() {
                   </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-slate-100/80 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800 space-y-1">
+                <div className="p-3.5 rounded-xl bg-slate-100/80 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800 space-y-1">
                   <span className="font-bold text-sm sm:text-base text-slate-900 dark:text-white block">
                     3. Base Plate &amp; Civil Anchorage
                   </span>
@@ -593,7 +566,7 @@ export default function OctagonalPolesPage() {
       {/* 6. PRODUCT SPECIFICATIONS & MANUFACTURING */}
       {/* ============================================================ */}
       <motion.section
-        className="py-14 sm:py-16 md:py-20 bg-white dark:bg-black text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-900 transition-colors"
+        className="py-12 sm:py-14 md:py-16 bg-white dark:bg-black text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-900 transition-colors"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.15 }}
@@ -601,8 +574,8 @@ export default function OctagonalPolesPage() {
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
           
-          <div className="max-w-4xl mb-10 sm:mb-12 text-left">
-            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-1.5">
+          <div className="max-w-4xl mb-8 sm:mb-10 text-left">
+            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-1">
               MANUFACTURING &amp; ENGINEERING
             </span>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.08]">
@@ -612,24 +585,24 @@ export default function OctagonalPolesPage() {
           </div>
 
           {/* 3 Specification Panels (About Us Visual Language) */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 text-left">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-7 text-left">
             
             {/* Card 01 — TECHNICAL */}
             <motion.div
               variants={childVariants}
               whileHover={{ y: -5, scale: 1.01 }}
               transition={{ type: "spring", stiffness: 350, damping: 25 }}
-              className="group p-6 sm:p-7 rounded-2xl sm:rounded-3xl bg-slate-50 dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 hover:border-ssil-red/60 transition-all duration-300 shadow-md relative overflow-hidden flex flex-col justify-between"
+              className="group p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-slate-50 dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 hover:border-ssil-red/60 transition-all duration-300 shadow-md relative overflow-hidden flex flex-col justify-between"
             >
-              <div className="space-y-4">
-                <div className="flex items-center justify-between pb-3.5 border-b border-slate-200 dark:border-zinc-800">
-                  <span className="text-3xl sm:text-4xl font-extralight text-ssil-red">01</span>
-                  <span className="text-xs font-black uppercase tracking-widest text-slate-700 dark:text-slate-300 bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 px-3 py-1 rounded-full">
+              <div className="space-y-3.5">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-zinc-800">
+                  <span className="text-2xl sm:text-3xl font-extralight text-ssil-red">01</span>
+                  <span className="text-xs font-black uppercase tracking-widest text-slate-700 dark:text-slate-300 bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 px-3 py-0.5 rounded-full">
                     TECHNICAL
                   </span>
                 </div>
 
-                <div className="space-y-3 text-xs sm:text-sm">
+                <div className="space-y-2.5 text-xs sm:text-sm">
                   <div className="space-y-0.5">
                     <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0" />
@@ -678,17 +651,17 @@ export default function OctagonalPolesPage() {
               variants={childVariants}
               whileHover={{ y: -5, scale: 1.01 }}
               transition={{ type: "spring", stiffness: 350, damping: 25 }}
-              className="group p-6 sm:p-7 rounded-2xl sm:rounded-3xl bg-slate-50 dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 hover:border-ssil-red/60 transition-all duration-300 shadow-md relative overflow-hidden flex flex-col justify-between"
+              className="group p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-slate-50 dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 hover:border-ssil-red/60 transition-all duration-300 shadow-md relative overflow-hidden flex flex-col justify-between"
             >
-              <div className="space-y-4">
-                <div className="flex items-center justify-between pb-3.5 border-b border-slate-200 dark:border-zinc-800">
-                  <span className="text-3xl sm:text-4xl font-extralight text-ssil-red">02</span>
-                  <span className="text-xs font-black uppercase tracking-widest text-slate-700 dark:text-slate-300 bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 px-3 py-1 rounded-full">
+              <div className="space-y-3.5">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-zinc-800">
+                  <span className="text-2xl sm:text-3xl font-extralight text-ssil-red">02</span>
+                  <span className="text-xs font-black uppercase tracking-widest text-slate-700 dark:text-slate-300 bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 px-3 py-0.5 rounded-full">
                     KEY FEATURES
                   </span>
                 </div>
 
-                <div className="space-y-3 text-xs sm:text-sm">
+                <div className="space-y-2.5 text-xs sm:text-sm">
                   <div className="space-y-0.5">
                     <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0" />
@@ -737,17 +710,17 @@ export default function OctagonalPolesPage() {
               variants={childVariants}
               whileHover={{ y: -5, scale: 1.01 }}
               transition={{ type: "spring", stiffness: 350, damping: 25 }}
-              className="group p-6 sm:p-7 rounded-2xl sm:rounded-3xl bg-slate-50 dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 hover:border-ssil-red/60 transition-all duration-300 shadow-md relative overflow-hidden flex flex-col justify-between"
+              className="group p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-slate-50 dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 hover:border-ssil-red/60 transition-all duration-300 shadow-md relative overflow-hidden flex flex-col justify-between"
             >
-              <div className="space-y-4">
-                <div className="flex items-center justify-between pb-3.5 border-b border-slate-200 dark:border-zinc-800">
-                  <span className="text-3xl sm:text-4xl font-extralight text-ssil-red">03</span>
-                  <span className="text-xs font-black uppercase tracking-widest text-slate-700 dark:text-slate-300 bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 px-3 py-1 rounded-full">
+              <div className="space-y-3.5">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-zinc-800">
+                  <span className="text-2xl sm:text-3xl font-extralight text-ssil-red">03</span>
+                  <span className="text-xs font-black uppercase tracking-widest text-slate-700 dark:text-slate-300 bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 px-3 py-0.5 rounded-full">
                     PRODUCT ADVANTAGE
                   </span>
                 </div>
 
-                <div className="space-y-3 text-xs sm:text-sm">
+                <div className="space-y-2.5 text-xs sm:text-sm">
                   <div className="space-y-0.5">
                     <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0" />
@@ -799,18 +772,18 @@ export default function OctagonalPolesPage() {
       {/* ============================================================ */}
       {/* 7. WANT TO SEE OUR OTHER PRODUCTS? (COMPACT & ELEGANT CTA) */}
       {/* ============================================================ */}
-      <section className="py-12 sm:py-16 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white transition-colors relative overflow-hidden">
+      <section className="py-10 sm:py-14 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white transition-colors relative overflow-hidden">
         
         {/* Subtle Ambient Red Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-ssil-red/10 blur-[120px] rounded-full pointer-events-none" />
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-4xl relative z-10">
-          <div className="p-6 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-xl relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 text-left group hover:border-ssil-red/50 transition-all duration-300">
+          <div className="p-5 sm:p-7 md:p-8 rounded-2xl sm:rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-xl relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 text-left group hover:border-ssil-red/50 transition-all duration-300">
             
             {/* Red Accent Left Bar */}
             <div className="absolute top-0 left-0 bottom-0 w-1.5 bg-ssil-red" />
 
-            <div className="space-y-2 max-w-xl">
+            <div className="space-y-1.5 max-w-xl">
               <span className="text-[11px] sm:text-xs font-black uppercase tracking-widest text-ssil-red block">
                 EXPLORE COMPLETE CATALOGUE
               </span>
@@ -826,7 +799,7 @@ export default function OctagonalPolesPage() {
               <Button
                 asChild
                 size="lg"
-                className="bg-ssil-red hover:bg-ssil-red-600 font-bold px-8 py-3.5 rounded-full text-white text-xs sm:text-sm shadow-lg shadow-ssil-red/25 hover:shadow-ssil-red/40 transition-all duration-300 hover:scale-105"
+                className="bg-ssil-red hover:bg-ssil-red-600 font-bold px-7 py-3 rounded-full text-white text-xs sm:text-sm shadow-lg shadow-ssil-red/25 hover:shadow-ssil-red/40 transition-all duration-300 hover:scale-105"
               >
                 <Link href="/products" className="flex items-center gap-2">
                   <span>View All Products</span>
