@@ -2,27 +2,13 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   ArrowLeft,
   ChevronRight,
-  ShieldCheck,
-  Zap,
-  Layers,
-  Wrench,
-  CheckCircle2,
   FileText,
-  PhoneCall,
-  Download,
-  Building,
-  Trees,
-  Compass,
   ArrowRight,
-  Eye,
-  Sliders,
-  Sun,
-  Moon,
+  CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EnquiryModal } from "@/components/ui/enquiry-modal";
@@ -35,7 +21,6 @@ interface PoleSpec {
   sheetThk: number;
   basePlate: string;
   foundationBolt: string;
-  category: "urban" | "highway" | "heavy";
 }
 
 const poleSpecifications: PoleSpec[] = [
@@ -47,7 +32,6 @@ const poleSpecifications: PoleSpec[] = [
     sheetThk: 3,
     basePlate: "200x200x12",
     foundationBolt: "4x16x450",
-    category: "urban",
   },
   {
     poleType: "KOP04",
@@ -57,7 +41,6 @@ const poleSpecifications: PoleSpec[] = [
     sheetThk: 3,
     basePlate: "200x200x12",
     foundationBolt: "4x16x450",
-    category: "urban",
   },
   {
     poleType: "KOP05",
@@ -67,7 +50,6 @@ const poleSpecifications: PoleSpec[] = [
     sheetThk: 3,
     basePlate: "200x200x12",
     foundationBolt: "4x16x450",
-    category: "urban",
   },
   {
     poleType: "KOP06",
@@ -77,7 +59,6 @@ const poleSpecifications: PoleSpec[] = [
     sheetThk: 3,
     basePlate: "200x200x12",
     foundationBolt: "4x16x600",
-    category: "urban",
   },
   {
     poleType: "KOP07",
@@ -87,7 +68,6 @@ const poleSpecifications: PoleSpec[] = [
     sheetThk: 3,
     basePlate: "220x220x12",
     foundationBolt: "4x20x600",
-    category: "highway",
   },
   {
     poleType: "KOP08",
@@ -97,7 +77,6 @@ const poleSpecifications: PoleSpec[] = [
     sheetThk: 3,
     basePlate: "225x225x12",
     foundationBolt: "4x20x700",
-    category: "highway",
   },
   {
     poleType: "KOP09",
@@ -107,7 +86,6 @@ const poleSpecifications: PoleSpec[] = [
     sheetThk: 3,
     basePlate: "250x250x12",
     foundationBolt: "4x20x700",
-    category: "highway",
   },
   {
     poleType: "KOP010",
@@ -117,7 +95,6 @@ const poleSpecifications: PoleSpec[] = [
     sheetThk: 3,
     basePlate: "250x250x16",
     foundationBolt: "4x24x750",
-    category: "highway",
   },
   {
     poleType: "KOP011",
@@ -127,7 +104,6 @@ const poleSpecifications: PoleSpec[] = [
     sheetThk: 3,
     basePlate: "275x275x16",
     foundationBolt: "4x24x750",
-    category: "heavy",
   },
   {
     poleType: "KOP012",
@@ -137,7 +113,6 @@ const poleSpecifications: PoleSpec[] = [
     sheetThk: 3,
     basePlate: "275x275x16",
     foundationBolt: "4x24x750",
-    category: "heavy",
   },
   {
     poleType: "KOP013",
@@ -147,56 +122,16 @@ const poleSpecifications: PoleSpec[] = [
     sheetThk: 3,
     basePlate: "340x340x20",
     foundationBolt: "4x24x900",
-    category: "heavy",
-  },
-];
-
-const applications = [
-  {
-    num: "01",
-    title: "Expressways & Highways",
-    desc: "Engineered to withstand high wind velocity and heavy vibrations for state & national highway corridors.",
-    icon: <Layers className="h-5 w-5 sm:h-6 sm:w-6" />,
-  },
-  {
-    num: "02",
-    title: "Municipal & Smart City Roads",
-    desc: "Clean geometric profiles delivering uniform illumination and integrated cabling channels for urban streets.",
-    icon: <Building className="h-5 w-5 sm:h-6 sm:w-6" />,
-  },
-  {
-    num: "03",
-    title: "Industrial & Manufacturing Plants",
-    desc: "Heavy-duty corrosion-resistant galvanized structures designed for chemical plants, refineries, and freight hubs.",
-    icon: <Wrench className="h-5 w-5 sm:h-6 sm:w-6" />,
-  },
-  {
-    num: "04",
-    title: "Commercial Complexes & IT Parks",
-    desc: "Contemporary architectural octagonal aesthetics blending structural stability with premium perimeter illumination.",
-    icon: <Zap className="h-5 w-5 sm:h-6 sm:w-6" />,
-  },
-  {
-    num: "05",
-    title: "Residential Townships & Plazas",
-    desc: "Vandal-resistant poles providing secure pathway guidance, internal MCB doors, and smart lighting controls.",
-    icon: <Trees className="h-5 w-5 sm:h-6 sm:w-6" />,
-  },
-  {
-    num: "06",
-    title: "Public Infrastructure & Ports",
-    desc: "In-house hot-dip galvanized finish exceeding 86 microns for extreme maritime and coastal atmospheric durability.",
-    icon: <ShieldCheck className="h-5 w-5 sm:h-6 sm:w-6" />,
   },
 ];
 
 const sectionVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 24 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
+      duration: 0.55,
       ease: [0.21, 0.47, 0.32, 0.98],
       staggerChildren: 0.08,
     },
@@ -204,17 +139,15 @@ const sectionVariants = {
 };
 
 const childVariants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: 14 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.45, ease: [0.21, 0.47, 0.32, 0.98] },
+    transition: { duration: 0.4, ease: [0.21, 0.47, 0.32, 0.98] },
   },
 };
 
 export default function OctagonalPolesPage() {
-  const [selectedHeightFilter, setSelectedHeightFilter] = useState<"all" | "urban" | "highway" | "heavy">("all");
-  const [isNightModePreview, setIsNightModePreview] = useState(false);
   const [enquiryState, setEnquiryState] = useState<{
     isOpen: boolean;
     productCategory: string;
@@ -233,18 +166,13 @@ export default function OctagonalPolesPage() {
     });
   };
 
-  const filteredSpecs = poleSpecifications.filter((spec) => {
-    if (selectedHeightFilter === "all") return true;
-    return spec.category === selectedHeightFilter;
-  });
-
   return (
     <div className="relative min-h-screen w-full bg-white dark:bg-black text-slate-900 dark:text-white transition-colors duration-300 overflow-hidden">
       
       {/* ============================================================ */}
-      {/* 1. BREADCRUMB & TOP NAVIGATION BAR */}
+      {/* 1. BREADCRUMB NAVIGATION */}
       {/* ============================================================ */}
-      <div className="pt-24 pb-4 px-4 sm:px-6 lg:px-12 max-w-7xl mx-auto border-b border-slate-200/80 dark:border-zinc-800/80 flex items-center justify-between gap-4">
+      <div className="pt-24 pb-3 px-4 sm:px-6 lg:px-12 max-w-7xl mx-auto border-b border-slate-200/80 dark:border-zinc-800/80">
         <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
           <Link href="/products" className="hover:text-ssil-red transition-colors flex items-center gap-1">
             <ArrowLeft className="h-3.5 w-3.5" />
@@ -253,79 +181,31 @@ export default function OctagonalPolesPage() {
           <ChevronRight className="h-3.5 w-3.5 text-slate-400 dark:text-slate-600" />
           <span className="text-slate-900 dark:text-white font-bold">Octagonal Poles</span>
         </div>
-
-        <div className="flex items-center gap-2">
-          <span className="text-[11px] font-extrabold uppercase tracking-widest text-ssil-red border border-ssil-red/30 px-3 py-1 rounded-full bg-ssil-red/10">
-            OFFICIAL SSIL PRODUCT
-          </span>
-        </div>
       </div>
 
       {/* ============================================================ */}
-      {/* 2. PRODUCT HERO SECTION */}
+      {/* 2. HERO / PRODUCT INTRODUCTION (COMPACT & BALANCED) */}
       {/* ============================================================ */}
       <motion.section
-        className="relative py-12 sm:py-16 lg:py-20 overflow-hidden border-b border-slate-200 dark:border-zinc-900"
+        className="relative pt-8 pb-12 sm:pt-10 sm:pb-14 lg:pt-12 lg:pb-16 overflow-hidden border-b border-slate-200 dark:border-zinc-900"
         initial="hidden"
         animate="visible"
         variants={sectionVariants}
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
             {/* Left Content Column */}
-            <motion.div variants={childVariants} className="lg:col-span-7 space-y-6 text-left">
+            <motion.div variants={childVariants} className="lg:col-span-7 space-y-5 text-left">
               
               <div className="space-y-3">
-                <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block">
-                  HEAVY-DUTY INFRASTRUCTURE
-                </span>
-                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.05]">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.08]">
                   GI OCTAGONAL <br />
                   <span className="text-ssil-red">POLES.</span>
                 </h1>
-                <p className="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-300 font-medium leading-relaxed max-w-2xl">
+                <p className="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-2xl">
                   Precision-engineered hot-dip galvanized octagonal poles designed for high strength, structural reliability, corrosion resistance, and dependable outdoor lighting across modern expressways and municipal corridors.
                 </p>
-              </div>
-
-              {/* Quick Specification Badges Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 pt-2">
-                <div className="p-3.5 rounded-xl bg-slate-100/90 dark:bg-zinc-900/90 border border-slate-200 dark:border-zinc-800">
-                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
-                    Height Range
-                  </span>
-                  <span className="text-sm sm:text-base font-black text-slate-900 dark:text-white mt-0.5 block">
-                    3M to 13M
-                  </span>
-                </div>
-
-                <div className="p-3.5 rounded-xl bg-slate-100/90 dark:bg-zinc-900/90 border border-slate-200 dark:border-zinc-800">
-                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
-                    Coating
-                  </span>
-                  <span className="text-sm sm:text-base font-black text-slate-900 dark:text-white mt-0.5 block">
-                    Hot-Dip (HDG)
-                  </span>
-                </div>
-
-                <div className="p-3.5 rounded-xl bg-slate-100/90 dark:bg-zinc-900/90 border border-slate-200 dark:border-zinc-800">
-                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
-                    Material Grade
-                  </span>
-                  <span className="text-sm sm:text-base font-black text-slate-900 dark:text-white mt-0.5 block">
-                    High-Tensile
-                  </span>
-                </div>
-
-                <div className="p-3.5 rounded-xl bg-slate-100/90 dark:bg-zinc-900/90 border border-slate-200 dark:border-zinc-800">
-                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
-                    Wind Resistance
-                  </span>
-                  <span className="text-sm sm:text-base font-black text-ssil-red mt-0.5 block">
-                    180+ km/h
-                  </span>
-                </div>
               </div>
 
               {/* Action Buttons */}
@@ -333,7 +213,7 @@ export default function OctagonalPolesPage() {
                 <Button
                   onClick={() => openEnquiry()}
                   size="lg"
-                  className="bg-ssil-red hover:bg-ssil-red-600 text-white font-bold px-7 py-3 rounded-full text-xs sm:text-sm shadow-lg shadow-ssil-red/25 hover:shadow-ssil-red/40 transition-all duration-300"
+                  className="bg-ssil-red hover:bg-ssil-red-600 text-white font-bold px-7 py-3 rounded-full text-xs sm:text-sm shadow-lg shadow-ssil-red/25 hover:shadow-ssil-red/40 transition-all duration-300 hover:scale-105"
                 >
                   <FileText className="mr-2 h-4 w-4" />
                   Request Technical Quotation
@@ -343,75 +223,51 @@ export default function OctagonalPolesPage() {
                   asChild
                   variant="outline"
                   size="lg"
-                  className="border-slate-300 dark:border-zinc-800 hover:bg-slate-100 dark:hover:bg-zinc-900 font-bold px-6 py-3 rounded-full text-xs sm:text-sm"
+                  className="border-slate-300 dark:border-zinc-800 hover:bg-slate-100 dark:hover:bg-zinc-900 font-bold px-6 py-3 rounded-full text-xs sm:text-sm transition-all"
                 >
                   <Link href="#technical-data-sheet">
-                    <span>View 3M–13M Data Sheet</span>
+                    <span>View Data Sheet</span>
                   </Link>
                 </Button>
               </div>
 
             </motion.div>
 
-            {/* Right Interactive Image Showcase Column */}
+            {/* Right Hero Image Column with Pure Day/Night Hover Crossfade */}
             <motion.div variants={childVariants} className="lg:col-span-5">
-              <div className="relative rounded-2xl sm:rounded-3xl border-2 border-slate-200 dark:border-zinc-800 overflow-hidden shadow-2xl bg-slate-900 group">
+              <div className="group relative rounded-2xl sm:rounded-3xl border border-slate-200/90 dark:border-zinc-800 overflow-hidden shadow-xl bg-slate-100 dark:bg-zinc-900 cursor-pointer">
                 
-                {/* Day / Night Product Image */}
-                <div className="relative aspect-[4/5] w-full">
+                {/* Image Container with Day (default) and Night (on hover) crossfade */}
+                <div className="relative aspect-[4/5] w-full overflow-hidden">
+                  {/* Day Version (Default) */}
                   <img
-                    src={
-                      isNightModePreview
-                        ? "/images/products/homepage/product-05/night.png"
-                        : "/images/products/homepage/product-05/day.png"
-                    }
-                    alt="SSIL Hot-Dip Galvanized Octagonal Pole"
-                    className="w-full h-full object-cover object-center transition-all duration-700 ease-in-out group-hover:scale-105"
+                    src="/images/products/homepage/product-05/day.png"
+                    alt="SSIL Hot-Dip Galvanized Octagonal Pole Daytime"
+                    className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+
+                  {/* Night Version (Fades in on Hover) */}
+                  <img
+                    src="/images/products/homepage/product-05/night.png"
+                    alt="SSIL Hot-Dip Galvanized Octagonal Pole Night Illumination"
+                    className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out group-hover:scale-105 pointer-events-none"
                   />
                   
                   {/* Subtle Gradient Shadow Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 pointer-events-none" />
 
-                  {/* Day / Night Toggle Pill */}
-                  <div className="absolute top-4 right-4 z-20 flex items-center p-1 rounded-full bg-black/70 backdrop-blur-md border border-white/20 shadow-lg">
-                    <button
-                      type="button"
-                      onClick={() => setIsNightModePreview(false)}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
-                        !isNightModePreview
-                          ? "bg-white text-slate-950 shadow-sm"
-                          : "text-slate-300 hover:text-white"
-                      }`}
-                    >
-                      <Sun className="h-3.5 w-3.5 text-amber-500" />
-                      <span>Day</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setIsNightModePreview(true)}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
-                        isNightModePreview
-                          ? "bg-ssil-red text-white shadow-sm"
-                          : "text-slate-300 hover:text-white"
-                      }`}
-                    >
-                      <Moon className="h-3.5 w-3.5 text-amber-200" />
-                      <span>Night</span>
-                    </button>
-                  </div>
-
-                  {/* Bottom Caption Pill */}
-                  <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between p-3.5 rounded-xl bg-black/75 backdrop-blur-md border border-white/15 text-white">
+                  {/* Translucent Glass Caption Pill matching Navbar styling */}
+                  <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between p-3.5 rounded-xl bg-white/80 dark:bg-black/60 backdrop-blur-md border border-white/30 dark:border-white/10 shadow-lg text-slate-900 dark:text-white transition-all">
                     <div>
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-ssil-red block">
-                        SSIL INFRASTRUCTURE SERIES
+                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-ssil-red block">
+                        OCTAGONAL POLE
                       </span>
                       <span className="text-xs sm:text-sm font-black">
-                        Octagonal Pole (3M to 13M Range)
+                        3M to 13M Height Series
                       </span>
                     </div>
-                    <span className="text-[11px] font-semibold text-slate-300 bg-white/10 px-2.5 py-1 rounded-md border border-white/10">
-                      HDG Galvanized
+                    <span className="text-[11px] font-bold text-slate-700 dark:text-slate-200 bg-slate-100/90 dark:bg-white/10 px-2.5 py-1 rounded-md border border-slate-200/80 dark:border-white/10">
+                      HDG Steel
                     </span>
                   </div>
                 </div>
@@ -424,10 +280,10 @@ export default function OctagonalPolesPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 3. PRODUCT OVERVIEW & ENGINEERING EXCELLENCE */}
+      {/* 3. PRODUCT OVERVIEW / STRUCTURAL RELIABILITY */}
       {/* ============================================================ */}
       <motion.section
-        className="py-16 sm:py-20 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-900 transition-colors"
+        className="py-14 sm:py-16 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-900 transition-colors"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.15 }}
@@ -438,11 +294,11 @@ export default function OctagonalPolesPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             
             {/* Header Column */}
-            <motion.div variants={childVariants} className="lg:col-span-5 space-y-3">
+            <motion.div variants={childVariants} className="lg:col-span-5 space-y-3 text-left">
               <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block">
                 PRODUCT OVERVIEW
               </span>
-              <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.1]">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.1]">
                 STRUCTURAL RELIABILITY.<br />
                 <span className="text-ssil-red">BUILT TO LAST.</span>
               </h2>
@@ -450,44 +306,44 @@ export default function OctagonalPolesPage() {
             </motion.div>
 
             {/* Description Paragraphs Column */}
-            <motion.div variants={childVariants} className="lg:col-span-7 space-y-4 text-slate-700 dark:text-slate-300 leading-relaxed font-normal text-sm sm:text-base">
+            <motion.div variants={childVariants} className="lg:col-span-7 space-y-3.5 text-left text-slate-700 dark:text-slate-300 leading-relaxed font-normal text-sm sm:text-base">
               <p>
-                We use high-grade raw steel materials to manufacture hot-dip galvanized octagonal poles engineered for high strength, structural stability, and an extended operational service life.
+                We use high-quality raw materials to manufacture hot-dip galvanized octagonal poles designed for strength, stability and long service life.
               </p>
               <p>
-                The continuously tapered octagonal geometry provides superior torsional resistance against dynamic wind loading, ensuring structural integrity in expressways, open terrains, and high-wind civic zones.
+                The poles are engineered for outdoor applications and provide excellent corrosion resistance and reliable performance across street lighting, highway illumination, industrial areas, residential townships, commercial complexes and public infrastructure projects.
               </p>
               <p>
-                Equipped with flush weatherproof junction doors, internal cable channels, and precision-welded base plates with anchor bolt stiffeners, SSIL&apos;s octagonal poles combine functional excellence with clean, modern architectural aesthetics.
+                Manufactured with attention to structural reliability, dimensional accuracy and quality, SSIL&apos;s octagonal poles combine functional performance with a clean and professional appearance.
               </p>
             </motion.div>
 
           </div>
 
-          {/* 4 Architectural Engineering Metrics */}
-          <motion.div variants={childVariants} className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 pt-8 border-t border-slate-200/90 dark:border-zinc-800/90">
+          {/* 4 Key Engineering Metric Cards */}
+          <motion.div variants={childVariants} className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-10 pt-8 border-t border-slate-200/90 dark:border-zinc-800/90">
             <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 shadow-sm text-left">
-              <span className="text-3xl sm:text-4xl font-black text-ssil-red block">3M–13M</span>
-              <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 mt-1 block">Dimensional Range</span>
-              <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 block">Standard &amp; custom lengths</span>
+              <span className="text-2xl sm:text-3xl font-black text-ssil-red block">3M–13M</span>
+              <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 mt-1 block">Dimensional Heights</span>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 block">Standard &amp; custom profiles</span>
             </div>
 
             <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 shadow-sm text-left">
-              <span className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white block">86+ µm</span>
+              <span className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white block">86+ µm</span>
               <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 mt-1 block">Galvanizing Thickness</span>
-              <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 block">Exceeds IS 2629 / IS 4759</span>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 block">IS 2629 / IS 4759 Standards</span>
             </div>
 
             <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 shadow-sm text-left">
-              <span className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white block">180 km/h</span>
+              <span className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white block">180 km/h</span>
               <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 mt-1 block">Wind Load Tested</span>
-              <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 block">IS 875 wind velocity verified</span>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 block">IS 875 Structural Compliance</span>
             </div>
 
             <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 shadow-sm text-left">
-              <span className="text-3xl sm:text-4xl font-black text-ssil-red block">25+ Yrs</span>
+              <span className="text-2xl sm:text-3xl font-black text-ssil-red block">25+ Yrs</span>
               <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 mt-1 block">Design Service Life</span>
-              <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 block">Zero recurring maintenance</span>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 block">Zero maintenance finish</span>
             </div>
           </motion.div>
 
@@ -495,11 +351,11 @@ export default function OctagonalPolesPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 4. TECHNICAL DATA SHEET (ACCURATE 3M TO 13M TABLE) */}
+      {/* 4. DIMENSION SPECIFICATIONS (COMPLETE 3M–13M TABLE, NO FILTERS) */}
       {/* ============================================================ */}
       <motion.section
         id="technical-data-sheet"
-        className="py-16 sm:py-20 md:py-24 bg-white dark:bg-black text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-900 transition-colors"
+        className="py-14 sm:py-16 md:py-20 bg-white dark:bg-black text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-900 transition-colors"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.15 }}
@@ -508,72 +364,24 @@ export default function OctagonalPolesPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
           
           {/* Section Header */}
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 sm:mb-10 gap-4 pb-6 border-b border-slate-200/90 dark:border-zinc-800/90">
+          <div className="mb-8 pb-5 border-b border-slate-200/90 dark:border-zinc-800/90 text-left">
             <motion.div variants={childVariants} className="max-w-3xl">
-              <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-2">
+              <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-1.5">
                 DIMENSIONAL SPECIFICATIONS
               </span>
-              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.08]">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.1]">
                 TECHNICAL DATA <span className="text-ssil-red">SHEET.</span>
               </h2>
               <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-2xl">
-                SSIL offers high-quality Hot Dip Galvanized (HDG) Octagonal Poles ranging from 3 meters to 13 meters in height. All dimensions comply strictly with national highway and municipal infrastructure engineering guidelines.
+                SSIL offers high-quality Hot Dip Galvanized (HDG) Octagonal Poles ranging from 3 meters to 13 meters in height. Designed for strength, durability and long service life, the poles are manufactured using quality steel and production processes intended for reliable performance in outdoor environments.
               </p>
-            </motion.div>
-
-            {/* Filter Pills */}
-            <motion.div variants={childVariants} className="flex flex-wrap items-center gap-1.5 sm:gap-2 self-start lg:self-end">
-              <button
-                type="button"
-                onClick={() => setSelectedHeightFilter("all")}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
-                  selectedHeightFilter === "all"
-                    ? "bg-ssil-red text-white shadow-sm"
-                    : "bg-slate-100 dark:bg-zinc-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-300 dark:border-zinc-800"
-                }`}
-              >
-                All 3M–13M ({poleSpecifications.length})
-              </button>
-              <button
-                type="button"
-                onClick={() => setSelectedHeightFilter("urban")}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
-                  selectedHeightFilter === "urban"
-                    ? "bg-ssil-red text-white shadow-sm"
-                    : "bg-slate-100 dark:bg-zinc-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-300 dark:border-zinc-800"
-                }`}
-              >
-                Urban (3M–6M)
-              </button>
-              <button
-                type="button"
-                onClick={() => setSelectedHeightFilter("highway")}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
-                  selectedHeightFilter === "highway"
-                    ? "bg-ssil-red text-white shadow-sm"
-                    : "bg-slate-100 dark:bg-zinc-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-300 dark:border-zinc-800"
-                }`}
-              >
-                Highway (7M–10M)
-              </button>
-              <button
-                type="button"
-                onClick={() => setSelectedHeightFilter("heavy")}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
-                  selectedHeightFilter === "heavy"
-                    ? "bg-ssil-red text-white shadow-sm"
-                    : "bg-slate-100 dark:bg-zinc-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-300 dark:border-zinc-800"
-                }`}
-              >
-                Heavy-Duty (11M–13M)
-              </button>
             </motion.div>
           </div>
 
-          {/* Master Technical Specifications Table Container */}
+          {/* Full Technical Specifications Table (All 11 Rows Always Visible) */}
           <motion.div
             variants={childVariants}
-            className="w-full rounded-2xl border-2 border-slate-200 dark:border-zinc-800 overflow-hidden shadow-xl bg-white dark:bg-zinc-950"
+            className="w-full rounded-2xl border border-slate-200 dark:border-zinc-800 overflow-hidden shadow-lg bg-white dark:bg-zinc-950"
           >
             <div className="overflow-x-auto w-full">
               <table className="w-full text-left border-collapse min-w-[760px]">
@@ -583,14 +391,14 @@ export default function OctagonalPolesPage() {
                     <th className="py-4 px-3 sm:px-4">HEIGHT (Mtr)</th>
                     <th className="py-4 px-3 sm:px-4">TOP DIA (mm)</th>
                     <th className="py-4 px-3 sm:px-4">BOTTOM DIA (mm)</th>
-                    <th className="py-4 px-3 sm:px-4">SHEET THK (mm)</th>
-                    <th className="py-4 px-3 sm:px-4">BASE PLATE LxWxT (mm)</th>
+                    <th className="py-4 px-3 sm:px-4">SHEET THICKNESS</th>
+                    <th className="py-4 px-3 sm:px-4">BASE PLATE LxWxT</th>
                     <th className="py-4 px-3 sm:px-4">FOUNDATION BOLT (No.xDiaxmm)</th>
                     <th className="py-4 px-4 sm:px-6 text-right">ACTION</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200 dark:divide-zinc-800 text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200">
-                  {filteredSpecs.map((row, idx) => (
+                  {poleSpecifications.map((row) => (
                     <tr
                       key={row.poleType}
                       className="group hover:bg-ssil-red/5 dark:hover:bg-zinc-900/80 transition-colors"
@@ -602,9 +410,9 @@ export default function OctagonalPolesPage() {
                       <td className="py-3.5 px-3 sm:px-4 font-bold text-slate-900 dark:text-white">
                         {row.height} M
                       </td>
-                      <td className="py-3.5 px-3 sm:px-4">{row.topDia} mm</td>
-                      <td className="py-3.5 px-3 sm:px-4">{row.bottomDia} mm</td>
-                      <td className="py-3.5 px-3 sm:px-4">{row.sheetThk} mm</td>
+                      <td className="py-3.5 px-3 sm:px-4">{row.topDia}</td>
+                      <td className="py-3.5 px-3 sm:px-4">{row.bottomDia}</td>
+                      <td className="py-3.5 px-3 sm:px-4">{row.sheetThk}</td>
                       <td className="py-3.5 px-3 sm:px-4 font-mono text-[11px] sm:text-xs">
                         {row.basePlate}
                       </td>
@@ -630,10 +438,10 @@ export default function OctagonalPolesPage() {
             <div className="p-4 bg-slate-50 dark:bg-zinc-900/50 border-t border-slate-200 dark:border-zinc-800 text-left flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-slate-600 dark:text-slate-400">
               <span className="flex items-center gap-1.5">
                 <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
-                Custom bracket outreaches (Single Arm / Double Arm / Four Arm) available for all pole heights.
+                Custom bracket outreaches (Single Arm / Double Arm / Four Arm) available across all pole heights.
               </span>
               <span className="font-semibold text-slate-700 dark:text-slate-300">
-                Standard: IS 2062 / IS 5986 Steel Grade
+                Material Grade: IS 2062 / IS 5986 Steel
               </span>
             </div>
           </motion.div>
@@ -642,10 +450,10 @@ export default function OctagonalPolesPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 5. TECHNICAL DRAWING & STRUCTURAL SCHEMATIC */}
+      {/* 5. ENGINEERING BLUEPRINT / TECHNICAL DRAWING */}
       {/* ============================================================ */}
       <motion.section
-        className="py-16 sm:py-20 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-900 transition-colors"
+        className="py-14 sm:py-16 md:py-20 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-900 transition-colors"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.15 }}
@@ -653,30 +461,30 @@ export default function OctagonalPolesPage() {
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
           
-          <div className="max-w-4xl mb-10 sm:mb-12">
-            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-2">
-              ENGINEERING BLUEPRINT
+          <div className="max-w-4xl mb-8 sm:mb-10 text-left">
+            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-1.5">
+              ENGINEERING DRAWING
             </span>
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.1]">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.1]">
               DRAWING OF GI <br />
               <span className="text-ssil-red">OCTAGONAL POLE.</span>
             </h2>
-            <p className="mt-3 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-2xl">
-              Our comprehensive Octagonal Pole engineering design covers 3M to 13M heights, highlighting structural taper geometry, flush weatherproof door opening, foundation anchor bolts, and civil concrete footing dimensions.
+            <p className="mt-2.5 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-2xl">
+              Our detailed Octagonal Pole technical drawing covers poles ranging from 3M to 13M in height. Manufactured from high-quality steel and protected with Hot-Dip Galvanization (HDG), these poles are designed for corrosion resistance, durability and long service life. The drawing includes details relating to the pole structure, base plate, foundation bolts, door opening and civil foundation design.
             </p>
           </div>
 
           {/* Technical Drawing Blueprint Representation */}
           <motion.div
             variants={childVariants}
-            className="w-full rounded-2xl sm:rounded-3xl border-2 border-slate-300 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-8 md:p-10 shadow-xl overflow-hidden relative"
+            className="w-full rounded-2xl sm:rounded-3xl border border-slate-300 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-8 md:p-10 shadow-lg overflow-hidden relative"
           >
             {/* Blueprint Grid Lines Background Accent */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808010_1px,transparent_1px),linear-gradient(to_bottom,#80808010_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
 
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               
-              {/* Visual Schematic Column */}
+              {/* Preserved Visual Engineering Schematic Drawing */}
               <div className="lg:col-span-6 flex items-center justify-center p-6 bg-slate-100/80 dark:bg-black/60 rounded-2xl border border-slate-200 dark:border-zinc-800">
                 <svg
                   viewBox="0 0 320 540"
@@ -745,56 +553,34 @@ export default function OctagonalPolesPage() {
                 </svg>
               </div>
 
-              {/* Technical Blueprint Key Details */}
-              <div className="lg:col-span-6 space-y-4 text-left">
-                <div className="border-l-4 border-ssil-red pl-4 space-y-1">
-                  <span className="text-xs font-extrabold uppercase tracking-widest text-ssil-red">
-                    CAD SPECIFICATIONS &amp; GEOMETRY
+              {/* Technical Engineering Information beside Drawing */}
+              <div className="lg:col-span-6 space-y-3.5 text-left">
+                <div className="p-4 rounded-xl bg-slate-100/80 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800 space-y-1">
+                  <span className="font-bold text-sm sm:text-base text-slate-900 dark:text-white block">
+                    1. Continuous Taper Shaft
                   </span>
-                  <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
-                    Tapered 8-Sided Structural Cross-Section
-                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                    Manufactured from single-sheet folded high-tensile steel with single longitudinal submerged arc automated welding.
+                  </p>
                 </div>
 
-                <div className="space-y-3 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-                  <div className="p-3.5 rounded-xl bg-slate-100/70 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-800 space-y-1">
-                    <span className="font-bold text-slate-900 dark:text-white block">
-                      1. Continuous Taper Shaft
-                    </span>
-                    <p className="text-slate-600 dark:text-slate-400">
-                      Manufactured from single-sheet folded high-tensile steel with single longitudinal submerged arc automated welding.
-                    </p>
-                  </div>
-
-                  <div className="p-3.5 rounded-xl bg-slate-100/70 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-800 space-y-1">
-                    <span className="font-bold text-slate-900 dark:text-white block">
-                      2. Flush Weatherproof Inspection Door
-                    </span>
-                    <p className="text-slate-600 dark:text-slate-400">
-                      Vandal-resistant door opening with rubber gasket sealing and internal DIN rail for MCB and terminal connection block.
-                    </p>
-                  </div>
-
-                  <div className="p-3.5 rounded-xl bg-slate-100/70 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-800 space-y-1">
-                    <span className="font-bold text-slate-900 dark:text-white block">
-                      3. Base Plate &amp; Civil Anchorage
-                    </span>
-                    <p className="text-slate-600 dark:text-slate-400">
-                      High-strength base plate with pre-drilled slotted holes and 4 high-tensile hot-dip galvanized J-bolt foundation anchor assemblies.
-                    </p>
-                  </div>
+                <div className="p-4 rounded-xl bg-slate-100/80 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800 space-y-1">
+                  <span className="font-bold text-sm sm:text-base text-slate-900 dark:text-white block">
+                    2. Flush Weatherproof Inspection Door
+                  </span>
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                    Vandal-resistant door opening with rubber gasket sealing and internal DIN rail for MCB and terminal connection block.
+                  </p>
                 </div>
 
-                <div className="pt-2">
-                  <Button
-                    onClick={() => openEnquiry("Octagonal Pole CAD & Tender Drawing Request")}
-                    className="bg-ssil-red hover:bg-ssil-red-600 text-white font-bold px-6 py-2.5 rounded-full text-xs shadow-md"
-                  >
-                    <Download className="mr-2 h-3.5 w-3.5" />
-                    Request Master CAD Drawing
-                  </Button>
+                <div className="p-4 rounded-xl bg-slate-100/80 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800 space-y-1">
+                  <span className="font-bold text-sm sm:text-base text-slate-900 dark:text-white block">
+                    3. Base Plate &amp; Civil Anchorage
+                  </span>
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                    High-strength base plate with pre-drilled slotted holes and 4 high-tensile hot-dip galvanized J-bolt foundation anchor assemblies.
+                  </p>
                 </div>
-
               </div>
 
             </div>
@@ -804,10 +590,10 @@ export default function OctagonalPolesPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 6. KEY FEATURES & MANUFACTURING (3-CARD ARCHITECTURE FROM ABOUT US) */}
+      {/* 6. PRODUCT SPECIFICATIONS & MANUFACTURING */}
       {/* ============================================================ */}
       <motion.section
-        className="py-16 sm:py-20 md:py-24 bg-white dark:bg-black text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-900 transition-colors"
+        className="py-14 sm:py-16 md:py-20 bg-white dark:bg-black text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-900 transition-colors"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.15 }}
@@ -815,72 +601,72 @@ export default function OctagonalPolesPage() {
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
           
-          <div className="max-w-4xl mb-12 sm:mb-14">
-            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-2">
+          <div className="max-w-4xl mb-10 sm:mb-12 text-left">
+            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-1.5">
               MANUFACTURING &amp; ENGINEERING
             </span>
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.08]">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.08]">
               PRODUCT SPECIFICATIONS &amp;<br />
               <span className="text-ssil-red">MANUFACTURING.</span>
             </h2>
           </div>
 
-          {/* 3 Premium Specification Panels */}
+          {/* 3 Specification Panels (About Us Visual Language) */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 text-left">
             
             {/* Card 01 — TECHNICAL */}
             <motion.div
               variants={childVariants}
-              whileHover={{ y: -6, scale: 1.01 }}
+              whileHover={{ y: -5, scale: 1.01 }}
               transition={{ type: "spring", stiffness: 350, damping: 25 }}
-              className="group p-6 sm:p-8 rounded-2xl sm:rounded-3xl bg-slate-50 dark:bg-zinc-900/80 border-2 border-slate-200 dark:border-zinc-800 hover:border-ssil-red/60 transition-all duration-300 shadow-lg relative overflow-hidden flex flex-col justify-between"
+              className="group p-6 sm:p-7 rounded-2xl sm:rounded-3xl bg-slate-50 dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 hover:border-ssil-red/60 transition-all duration-300 shadow-md relative overflow-hidden flex flex-col justify-between"
             >
               <div className="space-y-4">
-                <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-zinc-800">
+                <div className="flex items-center justify-between pb-3.5 border-b border-slate-200 dark:border-zinc-800">
                   <span className="text-3xl sm:text-4xl font-extralight text-ssil-red">01</span>
                   <span className="text-xs font-black uppercase tracking-widest text-slate-700 dark:text-slate-300 bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 px-3 py-1 rounded-full">
                     TECHNICAL
                   </span>
                 </div>
 
-                <div className="space-y-3.5 text-xs sm:text-sm">
-                  <div className="space-y-1">
-                    <h4 className="font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+                <div className="space-y-3 text-xs sm:text-sm">
+                  <div className="space-y-0.5">
+                    <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0" />
                       Automated Welding &amp; Bending
                     </h4>
-                    <p className="text-slate-600 dark:text-slate-400 pl-3">
-                      Delivers consistent manufacturing quality, robotic bending accuracy, and high structural fatigue resistance.
+                    <p className="text-slate-600 dark:text-slate-400 pl-3 leading-relaxed">
+                      Delivers consistent manufacturing quality and strong structural performance.
                     </p>
                   </div>
 
-                  <div className="space-y-1">
-                    <h4 className="font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <div className="space-y-0.5">
+                    <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0" />
                       CNC Cutting &amp; Drilling
                     </h4>
-                    <p className="text-slate-600 dark:text-slate-400 pl-3">
-                      Enables precise taper geometry and accurate base plate bolt hole placements for seamless site erection.
+                    <p className="text-slate-600 dark:text-slate-400 pl-3 leading-relaxed">
+                      Enables precise shapes and hole placements for installation.
                     </p>
                   </div>
 
-                  <div className="space-y-1">
-                    <h4 className="font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <div className="space-y-0.5">
+                    <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0" />
                       Surface Treatment
                     </h4>
-                    <p className="text-slate-600 dark:text-slate-400 pl-3">
-                      Heavy-duty hot-dip galvanization (HDG) coating exceeding 86 microns for maximum atmospheric corrosion protection.
+                    <p className="text-slate-600 dark:text-slate-400 pl-3 leading-relaxed">
+                      Corrosion protection through galvanizing and suitable finishing processes.
                     </p>
                   </div>
 
-                  <div className="space-y-1">
-                    <h4 className="font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <div className="space-y-0.5">
+                    <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0" />
                       Quality Control
                     </h4>
-                    <p className="text-slate-600 dark:text-slate-400 pl-3">
-                      Rigorous in-house testing focusing on weld penetration, zinc coating adhesion, and dimensional compliance.
+                    <p className="text-slate-600 dark:text-slate-400 pl-3 leading-relaxed">
+                      Quality checks focused on strength, coating and dimensional compliance.
                     </p>
                   </div>
                 </div>
@@ -890,56 +676,56 @@ export default function OctagonalPolesPage() {
             {/* Card 02 — KEY FEATURES */}
             <motion.div
               variants={childVariants}
-              whileHover={{ y: -6, scale: 1.01 }}
+              whileHover={{ y: -5, scale: 1.01 }}
               transition={{ type: "spring", stiffness: 350, damping: 25 }}
-              className="group p-6 sm:p-8 rounded-2xl sm:rounded-3xl bg-slate-50 dark:bg-zinc-900/80 border-2 border-slate-200 dark:border-zinc-800 hover:border-ssil-red/60 transition-all duration-300 shadow-lg relative overflow-hidden flex flex-col justify-between"
+              className="group p-6 sm:p-7 rounded-2xl sm:rounded-3xl bg-slate-50 dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 hover:border-ssil-red/60 transition-all duration-300 shadow-md relative overflow-hidden flex flex-col justify-between"
             >
               <div className="space-y-4">
-                <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-zinc-800">
+                <div className="flex items-center justify-between pb-3.5 border-b border-slate-200 dark:border-zinc-800">
                   <span className="text-3xl sm:text-4xl font-extralight text-ssil-red">02</span>
                   <span className="text-xs font-black uppercase tracking-widest text-slate-700 dark:text-slate-300 bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 px-3 py-1 rounded-full">
                     KEY FEATURES
                   </span>
                 </div>
 
-                <div className="space-y-3.5 text-xs sm:text-sm">
-                  <div className="space-y-1">
-                    <h4 className="font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+                <div className="space-y-3 text-xs sm:text-sm">
+                  <div className="space-y-0.5">
+                    <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0" />
                       Custom Heights &amp; Shapes
                     </h4>
-                    <p className="text-slate-600 dark:text-slate-400 pl-3">
-                      Available from 3m to 13m in standard modular dimensions according to project tender requirements.
+                    <p className="text-slate-600 dark:text-slate-400 pl-3 leading-relaxed">
+                      Available in different heights and configurations according to project requirements.
                     </p>
                   </div>
 
-                  <div className="space-y-1">
-                    <h4 className="font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <div className="space-y-0.5">
+                    <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0" />
                       Modular Construction
                     </h4>
-                    <p className="text-slate-600 dark:text-slate-400 pl-3">
-                      Single-piece tapered fabrication or multi-section slip joint configurations for efficient transport.
+                    <p className="text-slate-600 dark:text-slate-400 pl-3 leading-relaxed">
+                      Multi-section configurations can support easier transportation and assembly where applicable.
                     </p>
                   </div>
 
-                  <div className="space-y-1">
-                    <h4 className="font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <div className="space-y-0.5">
+                    <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0" />
-                      Mounting Provisions
+                      Mounting Options
                     </h4>
-                    <p className="text-slate-600 dark:text-slate-400 pl-3">
-                      Provisions for single-arm, double-arm, four-way floodlight crossarms, and surveillance camera attachments.
+                    <p className="text-slate-600 dark:text-slate-400 pl-3 leading-relaxed">
+                      Provision for appropriate brackets, base plates, access doors and crossarms.
                     </p>
                   </div>
 
-                  <div className="space-y-1">
-                    <h4 className="font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <div className="space-y-0.5">
+                    <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0" />
-                      Brand &amp; Origin
+                      Brand &amp; Manufacturing
                     </h4>
-                    <p className="text-slate-600 dark:text-slate-400 pl-3 font-bold text-ssil-red">
-                      SSIL (Shiv Shakti India Limited) — Manufactured in India.
+                    <p className="text-slate-600 dark:text-slate-400 pl-3 font-semibold text-ssil-red leading-relaxed">
+                      SSIL (Shiv Shakti India Limited)
                     </p>
                   </div>
                 </div>
@@ -949,56 +735,56 @@ export default function OctagonalPolesPage() {
             {/* Card 03 — PRODUCT ADVANTAGE */}
             <motion.div
               variants={childVariants}
-              whileHover={{ y: -6, scale: 1.01 }}
+              whileHover={{ y: -5, scale: 1.01 }}
               transition={{ type: "spring", stiffness: 350, damping: 25 }}
-              className="group p-6 sm:p-8 rounded-2xl sm:rounded-3xl bg-slate-50 dark:bg-zinc-900/80 border-2 border-slate-200 dark:border-zinc-800 hover:border-ssil-red/60 transition-all duration-300 shadow-lg relative overflow-hidden flex flex-col justify-between"
+              className="group p-6 sm:p-7 rounded-2xl sm:rounded-3xl bg-slate-50 dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 hover:border-ssil-red/60 transition-all duration-300 shadow-md relative overflow-hidden flex flex-col justify-between"
             >
               <div className="space-y-4">
-                <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-zinc-800">
+                <div className="flex items-center justify-between pb-3.5 border-b border-slate-200 dark:border-zinc-800">
                   <span className="text-3xl sm:text-4xl font-extralight text-ssil-red">03</span>
                   <span className="text-xs font-black uppercase tracking-widest text-slate-700 dark:text-slate-300 bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 px-3 py-1 rounded-full">
                     PRODUCT ADVANTAGE
                   </span>
                 </div>
 
-                <div className="space-y-3.5 text-xs sm:text-sm">
-                  <div className="space-y-1">
-                    <h4 className="font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+                <div className="space-y-3 text-xs sm:text-sm">
+                  <div className="space-y-0.5">
+                    <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0" />
-                      Superior Durability
+                      Durability
                     </h4>
-                    <p className="text-slate-600 dark:text-slate-400 pl-3">
-                      Zinc metallurgical bonding provides sacrificial cathodic protection against rust and environmental damage.
+                    <p className="text-slate-600 dark:text-slate-400 pl-3 leading-relaxed">
+                      Corrosion-resistant construction and protective treatment support long service life.
                     </p>
                   </div>
 
-                  <div className="space-y-1">
-                    <h4 className="font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <div className="space-y-0.5">
+                    <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0" />
                       Design Flexibility
                     </h4>
-                    <p className="text-slate-600 dark:text-slate-400 pl-3">
-                      Versatile structural platform adapted across street lighting, security camera poles, and highway luminaires.
+                    <p className="text-slate-600 dark:text-slate-400 pl-3 leading-relaxed">
+                      Different heights, configurations and finishing options available as per project needs.
                     </p>
                   </div>
 
-                  <div className="space-y-1">
-                    <h4 className="font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <div className="space-y-0.5">
+                    <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0" />
                       Cost Efficiency
                     </h4>
-                    <p className="text-slate-600 dark:text-slate-400 pl-3">
-                      Zero recurring painting overheads and fast civil installation maximize lifecycle return on investment.
+                    <p className="text-slate-600 dark:text-slate-400 pl-3 leading-relaxed">
+                      Durable construction and practical installation characteristics support long-term value.
                     </p>
                   </div>
 
-                  <div className="space-y-1">
-                    <h4 className="font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <div className="space-y-0.5">
+                    <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0" />
                       Sustainability
                     </h4>
-                    <p className="text-slate-600 dark:text-slate-400 pl-3">
-                      100% recyclable high-grade structural steel supporting eco-friendly green infrastructure goals.
+                    <p className="text-slate-600 dark:text-slate-400 pl-3 leading-relaxed">
+                      Long service life and durable materials contribute to lower replacement overheads.
                     </p>
                   </div>
                 </div>
@@ -1011,96 +797,39 @@ export default function OctagonalPolesPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 7. APPLICATIONS & PROJECT SUITABILITY */}
+      {/* 7. WANT TO SEE OUR OTHER PRODUCTS? (COMPACT & ELEGANT CTA) */}
       {/* ============================================================ */}
-      <motion.section
-        className="py-16 sm:py-20 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-900 transition-colors"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: false, amount: 0.15 }}
-        variants={sectionVariants}
-      >
-        <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
-          
-          <div className="max-w-4xl mb-10 sm:mb-12">
-            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-2">
-              PROJECT SUITABILITY
-            </span>
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.1]">
-              OCTAGONAL POLE <br />
-              <span className="text-ssil-red">APPLICATIONS.</span>
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 text-left">
-            {applications.map((app) => (
-              <motion.div
-                key={app.num}
-                variants={childVariants}
-                className="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-sm space-y-3 group hover:border-ssil-red/50 transition-all duration-300"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-black text-ssil-red font-mono">{app.num}</span>
-                  <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-slate-300 group-hover:bg-ssil-red group-hover:text-white transition-colors">
-                    {app.icon}
-                  </div>
-                </div>
-                <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white tracking-tight">
-                  {app.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
-                  {app.desc}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-
-        </div>
-      </motion.section>
-
-      {/* ============================================================ */}
-      {/* 8. CTA SECTION (TALK TO SSIL FOR TENDER & SUPPLY) */}
-      {/* ============================================================ */}
-      <section className="py-16 sm:py-20 bg-white dark:bg-black text-slate-900 dark:text-white transition-colors relative overflow-hidden">
+      <section className="py-12 sm:py-16 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white transition-colors relative overflow-hidden">
         
-        {/* Ambient Red Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-ssil-red/10 blur-[140px] rounded-full pointer-events-none" />
+        {/* Subtle Ambient Red Glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-ssil-red/10 blur-[120px] rounded-full pointer-events-none" />
 
-        <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-5xl relative z-10">
-          <div className="p-8 sm:p-12 rounded-3xl bg-slate-50 dark:bg-zinc-900 border-2 border-slate-200 dark:border-zinc-800 shadow-2xl relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-8 text-left group hover:border-ssil-red/50 transition-all duration-300">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-4xl relative z-10">
+          <div className="p-6 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-xl relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 text-left group hover:border-ssil-red/50 transition-all duration-300">
             
-            <div className="absolute top-0 left-0 bottom-0 w-2 bg-ssil-red" />
+            {/* Red Accent Left Bar */}
+            <div className="absolute top-0 left-0 bottom-0 w-1.5 bg-ssil-red" />
 
-            <div className="space-y-3 max-w-xl">
-              <span className="text-xs font-black uppercase tracking-widest text-ssil-red block">
-                PROJECT PROCUREMENT &amp; TENDERS
+            <div className="space-y-2 max-w-xl">
+              <span className="text-[11px] sm:text-xs font-black uppercase tracking-widest text-ssil-red block">
+                EXPLORE COMPLETE CATALOGUE
               </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-tight">
-                Need Octagonal Poles for Your Project?
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-tight">
+                Want to See Our Other Products?
               </h2>
               <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 font-normal leading-relaxed">
-                Talk to SSIL about project-specific heights, custom outreach arm configurations, technical data sheets, and supply requirements across India.
+                Explore our complete range of lighting poles and infrastructure solutions.
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0">
-              <Button
-                onClick={() => openEnquiry("Octagonal Pole Project Quotation")}
-                size="lg"
-                className="bg-ssil-red hover:bg-ssil-red-600 text-white font-bold px-8 py-3.5 rounded-full text-xs sm:text-sm shadow-lg shadow-ssil-red/25 hover:shadow-ssil-red/40 transition-all duration-300"
-              >
-                <FileText className="mr-2 h-4 w-4" />
-                Request a Quote
-              </Button>
-
+            <div className="shrink-0">
               <Button
                 asChild
-                variant="outline"
                 size="lg"
-                className="border-slate-300 dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 font-bold px-8 py-3.5 rounded-full text-xs sm:text-sm"
+                className="bg-ssil-red hover:bg-ssil-red-600 font-bold px-8 py-3.5 rounded-full text-white text-xs sm:text-sm shadow-lg shadow-ssil-red/25 hover:shadow-ssil-red/40 transition-all duration-300 hover:scale-105"
               >
-                <Link href="/contact" className="flex items-center justify-center gap-2">
-                  <span>Contact SSIL Team</span>
+                <Link href="/products" className="flex items-center gap-2">
+                  <span>View All Products</span>
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
@@ -1111,7 +840,7 @@ export default function OctagonalPolesPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 9. PRODUCT ENQUIRY MODAL */}
+      {/* 8. PRODUCT ENQUIRY MODAL */}
       {/* ============================================================ */}
       <EnquiryModal
         isOpen={enquiryState.isOpen}
