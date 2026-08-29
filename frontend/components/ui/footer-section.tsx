@@ -119,12 +119,15 @@ export function Footerdemo() {
                   <a href="tel:+919999990064" className="hover:text-ssil-red transition-colors">+91 9999990064</a>
                 </p>
               </div>
-              <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-ssil-red shrink-0" />
-                <a href="mailto:ssindia2006@gmail.com" className="hover:text-ssil-red transition-colors">
-                  ssindia2006@gmail.com
-                </a>
-              </div>
+
+              <a
+                href="mailto:ssindia2006@gmail.com?subject=Inquiry%20regarding%20SSIL%20Lighting%20%26%20Infrastructure%20Solutions&body=Hello%20Shiv%20Shakti%20India%20Limited%20Team%2C%0A%0AI%20would%20like%20to%20inquire%20about%20your%20lighting%20products%20and%20infrastructure%20solutions.%0A%0ACompany%20%2F%20Client%20Name%3A%20%0AContact%20Number%3A%20%0AProject%20Location%3A%20%0ARequirement%20Details%3A%20%0A%0AThank%20you."
+                className="group/mail flex items-center gap-2 text-slate-300 hover:text-ssil-red transition-colors cursor-pointer"
+                title="Send Email to Shiv Shakti India Limited"
+              >
+                <Mail className="h-4 w-4 text-ssil-red shrink-0 group-hover/mail:scale-110 transition-transform" />
+                <span className="leading-snug">ssindia2006@gmail.com</span>
+              </a>
             </address>
           </div>
 
