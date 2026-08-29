@@ -246,13 +246,15 @@ export default function StadiumHighMastPage() {
                   <span className="text-ssil-red">POLES.</span>
                 </h1>
 
-                {/* Hero Description */}
-                <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 font-normal leading-relaxed max-w-2xl text-left">
-                  SSIL Stadium High Mast poles are engineered for large-area sports and stadium illumination, providing high structural strength, reliable performance, customized floodlight mounting, and long-term durability for demanding outdoor environments.
-                </p>
-
-                {/* 2 Product-Value Bullet Points */}
+                {/* 3 Product-Value Bullet Points */}
                 <div className="space-y-2.5 pt-1 max-w-2xl text-left">
+                  <div className="flex items-start gap-2.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0 mt-2" />
+                    <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+                      SSIL Stadium High Mast poles are engineered for large-area sports and stadium illumination, providing high structural strength, reliable performance, customized floodlight mounting, and long-term durability for demanding outdoor environments.
+                    </p>
+                  </div>
+
                   <div className="flex items-start gap-2.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0 mt-2" />
                     <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
