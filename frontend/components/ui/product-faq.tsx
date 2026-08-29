@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Minus, HelpCircle, ShieldCheck } from "lucide-react";
+import { Plus, Minus, ShieldCheck, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface FaqItem {
   num: string;
@@ -60,13 +62,6 @@ const faqData: FaqItem[] = [
     answer:
       "Yes. All SSIL LED fixtures can be customized by wattage rating, luminous efficacy, asymmetric or symmetric optical beam angles, color temperatures (3000K to 6500K), and smart Central Management System (CMS) / IoT automated dimming controls.",
     highlightTag: "Custom Optics & CMS",
-  },
-  {
-    num: "08",
-    question: "How can I request technical specifications, tender drawings or a quotation from SSIL?",
-    answer:
-      "You can click the 'Enquire Now' button on any product category card, use the technical tender request form, or connect directly with our engineering department at ssindia2006@gmail.com or +91 9999590064 to receive master data sheets, CAD drawings, and photometric calculations.",
-    highlightTag: "Direct Engineering Support",
   },
 ];
 
@@ -135,7 +130,7 @@ export const ProductFaqSection: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Structured Accordion Rows Container */}
+        {/* Structured Accordion Rows Container (01 to 07) */}
         <motion.div variants={childVariants} className="w-full max-w-5xl mx-auto space-y-3 sm:space-y-3.5">
           {faqData.map((item, index) => {
             const isOpen = openIndex === index;
@@ -227,6 +222,43 @@ export const ProductFaqSection: React.FC = () => {
               </motion.div>
             );
           })}
+        </motion.div>
+
+        {/* CTA Card: Be Part of Our Journey -> Redirect to /contact */}
+        <motion.div
+          variants={childVariants}
+          className="w-full max-w-5xl mx-auto mt-8 sm:mt-10 p-6 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-xl relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 group hover:border-ssil-red/50 transition-all duration-300"
+        >
+          {/* Red Accent Left Bar */}
+          <div className="absolute top-0 left-0 bottom-0 w-1.5 bg-ssil-red" />
+          
+          {/* Background Accent Glow */}
+          <div className="absolute top-1/2 right-10 -translate-y-1/2 w-64 h-64 bg-ssil-red/10 blur-[100px] rounded-full pointer-events-none" />
+
+          <div className="relative z-10 max-w-2xl space-y-2">
+            <span className="text-[11px] sm:text-xs font-black uppercase tracking-widest text-ssil-red block">
+              COLLABORATE WITH SSIL
+            </span>
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-tight">
+              Be Part of Our Journey.
+            </h3>
+            <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 font-normal leading-relaxed">
+              Have a custom infrastructure requirement or project tender? Connect with our engineering and lighting design team to discuss technical specifications and execution.
+            </p>
+          </div>
+
+          <div className="relative z-10 shrink-0">
+            <Button
+              asChild
+              size="lg"
+              className="bg-ssil-red hover:bg-ssil-red-600 font-bold px-8 py-3.5 rounded-full text-white text-xs sm:text-sm shadow-lg shadow-ssil-red/25 hover:shadow-ssil-red/40 transition-all duration-300 hover:scale-105"
+            >
+              <Link href="/contact" className="flex items-center gap-2">
+                <span>Contact Us</span>
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </motion.div>
 
       </div>
