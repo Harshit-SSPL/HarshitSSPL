@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { catalogProducts } from "@/data/products-catalog";
 import { ProductCard } from "@/components/ui/product-card";
+import { ProductFaqSection } from "@/components/ui/product-faq";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -97,6 +98,11 @@ export default function ProductsPage() {
 
         </div>
       </section>
+
+      {/* ============================================================ */}
+      {/* 3. PRODUCT-RELATED FAQ SECTION (BEFORE FOOTER) */}
+      {/* ============================================================ */}
+      <ProductFaqSection />
 
     </div>
   );
