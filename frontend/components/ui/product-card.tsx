@@ -55,33 +55,29 @@ export const ProductCard = ({
     >
       {enableImageCrossfade ? (
         <>
-          {/* Day Image (Default Mode) */}
-          <Image
+          {/* Day Image (Default Mode - Always in background) */}
+          <img
             src={dayImage}
             alt={`${name} Day`}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-cover object-center opacity-100 group-hover:opacity-0 transition-opacity duration-500 ease-in-out"
-            priority
+            className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+            loading="eager"
           />
 
-          {/* Night Image (Hover Crossfade Mode for /products page) */}
-          <Image
+          {/* Night Image (Hover Crossfade Mode - Smoothly fades in on hover) */}
+          <img
             src={nightImage || dayImage}
             alt={`${name} Night`}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
+            className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-all duration-700 ease-in-out group-hover:scale-105 pointer-events-none"
+            loading="eager"
           />
         </>
       ) : (
-        /* Single Image Mode for Internal Design Pages (No Day/Night Photo Change, Smooth Zoom) */
-        <Image
+        /* Single Image Mode for Internal Design Pages */
+        <img
           src={dayImage}
           alt={name}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
+          className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
+          loading="eager"
         />
       )}
 
