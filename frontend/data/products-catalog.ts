@@ -102,10 +102,10 @@ export const catalogProducts: CatalogProduct[] = [
   },
   {
     id: "cat-06",
-    name: "Indian Flag Mast Poles",
-    slug: "indian-flag-mast-poles",
+    name: "Flag Mast Poles",
+    slug: "flag-mast-poles",
     designCount: 8,
-    tagline: "Monumental flag infrastructure engineered to stand tall across national landmarks.",
+    tagline: "Monumental flag infrastructure engineered to stand tall across public and civic landmarks.",
     description:
       "High-tensile monumental flag mast poles designed and engineered to withstand extreme wind conditions, featuring internal halyard systems and motorized flag hoisting for civic landmarks.",
     dayImage: "/images/products/homepage/product-04/day.png",

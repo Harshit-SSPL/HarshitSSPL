@@ -18,7 +18,7 @@ const faqData: FaqItem[] = [
     num: "01",
     question: "What types of lighting and infrastructure products does SSIL provide?",
     answer:
-      "SSIL manufactures and supplies an end-to-end catalogue of 18 official product categories, ranging from LED Street Lights, Flood Lights, and LED Indoor Lights to heavy-duty Octagonal Poles, Decorative & Designer Poles, Stadium High Mast towers, Indian Flag Mast Poles, Bollards, and Solar Power Systems.",
+      "SSIL manufactures and supplies an end-to-end catalogue of 18 official product categories, ranging from LED Street Lights, Flood Lights, and LED Indoor Lights to heavy-duty Octagonal Poles, Decorative & Designer Poles, Stadium High Mast towers, Flag Mast Poles, Bollards, and Solar Power Systems.",
     highlightTag: "18 Official Categories",
   },
   {
@@ -44,10 +44,10 @@ const faqData: FaqItem[] = [
   },
   {
     num: "05",
-    question: "Does SSIL provide monumental Indian National Flag Mast Poles?",
+    question: "Does SSIL provide monumental Flag Mast Poles?",
     answer:
-      "Yes. SSIL is an industry leader in monumental high-tensile Indian National Flag Mast Poles up to 100+ feet, engineered to withstand extreme wind loads (180+ km/h), equipped with internal motorized winch hoisting systems and 360-degree LED floodlighting crowns.",
-    highlightTag: "National Landmarks",
+      "Yes. SSIL is an industry leader in monumental high-tensile Flag Mast Poles up to 100+ feet, engineered to withstand extreme wind loads (180+ km/h), equipped with internal motorized winch hoisting systems and 360-degree LED floodlighting crowns.",
+    highlightTag: "Public Landmarks",
   },
   {
     num: "06",
