@@ -206,6 +206,23 @@ export default function OctagonalPolesPage() {
                 <p className="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-2xl">
                   Precision-engineered hot-dip galvanized octagonal poles designed for high strength, structural reliability, corrosion resistance, and dependable outdoor lighting across modern expressways and municipal corridors.
                 </p>
+
+                {/* Two Product-Value Bullet Points */}
+                <div className="space-y-2 pt-1 max-w-2xl text-left">
+                  <div className="flex items-start gap-2.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0 mt-2" />
+                    <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+                      Built for demanding outdoor environments, SSIL octagonal poles deliver dependable performance across highways, urban roads, public infrastructure, and large-scale development projects.
+                    </p>
+                  </div>
+
+                  <div className="flex items-start gap-2.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0 mt-2" />
+                    <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+                      Designed for long-term reliability and ease of installation, each pole combines precision manufacturing, robust construction, and a clean architectural finish for modern infrastructure.
+                    </p>
+                  </div>
+                </div>
               </div>
 
               {/* Action Buttons */}
