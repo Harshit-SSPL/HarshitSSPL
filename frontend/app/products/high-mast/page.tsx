@@ -22,20 +22,20 @@ interface HighMastSpecRow {
   m25: string;
   m30: string;
   m40: string;
-  isSpan?: boolean;
+  isProductId?: boolean;
 }
 
 const highMastSpecifications: HighMastSpecRow[] = [
   {
-    parameter: "Material Construction",
-    m12: "BSEN10025 S355",
-    m12_5: "BSEN10025 S355",
-    m16: "BSEN10025 S355",
-    m20: "BSEN10025 S355",
-    m25: "BSEN10025 S355",
-    m30: "BSEN10025 S355",
-    m40: "BSEN10025 S355",
-    isSpan: true,
+    parameter: "PRODUCT ID",
+    m12: "SSILHM01",
+    m12_5: "SSILHM02",
+    m16: "SSILHM03",
+    m20: "SSILHM04",
+    m25: "SSILHM05",
+    m30: "SSILHM06",
+    m40: "SSILHM07",
+    isProductId: true,
   },
   {
     parameter: "Thickness",
@@ -438,45 +438,38 @@ export default function HighMastPage() {
                     <tr
                       key={row.parameter}
                       className={`group hover:bg-ssil-red/5 dark:hover:bg-zinc-900/80 transition-colors ${
-                        idx % 2 === 1 ? "bg-slate-50/60 dark:bg-zinc-900/20" : ""
+                        row.isProductId
+                          ? "bg-slate-100/90 dark:bg-zinc-900/90 font-bold"
+                          : idx % 2 === 1
+                          ? "bg-slate-50/60 dark:bg-zinc-900/20"
+                          : ""
                       }`}
                     >
-                      <td className="py-3.5 px-4 sm:px-6 font-bold text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors flex items-center gap-2">
+                      <td className={`py-3.5 px-4 sm:px-6 text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors flex items-center gap-2 ${row.isProductId ? "font-black text-xs sm:text-sm text-ssil-red tracking-wider uppercase" : "font-bold"}`}>
                         <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0" />
                         {row.parameter}
                       </td>
-                      {row.isSpan ? (
-                        <td
-                          colSpan={7}
-                          className="py-3.5 px-4 text-center font-bold text-slate-900 dark:text-white tracking-wide"
-                        >
-                          {row.m12}
-                        </td>
-                      ) : (
-                        <>
-                          <td className="py-3.5 px-3 sm:px-4 text-center font-mono text-[11px] sm:text-xs">
-                            {row.m12}
-                          </td>
-                          <td className="py-3.5 px-3 sm:px-4 text-center font-mono text-[11px] sm:text-xs">
-                            {row.m12_5}
-                          </td>
-                          <td className="py-3.5 px-3 sm:px-4 text-center font-mono text-[11px] sm:text-xs">
-                            {row.m16}
-                          </td>
-                          <td className="py-3.5 px-3 sm:px-4 text-center font-mono text-[11px] sm:text-xs">
-                            {row.m20}
-                          </td>
-                          <td className="py-3.5 px-3 sm:px-4 text-center font-mono text-[11px] sm:text-xs">
-                            {row.m25}
-                          </td>
-                          <td className="py-3.5 px-3 sm:px-4 text-center font-mono text-[11px] sm:text-xs">
-                            {row.m30}
-                          </td>
-                          <td className="py-3.5 px-4 sm:px-6 text-center font-mono text-[11px] sm:text-xs font-bold text-ssil-red">
-                            {row.m40}
-                          </td>
-                        </>
-                      )}
+                      <td className={`py-3.5 px-3 sm:px-4 text-center font-mono text-[11px] sm:text-xs ${row.isProductId ? "font-black text-slate-900 dark:text-white tracking-wide" : ""}`}>
+                        {row.m12}
+                      </td>
+                      <td className={`py-3.5 px-3 sm:px-4 text-center font-mono text-[11px] sm:text-xs ${row.isProductId ? "font-black text-slate-900 dark:text-white tracking-wide" : ""}`}>
+                        {row.m12_5}
+                      </td>
+                      <td className={`py-3.5 px-3 sm:px-4 text-center font-mono text-[11px] sm:text-xs ${row.isProductId ? "font-black text-slate-900 dark:text-white tracking-wide" : ""}`}>
+                        {row.m16}
+                      </td>
+                      <td className={`py-3.5 px-3 sm:px-4 text-center font-mono text-[11px] sm:text-xs ${row.isProductId ? "font-black text-slate-900 dark:text-white tracking-wide" : ""}`}>
+                        {row.m20}
+                      </td>
+                      <td className={`py-3.5 px-3 sm:px-4 text-center font-mono text-[11px] sm:text-xs ${row.isProductId ? "font-black text-slate-900 dark:text-white tracking-wide" : ""}`}>
+                        {row.m25}
+                      </td>
+                      <td className={`py-3.5 px-3 sm:px-4 text-center font-mono text-[11px] sm:text-xs ${row.isProductId ? "font-black text-slate-900 dark:text-white tracking-wide" : ""}`}>
+                        {row.m30}
+                      </td>
+                      <td className={`py-3.5 px-4 sm:px-6 text-center font-mono text-[11px] sm:text-xs font-bold ${row.isProductId ? "font-black text-ssil-red tracking-wide" : "text-ssil-red"}`}>
+                        {row.m40}
+                      </td>
                     </tr>
                   ))}
 
@@ -485,11 +478,19 @@ export default function HighMastPage() {
                     <td className="py-3 px-4 sm:px-6 font-extrabold text-xs uppercase tracking-wider text-slate-900 dark:text-white">
                       ENQUIRY
                     </td>
-                    {["12M", "12.5M", "16M", "20M", "25M", "30M", "40M"].map((h) => (
-                      <td key={h} className="py-3 px-2 sm:px-3 text-center">
+                    {[
+                      { id: "SSILHM01", height: "12M" },
+                      { id: "SSILHM02", height: "12.5M" },
+                      { id: "SSILHM03", height: "16M" },
+                      { id: "SSILHM04", height: "20M" },
+                      { id: "SSILHM05", height: "25M" },
+                      { id: "SSILHM06", height: "30M" },
+                      { id: "SSILHM07", height: "40M" },
+                    ].map((item) => (
+                      <td key={item.id} className="py-3 px-2 sm:px-3 text-center">
                         <Button
                           size="sm"
-                          onClick={() => openEnquiry(`${h} High Mast Lighting Tower`)}
+                          onClick={() => openEnquiry(`${item.id} (${item.height} High Mast Tower)`)}
                           className="bg-white dark:bg-zinc-800 hover:bg-ssil-red hover:text-white text-slate-900 dark:text-white text-[11px] font-bold px-3 py-1 rounded-lg border border-slate-300 dark:border-zinc-700 transition-all shadow-xs"
                         >
                           Enquire Now
