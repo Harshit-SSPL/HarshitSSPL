@@ -125,6 +125,82 @@ const poleSpecifications: PoleSpec[] = [
   },
 ];
 
+interface BlueprintTechSpec {
+  property: string;
+  value: string;
+}
+
+const blueprintTechnicalSpecs: BlueprintTechSpec[] = [
+  {
+    property: "Bracket",
+    value: "Single Arm, Double Arm",
+  },
+  {
+    property: "Foundation Bolt Length",
+    value: "600Mm",
+  },
+  {
+    property: "Foundation Bolt Diameter",
+    value: "16Mm (IS2062 Gr. E250A)",
+  },
+  {
+    property: "Base Place Pcd",
+    value: "Pcd 200",
+  },
+  {
+    property: "Base Plate Size",
+    value: "200Mm X 200Mm X 12Mm (IS2062 Gr. E250A)",
+  },
+  {
+    property: "Type Of Locking Arrangement",
+    value: "Close Fitting Bolt With Allen Key Bolt",
+  },
+  {
+    property: "Size Of Opening Door At Base",
+    value: "500Mm",
+  },
+  {
+    property: "Thickness Of Galvanization",
+    value: "65 Micron",
+  },
+  {
+    property: "Metal Protection Treatment (Mast Section)",
+    value: "Hot Tip Galvanized (As Per IS4759/IS2629)",
+  },
+  {
+    property: "Bottom Diameter",
+    value: "130Mm A/F",
+  },
+  {
+    property: "Top Diameter",
+    value: "70Mm A/F",
+  },
+  {
+    property: "Number Of Cross Sections (Sides)",
+    value: "8 Sides",
+  },
+  {
+    property: "Thickness Of Sheet(In Mm)",
+    value: "3 Mm",
+  },
+  {
+    property: "Number Of Sections",
+    value: "Single",
+  },
+  {
+    property: "Material Construction",
+    value: "IS2062 E250A",
+  },
+  {
+    property: "Height Of Octagonal Pole",
+    value: "3 to 13 meter",
+  },
+  {
+    property: "Brand",
+    value: "SSIL",
+  },
+];
+
 const sectionVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
@@ -457,14 +533,14 @@ export default function OctagonalPolesPage() {
           
           <div className="max-w-4xl mb-6 sm:mb-8 text-left">
             <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-1">
-              ENGINEERING DRAWING
+              ENGINEERING BLUEPRINT
             </span>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.1]">
               DRAWING OF GI <br />
               <span className="text-ssil-red">OCTAGONAL POLE.</span>
             </h2>
             <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-2xl">
-              Our detailed Octagonal Pole technical drawing covers poles ranging from 3M to 13M in height. Manufactured from high-quality steel and protected with Hot-Dip Galvanization (HDG), these poles are designed for corrosion resistance, durability and long service life. The drawing includes details relating to the pole structure, base plate, foundation bolts, door opening and civil foundation design.
+              Precise structural detailing and engineering parameters for SSIL Hot-Dip Galvanized (HDG) Octagonal Poles ranging from 3M to 13M in height.
             </p>
           </div>
 
@@ -547,33 +623,49 @@ export default function OctagonalPolesPage() {
                 </svg>
               </div>
 
-              {/* Technical Engineering Information beside Drawing */}
-              <div className="lg:col-span-6 space-y-3 text-left">
-                <div className="p-3.5 rounded-xl bg-slate-100/80 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800 space-y-1">
-                  <span className="font-bold text-sm sm:text-base text-slate-900 dark:text-white block">
-                    1. Continuous Taper Shaft
+              {/* Right Side: Technical Specification Table */}
+              <div className="lg:col-span-6 flex flex-col justify-center text-left">
+                <div className="mb-2.5">
+                  <span className="text-[11px] sm:text-xs font-black uppercase tracking-widest text-ssil-red block mb-0.5">
+                    OCTAGONAL POLE
                   </span>
-                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                    Manufactured from single-sheet folded high-tensile steel with single longitudinal submerged arc automated welding.
-                  </p>
+                  <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                    TECHNICAL SPECIFICATION
+                  </h3>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-slate-100/80 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800 space-y-1">
-                  <span className="font-bold text-sm sm:text-base text-slate-900 dark:text-white block">
-                    2. Flush Weatherproof Inspection Door
-                  </span>
-                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                    Vandal-resistant door opening with rubber gasket sealing and internal DIN rail for MCB and terminal connection block.
-                  </p>
-                </div>
-
-                <div className="p-3.5 rounded-xl bg-slate-100/80 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800 space-y-1">
-                  <span className="font-bold text-sm sm:text-base text-slate-900 dark:text-white block">
-                    3. Base Plate &amp; Civil Anchorage
-                  </span>
-                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                    High-strength base plate with pre-drilled slotted holes and 4 high-tensile hot-dip galvanized J-bolt foundation anchor assemblies.
-                  </p>
+                <div className="w-full rounded-xl border border-slate-200 dark:border-zinc-800 overflow-hidden shadow-sm bg-white dark:bg-zinc-950">
+                  <div className="overflow-x-auto w-full">
+                    <table className="w-full text-left border-collapse text-xs">
+                      <thead>
+                        <tr className="bg-slate-900 text-white text-[11px] font-extrabold uppercase tracking-wider border-b border-slate-800">
+                          <th className="py-2.5 px-3.5 sm:px-4 w-1/2">Octagonal Pole Structure</th>
+                          <th className="py-2.5 px-3.5 sm:px-4 w-1/2">Technical Specification</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 dark:divide-zinc-800/80 font-medium text-slate-800 dark:text-slate-200">
+                        {blueprintTechnicalSpecs.map((spec, idx) => (
+                          <tr
+                            key={spec.property}
+                            className={`transition-colors hover:bg-ssil-red/5 dark:hover:bg-zinc-900/60 ${
+                              idx % 2 === 0 ? "bg-transparent" : "bg-slate-50/70 dark:bg-zinc-900/30"
+                            }`}
+                          >
+                            <td className="py-2 px-3.5 sm:px-4 font-bold text-slate-900 dark:text-white text-[11px] sm:text-xs">
+                              {spec.property}
+                            </td>
+                            <td className="py-2 px-3.5 sm:px-4 text-slate-700 dark:text-slate-300 text-[11px] sm:text-xs">
+                              {spec.property === "Brand" ? (
+                                <span className="font-extrabold text-ssil-red">{spec.value}</span>
+                              ) : (
+                                spec.value
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
 
