@@ -184,21 +184,21 @@ export default function OctagonalPolesPage() {
       </div>
 
       {/* ============================================================ */}
-      {/* 2. COMPACT HERO SECTION (HIGH POSITIONING & BALANCED COMPOSITION) */}
+      {/* 2. COMPACT HERO SECTION (BALANCED VERTICALLY & CENTERED) */}
       {/* ============================================================ */}
       <motion.section
-        className="relative pt-4 pb-8 sm:pt-6 sm:pb-10 lg:pt-6 lg:pb-12 border-b border-slate-200 dark:border-zinc-900"
+        className="relative py-8 sm:py-10 lg:py-12 border-b border-slate-200 dark:border-zinc-900"
         initial="hidden"
         animate="visible"
         variants={sectionVariants}
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
-            {/* Left Content Column (High Placement & Clear Typography) */}
-            <motion.div variants={childVariants} className="lg:col-span-7 space-y-4 text-left">
+            {/* Left Content Column (Vertically Centered with Image) */}
+            <motion.div variants={childVariants} className="lg:col-span-7 space-y-5 text-left flex flex-col justify-center">
               
-              <div className="space-y-3">
+              <div className="space-y-3.5">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.05]">
                   GI OCTAGONAL <br />
                   <span className="text-ssil-red">POLES.</span>
