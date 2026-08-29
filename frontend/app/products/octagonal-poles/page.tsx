@@ -25,7 +25,7 @@ interface PoleSpec {
 
 const poleSpecifications: PoleSpec[] = [
   {
-    poleType: "KOP03",
+    poleType: "SSILOP01",
     height: 3,
     topDia: 70,
     bottomDia: 130,
@@ -34,7 +34,7 @@ const poleSpecifications: PoleSpec[] = [
     foundationBolt: "4x16x450",
   },
   {
-    poleType: "KOP04",
+    poleType: "SSILOP02",
     height: 4,
     topDia: 70,
     bottomDia: 130,
@@ -43,7 +43,7 @@ const poleSpecifications: PoleSpec[] = [
     foundationBolt: "4x16x450",
   },
   {
-    poleType: "KOP05",
+    poleType: "SSILOP03",
     height: 5,
     topDia: 70,
     bottomDia: 130,
@@ -52,7 +52,7 @@ const poleSpecifications: PoleSpec[] = [
     foundationBolt: "4x16x450",
   },
   {
-    poleType: "KOP06",
+    poleType: "SSILOP04",
     height: 6,
     topDia: 70,
     bottomDia: 130,
@@ -61,7 +61,7 @@ const poleSpecifications: PoleSpec[] = [
     foundationBolt: "4x16x600",
   },
   {
-    poleType: "KOP07",
+    poleType: "SSILOP05",
     height: 7,
     topDia: 70,
     bottomDia: 130,
@@ -70,7 +70,7 @@ const poleSpecifications: PoleSpec[] = [
     foundationBolt: "4x20x600",
   },
   {
-    poleType: "KOP08",
+    poleType: "SSILOP06",
     height: 8,
     topDia: 70,
     bottomDia: 135,
@@ -79,7 +79,7 @@ const poleSpecifications: PoleSpec[] = [
     foundationBolt: "4x20x700",
   },
   {
-    poleType: "KOP09",
+    poleType: "SSILOP07",
     height: 9,
     topDia: 70,
     bottomDia: 155,
@@ -88,7 +88,7 @@ const poleSpecifications: PoleSpec[] = [
     foundationBolt: "4x20x700",
   },
   {
-    poleType: "KOP010",
+    poleType: "SSILOP08",
     height: 10,
     topDia: 70,
     bottomDia: 155,
@@ -97,7 +97,7 @@ const poleSpecifications: PoleSpec[] = [
     foundationBolt: "4x24x750",
   },
   {
-    poleType: "KOP011",
+    poleType: "SSILOP09",
     height: 11,
     topDia: 70,
     bottomDia: 175,
@@ -106,7 +106,7 @@ const poleSpecifications: PoleSpec[] = [
     foundationBolt: "4x24x750",
   },
   {
-    poleType: "KOP012",
+    poleType: "SSILOP10",
     height: 12,
     topDia: 70,
     bottomDia: 175,
@@ -115,7 +115,7 @@ const poleSpecifications: PoleSpec[] = [
     foundationBolt: "4x24x750",
   },
   {
-    poleType: "KOP013",
+    poleType: "SSILOP11",
     height: 13,
     topDia: 125,
     bottomDia: 270,
@@ -417,9 +417,9 @@ export default function OctagonalPolesPage() {
                         <Button
                           size="sm"
                           onClick={() => openEnquiry(`${row.poleType} (${row.height}M Octagonal Pole)`)}
-                          className="bg-slate-100 dark:bg-zinc-800 hover:bg-ssil-red hover:text-white text-slate-900 dark:text-white text-[11px] font-bold px-3 py-1 rounded-full border border-slate-300 dark:border-zinc-700 transition-all"
+                          className="bg-slate-100 dark:bg-zinc-800 hover:bg-ssil-red hover:text-white text-slate-900 dark:text-white text-[11px] font-bold px-3.5 py-1.5 rounded-lg border border-slate-300 dark:border-zinc-700 transition-all shadow-xs"
                         >
-                          Enquire
+                          Enquire Now
                         </Button>
                       </td>
                     </tr>
