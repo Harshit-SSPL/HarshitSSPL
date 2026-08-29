@@ -47,7 +47,7 @@ export default function ProductsPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 2. OUR PRODUCTS SECTION (CLEAN WHITE/BLACK BACKGROUND, 12 RENAMED PRODUCTS) */}
+      {/* 2. OUR PRODUCTS SECTION (CLEAN WHITE/BLACK BACKGROUND, 18 OFFICIAL PRODUCTS) */}
       {/* ============================================================ */}
       <section className="relative z-10 py-14 sm:py-20 bg-white dark:bg-black">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
@@ -68,7 +68,7 @@ export default function ProductsPage() {
             </p>
           </motion.div>
 
-          {/* 12 Catalog Products Grid (Linking to /products/[slug]) */}
+          {/* 18 Official Catalog Products Grid (Linking to /products/[slug]) */}
           <div className="mb-8">
             <motion.div
               className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-3.5"
