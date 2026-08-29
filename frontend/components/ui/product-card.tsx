@@ -43,8 +43,8 @@ export const ProductCard = ({
   const content = (
     <div
       className={cn(
-        "group relative w-full aspect-[10/14] rounded-none overflow-hidden cursor-pointer shadow-md border border-slate-200/40 dark:border-slate-800/40 transition-all duration-300 ease-out",
-        "hover:-translate-y-2 hover:scale-[1.015] hover:shadow-2xl hover:border-ssil-red/50"
+        "group relative w-full aspect-[10/14] rounded-none overflow-hidden cursor-pointer border-2 border-slate-200/80 dark:border-zinc-800 transition-all duration-300 ease-out",
+        "hover:-translate-y-2 hover:scale-[1.015] hover:border-ssil-red shadow-md hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.35),0_0_28px_-2px_rgba(230,57,70,0.35)] dark:hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.9),0_0_32px_-2px_rgba(230,57,70,0.4)]"
       )}
       onClick={(e) => {
         if (onEnquire) {

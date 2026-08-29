@@ -86,13 +86,13 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
             className="fixed inset-0 bg-slate-950/60 dark:bg-black/80 backdrop-blur-md"
           />
 
-          {/* Modal Container: Elevated Floating Product Showcase with Refined Border & Layered Shadow */}
+          {/* Modal Container: Elevated Floating Product Showcase with Refined 2px Border & Layered Shadow */}
           <motion.div
             initial={{ opacity: 0, scale: 0.98, y: 14 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.98, y: 10 }}
             transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-            className="relative z-10 w-full max-w-lg sm:max-w-xl rounded-2xl sm:rounded-[1.25rem] bg-slate-950/85 dark:bg-zinc-950/90 backdrop-blur-2xl border-[1.5px] border-white/20 dark:border-white/25 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85),0_12px_28px_-8px_rgba(0,0,0,0.6),0_0_35px_-2px_rgba(230,57,70,0.14)] p-5 sm:p-6 md:p-7 text-white my-4 overflow-hidden"
+            className="relative z-10 w-full max-w-lg sm:max-w-xl rounded-2xl sm:rounded-[1.25rem] bg-slate-950/90 dark:bg-zinc-950/95 backdrop-blur-2xl border-2 border-white/35 dark:border-white/40 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.9),0_15px_35px_-8px_rgba(0,0,0,0.7),0_0_40px_0px_rgba(230,57,70,0.22)] p-5 sm:p-6 md:p-7 text-white my-4 overflow-hidden"
           >
             {/* Subtle Top-Edge Specular Highlight for refined depth */}
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent pointer-events-none" />
