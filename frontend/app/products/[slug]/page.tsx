@@ -179,24 +179,28 @@ export default function ProductDetailPage() {
             </span>
           </div>
 
-          {/* 4 Images per Row Desktop Grid */}
+          {/* 4 Images per Row Desktop Grid with Automatic Centering for Incomplete Rows */}
           <motion.div
-            className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-3.5"
+            className="w-full flex flex-wrap justify-center gap-2.5 sm:gap-3 lg:gap-3.5"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-40px" }}
             variants={containerVariants}
           >
             {product.galleryImages.map((item) => (
-              <ProductCard
+              <div
                 key={item.id}
-                name={item.name}
-                dayImage={item.dayImage}
-                buttonText="Enquire Now"
-                showArrow={true}
-                enableImageCrossfade={false}
-                onEnquire={(modelName) => openEnquiry(modelName)}
-              />
+                className="w-full sm:w-[calc((100%-0.75rem)/2)] lg:w-[calc((100%-2.625rem)/4)] flex"
+              >
+                <ProductCard
+                  name={item.name}
+                  dayImage={item.dayImage}
+                  buttonText="Enquire Now"
+                  showArrow={true}
+                  enableImageCrossfade={false}
+                  onEnquire={(modelName) => openEnquiry(modelName)}
+                />
+              </div>
             ))}
           </motion.div>
 

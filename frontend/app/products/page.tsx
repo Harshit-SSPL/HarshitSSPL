@@ -68,25 +68,29 @@ export default function ProductsPage() {
             </p>
           </motion.div>
 
-          {/* 18 Official Catalog Products Grid (Linking to /products/[slug]) */}
+          {/* 18 Official Catalog Products Grid (Linking to /products/[slug]) with Automatic Centering for Incomplete Rows */}
           <div className="mb-8">
             <motion.div
-              className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-3.5"
+              className="w-full flex flex-wrap justify-center gap-2.5 sm:gap-3 lg:gap-3.5"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-40px" }}
               variants={containerVariants}
             >
               {catalogProducts.map((product) => (
-                <ProductCard
+                <div
                   key={product.id}
-                  name={product.name}
-                  dayImage={product.dayImage}
-                  nightImage={product.nightImage}
-                  href={`/products/${product.slug}`}
-                  buttonText="View All"
-                  showArrow={true}
-                />
+                  className="w-full sm:w-[calc((100%-0.75rem)/2)] lg:w-[calc((100%-2.625rem)/4)] flex"
+                >
+                  <ProductCard
+                    name={product.name}
+                    dayImage={product.dayImage}
+                    nightImage={product.nightImage}
+                    href={`/products/${product.slug}`}
+                    buttonText="View All"
+                    showArrow={true}
+                  />
+                </div>
               ))}
             </motion.div>
           </div>
