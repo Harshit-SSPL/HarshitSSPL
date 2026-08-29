@@ -198,17 +198,21 @@ export default function OctagonalPolesPage() {
             {/* Left Content Column (High Placement & Clear Typography) */}
             <motion.div variants={childVariants} className="lg:col-span-7 space-y-4 text-left">
               
-              <div className="space-y-2.5">
+              <div className="space-y-3">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.05]">
                   GI OCTAGONAL <br />
                   <span className="text-ssil-red">POLES.</span>
                 </h1>
-                <p className="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-2xl">
-                  Precision-engineered hot-dip galvanized octagonal poles designed for high strength, structural reliability, corrosion resistance, and dependable outdoor lighting across modern expressways and municipal corridors.
-                </p>
 
-                {/* Two Product-Value Bullet Points */}
-                <div className="space-y-2 pt-1 max-w-2xl text-left">
+                {/* 3 Product-Value Bullet Points */}
+                <div className="space-y-2.5 pt-1 max-w-2xl text-left">
+                  <div className="flex items-start gap-2.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0 mt-2" />
+                    <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+                      Precision-engineered hot-dip galvanized octagonal poles designed for high strength, structural reliability, corrosion resistance, and dependable outdoor lighting across modern expressways and municipal corridors.
+                    </p>
+                  </div>
+
                   <div className="flex items-start gap-2.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0 mt-2" />
                     <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
