@@ -86,14 +86,14 @@ export function Footerdemo() {
             </h3>
             <address className="space-y-3 text-xs sm:text-sm text-slate-300 not-italic">
               <a
-                href="https://www.google.com/maps/search/?api=1&query=812A%2C+814A%2C+Puri+High+Street%2C+Sector+81-121002%2C+Faridabad%2C+Haryana%2C+India"
+                href="https://www.google.com/maps/search/?api=1&query=812A%2C+814%2C+Puri+High+Street%2C+Sector+81-121002%2C+Faridabad%2C+Haryana%2C+India"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group/addr flex items-start gap-2 text-slate-300 hover:text-ssil-red transition-colors cursor-pointer"
                 title="View Corporate Office on Google Maps"
               >
                 <MapPin className="h-4 w-4 text-ssil-red shrink-0 mt-0.5 group-hover/addr:scale-110 transition-transform" />
-                <p className="leading-snug">Office No- 812A, 814A, Puri High Street, Sector 81-121002, Faridabad, Haryana, India</p>
+                <p className="leading-snug">Office No- 812A, 814, Puri High Street, Sector 81-121002, Faridabad, Haryana, India</p>
               </a>
 
               <div className="pt-1">
