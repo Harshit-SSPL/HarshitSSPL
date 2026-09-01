@@ -189,6 +189,12 @@ const childVariants = {
 };
 
 export default function AboutPage() {
+  const [aboutContent, setAboutContent] = React.useState({
+    heading: "About Us",
+    mainDescription:
+      "Shiv Shakti India Limited (SSIL) is one of the most equipped and major manufacturers of lighting solution providers in the global market. We are an experienced organization in the field of complete lighting solutions, enclosing all your requirements in a single basket. We are engaged in the export and supply of a wide range of commercial and household products, enclosing outdoor, indoor, solar, decorative LED lights, and solar plants. Engineered for long-lasting durability, SSIL's infrastructure luminaires, decorative poles, octagonal poles, and high mast installations serve municipal expressways, real estate developments, and public landmarks across India.",
+  });
+
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       if ("scrollRestoration" in window.history) {
@@ -196,6 +202,23 @@ export default function AboutPage() {
       }
       window.scrollTo(0, 0);
     }
+
+    const fetchAbout = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+        const res = await fetch(`${apiUrl}/about`);
+        const data = await res.json();
+        if (data.success && data.about) {
+          setAboutContent({
+            heading: data.about.heading || "About Us",
+            mainDescription: data.about.mainDescription || aboutContent.mainDescription,
+          });
+        }
+      } catch (err) {
+        // fallback
+      }
+    };
+    fetchAbout();
   }, []);
 
   return (
@@ -225,7 +248,7 @@ export default function AboutPage() {
             variants={childVariants}
             className="text-2xl sm:text-4xl lg:text-5xl font-black text-ssil-red tracking-tight mb-4"
           >
-            About Us
+            {aboutContent.heading}
           </motion.h2>
 
           {/* Corporate Description Paragraph */}
@@ -234,7 +257,7 @@ export default function AboutPage() {
             className="w-full text-slate-700 dark:text-slate-200 text-sm sm:text-base md:text-lg leading-relaxed font-normal"
           >
             <p className="max-w-5xl">
-              Shiv Shakti India Limited (SSIL) is one of the most equipped and major manufacturers of lighting solution providers in the global market. We are an experienced organization in the field of complete lighting solutions, enclosing all your requirements in a single basket. We are engaged in the export and supply of a wide range of commercial and household products, enclosing outdoor, indoor, solar, decorative LED lights, and solar plants. Engineered for long-lasting durability, SSIL&apos;s infrastructure luminaires, decorative poles, octagonal poles, and high mast installations serve municipal expressways, real estate developments, and public landmarks across India.
+              {aboutContent.mainDescription}
             </p>
           </motion.div>
 

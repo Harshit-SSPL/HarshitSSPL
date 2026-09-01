@@ -25,7 +25,38 @@ export default function ProductDetailPage() {
   const params = useParams();
   const slug = params?.slug as string;
 
-  const product = catalogProducts.find((p) => p.slug === slug);
+  const fallbackProduct = catalogProducts.find((p) => p.slug === slug);
+  const [product, setProduct] = useState<any>(fallbackProduct);
+
+  React.useEffect(() => {
+    const fetchProductData = async () => {
+      if (!slug) return;
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+        const res = await fetch(`${apiUrl}/products/${slug}`);
+        const data = await res.json();
+        if (data.success && data.product) {
+          const apiProd = data.product;
+          setProduct({
+            ...fallbackProduct,
+            ...apiProd,
+            galleryImages: apiProd.designs && apiProd.designs.length > 0
+              ? apiProd.designs.map((d: any) => ({
+                  id: d._id || d.id,
+                  name: d.name,
+                  dayImage: d.dayImage,
+                  nightImage: d.nightImage,
+                  categoryTag: d.specs || "Custom Engineering",
+                }))
+              : fallbackProduct?.galleryImages || [],
+          });
+        }
+      } catch (err) {
+        // fallback
+      }
+    };
+    fetchProductData();
+  }, [slug]);
 
   const [enquiryState, setEnquiryState] = useState<{
     isOpen: boolean;
@@ -187,7 +218,7 @@ export default function ProductDetailPage() {
             viewport={{ once: true, margin: "-40px" }}
             variants={containerVariants}
           >
-            {product.galleryImages.map((item) => (
+            {product.galleryImages.map((item: any) => (
               <div
                 key={item.id}
                 className="w-full sm:w-[calc((100%-0.75rem)/2)] lg:w-[calc((100%-2.625rem)/4)] flex"

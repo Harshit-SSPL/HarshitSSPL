@@ -14,6 +14,40 @@ import {
 import { Facebook, Linkedin, Send, Twitter, Phone, Mail, MapPin } from "lucide-react";
 
 export function Footerdemo() {
+  const [footerData, setFooterData] = React.useState({
+    corporateOfficeAddress: "Office No- 812A, 814, Puri High Street, Sector 81-121002, Faridabad, Haryana, India",
+    factoryAddress: "Plot No. 5, Sector 65, Village Sahupura, Ballabgarh, 121004, Faridabad, Haryana, India",
+    phone1: "+91 9999590064",
+    phone2: "+91 9999990064",
+    email: "ssindia2006@gmail.com",
+    gmapsCorporateQuery: "812A%2C+814%2C+Puri+High+Street%2C+Sector+81-121002%2C+Faridabad%2C+Haryana%2C+India",
+    gmapsFactoryQuery: "Plot+No.+5%2C+Sector+65%2C+Village+Sahupura%2C+Ballabgarh%2C+121004%2C+Faridabad%2C+Haryana%2C+India",
+  });
+
+  React.useEffect(() => {
+    const fetchFooter = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+        const res = await fetch(`${apiUrl}/footer`);
+        const data = await res.json();
+        if (data.success && data.footer) {
+          setFooterData({
+            corporateOfficeAddress: data.footer.corporateOfficeAddress || footerData.corporateOfficeAddress,
+            factoryAddress: data.footer.factoryAddress || footerData.factoryAddress,
+            phone1: data.footer.phone1 || footerData.phone1,
+            phone2: data.footer.phone2 || footerData.phone2,
+            email: data.footer.email || footerData.email,
+            gmapsCorporateQuery: data.footer.gmapsCorporateQuery || footerData.gmapsCorporateQuery,
+            gmapsFactoryQuery: data.footer.gmapsFactoryQuery || footerData.gmapsFactoryQuery,
+          });
+        }
+      } catch (e) {
+        // use fallback
+      }
+    };
+    fetchFooter();
+  }, []);
+
   return (
     <footer className="relative border-t border-zinc-900 bg-black text-slate-100 transition-colors duration-300">
       <div className="container mx-auto px-4 py-10 sm:py-12 md:px-6 lg:px-8">
@@ -86,14 +120,14 @@ export function Footerdemo() {
             </h3>
             <address className="space-y-3 text-xs sm:text-sm text-slate-300 not-italic">
               <a
-                href="https://www.google.com/maps/search/?api=1&query=812A%2C+814%2C+Puri+High+Street%2C+Sector+81-121002%2C+Faridabad%2C+Haryana%2C+India"
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(footerData.corporateOfficeAddress)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group/addr flex items-start gap-2 text-slate-300 hover:text-ssil-red transition-colors cursor-pointer"
                 title="View Corporate Office on Google Maps"
               >
                 <MapPin className="h-4 w-4 text-ssil-red shrink-0 mt-0.5 group-hover/addr:scale-110 transition-transform" />
-                <p className="leading-snug">Office No- 812A, 814, Puri High Street, Sector 81-121002, Faridabad, Haryana, India</p>
+                <p className="leading-snug">{footerData.corporateOfficeAddress}</p>
               </a>
 
               <div className="pt-1">
@@ -101,34 +135,38 @@ export function Footerdemo() {
                   Factory Address
                 </span>
                 <a
-                  href="https://www.google.com/maps/search/?api=1&query=Plot+No.+5%2C+Sector+65%2C+Village+Sahupura%2C+Ballabgarh%2C+121004%2C+Faridabad%2C+Haryana%2C+India"
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(footerData.factoryAddress)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group/addr flex items-start gap-2 text-slate-300 hover:text-ssil-red transition-colors cursor-pointer"
                   title="View Factory Location on Google Maps"
                 >
                   <MapPin className="h-4 w-4 text-ssil-red shrink-0 mt-0.5 group-hover/addr:scale-110 transition-transform" />
-                  <p className="leading-snug">Plot No. 5, Sector 65, Village Sahupura, Ballabgarh, 121004, Faridabad, Haryana, India</p>
+                  <p className="leading-snug">{footerData.factoryAddress}</p>
                 </a>
               </div>
 
               <div className="flex items-center gap-2 pt-1">
                 <Phone className="h-4 w-4 text-ssil-red shrink-0" />
                 <p className="flex flex-wrap items-center gap-1 font-medium">
-                  <a href="tel:+919999590064" className="hover:text-ssil-red transition-colors">+91 9999590064</a>,
-                  <a href="tel:+919999990064" className="hover:text-ssil-red transition-colors">+91 9999990064</a>
+                  <a href={`tel:${footerData.phone1.replace(/\s+/g, '')}`} className="hover:text-ssil-red transition-colors">{footerData.phone1}</a>
+                  {footerData.phone2 && (
+                    <>
+                      , <a href={`tel:${footerData.phone2.replace(/\s+/g, '')}`} className="hover:text-ssil-red transition-colors">{footerData.phone2}</a>
+                    </>
+                  )}
                 </p>
               </div>
 
               <a
-                href="https://mail.google.com/mail/?view=cm&fs=1&to=ssindia2006@gmail.com&su=Inquiry%20regarding%20SSIL%20Lighting%20%26%20Infrastructure%20Solutions&body=Hello%20Shiv%20Shakti%20India%20Limited%20Team%2C%0A%0AI%20would%20like%20to%20inquire%20about%20your%20lighting%20products%20and%20infrastructure%20solutions.%0A%0ACompany%20%2F%20Client%20Name%3A%20%0AContact%20Number%3A%20%0AProject%20Location%3A%20%0ARequirement%20Details%3A%20%0A%0AThank%20you."
+                href={`https://mail.google.com/mail/?view=cm&fs=1&to=${footerData.email}&su=Inquiry%20regarding%20SSIL%20Lighting%20%26%20Infrastructure%20Solutions&body=Hello%20Shiv%20Shakti%20India%20Limited%20Team%2C%0A%0AI%20would%20like%20to%20inquire%20about%20your%20lighting%20products%20and%20infrastructure%20solutions.%0A%0ACompany%20%2F%20Client%20Name%3A%20%0AContact%20Number%3A%20%0AProject%20Location%3A%20%0ARequirement%20Details%3A%20%0A%0AThank%20you.`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group/mail flex items-center gap-2 text-slate-300 hover:text-ssil-red transition-colors cursor-pointer"
                 title="Compose Email to Shiv Shakti India Limited"
               >
                 <Mail className="h-4 w-4 text-ssil-red shrink-0 group-hover/mail:scale-110 transition-transform" />
-                <span className="leading-snug">ssindia2006@gmail.com</span>
+                <span className="leading-snug">{footerData.email}</span>
               </a>
             </address>
           </div>

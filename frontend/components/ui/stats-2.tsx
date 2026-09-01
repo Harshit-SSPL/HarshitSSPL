@@ -69,7 +69,7 @@ const itemVariants = {
   },
 };
 
-const metricsData = [
+const defaultMetricsData = [
   {
     targetValue: 20000,
     hasCommas: true,
@@ -104,7 +104,7 @@ const metricsData = [
     icon: <Globe className="h-4 w-4" />,
   },
   {
-    targetValue: 200,
+    targetValue: 500,
     hasCommas: false,
     suffix: "+",
     duration: 1.6,
@@ -116,7 +116,70 @@ const metricsData = [
   },
 ];
 
-const Stats2 = () => {
+export const Stats2 = () => {
+  const [metrics, setMetrics] = React.useState(defaultMetricsData);
+
+  React.useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+        const res = await fetch(`${apiUrl}/home/stats`);
+        const data = await res.json();
+        if (data.success && data.stats) {
+          const s = data.stats;
+          setMetrics([
+            {
+              targetValue: s.deployedFootprints?.value ?? 20000,
+              hasCommas: true,
+              suffix: s.deployedFootprints?.suffix ?? "+",
+              duration: 2.6,
+              delay: 0,
+              ease: "easeOut",
+              label: s.deployedFootprints?.label ?? "Poles & Lighting Installations",
+              sublabel: s.deployedFootprints?.sublabel ?? "DEPLOYED FOOTPRINT",
+              icon: <Zap className="h-4 w-4" />,
+            },
+            {
+              targetValue: s.yearsExperience?.value ?? 12,
+              hasCommas: false,
+              suffix: s.yearsExperience?.suffix ?? "+",
+              duration: 0.6,
+              delay: 0.05,
+              ease: "easeOut",
+              label: s.yearsExperience?.label ?? "Years of Experience",
+              sublabel: s.yearsExperience?.sublabel ?? "ENGINEERING HERITAGE",
+              icon: <Award className="h-4 w-4" />,
+            },
+            {
+              targetValue: s.statesServed?.value ?? 22,
+              hasCommas: false,
+              suffix: s.statesServed?.suffix ?? "+",
+              duration: 0.9,
+              delay: 0.1,
+              ease: "easeOut",
+              label: s.statesServed?.label ?? "States Served",
+              sublabel: s.statesServed?.sublabel ?? "PAN-INDIA REACH",
+              icon: <Globe className="h-4 w-4" />,
+            },
+            {
+              targetValue: s.projectsCompleted?.value ?? 500,
+              hasCommas: false,
+              suffix: s.projectsCompleted?.suffix ?? "+",
+              duration: 1.6,
+              delay: 0.15,
+              ease: "easeOut",
+              label: s.projectsCompleted?.label ?? "Projects Completed",
+              sublabel: s.projectsCompleted?.sublabel ?? "EXECUTED DELIVERIES",
+              icon: <Building2 className="h-4 w-4" />,
+            },
+          ]);
+        }
+      } catch (err) {
+        // use default fallback
+      }
+    };
+    fetchStats();
+  }, []);
   return (
     <section className="py-16 md:py-24 bg-gradient-to-b from-slate-50 via-red-50/20 to-slate-50 dark:from-slate-950 dark:via-red-950/10 dark:to-slate-950 border-b border-slate-200/60 dark:border-slate-800/80 transition-colors">
       <div className="container mx-auto px-4 md:px-6">
@@ -148,7 +211,7 @@ const Stats2 = () => {
           viewport={{ once: false, margin: "-40px" }}
           variants={containerVariants}
         >
-          {metricsData.map((item, index) => (
+          {metrics.map((item, index) => (
             <motion.div
               key={index}
               variants={itemVariants}
@@ -187,4 +250,3 @@ const Stats2 = () => {
   );
 };
 
-export { Stats2 };

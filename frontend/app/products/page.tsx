@@ -17,6 +17,24 @@ const containerVariants = {
 };
 
 export default function ProductsPage() {
+  const [products, setProducts] = React.useState(catalogProducts);
+
+  React.useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+        const res = await fetch(`${apiUrl}/products`);
+        const data = await res.json();
+        if (data.success && Array.isArray(data.products) && data.products.length > 0) {
+          setProducts(data.products);
+        }
+      } catch (err) {
+        // fallback
+      }
+    };
+    fetchProducts();
+  }, []);
+
   return (
     <div className="relative min-h-screen w-full bg-white dark:bg-black text-slate-900 dark:text-white transition-colors duration-300 overflow-hidden">
       {/* ============================================================ */}
@@ -78,9 +96,9 @@ export default function ProductsPage() {
               viewport={{ once: true, margin: "-40px" }}
               variants={containerVariants}
             >
-              {catalogProducts.map((product) => (
+              {products.map((product: any) => (
                 <div
-                  key={product.id}
+                  key={product._id || product.id || product.slug}
                   className="w-full sm:w-[calc((100%-0.75rem)/2)] lg:w-[calc((100%-2.625rem)/4)] flex"
                 >
                   <ProductCard

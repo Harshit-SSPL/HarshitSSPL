@@ -1,12 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { InfiniteSlider } from "@/components/ui/infinite-slider";
 import { clientCompanies, ClientCompany } from "@/data/clients";
 
 // Single Gliding Item: Floating 3D PNG Sticker Logo Top + Company Name Bottom
-const MarqueeItem = ({ client }: { client: ClientCompany }) => {
-  const [imgError, setImgError] = React.useState(false);
+const MarqueeItem = ({ client }: { client: { name: string; logoUrl: string; id?: string; _id?: string } }) => {
+  const [imgError, setImgError] = useState(false);
 
   return (
     <div className="flex flex-col items-center justify-center gap-2.5 shrink-0 px-4 cursor-default group">
@@ -36,8 +36,26 @@ const MarqueeItem = ({ client }: { client: ClientCompany }) => {
 };
 
 export const ClientMarquee = () => {
+  const [clients, setClients] = useState<any[]>(clientCompanies);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+        const res = await fetch(`${apiUrl}/national-projects`);
+        const data = await res.json();
+        if (data.success && Array.isArray(data.projects) && data.projects.length > 0) {
+          setClients(data.projects);
+        }
+      } catch (err) {
+        // use fallback clientCompanies
+      }
+    };
+    fetchProjects();
+  }, []);
+
   // Duplicate array for infinite seamless loop
-  const duplicatedClients = [...clientCompanies, ...clientCompanies];
+  const duplicatedClients = [...clients, ...clients];
 
   return (
     <section className="relative py-5 sm:py-6 bg-white dark:bg-slate-950 text-slate-900 dark:text-white border-y border-slate-200/80 dark:border-slate-800/80 transition-colors shadow-xs overflow-hidden">
@@ -60,7 +78,7 @@ export const ClientMarquee = () => {
           <div className="relative py-1 md:w-[calc(100%-12rem)] w-full overflow-hidden">
             <InfiniteSlider speed={5} gap={56}>
               {duplicatedClients.map((client, index) => (
-                <MarqueeItem key={`${client.id}-${index}`} client={client} />
+                <MarqueeItem key={`${client._id || client.id || index}-${index}`} client={client} />
               ))}
             </InfiniteSlider>
           </div>
