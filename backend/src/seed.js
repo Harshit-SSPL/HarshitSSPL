@@ -27,16 +27,20 @@ export const seedDatabase = async () => {
     // 1. Seed Admin
     const adminUsername = (process.env.ADMIN_BOOTSTRAP_USERNAME || "admin").toLowerCase().trim();
     const adminPassword = process.env.ADMIN_BOOTSTRAP_PASSWORD || "admin";
+    const passwordHash = await bcrypt.hash(adminPassword, 10);
 
     const adminExists = await Admin.findOne({ username: adminUsername });
     if (!adminExists) {
-      const passwordHash = await bcrypt.hash(adminPassword, 10);
       await Admin.create({
         username: adminUsername,
         passwordHash,
         role: "superadmin",
       });
       console.log(`[Seed] Created bootstrap admin account: '${adminUsername}'`);
+    } else {
+      adminExists.passwordHash = passwordHash;
+      await adminExists.save();
+      console.log(`[Seed] Verified and updated admin account: '${adminUsername}'`);
     }
 
     // 2. Seed HomeStats
