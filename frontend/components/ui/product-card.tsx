@@ -40,6 +40,17 @@ export const ProductCard = ({
   enableImageCrossfade = true,
   onEnquire,
 }: ProductCardProps) => {
+  const defaultDay = "/images/products/homepage/product-01/day.png";
+  const defaultNight = "/images/products/homepage/product-01/night.png";
+
+  const [daySrc, setDaySrc] = React.useState<string>(dayImage || defaultDay);
+  const [nightSrc, setNightSrc] = React.useState<string>(nightImage || dayImage || defaultNight);
+
+  React.useEffect(() => {
+    if (dayImage) setDaySrc(dayImage);
+    if (nightImage) setNightSrc(nightImage);
+  }, [dayImage, nightImage]);
+
   const content = (
     <div
       className={cn(
@@ -57,27 +68,36 @@ export const ProductCard = ({
         <>
           {/* Day Image (Default Mode - Always in background) */}
           <img
-            src={dayImage}
+            src={daySrc}
             alt={`${name} Day`}
             className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
             loading="eager"
+            onError={() => {
+              if (daySrc !== defaultDay) setDaySrc(defaultDay);
+            }}
           />
 
           {/* Night Image (Hover Crossfade Mode - Smoothly fades in on hover) */}
           <img
-            src={nightImage || dayImage}
+            src={nightSrc}
             alt={`${name} Night`}
             className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-all duration-700 ease-in-out group-hover:scale-105 pointer-events-none"
             loading="eager"
+            onError={() => {
+              if (nightSrc !== defaultNight) setNightSrc(defaultNight);
+            }}
           />
         </>
       ) : (
         /* Single Image Mode for Internal Design Pages */
         <img
-          src={dayImage}
+          src={daySrc}
           alt={name}
           className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
           loading="eager"
+          onError={() => {
+            if (daySrc !== defaultDay) setDaySrc(defaultDay);
+          }}
         />
       )}
 

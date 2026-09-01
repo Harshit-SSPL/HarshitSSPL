@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { catalogProducts } from "@/data/products-catalog";
+import { catalogProducts, CatalogProduct } from "@/data/products-catalog";
 import { ProductCard } from "@/components/ui/product-card";
 import { ProductFaqSection } from "@/components/ui/product-faq";
 
@@ -17,28 +17,50 @@ const containerVariants = {
 };
 
 export default function ProductsPage() {
-  const [products, setProducts] = React.useState(catalogProducts);
+  // Always initialize with the full hardcoded catalog products
+  const [products, setProducts] = useState<CatalogProduct[]>(catalogProducts);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchProducts = async () => {
       try {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-        const res = await fetch(`${apiUrl}/products`);
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000); // 3s timeout
+
+        const res = await fetch(`${apiUrl}/products`, { signal: controller.signal });
+        clearTimeout(timeoutId);
+
         const data = await res.json();
         if (data.success && Array.isArray(data.products) && data.products.length > 0) {
-          setProducts(data.products);
+          // Merge API data over hardcoded data so all 18 products are always preserved
+          const merged = catalogProducts.map((local) => {
+            const remote = data.products.find((p: any) => p.slug === local.slug);
+            if (remote) {
+              return {
+                ...local,
+                ...remote,
+                dayImage: remote.dayImage || local.dayImage,
+                nightImage: remote.nightImage || local.nightImage,
+              };
+            }
+            return local;
+          });
+          setProducts(merged);
         }
       } catch (err) {
-        // fallback
+        // Fallback to hardcoded catalogProducts on network lag or error
+        setProducts(catalogProducts);
       }
     };
+
     fetchProducts();
   }, []);
 
   return (
     <div className="relative min-h-screen w-full bg-white dark:bg-black text-slate-900 dark:text-white transition-colors duration-300 overflow-hidden">
+      
       {/* ============================================================ */}
-      {/* 1. FULL-BLEED HERO BANNER (EXTREME LEFT ALIGNED TEXT, RED HIGHLIGHT WORD) */}
+      {/* 1. FULL-BLEED HERO BANNER */}
       {/* ============================================================ */}
       <section className="relative z-10 w-full h-[52vh] sm:h-[60vh] max-h-[500px] flex items-end overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
         
@@ -53,7 +75,7 @@ export default function ProductsPage() {
         {/* Glass Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/45 to-transparent rounded-none pointer-events-none" />
 
-        {/* Extreme Left Hero Content (No Left Offset) */}
+        {/* Extreme Left Hero Content */}
         <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 text-left flex flex-col items-start">
           <h1 className="text-[20px] sm:text-[30px] md:text-[36px] font-black text-white tracking-tight leading-snug drop-shadow-md max-w-2xl">
             Engineered Lighting for <span className="text-ssil-red">Modern</span> Infrastructure
@@ -66,7 +88,7 @@ export default function ProductsPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 2. OUR PRODUCTS SECTION (CLEAN WHITE/BLACK BACKGROUND, 18 OFFICIAL PRODUCTS) */}
+      {/* 2. OUR PRODUCTS SECTION */}
       {/* ============================================================ */}
       <section className="relative z-10 py-14 sm:py-20 bg-white dark:bg-black">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
@@ -87,7 +109,7 @@ export default function ProductsPage() {
             </p>
           </motion.div>
 
-          {/* 18 Official Catalog Products Grid (Linking to /products/[slug]) with Automatic Centering for Incomplete Rows */}
+          {/* 18 Official Catalog Products Grid */}
           <div className="mb-8">
             <motion.div
               className="w-full flex flex-wrap justify-center gap-2.5 sm:gap-3 lg:gap-3.5"
@@ -96,9 +118,9 @@ export default function ProductsPage() {
               viewport={{ once: true, margin: "-40px" }}
               variants={containerVariants}
             >
-              {products.map((product: any) => (
+              {products.map((product) => (
                 <div
-                  key={product._id || product.id || product.slug}
+                  key={product.slug || product.id}
                   className="w-full sm:w-[calc((100%-0.75rem)/2)] lg:w-[calc((100%-2.625rem)/4)] flex"
                 >
                   <ProductCard
@@ -118,7 +140,7 @@ export default function ProductsPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 3. PRODUCT-RELATED FAQ SECTION (BEFORE FOOTER) */}
+      {/* 3. PRODUCT-RELATED FAQ SECTION */}
       {/* ============================================================ */}
       <ProductFaqSection />
 

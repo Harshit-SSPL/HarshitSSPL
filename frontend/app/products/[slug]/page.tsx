@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { ArrowLeft, ChevronRight, CheckCircle2, PhoneCall, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { catalogProducts } from "@/data/products-catalog";
+import { catalogProducts, CatalogProduct } from "@/data/products-catalog";
 import { ProductCard } from "@/components/ui/product-card";
 import { EnquiryModal } from "@/components/ui/enquiry-modal";
 
@@ -26,35 +26,43 @@ export default function ProductDetailPage() {
   const slug = params?.slug as string;
 
   const fallbackProduct = catalogProducts.find((p) => p.slug === slug);
-  const [product, setProduct] = useState<any>(fallbackProduct);
+  const [product, setProduct] = useState<CatalogProduct | undefined>(fallbackProduct);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchProductData = async () => {
       if (!slug) return;
       try {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-        const res = await fetch(`${apiUrl}/products/${slug}`);
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+        const res = await fetch(`${apiUrl}/products/${slug}`, { signal: controller.signal });
+        clearTimeout(timeoutId);
+
         const data = await res.json();
-        if (data.success && data.product) {
+        if (data.success && data.product && fallbackProduct) {
           const apiProd = data.product;
           setProduct({
             ...fallbackProduct,
             ...apiProd,
-            galleryImages: apiProd.designs && apiProd.designs.length > 0
-              ? apiProd.designs.map((d: any) => ({
-                  id: d._id || d.id,
-                  name: d.name,
-                  dayImage: d.dayImage,
-                  nightImage: d.nightImage,
-                  categoryTag: d.specs || "Custom Engineering",
-                }))
-              : fallbackProduct?.galleryImages || [],
+            galleryImages:
+              apiProd.designs && apiProd.designs.length > 0
+                ? apiProd.designs.map((d: any, idx: number) => ({
+                    id: d._id || d.id || `${slug}-${idx}`,
+                    name: d.name,
+                    dayImage: d.dayImage || fallbackProduct.galleryImages[idx % fallbackProduct.galleryImages.length]?.dayImage,
+                    nightImage: d.nightImage,
+                    specs: d.specs || "IP66 Weatherproof • Custom Engineering • ISO Standards",
+                  }))
+                : fallbackProduct.galleryImages,
           });
         }
       } catch (err) {
-        // fallback
+        // Fallback to hardcoded product
+        if (fallbackProduct) setProduct(fallbackProduct);
       }
     };
+
     fetchProductData();
   }, [slug]);
 
@@ -130,33 +138,33 @@ export default function ProductDetailPage() {
             <span className="text-ssil-red">{product.name}</span>
           </div>
 
-          {/* Product Headline */}
-          <h1 className="text-[24px] sm:text-[36px] md:text-[44px] font-black text-white tracking-tight leading-snug drop-shadow-md max-w-3xl">
+          <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block mb-1">
+            SSIL LUMINAIRES &amp; POLES
+          </span>
+
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase leading-tight max-w-4xl drop-shadow-md">
             {product.name}
           </h1>
 
-          {/* Product Specific Tagline */}
-          <p className="mt-2 text-sm sm:text-base md:text-lg text-slate-200 font-semibold max-w-2xl leading-relaxed drop-shadow-xs">
+          <p className="mt-2 text-xs sm:text-sm text-slate-200 font-medium max-w-2xl leading-relaxed drop-shadow-xs">
             {product.tagline}
           </p>
+
         </div>
       </section>
 
       {/* ============================================================ */}
-      {/* 2. PRODUCT INTRODUCTION & SPECIFICATIONS HIGHLIGHTS */}
+      {/* 2. PRODUCT OVERVIEW STRIP */}
       {/* ============================================================ */}
-      <section className="relative z-10 py-12 sm:py-16 bg-slate-50 dark:bg-zinc-950/60 border-b border-slate-200/80 dark:border-zinc-900">
+      <section className="relative z-10 py-10 bg-slate-50 dark:bg-zinc-950 border-b border-slate-200/80 dark:border-zinc-800/80">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             
-            {/* Introduction Copy */}
-            <div className="max-w-3xl border-l-[5px] border-ssil-red pl-4 sm:pl-6">
-              <span className="text-xs font-black uppercase tracking-widest text-ssil-red block mb-1.5">
-                PRODUCT CATEGORY OVERVIEW
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-3">
-                {product.name}
+            {/* Description Narrative */}
+            <div className="max-w-3xl">
+              <h2 className="text-xs font-black uppercase tracking-widest text-ssil-red mb-2">
+                ENGINEERING &amp; APPLICATION OVERVIEW
               </h2>
               <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
                 {product.description}
@@ -210,7 +218,7 @@ export default function ProductDetailPage() {
             </span>
           </div>
 
-          {/* 4 Images per Row Desktop Grid with Automatic Centering for Incomplete Rows */}
+          {/* 4 Images per Row Desktop Grid */}
           <motion.div
             className="w-full flex flex-wrap justify-center gap-2.5 sm:gap-3 lg:gap-3.5"
             initial="hidden"
@@ -218,7 +226,7 @@ export default function ProductDetailPage() {
             viewport={{ once: true, margin: "-40px" }}
             variants={containerVariants}
           >
-            {product.galleryImages.map((item: any) => (
+            {product.galleryImages.map((item) => (
               <div
                 key={item.id}
                 className="w-full sm:w-[calc((100%-0.75rem)/2)] lg:w-[calc((100%-2.625rem)/4)] flex"
@@ -229,7 +237,7 @@ export default function ProductDetailPage() {
                   buttonText="Enquire Now"
                   showArrow={true}
                   enableImageCrossfade={false}
-                  onEnquire={(modelName) => openEnquiry(modelName)}
+                  onEnquire={openEnquiry}
                 />
               </div>
             ))}
@@ -239,48 +247,48 @@ export default function ProductDetailPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 4. B2B ENGINEERING INQUIRY CTA SECTION */}
+      {/* 4. CALL TO ACTION SECTION */}
       {/* ============================================================ */}
-      <section className="relative z-10 py-12 bg-black text-white border-t border-zinc-900">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 sm:p-8 bg-zinc-950 border border-zinc-800 rounded-none">
-            
-            <div className="max-w-2xl">
-              <span className="text-xs font-black uppercase tracking-widest text-ssil-red block mb-1">
-                CUSTOM TENDER &amp; PROJECT SPECIFICATIONS
-              </span>
-              <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-                Need Custom Structural Engineering for {product.name}?
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-400 mt-1 font-normal leading-relaxed">
-                Contact our engineering team for technical photometrics, structural calculations, tender drawings, and customized manufacturing.
-              </p>
-            </div>
+      <section className="relative z-10 py-16 bg-gradient-to-br from-slate-900 via-slate-950 to-black text-white border-t border-slate-800">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl text-center">
+          
+          <span className="text-xs font-black uppercase tracking-widest text-ssil-red block mb-3">
+            NEED A CUSTOM SPECIFICATION?
+          </span>
 
-            <div className="flex flex-wrap items-center gap-3 shrink-0">
-              <Button
-                asChild
-                size="lg"
-                className="bg-ssil-red hover:bg-ssil-red-600 font-bold px-6 text-white text-xs sm:text-sm rounded-none"
-              >
-                <Link href="/contact">
-                  <PhoneCall className="mr-2 h-4 w-4" /> Request Technical Tender Quote
-                </Link>
-              </Button>
-              <Button
-                onClick={() => openEnquiry(`${product.name} (Master Specs)`)}
-                size="lg"
-                className="bg-zinc-900 hover:bg-zinc-800 text-white border border-zinc-700 hover:border-zinc-500 font-bold px-6 text-xs sm:text-sm transition-all duration-200 rounded-none"
-              >
-                <FileText className="mr-2 h-4 w-4 text-ssil-red" /> Download Catalogue Specs
-              </Button>
-            </div>
+          <h2 className="text-2xl sm:text-4xl font-black tracking-tight uppercase mb-4 text-white">
+            Looking for Custom {product.name} Engineering?
+          </h2>
 
+          <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto mb-8 font-medium leading-relaxed">
+            Our engineering team designs custom structural calculations, photometric layouts, and tender-compliant manufacturing drawings tailored for your project requirements.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+            <Button
+              onClick={() => openEnquiry("Custom Specification Request")}
+              className="bg-ssil-red hover:bg-ssil-red-600 text-white font-bold text-xs sm:text-sm px-6 py-3 rounded-none shadow-lg w-full sm:w-auto"
+            >
+              <FileText className="mr-2 h-4 w-4" /> Request Technical Tender Specs
+            </Button>
+
+            <Button
+              asChild
+              variant="outline"
+              className="border-white/20 text-white hover:bg-white/10 font-bold text-xs sm:text-sm px-6 py-3 rounded-none w-full sm:w-auto"
+            >
+              <Link href="/contact">
+                <PhoneCall className="mr-2 h-4 w-4 text-ssil-red" /> Speak with Lighting Engineer
+              </Link>
+            </Button>
           </div>
+
         </div>
       </section>
 
-      {/* Glassmorphic Enquiry Modal with pre-filled Product Category & Product Model ID */}
+      {/* ============================================================ */}
+      {/* 5. ENQUIRY MODAL POPUP */}
+      {/* ============================================================ */}
       <EnquiryModal
         isOpen={enquiryState.isOpen}
         onClose={closeEnquiry}
