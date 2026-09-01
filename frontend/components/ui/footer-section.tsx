@@ -13,7 +13,17 @@ import {
 } from "@/components/ui/tooltip";
 import { Facebook, Linkedin, Send, Twitter, Phone, Mail, MapPin } from "lucide-react";
 
+import { usePathname } from "next/navigation";
+import { ADMIN_BASE_PATH } from "@/lib/admin-api";
+
 export function Footerdemo() {
+  const pathname = usePathname();
+
+  // Hide footer completely on admin portal & admin login
+  if (pathname?.includes("ssil-internal-portal-management-secure-admin-console-2026-auth")) {
+    return null;
+  }
+
   const [footerData, setFooterData] = React.useState({
     corporateOfficeAddress: "Office No- 812A, 814, Puri High Street, Sector 81-121002, Faridabad, Haryana, India",
     factoryAddress: "Plot No. 5, Sector 65, Village Sahupura, Ballabgarh, 121004, Faridabad, Haryana, India",

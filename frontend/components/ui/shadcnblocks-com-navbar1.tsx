@@ -65,6 +65,13 @@ const Navbar1 = ({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const isAdminLogin = pathname?.includes("ssil-internal-portal-management-secure-admin-console-2026-auth/login");
+  const isAdminConsole = pathname?.includes("ssil-internal-portal-management-secure-admin-console-2026-auth") && !isAdminLogin;
+
+  if (isAdminConsole) {
+    return null;
+  }
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -94,45 +101,49 @@ const Navbar1 = ({
                 <span className="text-lg font-black tracking-tight text-white leading-none">
                   SSIL<span className="text-ssil-red">.</span>
                 </span>
-                <span className="text-[9px] font-bold tracking-wider text-slate-200 uppercase mt-0.5">
-                  SHIV SHAKTI INDIA
+                <span className="text-[9px] font-bold tracking-widest text-slate-300 uppercase mt-0.5">
+                  Shiv Shakti India Limited
                 </span>
               </div>
             </Link>
 
-            {/* Menu Links: Active Route is SSIL Red, Hover is SSIL Red (NO Background Box) */}
-            <div className="flex items-center gap-2">
-              {menu.map((item) => {
-                const isActive =
-                  pathname === item.url ||
-                  (item.url !== "/" && pathname?.startsWith(item.url));
+            {/* Menu Links: Hidden on admin login page */}
+            {!isAdminLogin && (
+              <div className="flex items-center gap-2">
+                {menu.map((item) => {
+                  const isActive =
+                    pathname === item.url ||
+                    (item.url !== "/" && pathname?.startsWith(item.url));
 
-                return (
-                  <Link
-                    key={item.title}
-                    className={`inline-flex h-9 items-center justify-center bg-transparent px-3 py-2 text-sm font-semibold transition-colors duration-200 ${
-                      isActive
-                        ? "text-ssil-red font-extrabold"
-                        : "text-white hover:text-ssil-red font-medium"
-                    }`}
-                    href={item.url}
-                  >
-                    {item.title}
-                  </Link>
-                );
-              })}
-            </div>
+                  return (
+                    <Link
+                      key={item.title}
+                      className={`inline-flex h-9 items-center justify-center bg-transparent px-3 py-2 text-sm font-semibold transition-colors duration-200 ${
+                        isActive
+                          ? "text-ssil-red font-extrabold"
+                          : "text-white hover:text-ssil-red font-medium"
+                      }`}
+                      href={item.url}
+                    >
+                      {item.title}
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           {/* Action Buttons & Theme Toggler on Extreme Right Edge */}
           <div className="flex items-center gap-4">
-            <Button
-              asChild
-              size="sm"
-              className="bg-ssil-red hover:bg-red-700 text-white font-extrabold rounded-full px-5 shadow-sm border-0"
-            >
-              <Link href="/contact">Request Quote</Link>
-            </Button>
+            {!isAdminLogin && (
+              <Button
+                asChild
+                size="sm"
+                className="bg-ssil-red hover:bg-red-700 text-white font-extrabold rounded-full px-5 shadow-sm border-0"
+              >
+                <Link href="/contact">Request Quote</Link>
+              </Button>
+            )}
 
             {/* Borderless Theme Toggle Wrapper */}
             <div className="p-0 border-0 bg-transparent flex items-center">
@@ -165,57 +176,59 @@ const Navbar1 = ({
                 <AnimatedThemeToggler />
               </div>
 
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className="text-white hover:text-ssil-red bg-transparent border-0">
-                    <Menu className="size-5 text-white" />
-                  </Button>
-                </SheetTrigger>
-                <SheetContent className="overflow-y-auto bg-slate-950/95 text-white backdrop-blur-xl border-slate-800">
-                  <SheetHeader>
-                    <SheetTitle>
-                      <Link href="/" className="flex items-center gap-2.5">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-sm p-1 border border-slate-200">
-                          <Image
-                            src="/branding/companylogo-ui.png"
-                            alt="Shiv Shakti India Limited Logo"
-                            width={140}
-                            height={35}
-                            className="h-full w-full object-contain"
-                          />
-                        </div>
-                        <span className="text-lg font-black text-white leading-none">
-                          SSIL<span className="text-ssil-red">.</span>
-                        </span>
-                      </Link>
-                    </SheetTitle>
-                  </SheetHeader>
-                  <div className="my-6 flex flex-col gap-4">
-                    {menu.map((item) => {
-                      const isActive =
-                        pathname === item.url ||
-                        (item.url !== "/" && pathname?.startsWith(item.url));
-                      return (
-                        <Link
-                          key={item.title}
-                          href={item.url}
-                          className={`font-bold py-2 block transition-colors ${
-                            isActive ? "text-ssil-red" : "text-white hover:text-ssil-red"
-                          }`}
-                        >
-                          {item.title}
+              {!isAdminLogin && (
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <Button variant="ghost" size="icon" className="text-white hover:text-ssil-red bg-transparent border-0">
+                      <Menu className="size-5 text-white" />
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent className="overflow-y-auto bg-slate-950/95 text-white backdrop-blur-xl border-slate-800">
+                    <SheetHeader>
+                      <SheetTitle>
+                        <Link href="/" className="flex items-center gap-2.5">
+                          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-sm p-1 border border-slate-200">
+                            <Image
+                              src="/branding/companylogo-ui.png"
+                              alt="Shiv Shakti India Limited Logo"
+                              width={140}
+                              height={35}
+                              className="h-full w-full object-contain"
+                            />
+                          </div>
+                          <span className="text-lg font-black text-white leading-none">
+                            SSIL<span className="text-ssil-red">.</span>
+                          </span>
                         </Link>
-                      );
-                    })}
+                      </SheetTitle>
+                    </SheetHeader>
+                    <div className="my-6 flex flex-col gap-4">
+                      {menu.map((item) => {
+                        const isActive =
+                          pathname === item.url ||
+                          (item.url !== "/" && pathname?.startsWith(item.url));
+                        return (
+                          <Link
+                            key={item.title}
+                            href={item.url}
+                            className={`font-bold py-2 block transition-colors ${
+                              isActive ? "text-ssil-red" : "text-white hover:text-ssil-red"
+                            }`}
+                          >
+                            {item.title}
+                          </Link>
+                        );
+                      })}
 
-                    <div className="flex flex-col gap-3 pt-4 border-t border-slate-800">
-                      <Button asChild className="bg-ssil-red hover:bg-red-700 text-white rounded-full">
-                        <Link href="/contact">Request Quote</Link>
-                      </Button>
+                      <div className="flex flex-col gap-3 pt-4 border-t border-slate-800">
+                        <Button asChild className="bg-ssil-red hover:bg-red-700 text-white rounded-full">
+                          <Link href="/contact">Request Quote</Link>
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                </SheetContent>
-              </Sheet>
+                  </SheetContent>
+                </Sheet>
+              )}
             </div>
           </div>
         </div>
