@@ -16,7 +16,7 @@ import {
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { fetchApi, uploadImageFile } from "@/lib/admin-api";
+import { fetchApi, uploadImageFile, ADMIN_BASE_PATH } from "@/lib/admin-api";
 import { catalogProducts } from "@/data/products-catalog";
 
 interface DesignItem {
@@ -61,7 +61,6 @@ export default function AdminProductDesignsPage() {
 
   const loadDesigns = async () => {
     try {
-      // 1. Try fetching from backend API
       const res = await fetchApi(`/products/${productId}/designs/admin`);
       if (res.success && res.product) {
         setProductName(res.product.name);
@@ -69,7 +68,6 @@ export default function AdminProductDesignsPage() {
         return;
       }
 
-      // 2. Fallback check against catalogProducts by slug or ID
       const fallbackProd = catalogProducts.find((p) => p.slug === productId || p.id === productId);
       if (fallbackProd) {
         setProductName(fallbackProd.name);
@@ -104,7 +102,7 @@ export default function AdminProductDesignsPage() {
     setSelectedDesign(design);
     setFormState({
       name: design.name,
-      dayImage: design.dayImage,
+      dayImage: design.dayImage || "/images/products/homepage/product-01/day.png",
       specs: design.specs || "IP66 Weatherproof • Custom Engineering • ISO Standards",
       active: design.active ?? true,
     });
@@ -136,7 +134,8 @@ export default function AdminProductDesignsPage() {
 
     try {
       if (selectedDesign?._id && selectedDesign._id.length > 10) {
-        const res = await fetchApi(`/product-designs/designs/${selectedDesign._id}`, {
+        // Edit existing
+        const res = await fetchApi(`/products/${productId}/designs/${selectedDesign._id}`, {
           method: "PUT",
           body: JSON.stringify(formState),
         });
@@ -144,12 +143,13 @@ export default function AdminProductDesignsPage() {
           setSuccessMsg(`Design "${formState.name}" updated successfully!`);
         }
       } else {
+        // Create new
         const res = await fetchApi(`/products/${productId}/designs`, {
           method: "POST",
-          body: JSON.stringify(formState),
+          body: JSON.stringify({ ...formState, productId }),
         });
         if (res.success) {
-          setSuccessMsg(`Design "${formState.name}" added successfully!`);
+          setSuccessMsg(`Design "${formState.name}" created successfully!`);
         }
       }
 
@@ -168,12 +168,12 @@ export default function AdminProductDesignsPage() {
     setActionLoading(true);
 
     try {
-      const res = await fetchApi(`/product-designs/designs/${selectedDesign._id}`, {
+      const res = await fetchApi(`/products/${productId}/designs/${selectedDesign._id}`, {
         method: "DELETE",
       });
 
       if (res.success) {
-        setSuccessMsg("Design variant deleted successfully.");
+        setSuccessMsg("Design model deleted successfully.");
         setDeleteModalOpen(false);
         await loadDesigns();
         setTimeout(() => setSuccessMsg(null), 4000);
@@ -197,28 +197,23 @@ export default function AdminProductDesignsPage() {
   return (
     <div className="space-y-6">
       
-      {/* Breadcrumb Navigation Back to Products */}
-      <div>
-        <Link
-          href="/admin/products"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-ssil-red transition-colors"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" />
-          <span>Back to Products Master</span>
-        </Link>
-      </div>
-
       {/* Header */}
       <div className="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="text-[11px] font-black uppercase tracking-widest text-ssil-red block mb-1">
-            PRODUCT MODELS &amp; DESIGNS
+          <Link
+            href={`${ADMIN_BASE_PATH}/products`}
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-ssil-red transition-colors mb-2"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" /> Back to Products Master
+          </Link>
+          <span className="text-[11px] font-black uppercase tracking-widest text-ssil-red block mb-0.5">
+            DESIGNS &amp; MODELS CMS
           </span>
           <h1 className="text-2xl font-black uppercase tracking-tight text-slate-900 dark:text-white">
-            {productName} Designs ({designs.length})
+            {productName} — Available Models ({designs.length})
           </h1>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            Manage individual variant cards displayed under &quot;Available Designs&quot; on the public product page.
+            Manage individual design variations, custom images, and specifications for this category.
           </p>
         </div>
 
@@ -227,7 +222,7 @@ export default function AdminProductDesignsPage() {
           className="bg-ssil-red hover:bg-ssil-red-600 text-white font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-md flex items-center gap-2 self-start sm:self-auto"
         >
           <Plus className="h-4 w-4" />
-          Add Design Variant
+          Add New Design
         </Button>
       </div>
 
@@ -240,58 +235,58 @@ export default function AdminProductDesignsPage() {
       )}
 
       {/* Designs Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
-        {designs.map((design, idx) => (
-          <div
-            key={design._id || design.id || idx}
-            className="group p-3 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-xs flex flex-col justify-between text-left hover:border-ssil-red/50 transition-all"
-          >
-            {/* Image Preview */}
-            <div className="aspect-square w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 mb-2.5">
-              <img
-                src={design.dayImage}
-                alt={design.name}
-                className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {designs.map((design, idx) => {
+          const desId = design._id || design.id || String(idx);
+          return (
+            <div
+              key={desId}
+              className="group p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-xs flex flex-col justify-between hover:border-ssil-red/50 transition-all"
+            >
+              {/* Image Preview */}
+              <div className="w-full aspect-[4/3] rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-800 mb-3 relative border border-slate-200/80 dark:border-zinc-700">
+                <img
+                  src={design.dayImage}
+                  alt={design.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
 
-            <div>
-              <span className="text-[11px] sm:text-xs font-black uppercase text-slate-900 dark:text-white line-clamp-1 block">
-                {design.name}
-              </span>
-              <span className="text-[10px] text-slate-400 block line-clamp-1 mt-0.5">
-                {design.specs || "Custom Engineering"}
-              </span>
-            </div>
+              <div>
+                <span className="text-xs font-black uppercase text-slate-900 dark:text-white tracking-tight line-clamp-1">
+                  {design.name}
+                </span>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-2 mt-1">
+                  {design.specs || "Custom Engineering Standard"}
+                </span>
+              </div>
 
-            {/* Action Buttons */}
-            <div className="flex items-center justify-between mt-3 pt-2.5 border-t border-slate-100 dark:border-zinc-800">
-              <span className="text-[10px] font-bold text-ssil-red">
-                Model #{String(idx + 1).padStart(2, "0")}
-              </span>
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={() => openEditModal(design)}
-                  className="p-1 rounded-md text-slate-500 hover:text-ssil-red hover:bg-slate-100 dark:hover:bg-zinc-800"
-                  title="Edit Design"
-                >
-                  <Edit2 className="h-3 w-3" />
-                </button>
-                <button
-                  onClick={() => {
-                    setSelectedDesign(design);
-                    setDeleteModalOpen(true);
-                  }}
-                  className="p-1 rounded-md text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40"
-                  title="Delete Design"
-                >
-                  <Trash2 className="h-3 w-3" />
-                </button>
+              {/* Action Buttons */}
+              <div className="flex items-center justify-between pt-3 mt-3 border-t border-slate-100 dark:border-zinc-800">
+                <span className="text-[10px] font-mono text-slate-400">#{idx + 1}</span>
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => openEditModal(design)}
+                    className="p-1.5 rounded-lg text-slate-500 hover:text-ssil-red hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors"
+                    title="Edit Design"
+                  >
+                    <Edit2 className="h-3.5 w-3.5" />
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSelectedDesign(design);
+                      setDeleteModalOpen(true);
+                    }}
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors"
+                    title="Delete Design"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
+                </div>
               </div>
             </div>
-
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Add / Edit Design Modal */}
@@ -316,48 +311,54 @@ export default function AdminProductDesignsPage() {
             )}
 
             <form onSubmit={handleSaveDesign} className="space-y-4">
+              
               <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Design / Model Name</label>
+                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Model / Variant Name</label>
                 <input
                   type="text"
                   required
                   value={formState.name}
                   onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                  placeholder="e.g. Luminaire Model 01"
+                  placeholder="e.g. Model 01 / Type-A"
                   className="w-full px-3.5 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs sm:text-sm font-bold"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Design Image</label>
-                <div className="flex items-center gap-3">
-                  <div className="h-16 w-16 rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-800 border shrink-0">
-                    <img src={formState.dayImage} alt="Design" className="h-full w-full object-cover" />
-                  </div>
-                  <label className="flex-1 cursor-pointer flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border border-dashed border-slate-300 dark:border-zinc-700 hover:border-ssil-red bg-slate-50 dark:bg-zinc-800 text-xs font-bold text-slate-600 dark:text-slate-300">
-                    {uploadingImage ? (
-                      <Loader2 className="h-4 w-4 animate-spin text-ssil-red" />
-                    ) : (
-                      <Upload className="h-4 w-4 text-ssil-red" />
-                    )}
-                    <span>{uploadingImage ? "Uploading..." : "Upload Cloudinary Image"}</span>
-                    <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-                  </label>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Specs / Badges</label>
+                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Technical Specs &amp; Highlights</label>
                 <input
                   type="text"
                   value={formState.specs}
                   onChange={(e) => setFormState({ ...formState, specs: e.target.value })}
-                  placeholder="IP66 Weatherproof • Custom Engineering"
+                  placeholder="e.g. IP66 Weatherproof • 60W-250W • ISO Certified"
                   className="w-full px-3.5 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-medium"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-2 border-t border-slate-100 dark:border-zinc-800">
+              <div>
+                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Design Image (Cloudinary)</label>
+                
+                <div className="h-28 rounded-xl bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 p-2 flex items-center justify-center mb-2 overflow-hidden">
+                  <img src={formState.dayImage} alt="Design" className="max-h-full max-w-full object-cover" />
+                </div>
+
+                <label className="cursor-pointer flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-dashed border-slate-300 dark:border-zinc-700 hover:border-ssil-red bg-slate-50 dark:bg-zinc-800 text-xs font-bold text-slate-600 dark:text-slate-300">
+                  {uploadingImage ? (
+                    <>
+                      <Loader2 className="h-3.5 w-3.5 animate-spin text-ssil-red" />
+                      <span>Uploading to Cloudinary...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="h-3.5 w-3.5 text-ssil-red" />
+                      <span>Upload Design Image</span>
+                    </>
+                  )}
+                  <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+                </label>
+              </div>
+
+              <div className="flex justify-end gap-2 pt-3 border-t border-slate-100 dark:border-zinc-800">
                 <Button
                   type="button"
                   variant="outline"
@@ -374,6 +375,7 @@ export default function AdminProductDesignsPage() {
                   {actionLoading ? "Saving..." : "Save Design"}
                 </Button>
               </div>
+
             </form>
 
           </div>
@@ -387,9 +389,9 @@ export default function AdminProductDesignsPage() {
             <div className="w-12 h-12 rounded-2xl bg-red-50 dark:bg-red-950/60 text-red-600 flex items-center justify-center mx-auto mb-3">
               <Trash2 className="h-6 w-6" />
             </div>
-            <h3 className="text-base font-black uppercase text-slate-900 dark:text-white">Delete Design Variant?</h3>
+            <h3 className="text-base font-black uppercase text-slate-900 dark:text-white">Delete Design?</h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-5">
-              Are you sure you want to remove <strong>{selectedDesign.name}</strong> from this product catalogue?
+              Are you sure you want to remove <strong>{selectedDesign.name}</strong> from {productName}?
             </p>
             <div className="flex justify-center gap-2">
               <Button

@@ -57,7 +57,6 @@ export default function AdminNationalProjectsPage() {
       if (res.success && Array.isArray(res.projects) && res.projects.length > 0) {
         setProjects(res.projects);
       } else {
-        // Use initial fallback list
         setProjects(clientCompanies.map((c, i) => ({ ...c, logoUrl: c.logoUrl || "", _id: c.id, order: i, active: true })));
       }
     } catch (e) {
@@ -124,7 +123,6 @@ export default function AdminNationalProjectsPage() {
 
     try {
       if (selectedProject?._id && selectedProject._id.length > 10) {
-        // Edit existing in DB
         const res = await fetchApi(`/national-projects/${selectedProject._id}`, {
           method: "PUT",
           body: JSON.stringify(formState),
@@ -133,7 +131,6 @@ export default function AdminNationalProjectsPage() {
           setSuccessMsg(`Project "${formState.name}" updated successfully across Home & About Us!`);
         }
       } else {
-        // Create new
         const res = await fetchApi("/national-projects", {
           method: "POST",
           body: JSON.stringify(formState),

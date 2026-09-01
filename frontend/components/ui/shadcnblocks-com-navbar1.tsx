@@ -126,19 +126,12 @@ const Navbar1 = ({
 
           {/* Action Buttons & Theme Toggler on Extreme Right Edge */}
           <div className="flex items-center gap-4">
-            <Link
-              href={auth.signup.url}
-              className="text-sm font-semibold text-white hover:text-ssil-red transition-colors px-2 py-1"
-            >
-              {auth.signup.text}
-            </Link>
-
             <Button
               asChild
               size="sm"
               className="bg-ssil-red hover:bg-red-700 text-white font-extrabold rounded-full px-5 shadow-sm border-0"
             >
-              <Link href={auth.login.url}>{auth.login.text}</Link>
+              <Link href="/contact">Request Quote</Link>
             </Button>
 
             {/* Borderless Theme Toggle Wrapper */}
@@ -216,11 +209,8 @@ const Navbar1 = ({
                     })}
 
                     <div className="flex flex-col gap-3 pt-4 border-t border-slate-800">
-                      <Button asChild variant="ghost" className="text-white hover:text-ssil-red justify-start px-0">
-                        <Link href={auth.signup.url}>{auth.signup.text}</Link>
-                      </Button>
                       <Button asChild className="bg-ssil-red hover:bg-red-700 text-white rounded-full">
-                        <Link href={auth.login.url}>{auth.login.text}</Link>
+                        <Link href="/contact">Request Quote</Link>
                       </Button>
                     </div>
                   </div>

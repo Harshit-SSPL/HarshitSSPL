@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { fetchApi } from "@/lib/admin-api";
+import { fetchApi, ADMIN_BASE_PATH } from "@/lib/admin-api";
 
 interface AdminUser {
   id: string;
@@ -72,7 +72,7 @@ export const AdminAuthProvider = ({ children }: { children: React.ReactNode }) =
     } finally {
       localStorage.removeItem("ssil_admin_token");
       setAdmin(null);
-      router.push("/admin/login");
+      router.push(`${ADMIN_BASE_PATH}/login`);
     }
   };
 

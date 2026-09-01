@@ -12,7 +12,7 @@ import {
   ShieldCheck,
   Zap,
 } from "lucide-react";
-import { fetchApi } from "@/lib/admin-api";
+import { fetchApi, ADMIN_BASE_PATH } from "@/lib/admin-api";
 
 export default function AdminDashboardPage() {
   const [stats, setStats] = useState({
@@ -49,7 +49,6 @@ export default function AdminDashboardPage() {
           statsLoaded: true,
         });
       } catch (e) {
-        // use fallback initial numbers
         setStats((prev) => ({ ...prev, statsLoaded: true }));
       }
     };
@@ -64,7 +63,7 @@ export default function AdminDashboardPage() {
       <div className="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-[11px] font-black uppercase tracking-widest text-ssil-red block mb-1">
-            SSIL CMS DASHBOARD
+            SSIL SECURE CMS CONSOLE
           </span>
           <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-slate-900 dark:text-white">
             Overview &amp; Content Management
@@ -150,7 +149,7 @@ export default function AdminDashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           
           <Link
-            href="/admin/products"
+            href={`${ADMIN_BASE_PATH}/products`}
             className="group p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 hover:border-ssil-red/60 shadow-xs transition-all flex flex-col justify-between"
           >
             <div>
@@ -171,7 +170,7 @@ export default function AdminDashboardPage() {
           </Link>
 
           <Link
-            href="/admin/national-projects"
+            href={`${ADMIN_BASE_PATH}/national-projects`}
             className="group p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 hover:border-ssil-red/60 shadow-xs transition-all flex flex-col justify-between"
           >
             <div>
@@ -192,7 +191,7 @@ export default function AdminDashboardPage() {
           </Link>
 
           <Link
-            href="/admin/home"
+            href={`${ADMIN_BASE_PATH}/home`}
             className="group p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 hover:border-ssil-red/60 shadow-xs transition-all flex flex-col justify-between"
           >
             <div>
@@ -213,7 +212,7 @@ export default function AdminDashboardPage() {
           </Link>
 
           <Link
-            href="/admin/about"
+            href={`${ADMIN_BASE_PATH}/about`}
             className="group p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 hover:border-ssil-red/60 shadow-xs transition-all flex flex-col justify-between"
           >
             <div>
@@ -234,7 +233,7 @@ export default function AdminDashboardPage() {
           </Link>
 
           <Link
-            href="/admin/footer"
+            href={`${ADMIN_BASE_PATH}/footer`}
             className="group p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 hover:border-ssil-red/60 shadow-xs transition-all flex flex-col justify-between"
           >
             <div>

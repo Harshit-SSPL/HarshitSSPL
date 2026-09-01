@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Save, Loader2, CheckCircle2, Layers, Building2, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { fetchApi } from "@/lib/admin-api";
+import { fetchApi, ADMIN_BASE_PATH } from "@/lib/admin-api";
 
 export default function AdminAboutPage() {
   const [loading, setLoading] = useState(true);
@@ -105,7 +105,7 @@ export default function AdminAboutPage() {
           </div>
         </div>
         <Button asChild size="sm" variant="outline" className="text-xs font-bold rounded-xl shrink-0">
-          <Link href="/admin/national-projects">
+          <Link href={`${ADMIN_BASE_PATH}/national-projects`}>
             <span>Manage Projects</span>
             <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
           </Link>

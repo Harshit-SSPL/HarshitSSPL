@@ -16,7 +16,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { fetchApi, uploadImageFile } from "@/lib/admin-api";
+import { fetchApi, uploadImageFile, ADMIN_BASE_PATH } from "@/lib/admin-api";
 import { catalogProducts } from "@/data/products-catalog";
 
 interface ProductItem {
@@ -73,7 +73,6 @@ export default function AdminProductsPage() {
       if (res.success && Array.isArray(res.products) && res.products.length > 0) {
         setProducts(res.products);
       } else {
-        // Fallback to local catalog
         setProducts(catalogProducts.map((p, i) => ({ ...p, _id: p.id, order: i, active: true })));
       }
     } catch (e) {
@@ -110,8 +109,8 @@ export default function AdminProductsPage() {
       slug: product.slug,
       tagline: product.tagline || "",
       description: product.description || "",
-      dayImage: product.dayImage,
-      nightImage: product.nightImage || "",
+      dayImage: product.dayImage || "/images/products/homepage/product-01/day.png",
+      nightImage: product.nightImage || "/images/products/homepage/product-01/night.png",
       heroImage: product.heroImage || "/products/products-hero.png",
       active: product.active ?? true,
     });
@@ -125,6 +124,7 @@ export default function AdminProductsPage() {
 
     setUploadingDay(true);
     setErrorMsg(null);
+
     try {
       const uploaded = await uploadImageFile(file, "ssil_products_day");
       setFormState((prev) => ({ ...prev, dayImage: uploaded.url }));
@@ -141,47 +141,44 @@ export default function AdminProductsPage() {
 
     setUploadingNight(true);
     setErrorMsg(null);
+
     try {
       const uploaded = await uploadImageFile(file, "ssil_products_night");
       setFormState((prev) => ({ ...prev, nightImage: uploaded.url }));
     } catch (err: any) {
-      setErrorMsg(err.message || "Failed to upload night image.");
+      setErrorMsg(err.message || "Failed to upload nighttime image.");
     } finally {
       setUploadingNight(false);
     }
   };
 
-  const handleSave = async (e: React.FormEvent) => {
+  const handleSaveProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     setActionLoading(true);
     setErrorMsg(null);
 
-    // Auto-generate slug if blank
-    const cleanSlug = formState.slug
-      ? formState.slug.toLowerCase().trim()
-      : formState.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-
-    const payload = {
-      ...formState,
-      slug: cleanSlug,
-    };
-
     try {
+      // Auto-generate slug if empty
+      const slugVal = formState.slug || formState.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+      const payload = { ...formState, slug: slugVal };
+
       if (selectedProduct?._id && selectedProduct._id.length > 10) {
+        // Update existing
         const res = await fetchApi(`/products/${selectedProduct._id}`, {
           method: "PUT",
           body: JSON.stringify(payload),
         });
         if (res.success) {
-          setSuccessMsg(`Product "${payload.name}" updated successfully!`);
+          setSuccessMsg(`Product "${formState.name}" updated successfully!`);
         }
       } else {
+        // Create new
         const res = await fetchApi("/products", {
           method: "POST",
           body: JSON.stringify(payload),
         });
         if (res.success) {
-          setSuccessMsg(`Product "${payload.name}" created successfully!`);
+          setSuccessMsg(`Product "${formState.name}" created successfully!`);
         }
       }
 
@@ -205,7 +202,7 @@ export default function AdminProductsPage() {
       });
 
       if (res.success) {
-        setSuccessMsg("Product and associated design variants deleted successfully.");
+        setSuccessMsg("Product deleted successfully.");
         setDeleteModalOpen(false);
         await loadProducts();
         setTimeout(() => setSuccessMsg(null), 4000);
@@ -221,7 +218,7 @@ export default function AdminProductsPage() {
     return (
       <div className="p-12 flex flex-col items-center justify-center">
         <Loader2 className="h-8 w-8 text-ssil-red animate-spin mb-3" />
-        <span className="text-xs font-bold text-slate-500 uppercase">Loading Products Catalog...</span>
+        <span className="text-xs font-bold text-slate-500 uppercase">Loading Products Master...</span>
       </div>
     );
   }
@@ -233,13 +230,13 @@ export default function AdminProductsPage() {
       <div className="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-[11px] font-black uppercase tracking-widest text-ssil-red block mb-1">
-            PRODUCTS CMS
+            CATALOGUE MASTER CMS
           </span>
           <h1 className="text-2xl font-black uppercase tracking-tight text-slate-900 dark:text-white">
-            Products Master Catalog
+            Products &amp; Solutions Manager
           </h1>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            Manage all 18+ official product categories, day/night image assets, and individual model designs.
+            Manage all 18 product categories, route slugs, daytime &amp; nighttime imagery, and design models.
           </p>
         </div>
 
@@ -248,7 +245,7 @@ export default function AdminProductsPage() {
           className="bg-ssil-red hover:bg-ssil-red-600 text-white font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-md flex items-center gap-2 self-start sm:self-auto"
         >
           <Plus className="h-4 w-4" />
-          Add New Product
+          Add Product Category
         </Button>
       </div>
 
@@ -261,93 +258,93 @@ export default function AdminProductsPage() {
       )}
 
       {/* Products Table */}
-      <div className="rounded-3xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 overflow-hidden shadow-xs">
+      <div className="rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse text-xs">
-            <thead>
-              <tr className="bg-slate-900 text-white text-[11px] font-extrabold uppercase tracking-wider border-b border-slate-800">
-                <th className="py-3 px-4 w-12 text-center">#</th>
-                <th className="py-3 px-4 w-16">Preview</th>
-                <th className="py-3 px-4">Product Name</th>
-                <th className="py-3 px-4">Route Slug</th>
-                <th className="py-3 px-4 text-center">Designs</th>
-                <th className="py-3 px-4 text-center">Status</th>
-                <th className="py-3 px-4 text-end">Actions</th>
+          <table className="w-full text-left text-xs">
+            <thead className="bg-slate-50 dark:bg-zinc-800/60 text-slate-500 dark:text-zinc-400 font-extrabold uppercase border-b border-slate-200 dark:border-zinc-800">
+              <tr>
+                <th className="py-3.5 px-4 w-12">#</th>
+                <th className="py-3.5 px-4">Product Name</th>
+                <th className="py-3.5 px-4">Slug Route</th>
+                <th className="py-3.5 px-4">Day / Night Images</th>
+                <th className="py-3.5 px-4">Designs</th>
+                <th className="py-3.5 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-zinc-800 font-medium text-slate-800 dark:text-slate-200">
-              {products.map((product, idx) => (
-                <tr
-                  key={product._id || product.id || idx}
-                  className="hover:bg-slate-50 dark:hover:bg-zinc-800/60 transition-colors"
-                >
-                  <td className="py-3 px-4 text-center font-bold text-slate-400">
-                    {idx + 1}
-                  </td>
-                  <td className="py-2.5 px-4">
-                    <div className="h-10 w-10 rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700">
-                      <img
-                        src={product.dayImage}
-                        alt={product.name}
-                        className="h-full w-full object-cover"
-                      />
-                    </div>
-                  </td>
-                  <td className="py-3 px-4">
-                    <div className="font-black text-slate-900 dark:text-white uppercase tracking-tight text-xs sm:text-sm">
-                      {product.name}
-                    </div>
-                    <span className="text-[11px] text-slate-500 line-clamp-1 max-w-sm">
-                      {product.tagline || product.description}
-                    </span>
-                  </td>
-                  <td className="py-3 px-4 font-mono text-[11px] text-slate-500">
-                    /products/{product.slug}
-                  </td>
-                  <td className="py-3 px-4 text-center">
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 dark:bg-blue-950/60 text-blue-600">
-                      {product.designCount || 0} Models
-                    </span>
-                  </td>
-                  <td className="py-3 px-4 text-center">
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600">
-                      Active
-                    </span>
-                  </td>
-                  <td className="py-3 px-4 text-end space-x-1">
-                    <Button
-                      asChild
-                      size="sm"
-                      variant="outline"
-                      className="text-[11px] font-bold h-7 px-2.5 rounded-lg border-slate-200 dark:border-zinc-700 hover:bg-ssil-red hover:text-white hover:border-ssil-red transition-all"
-                    >
-                      <Link href={`/admin/products/${product._id || product.slug}/designs`}>
-                        <Layers className="mr-1 h-3.5 w-3.5" />
-                        Manage Designs
+            <tbody className="divide-y divide-slate-100 dark:divide-zinc-800 font-medium">
+              {products.map((product, idx) => {
+                const prodId = product._id || product.id || String(idx);
+                return (
+                  <tr key={prodId} className="hover:bg-slate-50/80 dark:hover:bg-zinc-800/40 transition-colors">
+                    <td className="py-3.5 px-4 font-bold text-slate-400">
+                      {idx + 1}
+                    </td>
+
+                    <td className="py-3.5 px-4 font-black uppercase text-slate-900 dark:text-white">
+                      <div className="flex items-center gap-2">
+                        <span>{product.name}</span>
+                        <Link
+                          href={`/products/${product.slug}`}
+                          target="_blank"
+                          className="text-slate-400 hover:text-ssil-red"
+                          title="View Live Page"
+                        >
+                          <ExternalLink className="h-3 w-3" />
+                        </Link>
+                      </div>
+                    </td>
+
+                    <td className="py-3.5 px-4 font-mono text-[11px] text-slate-500">
+                      /products/{product.slug}
+                    </td>
+
+                    <td className="py-3.5 px-4">
+                      <div className="flex items-center gap-2">
+                        <div className="h-9 w-9 rounded-lg overflow-hidden border border-slate-200 dark:border-zinc-700 bg-slate-100 dark:bg-zinc-800 flex items-center justify-center">
+                          <img src={product.dayImage} alt="Day" className="h-full w-full object-cover" />
+                        </div>
+                        {product.nightImage && (
+                          <div className="h-9 w-9 rounded-lg overflow-hidden border border-slate-200 dark:border-zinc-700 bg-slate-900 flex items-center justify-center">
+                            <img src={product.nightImage} alt="Night" className="h-full w-full object-cover" />
+                          </div>
+                        )}
+                      </div>
+                    </td>
+
+                    <td className="py-3.5 px-4">
+                      <Link
+                        href={`${ADMIN_BASE_PATH}/products/${prodId}/designs`}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-bold hover:bg-blue-100 transition-colors"
+                      >
+                        <Layers className="h-3.5 w-3.5" />
+                        <span>Manage Designs</span>
                       </Link>
-                    </Button>
+                    </td>
 
-                    <button
-                      onClick={() => openEditModal(product)}
-                      className="p-1.5 rounded-lg text-slate-500 hover:text-ssil-red hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors"
-                      title="Edit Product"
-                    >
-                      <Edit2 className="h-3.5 w-3.5" />
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        setSelectedProduct(product);
-                        setDeleteModalOpen(true);
-                      }}
-                      className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors"
-                      title="Delete Product"
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                    <td className="py-3.5 px-4 text-right">
+                      <div className="flex items-center justify-end gap-1">
+                        <button
+                          onClick={() => openEditModal(product)}
+                          className="p-1.5 rounded-lg text-slate-500 hover:text-ssil-red hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors"
+                          title="Edit Category"
+                        >
+                          <Edit2 className="h-4 w-4" />
+                        </button>
+                        <button
+                          onClick={() => {
+                            setSelectedProduct(product);
+                            setDeleteModalOpen(true);
+                          }}
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors"
+                          title="Delete Category"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -360,7 +357,7 @@ export default function AdminProductsPage() {
             
             <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-zinc-800 mb-4">
               <h3 className="text-base font-black uppercase tracking-tight text-slate-900 dark:text-white">
-                {selectedProduct ? "Edit Product Details" : "Add New Product Category"}
+                {selectedProduct ? "Edit Product Category" : "Add New Product Category"}
               </h3>
               <button onClick={() => setModalOpen(false)} className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800">
                 <X className="h-5 w-5" />
@@ -374,27 +371,28 @@ export default function AdminProductsPage() {
               </div>
             )}
 
-            <form onSubmit={handleSave} className="space-y-4">
+            <form onSubmit={handleSaveProduct} className="space-y-4">
+              
               <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Product Category Name</label>
+                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Product Name</label>
                 <input
                   type="text"
                   required
                   value={formState.name}
                   onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                  placeholder="e.g. Smart Solar Lighting"
+                  placeholder="e.g. Smart CCTV Camera Poles"
                   className="w-full px-3.5 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs sm:text-sm font-bold"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Route Slug</label>
+                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Route Slug (/products/[slug])</label>
                 <input
                   type="text"
                   value={formState.slug}
                   onChange={(e) => setFormState({ ...formState, slug: e.target.value })}
-                  placeholder="e.g. smart-solar-lighting"
-                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs sm:text-sm font-mono"
+                  placeholder="e.g. camera-poles (auto-generated if empty)"
+                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-mono"
                 />
               </div>
 
@@ -404,52 +402,54 @@ export default function AdminProductsPage() {
                   type="text"
                   value={formState.tagline}
                   onChange={(e) => setFormState({ ...formState, tagline: e.target.value })}
-                  placeholder="e.g. Autonomous high-lumen solar illumination for expressways."
+                  placeholder="Brief high-level description"
                   className="w-full px-3.5 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-medium"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Description</label>
+                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Detailed Description</label>
                 <textarea
                   rows={3}
                   value={formState.description}
                   onChange={(e) => setFormState({ ...formState, description: e.target.value })}
-                  className="w-full p-3 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-medium"
+                  placeholder="Engineering and specification overview"
+                  className="w-full p-3 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-medium leading-relaxed"
                 />
               </div>
 
-              {/* Day Image Upload */}
-              <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Daytime Product Image</label>
-                <div className="flex items-center gap-3">
-                  <div className="h-14 w-14 rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-800 border shrink-0">
-                    <img src={formState.dayImage} alt="Day" className="h-full w-full object-cover" />
+              {/* Day & Night Images */}
+              <div className="grid grid-cols-2 gap-3 pt-2">
+                
+                {/* Daytime Image */}
+                <div>
+                  <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Daytime Image (Cloudinary)</label>
+                  <div className="h-20 rounded-xl bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 p-2 flex items-center justify-center mb-2 overflow-hidden">
+                    <img src={formState.dayImage} alt="Day" className="max-h-full max-w-full object-cover" />
                   </div>
-                  <label className="flex-1 cursor-pointer flex items-center justify-center gap-2 px-3 py-2 rounded-xl border border-dashed border-slate-300 dark:border-zinc-700 hover:border-ssil-red bg-slate-50 dark:bg-zinc-800 text-xs font-bold">
+                  <label className="cursor-pointer flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-dashed border-slate-300 dark:border-zinc-700 hover:border-ssil-red bg-slate-50 dark:bg-zinc-800 text-[11px] font-bold text-slate-600 dark:text-slate-300">
                     {uploadingDay ? <Loader2 className="h-3.5 w-3.5 animate-spin text-ssil-red" /> : <Upload className="h-3.5 w-3.5 text-ssil-red" />}
-                    <span>Upload Daytime Image</span>
+                    <span>Upload Day Image</span>
                     <input type="file" accept="image/*" onChange={handleDayImageUpload} className="hidden" />
                   </label>
                 </div>
-              </div>
 
-              {/* Night Image Upload */}
-              <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Nighttime Glow Image (Hover)</label>
-                <div className="flex items-center gap-3">
-                  <div className="h-14 w-14 rounded-xl overflow-hidden bg-slate-950 border shrink-0">
-                    <img src={formState.nightImage} alt="Night" className="h-full w-full object-cover" />
+                {/* Nighttime Image */}
+                <div>
+                  <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Nighttime Image (Cloudinary)</label>
+                  <div className="h-20 rounded-xl bg-slate-900 border border-slate-700 p-2 flex items-center justify-center mb-2 overflow-hidden">
+                    <img src={formState.nightImage} alt="Night" className="max-h-full max-w-full object-cover" />
                   </div>
-                  <label className="flex-1 cursor-pointer flex items-center justify-center gap-2 px-3 py-2 rounded-xl border border-dashed border-slate-300 dark:border-zinc-700 hover:border-ssil-red bg-slate-50 dark:bg-zinc-800 text-xs font-bold">
+                  <label className="cursor-pointer flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-dashed border-slate-300 dark:border-zinc-700 hover:border-ssil-red bg-slate-50 dark:bg-zinc-800 text-[11px] font-bold text-slate-600 dark:text-slate-300">
                     {uploadingNight ? <Loader2 className="h-3.5 w-3.5 animate-spin text-ssil-red" /> : <Upload className="h-3.5 w-3.5 text-ssil-red" />}
                     <span>Upload Night Image</span>
                     <input type="file" accept="image/*" onChange={handleNightImageUpload} className="hidden" />
                   </label>
                 </div>
+
               </div>
 
-              <div className="flex justify-end gap-2 pt-2 border-t border-slate-100 dark:border-zinc-800">
+              <div className="flex justify-end gap-2 pt-4 border-t border-slate-100 dark:border-zinc-800">
                 <Button
                   type="button"
                   variant="outline"
@@ -463,7 +463,7 @@ export default function AdminProductsPage() {
                   disabled={actionLoading || uploadingDay || uploadingNight}
                   className="bg-ssil-red hover:bg-ssil-red-600 text-white text-xs font-bold rounded-xl"
                 >
-                  {actionLoading ? "Saving..." : "Save Product"}
+                  {actionLoading ? "Saving..." : "Save Product Category"}
                 </Button>
               </div>
             </form>
@@ -479,9 +479,9 @@ export default function AdminProductsPage() {
             <div className="w-12 h-12 rounded-2xl bg-red-50 dark:bg-red-950/60 text-red-600 flex items-center justify-center mx-auto mb-3">
               <Trash2 className="h-6 w-6" />
             </div>
-            <h3 className="text-base font-black uppercase text-slate-900 dark:text-white">Delete Product Category?</h3>
+            <h3 className="text-base font-black uppercase text-slate-900 dark:text-white">Delete Product?</h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-5">
-              Are you sure you want to remove <strong>{selectedProduct.name}</strong> and all of its associated design variants?
+              Are you sure you want to delete <strong>{selectedProduct.name}</strong> and all its associated designs?
             </p>
             <div className="flex justify-center gap-2">
               <Button
