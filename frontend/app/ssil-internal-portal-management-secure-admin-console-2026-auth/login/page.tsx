@@ -155,12 +155,7 @@ export default function AdminLoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      router.push(ADMIN_BASE_PATH);
-    }
-  }, [isAuthenticated, router]);
-
+  // When visiting the login page directly, allow user to input credentials
   useEffect(() => {
     if (typeof window !== "undefined") {
       if ("scrollRestoration" in window.history) {
