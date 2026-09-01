@@ -23,6 +23,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'lftz25oez4aqbxpq.public.blob.vercel-storage.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
       }
     ],
   },
