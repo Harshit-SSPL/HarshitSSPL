@@ -8,22 +8,17 @@ import {
   ArrowLeft,
   ChevronRight,
   FileText,
-  ArrowRight,
   CheckCircle2,
   Sun,
   Zap,
   ShieldCheck,
   Cpu,
   Layers,
-  Activity,
-  Download,
-  Building2,
+  Radio,
   Factory,
+  Building2,
   Car,
   Landmark,
-  Radio,
-  Gauge,
-  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EnquiryModal } from "@/components/ui/enquiry-modal";
@@ -48,6 +43,27 @@ const childVariants = {
   },
 };
 
+interface SolarSpecRow {
+  parameter: string;
+  specification: string;
+}
+
+const solarTechnicalSpecs: SolarSpecRow[] = [
+  { parameter: "System Configuration", specification: "On-Grid / Hybrid / Utility-Scale Ground & Rooftop Solar" },
+  { parameter: "Solar PV Module Technology", specification: "Tier-1 Mono PERC / TOPCon Bifacial High-Efficiency PV" },
+  { parameter: "Module Power Rating", specification: "540 Wp – 660 Wp+ (Module Efficiency ≥ 21.8%)" },
+  { parameter: "Inverter Technology", specification: "Multi-MPPT Grid-Interactive String & Central Inverters" },
+  { parameter: "Inverter Efficiency", specification: "≥ 98.8% Peak Efficiency with Dynamic MPPT Tracking" },
+  { parameter: "Module Mounting Structure (MMS)", specification: "Custom Engineered Structural Steel (IS 2062) / Anodized Al" },
+  { parameter: "Galvanizing Protection", specification: "Minimum 80 Micron Hot-Dip Galvanized (IS 4759 / ISO 1461)" },
+  { parameter: "Wind Speed Resistance", specification: "Certified Up to 170+ km/h (As per IS 875 Part 3)" },
+  { parameter: "System Safety & Protection", specification: "Type 1+2 DC/AC Surge Protection (SPD) & ESE Lightning Arrester" },
+  { parameter: "Earthing System", specification: "Dedicated Maintenance-Free Chemical Earthing Pits (< 1.0 Ω)" },
+  { parameter: "Monitoring & SCADA", specification: "Cloud-Based Real-Time IoT Telemetry & String-Level Diagnostics" },
+  { parameter: "Grid Integration", specification: "DISCOM Net-Metering Compliant & CEIG Safety Certified" },
+  { parameter: "Performance Warranty", specification: "25-Year Linear Power Output Warranty (Tier-1 Standard)" },
+];
+
 export default function SolarPowerPlantsPage() {
   const [enquiryState, setEnquiryState] = useState<{
     isOpen: boolean;
@@ -70,51 +86,6 @@ export default function SolarPowerPlantsPage() {
   const closeEnquiry = () => {
     setEnquiryState((prev) => ({ ...prev, isOpen: false }));
   };
-
-  const architectureSteps = [
-    {
-      step: "01",
-      title: "Solar PV Array",
-      desc: "High-efficiency Tier-1 Mono PERC & Bifacial solar panels capturing solar irradiance.",
-      icon: Sun,
-      spec: "540Wp–660Wp+ Modules • 21.8%+ Efficiency",
-    },
-    {
-      step: "02",
-      title: "DC Combiner & SPDs",
-      desc: "Weatherproof IP65 DCDB with Class II surge protection and fuse isolation.",
-      icon: Layers,
-      spec: "1000V/1500V DC Rating • IP65 Weatherproof",
-    },
-    {
-      step: "03",
-      title: "Multi-MPPT Inverter",
-      desc: "Grid-interactive string/central inverters converting DC into synchronous 3-phase AC.",
-      icon: Cpu,
-      spec: "98.8%+ Peak Efficiency • Dynamic MPPT Tracking",
-    },
-    {
-      step: "04",
-      title: "AC Distribution & LT Panel",
-      desc: "Precision switchgear with motorized breakers, power meters, and isolation relays.",
-      icon: Zap,
-      spec: "415V / 11kV / 33kV Integration • Fault Isolation",
-    },
-    {
-      step: "05",
-      title: "Bi-Directional Net Meter",
-      desc: "DISCOM-certified bidirectional smart metering logging import and export kWh units.",
-      icon: Gauge,
-      spec: "Class 0.2s Accuracy • Net Metering Compliant",
-    },
-    {
-      step: "06",
-      title: "Facility Load & State Grid",
-      desc: "Instant zero-carbon power to facility loads with surplus energy fed back into the grid.",
-      icon: Building2,
-      spec: "25-Year Guaranteed Yield • Zero-Carbon Energy",
-    },
-  ];
 
   const components = [
     {
@@ -283,11 +254,6 @@ export default function SolarPowerPlantsPage() {
             <motion.div variants={childVariants} className="lg:col-span-7 space-y-5 text-left flex flex-col justify-center">
               
               <div className="space-y-3.5">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-black uppercase tracking-wider">
-                  <Sparkles className="h-3.5 w-3.5" />
-                  Turnkey Solar EPC Solutions
-                </div>
-
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.05]">
                   COMMERCIAL SOLAR <br />
                   <span className="text-ssil-red">POWER PLANTS.</span>
@@ -328,17 +294,6 @@ export default function SolarPowerPlantsPage() {
                   <FileText className="mr-2 h-4 w-4" />
                   Request Technical Quotation
                 </Button>
-
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="border-slate-300 dark:border-zinc-800 hover:bg-slate-100 dark:hover:bg-zinc-900 font-bold px-6 py-3 rounded-full text-xs sm:text-sm transition-all"
-                >
-                  <Link href="#system-architecture">
-                    <span>Explore Architecture Diagram</span>
-                  </Link>
-                </Button>
               </div>
 
             </motion.div>
@@ -360,6 +315,21 @@ export default function SolarPowerPlantsPage() {
                     loading="eager"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 pointer-events-none" />
+                  
+                  {/* Glass Caption Pill */}
+                  <div className="absolute bottom-3.5 left-3.5 right-3.5 z-20 flex items-center justify-between p-3 sm:p-3.5 rounded-xl bg-white/80 dark:bg-black/60 backdrop-blur-md border border-white/30 dark:border-white/10 shadow-lg text-slate-900 dark:text-white transition-all">
+                    <div>
+                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-emerald-500 block">
+                        SOLAR POWER PLANT
+                      </span>
+                      <span className="text-xs sm:text-sm font-black">
+                        Commercial &amp; Industrial EPC
+                      </span>
+                    </div>
+                    <span className="text-[11px] font-bold text-slate-700 dark:text-slate-200 bg-slate-100/90 dark:bg-white/10 px-2.5 py-1 rounded-md border border-slate-200/80 dark:border-white/10">
+                      Tier-1 Solar
+                    </span>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -369,61 +339,228 @@ export default function SolarPowerPlantsPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 4. SYSTEM ARCHITECTURE WORKFLOW DIAGRAM ("The Diagram Thing") */}
+      {/* 4. TECHNICAL DRAWING & SPECIFICATION TABLE (EXACT CAD SHOWCASE MATCHING POLE PAGES) */}
       {/* ============================================================ */}
-      <section id="system-architecture" className="relative z-10 py-16 sm:py-20 bg-slate-50 dark:bg-zinc-950 border-b border-slate-200 dark:border-zinc-800">
+      <motion.section
+        id="technical-specifications"
+        className="py-14 sm:py-16 lg:py-20 bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-800 transition-colors"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.15 }}
+        variants={sectionVariants}
+      >
         <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
           
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <span className="text-xs font-black uppercase tracking-widest text-ssil-red block mb-2">
-              ENGINEERED ENERGY FLOW
+          {/* Section Header */}
+          <div className="mb-8 pb-4 border-b border-slate-200/90 dark:border-zinc-800/90 text-left">
+            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-1">
+              ENGINEERING BLUEPRINT &amp; ARCHITECTURE
             </span>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
-              Solar Power Plant Architecture Diagram
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.1]">
+              DRAWING OF SOLAR <br />
+              <span className="text-ssil-red">POWER PLANT SYSTEM.</span>
             </h2>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-2 font-medium">
-              Synchronized solar energy lifecycle from photovoltaic solar capture to grid synchronization and zero-emission industrial load distribution.
+            <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-2xl">
+              Engineering schematic detailing the photovoltaic array orientation, hot-dip galvanized mounting structures, multi-MPPT inverters, chemical earthing, and bi-directional net-meter grid synchronization.
             </p>
           </div>
 
-          {/* Interactive Flow Diagram Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {architectureSteps.map((step, idx) => {
-              const Icon = step.icon;
-              return (
-                <div
-                  key={step.step}
-                  className="relative p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 shadow-sm hover:shadow-md transition-all duration-300 hover:border-ssil-red/50 flex flex-col justify-between group"
+          {/* Technical Drawing Blueprint Representation */}
+          <motion.div
+            variants={childVariants}
+            className="w-full rounded-2xl sm:rounded-3xl border border-slate-300 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 sm:p-7 md:p-8 shadow-lg overflow-hidden relative"
+          >
+            {/* Blueprint Grid Lines Background Accent */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808010_1px,transparent_1px),linear-gradient(to_bottom,#80808010_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
+              
+              {/* Preserved Visual Engineering Schematic Drawing for Solar Power Plant */}
+              <div className="lg:col-span-6 flex items-center justify-center p-5 bg-slate-100/80 dark:bg-black/60 rounded-2xl border border-slate-200 dark:border-zinc-800 h-full min-h-[520px]">
+                <svg
+                  viewBox="0 0 380 520"
+                  className="w-full max-w-[340px] sm:max-w-[380px] h-auto drop-shadow-md text-slate-800 dark:text-slate-200"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-2xl font-black text-ssil-red/30 group-hover:text-ssil-red transition-colors">
-                      {step.step}
-                    </span>
-                    <div className="h-10 w-10 rounded-xl bg-ssil-red/10 border border-ssil-red/20 flex items-center justify-center text-ssil-red">
-                      <Icon className="h-5 w-5" />
-                    </div>
-                  </div>
+                  {/* Sun / Irradiance Source */}
+                  <circle cx="65" cy="45" r="18" fill="#f59e0b" fillOpacity="0.2" stroke="#f59e0b" strokeWidth="2" />
+                  <circle cx="65" cy="45" r="10" fill="#f59e0b" />
+                  <path d="M65 18 L65 24 M65 66 L65 72 M38 45 L44 45 M86 45 L92 45 M46 26 L51 31 M79 59 L84 64 M46 64 L51 59 M79 31 L84 26" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" />
+                  <text x="95" y="42" fontSize="10" fontWeight="bold" fill="#f59e0b">Solar Irradiance</text>
+                  <text x="95" y="55" fontSize="8" fontWeight="bold" fill="currentColor">1000 W/m² (STC)</text>
 
-                  <div className="space-y-2 mb-4 text-left">
-                    <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                      {step.title}
-                    </h3>
-                    <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
-                      {step.desc}
-                    </p>
-                  </div>
+                  {/* Irradiance Rays pointing to PV Array */}
+                  <path d="M85 65 L140 100" stroke="#f59e0b" strokeWidth="1.5" strokeDasharray="3 3" />
+                  <path d="M100 65 L170 100" stroke="#f59e0b" strokeWidth="1.5" strokeDasharray="3 3" />
 
-                  <div className="pt-3 border-t border-slate-100 dark:border-zinc-800/80 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 text-left">
-                    <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
-                    <span>{step.spec}</span>
+                  {/* Lightning Protection Mast at Corner */}
+                  <line x1="330" y1="50" x2="330" y2="180" stroke="#ef4444" strokeWidth="2" />
+                  <circle cx="330" cy="50" r="3" fill="#ef4444" />
+                  <text x="250" y="46" fontSize="8" fontWeight="bold" fill="#ef4444">ESE Lightning Mast</text>
+
+                  {/* Solar PV Modules Racks (3 Tilted Panels Array) */}
+                  {/* Panel 1 */}
+                  <polygon
+                    points="70,170 180,105 205,115 95,180"
+                    fill="#1e3a8a"
+                    fillOpacity="0.85"
+                    stroke="#3b82f6"
+                    strokeWidth="2"
+                  />
+                  {/* Panel 1 Grid lines */}
+                  <line x1="125" y1="137" x2="150" y2="147" stroke="#93c5fd" strokeWidth="1" />
+                  <line x1="100" y1="152" x2="125" y2="162" stroke="#93c5fd" strokeWidth="1" />
+                  <line x1="150" y1="122" x2="175" y2="132" stroke="#93c5fd" strokeWidth="1" />
+
+                  {/* Panel 2 */}
+                  <polygon
+                    points="110,185 220,120 245,130 135,195"
+                    fill="#1e3a8a"
+                    fillOpacity="0.85"
+                    stroke="#3b82f6"
+                    strokeWidth="2"
+                  />
+                  {/* Panel 2 Grid lines */}
+                  <line x1="165" y1="152" x2="190" y2="162" stroke="#93c5fd" strokeWidth="1" />
+                  <line x1="140" y1="167" x2="165" y2="177" stroke="#93c5fd" strokeWidth="1" />
+                  <line x1="190" y1="137" x2="215" y2="147" stroke="#93c5fd" strokeWidth="1" />
+
+                  {/* Panel 3 */}
+                  <polygon
+                    points="150,200 260,135 285,145 175,210"
+                    fill="#1e3a8a"
+                    fillOpacity="0.85"
+                    stroke="#3b82f6"
+                    strokeWidth="2"
+                  />
+                  {/* Panel 3 Grid lines */}
+                  <line x1="205" y1="167" x2="230" y2="177" stroke="#93c5fd" strokeWidth="1" />
+                  <line x1="180" y1="182" x2="205" y2="192" stroke="#93c5fd" strokeWidth="1" />
+                  <line x1="230" y1="152" x2="255" y2="162" stroke="#93c5fd" strokeWidth="1" />
+
+                  <text x="145" y="95" fontSize="9" fontWeight="bold" fill="#3b82f6">Bifacial Mono PERC PV Array</text>
+
+                  {/* Hot-Dip Galvanized MMS Racking Structure */}
+                  {/* Front Legs */}
+                  <line x1="100" y1="180" x2="100" y2="280" stroke="currentColor" strokeWidth="3" />
+                  <line x1="140" y1="195" x2="140" y2="280" stroke="currentColor" strokeWidth="3" />
+                  <line x1="180" y1="210" x2="180" y2="280" stroke="currentColor" strokeWidth="3" />
+
+                  {/* Rear High Legs */}
+                  <line x1="190" y1="110" x2="190" y2="280" stroke="currentColor" strokeWidth="3" />
+                  <line x1="230" y1="125" x2="230" y2="280" stroke="currentColor" strokeWidth="3" />
+                  <line x1="270" y1="140" x2="270" y2="280" stroke="currentColor" strokeWidth="3" />
+
+                  {/* Bracing Struts */}
+                  <line x1="100" y1="280" x2="190" y2="110" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.6" />
+                  <line x1="180" y1="280" x2="270" y2="140" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.6" />
+                  <line x1="100" y1="280" x2="270" y2="280" stroke="currentColor" strokeWidth="2.5" />
+
+                  {/* Tilt Angle Arc & Callout */}
+                  <path d="M220 280 A40 40 0 0 0 250 250" stroke="#ef4444" strokeWidth="1.5" strokeDasharray="2 2" fill="none" />
+                  <text x="255" y="270" fontSize="8" fontWeight="bold" fill="#ef4444">Tilt Angle (15°-25°)</text>
+
+                  {/* MMS Structure Annotation */}
+                  <text x="285" y="225" fontSize="9" fontWeight="bold" fill="currentColor">80μm HDG Steel MMS</text>
+                  <text x="285" y="238" fontSize="8" fontWeight="bold" fill="#10b981">170 km/h Wind Rated</text>
+
+                  {/* Base Footing Plinths */}
+                  <rect x="90" y="280" width="20" height="12" rx="2" fill="currentColor" fillOpacity="0.3" stroke="currentColor" strokeWidth="1.5" />
+                  <rect x="130" y="280" width="20" height="12" rx="2" fill="currentColor" fillOpacity="0.3" stroke="currentColor" strokeWidth="1.5" />
+                  <rect x="170" y="280" width="20" height="12" rx="2" fill="currentColor" fillOpacity="0.3" stroke="currentColor" strokeWidth="1.5" />
+                  <rect x="180" y="280" width="20" height="12" rx="2" fill="currentColor" fillOpacity="0.3" stroke="currentColor" strokeWidth="1.5" />
+                  <rect x="220" y="280" width="20" height="12" rx="2" fill="currentColor" fillOpacity="0.3" stroke="currentColor" strokeWidth="1.5" />
+                  <rect x="260" y="280" width="20" height="12" rx="2" fill="currentColor" fillOpacity="0.3" stroke="currentColor" strokeWidth="1.5" />
+
+                  {/* DC Cable Routing Line (Red/Black) */}
+                  <path d="M190 200 L190 320 L95 320 L95 350" stroke="#ef4444" strokeWidth="2" strokeDasharray="4 2" fill="none" />
+                  <text x="110" y="315" fontSize="8" fontWeight="bold" fill="#ef4444">DC String Cabling (1000V)</text>
+
+                  {/* DC Combiner & Multi-MPPT Inverter Box */}
+                  <rect x="60" y="350" width="70" height="60" rx="6" fill="#0f172a" stroke="#10b981" strokeWidth="2" />
+                  <rect x="70" y="360" width="50" height="18" rx="2" fill="#10b981" fillOpacity="0.2" />
+                  <text x="75" y="373" fontSize="8" fontWeight="bold" fill="#10b981">98.8% MPPT</text>
+                  <circle cx="75" cy="395" r="3" fill="#10b981" />
+                  <circle cx="85" cy="395" r="3" fill="#3b82f6" />
+                  <circle cx="95" cy="395" r="3" fill="#f59e0b" />
+                  <text x="60" y="425" fontSize="9" fontWeight="bold" fill="currentColor">Multi-MPPT Inverter</text>
+
+                  {/* AC Output Line from Inverter to LT Panel / Net Meter */}
+                  <path d="M130 380 L190 380 L190 350 L250 350" stroke="#3b82f6" strokeWidth="2.5" fill="none" />
+                  <text x="145" y="375" fontSize="8" fontWeight="bold" fill="#3b82f6">3-Phase AC (415V)</text>
+
+                  {/* Bi-Directional Net-Meter & LT Switchgear Box */}
+                  <rect x="250" y="335" width="65" height="50" rx="5" fill="#0f172a" stroke="#3b82f6" strokeWidth="2" />
+                  <rect x="260" y="345" width="45" height="14" rx="2" fill="#3b82f6" fillOpacity="0.2" />
+                  <text x="265" y="355" fontSize="7" fontWeight="bold" fill="#3b82f6">Bi-Dir Meter</text>
+                  <path d="M265 372 L275 372 M270 368 L275 372 L270 376" stroke="#10b981" strokeWidth="1.5" strokeLinecap="round" />
+                  <path d="M295 372 L285 372 M290 368 L285 372 L290 376" stroke="#ef4444" strokeWidth="1.5" strokeLinecap="round" />
+                  <text x="245" y="400" fontSize="9" fontWeight="bold" fill="currentColor">DISCOM Net-Meter</text>
+
+                  {/* Power Flow to Facility & Grid */}
+                  <path d="M315 350 L360 350 L360 410" stroke="#10b981" strokeWidth="2.5" fill="none" />
+                  <text x="315" y="425" fontSize="8" fontWeight="bold" fill="#10b981">Facility Load / Grid Feed</text>
+
+                  {/* Dedicated Chemical Earthing Pit at bottom */}
+                  <line x1="95" y1="410" x2="95" y2="475" stroke="#10b981" strokeWidth="2" strokeDasharray="3 2" />
+                  <rect x="80" y="475" width="30" height="25" rx="3" fill="#10b981" fillOpacity="0.2" stroke="#10b981" strokeWidth="1.5" />
+                  <path d="M85 487 L105 487 M89 492 L101 492 M93 497 L97 497" stroke="#10b981" strokeWidth="1.5" strokeLinecap="round" />
+                  <text x="115" y="490" fontSize="8" fontWeight="bold" fill="#10b981">Chemical Earthing Pit</text>
+                  <text x="115" y="502" fontSize="7" fontWeight="bold" fill="currentColor">&lt; 1.0 Ohm Earth Resistance</text>
+
+                  {/* Ground Level Line */}
+                  <line x1="20" y1="475" x2="360" y2="475" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 4" />
+                  <text x="25" y="468" fontSize="8" fontWeight="bold" fill="currentColor">G.L. Ground / Roof Level</text>
+                </svg>
+              </div>
+
+              {/* Right Side: Technical Specification Table */}
+              <div className="lg:col-span-6 flex flex-col justify-center text-left">
+                <div className="mb-2.5">
+                  <span className="text-[11px] sm:text-xs font-black uppercase tracking-widest text-ssil-red block mb-0.5">
+                    SOLAR POWER PLANT
+                  </span>
+                  <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                    TECHNICAL SPECIFICATION
+                  </h3>
+                </div>
+
+                <div className="w-full rounded-xl border border-slate-200 dark:border-zinc-800 overflow-hidden shadow-sm bg-white dark:bg-zinc-950">
+                  <div className="overflow-x-auto w-full">
+                    <table className="w-full text-left text-xs border-collapse">
+                      <thead>
+                        <tr className="bg-slate-950 text-white font-black uppercase text-[11px] tracking-wider border-b border-slate-800">
+                          <th className="py-3 px-3.5 border-r border-slate-800 w-[42%]">SYSTEM PARAMETER</th>
+                          <th className="py-3 px-3.5">TECHNICAL SPECIFICATION</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 dark:divide-zinc-800/80 font-medium">
+                        {solarTechnicalSpecs.map((row, idx) => (
+                          <tr
+                            key={idx}
+                            className={idx % 2 === 0 ? "bg-slate-50/60 dark:bg-zinc-900/40 hover:bg-slate-100/80 dark:hover:bg-zinc-900" : "bg-white dark:bg-zinc-950 hover:bg-slate-100/80 dark:hover:bg-zinc-900"}
+                          >
+                            <td className="py-2.5 px-3.5 font-bold text-slate-900 dark:text-white border-r border-slate-200/80 dark:border-zinc-800/80">
+                              {row.parameter}
+                            </td>
+                            <td className="py-2.5 px-3.5 text-slate-700 dark:text-slate-300">
+                              {row.specification}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
-              );
-            })}
-          </div>
+
+              </div>
+
+            </div>
+          </motion.div>
 
         </div>
-      </section>
+      </motion.section>
 
       {/* ============================================================ */}
       {/* 5. KEY SYSTEM COMPONENTS SPECIFICATIONS */}
@@ -522,45 +659,14 @@ export default function SolarPowerPlantsPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 7. TECHNICAL DOWNLOADS SECTION */}
-      {/* ============================================================ */}
-      <section className="relative z-10 py-14 bg-white dark:bg-black border-b border-slate-200 dark:border-zinc-800">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-8 rounded-3xl bg-slate-900 text-white border border-slate-800">
-            <div className="text-left space-y-2 max-w-2xl">
-              <span className="text-xs font-black uppercase tracking-wider text-emerald-400">
-                Technical Documentation &amp; Data
-              </span>
-              <h3 className="text-xl sm:text-2xl font-black text-white">
-                Download SSIL Solar Power Plant Technical Specifications
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-300 font-medium leading-relaxed">
-                Access comprehensive module datasheets, inverter engineering parameters, structural MMS drawings, and EPC execution capability reports.
-              </p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 w-full md:w-auto">
-              <Button
-                onClick={() => openEnquiry("Solar Technical Specifications Download")}
-                className="w-full sm:w-auto bg-ssil-red hover:bg-red-700 text-white font-bold rounded-full px-6 h-11"
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Download Brochure &amp; Drawings
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================ */}
-      {/* 8. CALL TO ACTION SECTION */}
+      {/* 7. CALL TO ACTION SECTION */}
       {/* ============================================================ */}
       <section className="relative z-10 py-16 bg-gradient-to-br from-slate-900 via-slate-950 to-black text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl text-center">
           <h2 className="text-2xl sm:text-4xl font-black tracking-tight uppercase mb-3">
-            Plan Your Commercial Solar Power Project With SSIL
+            PLAN YOUR COMMERCIAL SOLAR POWER PROJECT WITH SSIL
           </h2>
-          <p className="text-xs sm:text-sm text-slate-300 max-w-2xl mx-auto mb-8 leading-relaxed font-medium">
+          <p className="text-xs sm:text-sm text-slate-300 max-w-2xl mx-auto mb-6 leading-relaxed font-medium">
             Contact our clean energy engineering team for shadow simulation, ROI calculations, and tailored turnkey EPC quotations for your facility.
           </p>
 
@@ -571,19 +677,7 @@ export default function SolarPowerPlantsPage() {
               className="bg-ssil-red hover:bg-ssil-red-600 text-white font-bold px-8 py-3 rounded-full text-xs sm:text-sm shadow-xl shadow-ssil-red/25 hover:scale-105 transition-all"
             >
               <FileText className="mr-2 h-4 w-4" />
-              Request Free Feasibility Assessment
-            </Button>
-
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="border-slate-700 hover:bg-slate-800 text-white font-bold px-8 py-3 rounded-full text-xs sm:text-sm transition-all"
-            >
-              <Link href="/contact">
-                <span>Contact Engineering Team</span>
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
+              Request Technical Quotation
             </Button>
           </div>
         </div>
