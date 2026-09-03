@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu } from "lucide-react";
+import { Menu, ChevronDown, Sun, Zap, Sparkles } from "lucide-react";
 import AnimatedThemeToggler from "@/components/ui/animated-theme-toggler";
 
 import { Button } from "@/components/ui/button";
@@ -51,6 +51,8 @@ const Navbar1 = ({
   },
 }: Navbar1Props) => {
   const [scrolled, setScrolled] = useState(false);
+  const [solarDropdownOpen, setSolarDropdownOpen] = useState(false);
+  const solarDropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -64,6 +66,25 @@ const Navbar1 = ({
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        solarDropdownRef.current &&
+        !solarDropdownRef.current.contains(event.target as Node)
+      ) {
+        setSolarDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Close dropdown on route change
+  useEffect(() => {
+    setSolarDropdownOpen(false);
+  }, [pathname]);
 
   const isAdminLogin = pathname?.includes("ssil-internal-portal-management-secure-admin-console-2026-auth/login");
   const isAdminConsole = pathname?.includes("ssil-internal-portal-management-secure-admin-console-2026-auth") && !isAdminLogin;
@@ -129,6 +150,71 @@ const Navbar1 = ({
                     </Link>
                   );
                 })}
+
+                {/* Shining Glossy Green Glass "Solar Solutions" Button on Right Side of Contact Us */}
+                <div className="relative ml-2" ref={solarDropdownRef}>
+                  <button
+                    type="button"
+                    onClick={() => setSolarDropdownOpen((prev) => !prev)}
+                    className="group relative inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-black text-white transition-all duration-300 shadow-lg shadow-emerald-950/40 hover:scale-105 active:scale-95 overflow-hidden border border-emerald-300/50 bg-gradient-to-r from-emerald-600 via-green-500 to-emerald-600 backdrop-blur-md cursor-pointer"
+                    style={{
+                      boxShadow: "0 0 16px rgba(16, 185, 129, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7), inset 0 -2px 4px rgba(0, 0, 0, 0.25)",
+                    }}
+                  >
+                    {/* Shining Specular Reflection Sweep */}
+                    <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
+                    
+                    {/* Glass Top Edge Reflection Glow */}
+                    <span className="absolute top-0 left-2 right-2 h-[1px] bg-gradient-to-r from-transparent via-white/90 to-transparent pointer-events-none" />
+
+                    <Sun className="h-3.5 w-3.5 text-amber-200 animate-[spin_10s_linear_infinite]" />
+                    <span className="tracking-wide">Solar Energy</span>
+                    <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${solarDropdownOpen ? "rotate-180" : ""}`} />
+                  </button>
+
+                  {/* Dropdown Menu */}
+                  {solarDropdownOpen && (
+                    <div className="absolute left-0 mt-2.5 w-64 rounded-2xl bg-slate-950/95 backdrop-blur-2xl border border-emerald-500/40 shadow-2xl shadow-black/80 p-2 z-50 animate-in fade-in zoom-in-95 duration-150">
+                      <Link
+                        href="/products/solar-lights"
+                        onClick={() => setSolarDropdownOpen(false)}
+                        className="flex items-center gap-3 p-2.5 rounded-xl text-left hover:bg-emerald-950/60 hover:border-emerald-500/30 border border-transparent transition-all group/item"
+                      >
+                        <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center shrink-0 group-hover/item:scale-110 group-hover/item:bg-emerald-500/30 transition-all shadow-xs">
+                          <Sun className="h-4 w-4 text-amber-300" />
+                        </div>
+                        <div>
+                          <span className="text-xs font-black text-white group-hover/item:text-emerald-400 block transition-colors">
+                            Solar Lights
+                          </span>
+                          <span className="text-[10px] text-slate-400 block mt-0.5">
+                            Autonomous solar street luminaires
+                          </span>
+                        </div>
+                      </Link>
+
+                      <div className="h-[1px] bg-slate-800/80 my-1 mx-2" />
+
+                      <Link
+                        href="/products/solar-power-plants"
+                        onClick={() => setSolarDropdownOpen(false)}
+                        className="flex items-center gap-3 p-2.5 rounded-xl text-left hover:bg-emerald-950/60 hover:border-emerald-500/30 border border-transparent transition-all group/item"
+                      >
+                        <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center shrink-0 group-hover/item:scale-110 group-hover/item:bg-emerald-500/30 transition-all shadow-xs">
+                          <Zap className="h-4 w-4 text-emerald-400" />
+                        </div>
+                        <div>
+                          <span className="text-xs font-black text-white group-hover/item:text-emerald-400 block transition-colors">
+                            Solar Power Plants
+                          </span>
+                          <span className="text-[10px] text-slate-400 block mt-0.5">
+                            Commercial turnkey solar arrays
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </div>
@@ -219,6 +305,29 @@ const Navbar1 = ({
                           </Link>
                         );
                       })}
+
+                      {/* Mobile Solar Energy Section */}
+                      <div className="pt-3 pb-2 border-t border-slate-800">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400 block mb-2">
+                          Solar Energy Solutions
+                        </span>
+                        <div className="flex flex-col gap-2">
+                          <Link
+                            href="/products/solar-lights"
+                            className="flex items-center gap-2.5 p-2 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs font-bold text-emerald-300"
+                          >
+                            <Sun className="h-4 w-4 text-amber-300" />
+                            <span>Solar Lights</span>
+                          </Link>
+                          <Link
+                            href="/products/solar-power-plants"
+                            className="flex items-center gap-2.5 p-2 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs font-bold text-emerald-300"
+                          >
+                            <Zap className="h-4 w-4 text-emerald-400" />
+                            <span>Solar Power Plants</span>
+                          </Link>
+                        </div>
+                      </div>
 
                       <div className="flex flex-col gap-3 pt-4 border-t border-slate-800">
                         <Button asChild className="bg-ssil-red hover:bg-red-700 text-white rounded-full">
