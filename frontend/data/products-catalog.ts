@@ -266,7 +266,7 @@ export const catalogProducts: CatalogProduct[] = [
       "Turnkey commercial solar power plant installations and grid-interactive solar arrays designed for institutional facilities, manufacturing hubs, and public infrastructure energy independence.",
     dayImage: "/images/products/solar-power-plants/day.png",
     nightImage: "/images/products/solar-power-plants/night.png",
-    heroImage: "/products/products-hero.png",
+    heroImage: "/images/products/solar-power-plants/banner.png",
     galleryImages: generateGallery("solar-plant", "Commercial Solar Power Array", 6),
   },
 ];

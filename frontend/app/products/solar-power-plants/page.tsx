@@ -162,8 +162,8 @@ export default function SolarPowerPlantsPage() {
       <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex items-end overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
         {/* Full-bleed Background Image */}
         <Image
-          src="/products/products-hero.png"
-          alt="Solar Power Plants SSIL Hero"
+          src="/images/products/solar-power-plants/banner.png"
+          alt="Solar Power Plants SSIL Hero Banner"
           fill
           priority
           className="object-cover object-center rounded-none"
