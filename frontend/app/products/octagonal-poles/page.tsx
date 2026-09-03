@@ -250,7 +250,7 @@ export default function OctagonalPolesPage() {
       {/* ============================================================ */}
       {/* 1. PRODUCT HERO BANNER */}
       {/* ============================================================ */}
-      <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex items-end overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
+      <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
         {/* Full-bleed Background Image */}
         <Image
           src="/products/products-hero.png"
@@ -263,17 +263,19 @@ export default function OctagonalPolesPage() {
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/60 to-slate-950/20 rounded-none pointer-events-none" />
 
-        {/* Content Container */}
-        <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 text-left flex flex-col items-start">
-          {/* Breadcrumb Navigation */}
-          <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-slate-300 mb-3">
+        {/* Top Breadcrumb Navigation (Just below Navbar) */}
+        <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 text-left pt-2 sm:pt-4">
+          <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-slate-300">
             <Link href="/products" className="hover:text-ssil-red transition-colors flex items-center gap-1">
               <ArrowLeft className="h-3.5 w-3.5" /> Products
             </Link>
             <ChevronRight className="h-3.5 w-3.5 text-ssil-red" />
             <span className="text-ssil-red">Octagonal Poles</span>
           </div>
+        </div>
 
+        {/* Bottom Content Container */}
+        <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 text-left flex flex-col items-start">
           <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block mb-1">
             SSIL LUMINAIRES &amp; POLES
           </span>
