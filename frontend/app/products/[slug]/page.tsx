@@ -25,7 +25,21 @@ export default function ProductDetailPage() {
   const params = useParams();
   const slug = params?.slug as string;
 
-  const fallbackProduct = catalogProducts.find((p) => p.slug === slug);
+  const normalizeSlug = (s: string) => {
+    if (!s) return "";
+    const lower = s.toLowerCase();
+    if (lower === "led-decorative-poles") return "decorative-poles";
+    if (lower === "led-designer-poles") return "designer-poles";
+    if (lower === "post-top-luminaries") return "post-top-illuminaries";
+    if (lower === "bulkhead-pathways-luminaries") return "bulkhead-pathways";
+    if (lower === "wall-washer-inground-lighting" || lower === "wall-washer-and-inground-lighting") return "wall-washer";
+    return lower;
+  };
+
+  const resolvedSlug = normalizeSlug(slug);
+  const fallbackProduct = catalogProducts.find(
+    (p) => p.slug === slug || p.slug === resolvedSlug || p.id === slug
+  );
   const [product, setProduct] = useState<CatalogProduct | undefined>(fallbackProduct);
 
   useEffect(() => {
