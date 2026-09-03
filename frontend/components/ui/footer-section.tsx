@@ -63,11 +63,24 @@ export function Footerdemo() {
       title: "Good For Planet",
       subtitle: "Promoting sustainability through responsible innovation",
       icon: (
-        <svg className="w-7 h-7 text-white stroke-[1.5]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <circle cx="12" cy="12" r="10" />
-          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-          <path d="M2 12h20" />
-          <path d="M15 8.5c0 1.2-1.5 2.8-3 4.2-1.5-1.4-3-3-3-4.2a2.5 2.5 0 0 1 5 0z" fill="rgba(255,255,255,0.2)" />
+        <svg className="w-8 h-8 text-white" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          {/* Earth Circle Outline */}
+          <circle cx="15" cy="16" r="10" />
+          {/* Continent Lines */}
+          <path d="M12 7c-1 2-1 4 1 5s3 3 2 5-3 2-4 3" />
+          <path d="M18 7.5c.5 1.5 2 2 2 3.5" />
+          <path d="M8 14c1.5 0 2-1 3.5-1" />
+          <path d="M13 22c1.5-.5 2.5.5 3 0" />
+          {/* Overlapping Heart on Right */}
+          <path
+            d="M21 12.5c-1.2-1.5-3.2-1.2-4 0-.8-1.2-2.8-1.5-4 0-1.5 1.8 0 4.2 4 7 4-2.8 5.5-5.2 4-7z"
+            transform="translate(4, 1) scale(0.72)"
+            fill="#09090b"
+            stroke="currentColor"
+            strokeWidth="2"
+          />
+          {/* Heart Highlight Reflection */}
+          <path d="M21.5 13.5c.6-.4 1.2-.3 1.5.2" stroke="currentColor" strokeWidth="1.4" />
         </svg>
       ),
     },
@@ -95,12 +108,21 @@ export function Footerdemo() {
       ),
     },
     {
-      title: "Sustainable Energy",
-      subtitle: "Energy-efficient lighting & smart green technology",
+      title: "Solar Energy",
+      subtitle: "Clean renewable solar power & high-efficiency LED systems",
       icon: (
-        <svg className="w-7 h-7 text-white stroke-[1.5]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 3.5.5 8-2 11.5-1.5 2.1-3.6 4.5-6 6.5Z" fill="rgba(255,255,255,0.15)" />
-          <path d="M13 9l-3 4h4l-2 5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          {/* Central Sun Circle */}
+          <circle cx="12" cy="12" r="4.5" fill="rgba(255,255,255,0.15)" />
+          {/* Radiant Solar Rays */}
+          <line x1="12" y1="2" x2="12" y2="4.5" />
+          <line x1="12" y1="19.5" x2="12" y2="22" />
+          <line x1="2" y1="12" x2="4.5" y2="12" />
+          <line x1="19.5" y1="12" x2="22" y2="12" />
+          <line x1="4.93" y1="4.93" x2="6.7" y2="6.7" />
+          <line x1="17.3" y1="17.3" x2="19.07" y2="19.07" />
+          <line x1="4.93" y1="19.07" x2="6.7" y2="17.3" />
+          <line x1="17.3" y1="6.7" x2="19.07" y2="4.93" />
         </svg>
       ),
     },
