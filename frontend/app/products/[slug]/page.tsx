@@ -59,6 +59,8 @@ export default function ProductDetailPage() {
           setProduct({
             ...fallbackProduct,
             ...apiProd,
+            name: fallbackProduct.name,
+            designCount: fallbackProduct.designCount,
             galleryImages:
               apiProd.designs && apiProd.designs.length > 0
                 ? apiProd.designs.map((d: any, idx: number) => ({

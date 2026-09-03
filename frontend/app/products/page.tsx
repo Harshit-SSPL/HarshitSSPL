@@ -38,9 +38,12 @@ export default function ProductsPage() {
             if (remote) {
               return {
                 ...local,
-                ...remote,
                 dayImage: remote.dayImage || local.dayImage,
                 nightImage: remote.nightImage || local.nightImage,
+                description: remote.description || local.description,
+                tagline: remote.tagline || local.tagline,
+                name: local.name,
+                designCount: local.designCount,
               };
             }
             return local;
