@@ -220,21 +220,37 @@ export default function ProductDetailPage() {
         const data = await res.json();
         if (data.success && data.product && fallbackProduct) {
           const apiProd = data.product;
+          let finalGallery = fallbackProduct.galleryImages;
+          if (apiProd.designs && apiProd.designs.length >= fallbackProduct.galleryImages.length) {
+            finalGallery = apiProd.designs.map((d: any, idx: number) => ({
+              id: d._id || d.id || `${slug}-${idx}`,
+              name: d.name,
+              dayImage: d.dayImage || fallbackProduct.galleryImages[idx % fallbackProduct.galleryImages.length]?.dayImage,
+              nightImage: d.nightImage,
+              specs: d.specs || "IP66 Weatherproof • Custom Engineering • ISO Standards",
+            }));
+          } else if (apiProd.designs && apiProd.designs.length > 0) {
+            finalGallery = fallbackProduct.galleryImages.map((localItem, idx) => {
+              const remote = apiProd.designs[idx];
+              if (remote) {
+                return {
+                  ...localItem,
+                  name: remote.name || localItem.name,
+                  dayImage: remote.dayImage || localItem.dayImage,
+                  nightImage: remote.nightImage || localItem.nightImage,
+                  specs: remote.specs || localItem.specs,
+                };
+              }
+              return localItem;
+            });
+          }
+
           setProduct({
             ...fallbackProduct,
             ...apiProd,
             name: fallbackProduct.name,
             designCount: fallbackProduct.designCount,
-            galleryImages:
-              apiProd.designs && apiProd.designs.length > 0
-                ? apiProd.designs.map((d: any, idx: number) => ({
-                    id: d._id || d.id || `${slug}-${idx}`,
-                    name: d.name,
-                    dayImage: d.dayImage || fallbackProduct.galleryImages[idx % fallbackProduct.galleryImages.length]?.dayImage,
-                    nightImage: d.nightImage,
-                    specs: d.specs || "IP66 Weatherproof • Custom Engineering • ISO Standards",
-                  }))
-                : fallbackProduct.galleryImages,
+            galleryImages: finalGallery,
           });
         }
       } catch (err) {
