@@ -64,22 +64,25 @@ export function Footerdemo() {
       subtitle: "Promoting sustainability through responsible innovation",
       icon: (
         <svg className="w-12 h-12 sm:w-13 sm:h-13 text-white" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          {/* Earth Circle Outline (Centered at 16, 16) */}
-          <circle cx="16" cy="16" r="12" />
-          {/* Continent Lines */}
-          <path d="M8 11.5c2-1.5 4.5-1 5.5.5" />
-          <path d="M5.5 16c2.5 0 3.5 1.5 4.5 2.5" />
-          <path d="M10 24c2.5 1.5 5 1.5 6.5 0" />
-          <path d="M20 7.5c2 1 3.5 2.5 4 4.5" />
-          <path d="M22 21c2-1.5 3-3.5 3.5-5" />
-          {/* Central Heart (Centered at 16, 16) */}
-          <path
-            d="M16 21.5c-4-3.2-6-5.5-6-7.5 0-2 1.6-3.5 3.5-3.5 1.4 0 2.1.8 2.5 1.5.4-.7 1.1-1.5 2.5-1.5 1.9 0 3.5 1.5 3.5 3.5 0 2-2 4.3-6 7.5z"
-            fill="#000"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinejoin="round"
-          />
+          <g transform="translate(2, 0)">
+            {/* Earth Circle Outline */}
+            <circle cx="14" cy="16" r="11" />
+            {/* Continent Lines */}
+            <path d="M11 6.5c-1.2 2.5-1.2 5 1.2 6.2s3.8 3.8 2.5 6.2-3.8 2.5-5 3.8" />
+            <path d="M18 7c.6 1.8 2.5 2.5 2.5 4.4" />
+            <path d="M5.5 13.5c1.8 0 2.5-1.2 4.4-1.2" />
+            <path d="M12 24.5c1.8-.6 3.1.6 3.8 0" />
+            {/* Overlapping Heart on Right */}
+            <path
+              d="M23 11c-1.5-2-4-1.5-5 0-1-1.5-3.5-2-5 0-2 2.2 0 5.2 5 8.8 5-3.6 7-6.6 5-8.8z"
+              transform="translate(1.5, 3.5) scale(0.85)"
+              fill="#000"
+              stroke="currentColor"
+              strokeWidth="1.8"
+            />
+            {/* Heart Highlight Reflection */}
+            <path d="M22 13.5c.8-.5 1.5-.4 1.9.3" stroke="currentColor" strokeWidth="1.4" />
+          </g>
         </svg>
       ),
     },
