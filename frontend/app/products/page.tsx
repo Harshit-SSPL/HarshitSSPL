@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { catalogProducts, CatalogProduct } from "@/data/products-catalog";
 import { ProductCard } from "@/components/ui/product-card";
 import { ProductFaqSection } from "@/components/ui/product-faq";
+import { ComingSoonModal } from "@/components/ui/coming-soon-modal";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -19,6 +20,7 @@ const containerVariants = {
 export default function ProductsPage() {
   // Always initialize with the full hardcoded catalog products
   const [products, setProducts] = useState<CatalogProduct[]>(catalogProducts);
+  const [comingSoonProduct, setComingSoonProduct] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -121,21 +123,34 @@ export default function ProductsPage() {
               viewport={{ once: true, margin: "-40px" }}
               variants={containerVariants}
             >
-              {products.map((product) => (
-                <div
-                  key={product.slug || product.id}
-                  className="w-full sm:w-[calc((100%-0.75rem)/2)] lg:w-[calc((100%-2.625rem)/4)] flex"
-                >
-                  <ProductCard
-                    name={product.name}
-                    dayImage={product.dayImage}
-                    nightImage={product.nightImage}
-                    href={`/products/${product.slug}`}
-                    buttonText="View All"
-                    showArrow={true}
-                  />
-                </div>
-              ))}
+              {products.map((product) => {
+                const isComingSoon =
+                  product.slug === "heritage-brackets" ||
+                  product.slug === "wall-lights" ||
+                  product.id === "cat-15" ||
+                  product.id === "cat-16";
+
+                return (
+                  <div
+                    key={product.slug || product.id}
+                    className="w-full sm:w-[calc((100%-0.75rem)/2)] lg:w-[calc((100%-2.625rem)/4)] flex"
+                  >
+                    <ProductCard
+                      name={product.name}
+                      dayImage={product.dayImage}
+                      nightImage={product.nightImage}
+                      href={`/products/${product.slug}`}
+                      buttonText={isComingSoon ? "Launching Soon" : "View All"}
+                      showArrow={!isComingSoon}
+                      onEnquire={
+                        isComingSoon
+                          ? () => setComingSoonProduct(product.name)
+                          : undefined
+                      }
+                    />
+                  </div>
+                );
+              })}
             </motion.div>
           </div>
 
@@ -146,6 +161,13 @@ export default function ProductsPage() {
       {/* 3. PRODUCT-RELATED FAQ SECTION */}
       {/* ============================================================ */}
       <ProductFaqSection />
+
+      {/* Coming Soon Glass Modal */}
+      <ComingSoonModal
+        isOpen={Boolean(comingSoonProduct)}
+        onClose={() => setComingSoonProduct(null)}
+        productName={comingSoonProduct || "Upcoming Series"}
+      />
 
     </div>
   );

@@ -234,6 +234,24 @@ export default function ProductDetailPage() {
             </span>
           </div>
 
+          {/* Launching Soon Glass Banner for Heritage Brackets and Wall Lights */}
+          {(product.slug === "heritage-brackets" || product.slug === "wall-lights") && (
+            <div className="mb-10 p-6 sm:p-8 rounded-3xl bg-white/70 dark:bg-zinc-950/70 backdrop-blur-xl border border-ssil-red/30 shadow-xl text-center max-w-3xl mx-auto">
+              <span className="inline-block px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-ssil-red text-white mb-3 shadow-sm">
+                Segment Launching Soon
+              </span>
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mb-2">
+                {product.name} Collection in Active Development
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto mb-5 leading-relaxed font-medium">
+                This category is currently being engineered by our in-house design and fabrication teams. Contact us for advance technical specifications or custom project requirements.
+              </p>
+              <Button asChild className="bg-ssil-red hover:bg-red-700 text-white font-bold rounded-full px-6 shadow-md">
+                <Link href="/contact">Contact Our Team for Advance Inquiries</Link>
+              </Button>
+            </div>
+          )}
+
           {/* 4 Images per Row Desktop Grid */}
           <motion.div
             className="w-full flex flex-wrap justify-center gap-2.5 sm:gap-3 lg:gap-3.5"
