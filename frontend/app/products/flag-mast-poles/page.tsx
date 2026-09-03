@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EnquiryModal } from "@/components/ui/enquiry-modal";
+import Image from "next/image";
 
 interface FlagMastSpecRow {
   parameter: string;
@@ -217,18 +218,84 @@ export default function FlagMastPage() {
     <div className="relative min-h-screen w-full bg-white dark:bg-black text-slate-900 dark:text-white transition-colors duration-300 overflow-hidden">
       
       {/* ============================================================ */}
-      {/* 1. BREADCRUMB NAVIGATION (TIGHT SPACING BELOW NAVBAR) */}
+      {/* 1. PRODUCT HERO BANNER */}
       {/* ============================================================ */}
-      <div className="pt-20 pb-2 px-4 sm:px-6 lg:px-12 max-w-7xl mx-auto border-b border-slate-200/80 dark:border-zinc-800/80">
-        <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-          <Link href="/products" className="hover:text-ssil-red transition-colors flex items-center gap-1">
-            <ArrowLeft className="h-3.5 w-3.5" />
-            <span>Products</span>
-          </Link>
-          <ChevronRight className="h-3.5 w-3.5 text-slate-400 dark:text-slate-600" />
-          <span className="text-slate-900 dark:text-white font-bold">Flag Mast</span>
+      <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex items-end overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
+        {/* Full-bleed Background Image */}
+        <Image
+          src="/products/products-hero.png"
+          alt="Flag Mast Poles SSIL Hero"
+          fill
+          priority
+          className="object-cover object-center rounded-none"
+        />
+
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/60 to-slate-950/20 rounded-none pointer-events-none" />
+
+        {/* Content Container */}
+        <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 text-left flex flex-col items-start">
+          {/* Breadcrumb Navigation */}
+          <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-slate-300 mb-3">
+            <Link href="/products" className="hover:text-ssil-red transition-colors flex items-center gap-1">
+              <ArrowLeft className="h-3.5 w-3.5" /> Products
+            </Link>
+            <ChevronRight className="h-3.5 w-3.5 text-ssil-red" />
+            <span className="text-ssil-red">Flag Mast Poles</span>
+          </div>
+
+          <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block mb-1">
+            SSIL LUMINAIRES &amp; POLES
+          </span>
+
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase leading-tight max-w-4xl drop-shadow-md">
+            Flag Mast Poles
+          </h1>
+
+          <p className="mt-2 text-xs sm:text-sm text-slate-200 font-medium max-w-2xl leading-relaxed drop-shadow-xs">
+            Monumental flag infrastructure engineered to stand tall across public and civic landmarks.
+          </p>
         </div>
-      </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* 2. PRODUCT OVERVIEW STRIP */}
+      {/* ============================================================ */}
+      <section className="relative z-10 py-10 bg-slate-50 dark:bg-zinc-950 border-b border-slate-200/80 dark:border-zinc-800/80">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            {/* Description Narrative */}
+            <div className="max-w-3xl">
+              <h2 className="text-xs font-black uppercase tracking-widest text-ssil-red mb-2">
+                ENGINEERING &amp; APPLICATION OVERVIEW
+              </h2>
+              <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+                High-tensile monumental flag mast poles designed and engineered to withstand extreme wind conditions, featuring internal halyard systems and motorized flag hoisting for civic landmarks.
+              </p>
+            </div>
+
+            {/* Quick Specs Badges */}
+            <div className="grid grid-cols-2 gap-3 shrink-0 lg:max-w-md w-full">
+              <div className="flex items-center gap-2.5 p-3 rounded-none bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 shadow-xs">
+                <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
+                <span className="text-xs font-bold text-slate-800 dark:text-slate-200">ISO 9001:2015 Quality</span>
+              </div>
+              <div className="flex items-center gap-2.5 p-3 rounded-none bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 shadow-xs">
+                <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
+                <span className="text-xs font-bold text-slate-800 dark:text-slate-200">IP66 Weather Protection</span>
+              </div>
+              <div className="flex items-center gap-2.5 p-3 rounded-none bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 shadow-xs">
+                <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
+                <span className="text-xs font-bold text-slate-800 dark:text-slate-200">Custom Engineering</span>
+              </div>
+              <div className="flex items-center gap-2.5 p-3 rounded-none bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 shadow-xs">
+                <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
+                <span className="text-xs font-bold text-slate-800 dark:text-slate-200">Hot-Dip Galvanized</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ============================================================ */}
       {/* 2. COMPACT HERO SECTION (BALANCED VERTICALLY & CENTERED) */}
