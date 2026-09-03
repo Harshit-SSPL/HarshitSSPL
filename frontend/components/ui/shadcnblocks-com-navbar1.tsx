@@ -168,7 +168,7 @@ const Navbar1 = ({
                     <span className="absolute top-0 left-2 right-2 h-[1px] bg-gradient-to-r from-transparent via-white/90 to-transparent pointer-events-none" />
 
                     <Sun className="h-3.5 w-3.5 text-amber-200 animate-[spin_10s_linear_infinite]" />
-                    <span className="tracking-wide">Solar Energy</span>
+                    <span className="tracking-wide">Go Green</span>
                     <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${solarDropdownOpen ? "rotate-180" : ""}`} />
                   </button>
 
@@ -306,10 +306,10 @@ const Navbar1 = ({
                         );
                       })}
 
-                      {/* Mobile Solar Energy Section */}
+                      {/* Mobile Go Green Section */}
                       <div className="pt-3 pb-2 border-t border-slate-800">
                         <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400 block mb-2">
-                          Solar Energy Solutions
+                          Go Green Solutions
                         </span>
                         <div className="flex flex-col gap-2">
                           <Link
