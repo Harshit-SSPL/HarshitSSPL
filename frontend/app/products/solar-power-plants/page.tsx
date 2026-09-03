@@ -49,19 +49,17 @@ interface SolarSpecRow {
 }
 
 const solarTechnicalSpecs: SolarSpecRow[] = [
-  { parameter: "System Configuration", specification: "On-Grid / Hybrid / Utility-Scale Ground & Rooftop Solar" },
-  { parameter: "Solar PV Module Technology", specification: "Tier-1 Mono PERC / TOPCon Bifacial High-Efficiency PV" },
-  { parameter: "Module Power Rating", specification: "540 Wp – 660 Wp+ (Module Efficiency ≥ 21.8%)" },
-  { parameter: "Inverter Technology", specification: "Multi-MPPT Grid-Interactive String & Central Inverters" },
-  { parameter: "Inverter Efficiency", specification: "≥ 98.8% Peak Efficiency with Dynamic MPPT Tracking" },
-  { parameter: "Module Mounting Structure (MMS)", specification: "Custom Engineered Structural Steel (IS 2062) / Anodized Al" },
-  { parameter: "Galvanizing Protection", specification: "Minimum 80 Micron Hot-Dip Galvanized (IS 4759 / ISO 1461)" },
-  { parameter: "Wind Speed Resistance", specification: "Certified Up to 170+ km/h (As per IS 875 Part 3)" },
-  { parameter: "System Safety & Protection", specification: "Type 1+2 DC/AC Surge Protection (SPD) & ESE Lightning Arrester" },
-  { parameter: "Earthing System", specification: "Dedicated Maintenance-Free Chemical Earthing Pits (< 1.0 Ω)" },
-  { parameter: "Monitoring & SCADA", specification: "Cloud-Based Real-Time IoT Telemetry & String-Level Diagnostics" },
-  { parameter: "Grid Integration", specification: "DISCOM Net-Metering Compliant & CEIG Safety Certified" },
-  { parameter: "Performance Warranty", specification: "25-Year Linear Power Output Warranty (Tier-1 Standard)" },
+  { parameter: "System Configuration", specification: "On-Grid / Hybrid Rooftop & Ground Mounted Solar" },
+  { parameter: "Solar PV Modules", specification: "High-Efficiency Monocrystalline & Bifacial Solar Panels" },
+  { parameter: "Module Power Range", specification: "High-Yield Modules (Standard Commercial Wattages)" },
+  { parameter: "Inverter System", specification: "Grid-Tied Multi-MPPT Inverters (Three-Phase / Single-Phase)" },
+  { parameter: "Module Mounting Structure (MMS)", specification: "Hot-Dip Galvanized Structural Steel / Aluminium Racks" },
+  { parameter: "Galvanizing Quality", specification: "Hot-Dip Galvanized Coating for Weather Protection" },
+  { parameter: "Structural Design", specification: "Heavy-Duty Weather & Wind Resilient Racking" },
+  { parameter: "Electrical Protection", specification: "DC/AC Surge Protection Devices (SPD) & Isolation Fuses" },
+  { parameter: "Earthing System", specification: "Dedicated Chemical Earthing Pits for AC & DC Safety" },
+  { parameter: "Monitoring System", specification: "Standard Remote Web & Mobile Generation Monitoring" },
+  { parameter: "Grid Synchronization", specification: "DISCOM Net-Metering Compatible" },
 ];
 
 export default function SolarPowerPlantsPage() {
@@ -90,44 +88,44 @@ export default function SolarPowerPlantsPage() {
   const components = [
     {
       title: "High-Efficiency Solar Modules",
-      subtitle: "Mono PERC & TOPCon Bifacial Technology",
-      desc: "Tier-1 solar photovoltaic panels engineered with anti-reflective PID-resistant tempered glass, delivering consistent power output even in low-light and high-temperature conditions.",
-      specs: ["540Wp – 660Wp+ Output", "25-Year Linear Power Warranty", "IP68 Junction Box", "Anti-PID Certified"],
+      subtitle: "Mono PERC & TOPCon Solar Panels",
+      desc: "High-performance solar photovoltaic panels engineered with tempered glass, delivering consistent power output in real-world outdoor operating conditions.",
+      specs: ["High Wattage High-Yield Modules", "PID-Resistant Protection", "IP68 Junction Box", "Weatherproof Design"],
       icon: Sun,
     },
     {
-      title: "Smart Multi-MPPT Inverters",
-      subtitle: "Grid-Tied, Hybrid & Central Systems",
-      desc: "High-performance solar inverters equipped with advanced DSP controllers, real-time MPPT tracking, anti-islanding protection, and harmonic distortion under 3%.",
-      specs: ["98.8% Peak Efficiency", "Built-in DC Disconnect", "IP66 Protection Enclosure", "RS485 / Wi-Fi / 4G SCADA"],
+      title: "Multi-MPPT Solar Inverters",
+      subtitle: "Grid-Tied & Hybrid Systems",
+      desc: "High-performance solar inverters equipped with real-time MPPT tracking, anti-islanding safety protection, and high power conversion efficiency.",
+      specs: ["High Efficiency Conversion", "Built-in DC Disconnect", "IP65/IP66 Enclosure", "Digital Telemetry"],
       icon: Cpu,
     },
     {
       title: "Engineered Mounting Structures (MMS)",
       subtitle: "In-House Hot-Dip Galvanized Fabrication",
-      desc: "Custom-engineered structural steel mounting racks hot-dip galvanized with 80+ microns coating, designed to withstand wind loads up to 170 km/h with optimized tilt angles.",
-      specs: ["IS 2062 Grade Steel / Al6005-T5", "Wind Load Rated up to 170 km/h", "80+ Microns HDG Coating", "Custom Tilt & Shadow Optimization"],
+      desc: "Custom-engineered structural steel mounting racks hot-dip galvanized for long-term corrosion resistance with optimized tilt angles.",
+      specs: ["IS 2062 Grade Steel / Al Racks", "Heavy-Duty Wind Resilient", "Hot-Dip Galvanized Coating", "Custom Tilt Alignment"],
       icon: Layers,
     },
     {
-      title: "Real-Time SCADA & IoT Telemetry",
-      subtitle: "Remote Generation & String Diagnostics",
-      desc: "Cloud-connected smart monitoring platform providing live generation metrics, string-level current monitoring, weather station integration, and automatic fault alerts.",
-      specs: ["Mobile App & Web Dashboard", "Daily/Monthly Generation Logs", "PR & CUF Telemetry", "Automated SMS/Email Alerts"],
+      title: "Remote Generation Monitoring",
+      subtitle: "Web & Mobile Diagnostics",
+      desc: "Smart monitoring platform providing live generation metrics, daily/monthly logs, and operational alerts.",
+      specs: ["Mobile App & Web Dashboard", "Daily & Monthly Logs", "Generation Diagnostics", "System Health Tracking"],
       icon: Radio,
     },
     {
-      title: "Safety, Earthing & Lightning Arrester",
-      subtitle: "Comprehensive 4-Tier Protection",
-      desc: "Dedicated maintenance-free chemical earthing pits for AC, DC, and equipment neutral, paired with Early Streamer Emission (ESE) lightning arrestors.",
-      specs: ["< 1 Ohm Earth Resistance", "Class 1 ESE Lightning Arrester", "Type 1+2 DC/AC SPDs", "IS 3043 Earthing Standards"],
+      title: "Safety, Earthing & Lightning Protection",
+      subtitle: "Comprehensive System Protection",
+      desc: "Dedicated maintenance-free chemical earthing pits for AC and DC safety, paired with early streamer emission lightning protection.",
+      specs: ["Chemical Earthing Pits", "Lightning Arrester Protection", "DC/AC Surge Protection (SPDs)", "Standard Electrical Safety"],
       icon: ShieldCheck,
     },
     {
-      title: "Turnkey Grid Net-Metering & Liaisoning",
-      subtitle: "Seamless DISCOM Approvals",
-      desc: "Complete end-to-end statutory approvals, CEIG inspection clearance, grid connectivity agreements, and bidirectional net-meter installation with local power utilities.",
-      specs: ["Full DISCOM Liaisoning", "CEIG Safety Clearance", "Subsidy & Tax Benefit Support", "Grid Synchronisation Testing"],
+      title: "Grid Net-Metering & Installation",
+      subtitle: "DISCOM Approvals & Synchronization",
+      desc: "Complete project execution, grid connectivity coordination, and bidirectional net-meter integration with local power utilities.",
+      specs: ["DISCOM Net-Metering Support", "Safe Grid Synchronization", "Standard Testing & Commissioning", "Full EPC Execution"],
       icon: Zap,
     },
   ];
@@ -135,22 +133,22 @@ export default function SolarPowerPlantsPage() {
   const projectApplications = [
     {
       title: "Commercial & Industrial (C&I) Rooftops",
-      desc: "Cut factory and commercial facility electricity tariffs by up to 70% with high-capacity rooftop solar arrays designed for RCC and metal sheet roofs.",
+      desc: "Reduce commercial and industrial power costs with reliable rooftop solar arrays designed for RCC and metal sheet roofs.",
       icon: Factory,
     },
     {
-      title: "Utility Ground-Mounted Solar Parks",
-      desc: "Megawatt-scale ground solar power generation plants engineered with automated tracking or fixed-tilt structures for open land and institutional estates.",
+      title: "Ground-Mounted Solar Installations",
+      desc: "Solar power generation systems engineered with sturdy fixed-tilt structures for open premises and institutional estates.",
       icon: Landmark,
     },
     {
-      title: "Solar Carports & EV Integration",
-      desc: "Dual-utility architectural parking canopies providing shaded vehicle protection while generating clean energy integrated with EV charging stations.",
+      title: "Solar Carports",
+      desc: "Dual-utility architectural parking canopies providing shaded vehicle protection while generating clean solar power.",
       icon: Car,
     },
     {
-      title: "Institutional & Hospital Microgrids",
-      desc: "Reliable solar setups for universities, hospitals, and civic headquarters with zero-downtime power continuity and grid synchronization.",
+      title: "Institutional & Facility Solar Systems",
+      desc: "Reliable solar setups for educational institutions, healthcare complexes, and commercial offices with grid synchronization.",
       icon: Building2,
     },
   ];
@@ -211,7 +209,7 @@ export default function SolarPowerPlantsPage() {
                 ENGINEERING &amp; APPLICATION OVERVIEW
               </h2>
               <p className="text-[15px] sm:text-[17px] text-slate-800 dark:text-slate-200 font-medium leading-relaxed">
-                Turnkey commercial solar power plant installations and grid-interactive solar arrays designed for institutional facilities, manufacturing hubs, and public infrastructure energy independence.
+                Commercial solar power plant installations and grid-interactive solar arrays designed for institutional facilities, manufacturing hubs, and public infrastructure energy independence.
               </p>
             </div>
 
@@ -219,15 +217,15 @@ export default function SolarPowerPlantsPage() {
             <div className="grid grid-cols-2 gap-3.5 shrink-0 lg:max-w-md w-full">
               <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-none bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 shadow-xs">
                 <CheckCircle2 className="h-4.5 w-4.5 text-ssil-red shrink-0" />
-                <span className="text-[13px] sm:text-[14px] font-bold text-slate-800 dark:text-slate-200">MNRE &amp; ISO Compliant</span>
+                <span className="text-[13px] sm:text-[14px] font-bold text-slate-800 dark:text-slate-200">ISO 9001:2015 Quality</span>
               </div>
               <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-none bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 shadow-xs">
                 <CheckCircle2 className="h-4.5 w-4.5 text-ssil-red shrink-0" />
-                <span className="text-[13px] sm:text-[14px] font-bold text-slate-800 dark:text-slate-200">Tier-1 PV Modules</span>
+                <span className="text-[13px] sm:text-[14px] font-bold text-slate-800 dark:text-slate-200">High-Efficiency PV Modules</span>
               </div>
               <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-none bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 shadow-xs">
                 <CheckCircle2 className="h-4.5 w-4.5 text-ssil-red shrink-0" />
-                <span className="text-[13px] sm:text-[14px] font-bold text-slate-800 dark:text-slate-200">Custom EPC Engineering</span>
+                <span className="text-[13px] sm:text-[14px] font-bold text-slate-800 dark:text-slate-200">Custom Engineering</span>
               </div>
               <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-none bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 shadow-xs">
                 <CheckCircle2 className="h-4.5 w-4.5 text-ssil-red shrink-0" />
@@ -251,7 +249,7 @@ export default function SolarPowerPlantsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
             {/* Left Content Column */}
-            <motion.div variants={childVariants} className="lg:col-span-7 space-y-5 text-left flex flex-col justify-center">
+            <motion.div variants={childVariants} className="lg:col-span-6 space-y-5 text-left flex flex-col justify-center">
               
               <div className="space-y-3.5">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.05]">
@@ -260,57 +258,47 @@ export default function SolarPowerPlantsPage() {
                 </h1>
 
                 {/* 3 Product-Value Bullet Points */}
-                <div className="space-y-2.5 pt-1 max-w-2xl text-left">
+                <div className="space-y-3 pt-1 text-left">
                   <div className="flex items-start gap-2.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0 mt-2" />
                     <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
-                      Complete end-to-end EPC execution spanning 3D shadow analysis, structural CAD engineering, civil foundation setup, and statutory DISCOM net-metering approvals for high-yield power generation.
+                      Complete end-to-end EPC execution spanning site feasibility, structural CAD engineering, civil foundation setup, and statutory DISCOM net-metering approvals for high-yield power generation.
                     </p>
                   </div>
 
                   <div className="flex items-start gap-2.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0 mt-2" />
                     <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
-                      Equipped with Tier-1 high-efficiency Mono PERC &amp; TOPCon Bifacial solar PV modules paired with smart multi-MPPT inverters to achieve peak generation (kWh/kWp) and maximum system uptime.
+                      Equipped with high-efficiency Mono PERC &amp; TOPCon solar PV modules paired with smart multi-MPPT inverters to achieve dependable power generation and system uptime.
                     </p>
                   </div>
 
                   <div className="flex items-start gap-2.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0 mt-2" />
                     <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
-                      In-house precision-fabricated Module Mounting Structures (MMS) with 80+ microns hot-dip galvanizing, engineered to withstand wind velocities up to 170 km/h with 25+ years of structural integrity.
+                      In-house precision-fabricated Module Mounting Structures (MMS) with hot-dip galvanizing, engineered for high structural durability and long-term outdoor reliability.
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-3 pt-1">
-                <Button
-                  onClick={() => openEnquiry()}
-                  size="lg"
-                  className="bg-ssil-red hover:bg-ssil-red-600 text-white font-bold px-7 py-3 rounded-full text-xs sm:text-sm shadow-lg shadow-ssil-red/25 hover:shadow-ssil-red/40 transition-all duration-300 hover:scale-105"
-                >
-                  <FileText className="mr-2 h-4 w-4" />
-                  Request Technical Quotation
-                </Button>
-              </div>
-
             </motion.div>
 
-            {/* Right Hero Image Column */}
-            <motion.div variants={childVariants} className="lg:col-span-5">
-              <div className="group relative rounded-2xl sm:rounded-3xl border border-slate-200/90 dark:border-zinc-800 overflow-hidden shadow-lg bg-slate-100 dark:bg-zinc-900 cursor-pointer max-w-[420px] mx-auto lg:max-w-none">
-                <div className="relative aspect-[4/4.5] sm:aspect-[4/4.8] w-full overflow-hidden">
+            {/* Right Hero Image Column (12:9 Aspect Ratio with Day/Night hover transition) */}
+            <motion.div variants={childVariants} className="lg:col-span-6">
+              <div className="group relative rounded-2xl sm:rounded-3xl border border-slate-200/90 dark:border-zinc-800 overflow-hidden shadow-lg bg-slate-100 dark:bg-zinc-900 cursor-pointer w-full max-w-[560px] mx-auto lg:max-w-none">
+                <div className="relative aspect-[12/9] w-full overflow-hidden">
+                  {/* Day Image (Default) */}
                   <img
-                    src="/images/products/homepage/product-01/day.png"
+                    src="/images/products/solar-power-plants/day.png"
                     alt="SSIL Commercial Solar Power Plant Daytime"
                     className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                     loading="eager"
                   />
+                  {/* Night Image (Hover Transition) */}
                   <img
-                    src="/images/products/homepage/product-01/night.png"
-                    alt="SSIL Solar Power Plant Illumination"
+                    src="/images/products/solar-power-plants/night.png"
+                    alt="SSIL Solar Power Plant Night Illumination"
                     className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out group-hover:scale-105 pointer-events-none"
                     loading="eager"
                   />
@@ -323,11 +311,11 @@ export default function SolarPowerPlantsPage() {
                         SOLAR POWER PLANT
                       </span>
                       <span className="text-xs sm:text-sm font-black">
-                        Commercial &amp; Industrial EPC
+                        Commercial &amp; Industrial Installation
                       </span>
                     </div>
                     <span className="text-[11px] font-bold text-slate-700 dark:text-slate-200 bg-slate-100/90 dark:bg-white/10 px-2.5 py-1 rounded-md border border-slate-200/80 dark:border-white/10">
-                      Tier-1 Solar
+                      Clean Energy
                     </span>
                   </div>
                 </div>
@@ -339,7 +327,7 @@ export default function SolarPowerPlantsPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 4. TECHNICAL DRAWING & SPECIFICATION TABLE (EXACT CAD SHOWCASE MATCHING POLE PAGES) */}
+      {/* 4. TECHNICAL DRAWING & SPECIFICATION TABLE */}
       {/* ============================================================ */}
       <motion.section
         id="technical-specifications"
@@ -375,7 +363,7 @@ export default function SolarPowerPlantsPage() {
 
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
               
-              {/* Preserved Visual Engineering Schematic Drawing for Solar Power Plant */}
+              {/* Visual Engineering Schematic Drawing for Solar Power Plant */}
               <div className="lg:col-span-6 flex items-center justify-center p-5 bg-slate-100/80 dark:bg-black/60 rounded-2xl border border-slate-200 dark:border-zinc-800 h-full min-h-[520px]">
                 <svg
                   viewBox="0 0 380 520"
@@ -462,8 +450,8 @@ export default function SolarPowerPlantsPage() {
                   <text x="255" y="270" fontSize="8" fontWeight="bold" fill="#ef4444">Tilt Angle (15°-25°)</text>
 
                   {/* MMS Structure Annotation */}
-                  <text x="285" y="225" fontSize="9" fontWeight="bold" fill="currentColor">80μm HDG Steel MMS</text>
-                  <text x="285" y="238" fontSize="8" fontWeight="bold" fill="#10b981">170 km/h Wind Rated</text>
+                  <text x="285" y="225" fontSize="9" fontWeight="bold" fill="currentColor">HDG Steel MMS Structure</text>
+                  <text x="285" y="238" fontSize="8" fontWeight="bold" fill="#10b981">Weather &amp; Wind Resilient</text>
 
                   {/* Base Footing Plinths */}
                   <rect x="90" y="280" width="20" height="12" rx="2" fill="currentColor" fillOpacity="0.3" stroke="currentColor" strokeWidth="1.5" />
@@ -473,22 +461,22 @@ export default function SolarPowerPlantsPage() {
                   <rect x="220" y="280" width="20" height="12" rx="2" fill="currentColor" fillOpacity="0.3" stroke="currentColor" strokeWidth="1.5" />
                   <rect x="260" y="280" width="20" height="12" rx="2" fill="currentColor" fillOpacity="0.3" stroke="currentColor" strokeWidth="1.5" />
 
-                  {/* DC Cable Routing Line (Red/Black) */}
+                  {/* DC Cable Routing Line */}
                   <path d="M190 200 L190 320 L95 320 L95 350" stroke="#ef4444" strokeWidth="2" strokeDasharray="4 2" fill="none" />
-                  <text x="110" y="315" fontSize="8" fontWeight="bold" fill="#ef4444">DC String Cabling (1000V)</text>
+                  <text x="110" y="315" fontSize="8" fontWeight="bold" fill="#ef4444">DC String Cabling</text>
 
-                  {/* DC Combiner & Multi-MPPT Inverter Box */}
+                  {/* Multi-MPPT Inverter Box */}
                   <rect x="60" y="350" width="70" height="60" rx="6" fill="#0f172a" stroke="#10b981" strokeWidth="2" />
                   <rect x="70" y="360" width="50" height="18" rx="2" fill="#10b981" fillOpacity="0.2" />
-                  <text x="75" y="373" fontSize="8" fontWeight="bold" fill="#10b981">98.8% MPPT</text>
+                  <text x="75" y="373" fontSize="8" fontWeight="bold" fill="#10b981">Solar Inverter</text>
                   <circle cx="75" cy="395" r="3" fill="#10b981" />
                   <circle cx="85" cy="395" r="3" fill="#3b82f6" />
                   <circle cx="95" cy="395" r="3" fill="#f59e0b" />
-                  <text x="60" y="425" fontSize="9" fontWeight="bold" fill="currentColor">Multi-MPPT Inverter</text>
+                  <text x="60" y="425" fontSize="9" fontWeight="bold" fill="currentColor">Grid-Tied Inverter</text>
 
                   {/* AC Output Line from Inverter to LT Panel / Net Meter */}
                   <path d="M130 380 L190 380 L190 350 L250 350" stroke="#3b82f6" strokeWidth="2.5" fill="none" />
-                  <text x="145" y="375" fontSize="8" fontWeight="bold" fill="#3b82f6">3-Phase AC (415V)</text>
+                  <text x="145" y="375" fontSize="8" fontWeight="bold" fill="#3b82f6">3-Phase AC Output</text>
 
                   {/* Bi-Directional Net-Meter & LT Switchgear Box */}
                   <rect x="250" y="335" width="65" height="50" rx="5" fill="#0f172a" stroke="#3b82f6" strokeWidth="2" />
@@ -500,14 +488,14 @@ export default function SolarPowerPlantsPage() {
 
                   {/* Power Flow to Facility & Grid */}
                   <path d="M315 350 L360 350 L360 410" stroke="#10b981" strokeWidth="2.5" fill="none" />
-                  <text x="315" y="425" fontSize="8" fontWeight="bold" fill="#10b981">Facility Load / Grid Feed</text>
+                  <text x="315" y="425" fontSize="8" fontWeight="bold" fill="#10b981">Facility Load &amp; Grid</text>
 
                   {/* Dedicated Chemical Earthing Pit at bottom */}
                   <line x1="95" y1="410" x2="95" y2="475" stroke="#10b981" strokeWidth="2" strokeDasharray="3 2" />
                   <rect x="80" y="475" width="30" height="25" rx="3" fill="#10b981" fillOpacity="0.2" stroke="#10b981" strokeWidth="1.5" />
                   <path d="M85 487 L105 487 M89 492 L101 492 M93 497 L97 497" stroke="#10b981" strokeWidth="1.5" strokeLinecap="round" />
                   <text x="115" y="490" fontSize="8" fontWeight="bold" fill="#10b981">Chemical Earthing Pit</text>
-                  <text x="115" y="502" fontSize="7" fontWeight="bold" fill="currentColor">&lt; 1.0 Ohm Earth Resistance</text>
+                  <text x="115" y="502" fontSize="7" fontWeight="bold" fill="currentColor">Low Resistance Safety Earth</text>
 
                   {/* Ground Level Line */}
                   <line x1="20" y1="475" x2="360" y2="475" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 4" />
@@ -573,7 +561,7 @@ export default function SolarPowerPlantsPage() {
               ENGINEERING SPECIFICATIONS
             </span>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
-              System Components &amp; Technical Capabilities
+              System Components &amp; Capabilities
             </h2>
           </div>
 
@@ -667,14 +655,14 @@ export default function SolarPowerPlantsPage() {
             PLAN YOUR COMMERCIAL SOLAR POWER PROJECT WITH SSIL
           </h2>
           <p className="text-xs sm:text-sm text-slate-300 max-w-2xl mx-auto mb-6 leading-relaxed font-medium">
-            Contact our clean energy engineering team for shadow simulation, ROI calculations, and tailored turnkey EPC quotations for your facility.
+            Contact our clean energy team for project consultation, site assessment, and customized turnkey solar quotations for your facility.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Button
               onClick={() => openEnquiry()}
               size="lg"
-              className="bg-ssil-red hover:bg-ssil-red-600 text-white font-bold px-8 py-3 rounded-full text-xs sm:text-sm shadow-xl shadow-ssil-red/25 hover:scale-105 transition-all"
+              className="bg-ssil-red hover:bg-red-700 text-white font-bold px-8 py-3 rounded-full text-xs sm:text-sm shadow-xl shadow-ssil-red/25 hover:scale-105 transition-all"
             >
               <FileText className="mr-2 h-4 w-4" />
               Request Technical Quotation
