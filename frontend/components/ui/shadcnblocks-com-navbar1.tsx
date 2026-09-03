@@ -151,15 +151,15 @@ const Navbar1 = ({
                   );
                 })}
 
-                {/* Refined Green Glass "Go Green" Button on Right Side of Contact Us */}
-                <div className="relative ml-2" ref={solarDropdownRef}>
+                {/* Seamless "Go Green" Nav Item (No box/border, Green text) */}
+                <div className="relative" ref={solarDropdownRef}>
                   <button
                     type="button"
                     onClick={() => setSolarDropdownOpen((prev) => !prev)}
-                    className="group inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold text-white transition-all duration-200 bg-emerald-700 hover:bg-emerald-600 border border-emerald-500/50 shadow-sm hover:shadow-md cursor-pointer"
+                    className="inline-flex h-9 items-center justify-center bg-transparent px-3 py-2 text-sm font-bold text-emerald-500 dark:text-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-300 transition-colors duration-200 gap-1 cursor-pointer border-0 shadow-none outline-none focus:outline-none"
                   >
-                    <span className="tracking-wide">Go Green</span>
-                    <ChevronDown className={`h-3 w-3 opacity-90 transition-transform duration-200 ${solarDropdownOpen ? "rotate-180" : ""}`} />
+                    <span>Go Green</span>
+                    <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${solarDropdownOpen ? "rotate-180" : ""}`} />
                   </button>
 
                   {/* Dropdown Menu (White in Light theme, Black in Dark theme, Red on Hover) */}
