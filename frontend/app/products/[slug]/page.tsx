@@ -285,6 +285,7 @@ export default function ProductDetailPage() {
     setEnquiryState((prev) => ({ ...prev, isOpen: false }));
   };
 
+  const isDesignerPoles = product.slug === "designer-poles" || resolvedSlug === "designer-poles";
   const categorySpecs = getCategorySpecs(product.slug, product.name);
 
   const keyFeatures = [
@@ -482,143 +483,145 @@ export default function ProductDetailPage() {
       </motion.section>
 
       {/* ============================================================ */}
-      {/* 4. TECHNICAL DRAWING & SPECIFICATION TABLE */}
+      {/* 4. TECHNICAL DRAWING & SPECIFICATION TABLE (EXCEPT FOR DESIGNER POLES) */}
       {/* ============================================================ */}
-      <motion.section
-        id="technical-specifications"
-        className="py-14 sm:py-16 lg:py-20 bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-800 transition-colors"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: false, amount: 0.15 }}
-        variants={sectionVariants}
-      >
-        <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
-          
-          {/* Section Header */}
-          <div className="mb-8 pb-4 border-b border-slate-200/90 dark:border-zinc-800/90 text-left">
-            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-1">
-              ENGINEERING BLUEPRINT &amp; ARCHITECTURE
-            </span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.1]">
-              TECHNICAL SPECIFICATIONS &amp; <br />
-              <span className="text-ssil-red">{product.name} DRAWING.</span>
-            </h2>
-            <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-2xl">
-              Structural parameters, mechanical tolerances, optical performance, and electrical safety standards engineered by Shiv Shakti India Limited.
-            </p>
-          </div>
-
-          {/* Technical Drawing Blueprint Representation */}
-          <motion.div
-            variants={childVariants}
-            className="w-full rounded-2xl sm:rounded-3xl border border-slate-300 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 sm:p-7 md:p-8 shadow-lg overflow-hidden relative"
-          >
-            {/* Blueprint Grid Lines Background Accent */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808010_1px,transparent_1px),linear-gradient(to_bottom,#80808010_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
-
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
-              
-              {/* Preserved Visual Engineering Schematic Drawing */}
-              <div className="lg:col-span-6 flex items-center justify-center p-5 bg-slate-100/80 dark:bg-black/60 rounded-2xl border border-slate-200 dark:border-zinc-800 h-full min-h-[440px]">
-                <svg
-                  viewBox="0 0 340 480"
-                  className="w-full max-w-[300px] sm:max-w-[340px] h-auto drop-shadow-md text-slate-800 dark:text-slate-200"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  {/* Top Optical Engine Head */}
-                  <rect x="110" y="30" width="120" height="40" rx="6" fill="#ef4444" fillOpacity="0.2" stroke="#ef4444" strokeWidth="2" />
-                  <circle cx="140" cy="50" r="8" fill="#f59e0b" />
-                  <circle cx="170" cy="50" r="8" fill="#f59e0b" />
-                  <circle cx="200" cy="50" r="8" fill="#f59e0b" />
-                  <text x="125" y="22" fontSize="9" fontWeight="bold" fill="#ef4444">IP66 Sealed Optical Engine</text>
-
-                  {/* Heat Dissipation Fins */}
-                  <line x1="120" y1="30" x2="120" y2="15" stroke="currentColor" strokeWidth="1.5" />
-                  <line x1="140" y1="30" x2="140" y2="15" stroke="currentColor" strokeWidth="1.5" />
-                  <line x1="160" y1="30" x2="160" y2="15" stroke="currentColor" strokeWidth="1.5" />
-                  <line x1="180" y1="30" x2="180" y2="15" stroke="currentColor" strokeWidth="1.5" />
-                  <line x1="200" y1="30" x2="200" y2="15" stroke="currentColor" strokeWidth="1.5" />
-                  <line x1="220" y1="30" x2="220" y2="15" stroke="currentColor" strokeWidth="1.5" />
-
-                  {/* Structural Mounting Body */}
-                  <polygon
-                    points="155,70 185,70 190,280 150,280"
-                    fill="currentColor"
-                    fillOpacity="0.08"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                  />
-                  <line x1="165" y1="70" x2="162" y2="280" stroke="currentColor" strokeWidth="1" strokeOpacity="0.4" />
-                  <line x1="175" y1="70" x2="178" y2="280" stroke="currentColor" strokeWidth="1" strokeOpacity="0.4" />
-
-                  {/* Electrical Control Compartment */}
-                  <rect x="145" y="290" width="50" height="90" rx="4" fill="#3b82f6" fillOpacity="0.15" stroke="#3b82f6" strokeWidth="2" />
-                  <circle cx="170" cy="335" r="3" fill="#3b82f6" />
-                  <text x="205" y="340" fontSize="8" fontWeight="bold" fill="#3b82f6">Internal Driver / Gear</text>
-
-                  {/* Base Flange Mounting */}
-                  <rect x="110" y="390" width="120" height="18" rx="2" fill="currentColor" fillOpacity="0.3" stroke="currentColor" strokeWidth="2" />
-                  <polygon points="125,390 115,390 125,360" fill="currentColor" fillOpacity="0.3" />
-                  <polygon points="215,390 225,390 215,360" fill="currentColor" fillOpacity="0.3" />
-
-                  {/* Foundation J-Bolts */}
-                  <path d="M125 408 L125 450 L115 450" stroke="#10b981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M215 408 L215 450 L225 450" stroke="#10b981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-
-                  {/* Ground Level Line */}
-                  <line x1="45" y1="418" x2="295" y2="418" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 4" />
-                  <text x="15" y="422" fontSize="8" fontWeight="bold" fill="currentColor">G.L. Ground Level</text>
-                  <text x="235" y="445" fontSize="8" fontWeight="bold" fill="#10b981">Foundation Anchor</text>
-                </svg>
-              </div>
-
-              {/* Right Side: Technical Specification Table */}
-              <div className="lg:col-span-6 flex flex-col justify-center text-left">
-                <div className="mb-2.5">
-                  <span className="text-[11px] sm:text-xs font-black uppercase tracking-widest text-ssil-red block mb-0.5">
-                    {product.name}
-                  </span>
-                  <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
-                    TECHNICAL SPECIFICATION
-                  </h3>
-                </div>
-
-                <div className="w-full rounded-xl border border-slate-200 dark:border-zinc-800 overflow-hidden shadow-sm bg-white dark:bg-zinc-950">
-                  <div className="overflow-x-auto w-full">
-                    <table className="w-full text-left text-xs border-collapse">
-                      <thead>
-                        <tr className="bg-slate-950 text-white font-black uppercase text-[11px] tracking-wider border-b border-slate-800">
-                          <th className="py-3 px-3.5 border-r border-slate-800 w-[42%]">SYSTEM PARAMETER</th>
-                          <th className="py-3 px-3.5">TECHNICAL SPECIFICATION</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-100 dark:divide-zinc-800/80 font-medium">
-                        {categorySpecs.map((row, idx) => (
-                          <tr
-                            key={idx}
-                            className={idx % 2 === 0 ? "bg-slate-50/60 dark:bg-zinc-900/40 hover:bg-slate-100/80 dark:hover:bg-zinc-900" : "bg-white dark:bg-zinc-950 hover:bg-slate-100/80 dark:hover:bg-zinc-900"}
-                          >
-                            <td className="py-2.5 px-3.5 font-bold text-slate-900 dark:text-white border-r border-slate-200/80 dark:border-zinc-800/80">
-                              {row.parameter}
-                            </td>
-                            <td className="py-2.5 px-3.5 text-slate-700 dark:text-slate-300">
-                              {row.specification}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-              </div>
-
+      {!isDesignerPoles && (
+        <motion.section
+          id="technical-specifications"
+          className="py-14 sm:py-16 lg:py-20 bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-zinc-800 transition-colors"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.15 }}
+          variants={sectionVariants}
+        >
+          <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
+            
+            {/* Section Header */}
+            <div className="mb-8 pb-4 border-b border-slate-200/90 dark:border-zinc-800/90 text-left">
+              <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-1">
+                ENGINEERING BLUEPRINT &amp; ARCHITECTURE
+              </span>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.1]">
+                TECHNICAL SPECIFICATIONS &amp; <br />
+                <span className="text-ssil-red">{product.name} DRAWING.</span>
+              </h2>
+              <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-2xl">
+                Structural parameters, mechanical tolerances, optical performance, and electrical safety standards engineered by Shiv Shakti India Limited.
+              </p>
             </div>
-          </motion.div>
 
-        </div>
-      </motion.section>
+            {/* Technical Drawing Blueprint Representation */}
+            <motion.div
+              variants={childVariants}
+              className="w-full rounded-2xl sm:rounded-3xl border border-slate-300 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 sm:p-7 md:p-8 shadow-lg overflow-hidden relative"
+            >
+              {/* Blueprint Grid Lines Background Accent */}
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808010_1px,transparent_1px),linear-gradient(to_bottom,#80808010_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+
+              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
+                
+                {/* Preserved Visual Engineering Schematic Drawing */}
+                <div className="lg:col-span-6 flex items-center justify-center p-5 bg-slate-100/80 dark:bg-black/60 rounded-2xl border border-slate-200 dark:border-zinc-800 h-full min-h-[440px]">
+                  <svg
+                    viewBox="0 0 340 480"
+                    className="w-full max-w-[300px] sm:max-w-[340px] h-auto drop-shadow-md text-slate-800 dark:text-slate-200"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    {/* Top Optical Engine Head */}
+                    <rect x="110" y="30" width="120" height="40" rx="6" fill="#ef4444" fillOpacity="0.2" stroke="#ef4444" strokeWidth="2" />
+                    <circle cx="140" cy="50" r="8" fill="#f59e0b" />
+                    <circle cx="170" cy="50" r="8" fill="#f59e0b" />
+                    <circle cx="200" cy="50" r="8" fill="#f59e0b" />
+                    <text x="125" y="22" fontSize="9" fontWeight="bold" fill="#ef4444">IP66 Sealed Optical Engine</text>
+
+                    {/* Heat Dissipation Fins */}
+                    <line x1="120" y1="30" x2="120" y2="15" stroke="currentColor" strokeWidth="1.5" />
+                    <line x1="140" y1="30" x2="140" y2="15" stroke="currentColor" strokeWidth="1.5" />
+                    <line x1="160" y1="30" x2="160" y2="15" stroke="currentColor" strokeWidth="1.5" />
+                    <line x1="180" y1="30" x2="180" y2="15" stroke="currentColor" strokeWidth="1.5" />
+                    <line x1="200" y1="30" x2="200" y2="15" stroke="currentColor" strokeWidth="1.5" />
+                    <line x1="220" y1="30" x2="220" y2="15" stroke="currentColor" strokeWidth="1.5" />
+
+                    {/* Structural Mounting Body */}
+                    <polygon
+                      points="155,70 185,70 190,280 150,280"
+                      fill="currentColor"
+                      fillOpacity="0.08"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                    />
+                    <line x1="165" y1="70" x2="162" y2="280" stroke="currentColor" strokeWidth="1" strokeOpacity="0.4" />
+                    <line x1="175" y1="70" x2="178" y2="280" stroke="currentColor" strokeWidth="1" strokeOpacity="0.4" />
+
+                    {/* Electrical Control Compartment */}
+                    <rect x="145" y="290" width="50" height="90" rx="4" fill="#3b82f6" fillOpacity="0.15" stroke="#3b82f6" strokeWidth="2" />
+                    <circle cx="170" cy="335" r="3" fill="#3b82f6" />
+                    <text x="205" y="340" fontSize="8" fontWeight="bold" fill="#3b82f6">Internal Driver / Gear</text>
+
+                    {/* Base Flange Mounting */}
+                    <rect x="110" y="390" width="120" height="18" rx="2" fill="currentColor" fillOpacity="0.3" stroke="currentColor" strokeWidth="2" />
+                    <polygon points="125,390 115,390 125,360" fill="currentColor" fillOpacity="0.3" />
+                    <polygon points="215,390 225,390 215,360" fill="currentColor" fillOpacity="0.3" />
+
+                    {/* Foundation J-Bolts */}
+                    <path d="M125 408 L125 450 L115 450" stroke="#10b981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M215 408 L215 450 L225 450" stroke="#10b981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+
+                    {/* Ground Level Line */}
+                    <line x1="45" y1="418" x2="295" y2="418" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 4" />
+                    <text x="15" y="422" fontSize="8" fontWeight="bold" fill="currentColor">G.L. Ground Level</text>
+                    <text x="235" y="445" fontSize="8" fontWeight="bold" fill="#10b981">Foundation Anchor</text>
+                  </svg>
+                </div>
+
+                {/* Right Side: Technical Specification Table */}
+                <div className="lg:col-span-6 flex flex-col justify-center text-left">
+                  <div className="mb-2.5">
+                    <span className="text-[11px] sm:text-xs font-black uppercase tracking-widest text-ssil-red block mb-0.5">
+                      {product.name}
+                    </span>
+                    <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                      TECHNICAL SPECIFICATION
+                    </h3>
+                  </div>
+
+                  <div className="w-full rounded-xl border border-slate-200 dark:border-zinc-800 overflow-hidden shadow-sm bg-white dark:bg-zinc-950">
+                    <div className="overflow-x-auto w-full">
+                      <table className="w-full text-left text-xs border-collapse">
+                        <thead>
+                          <tr className="bg-slate-950 text-white font-black uppercase text-[11px] tracking-wider border-b border-slate-800">
+                            <th className="py-3 px-3.5 border-r border-slate-800 w-[42%]">SYSTEM PARAMETER</th>
+                            <th className="py-3 px-3.5">TECHNICAL SPECIFICATION</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100 dark:divide-zinc-800/80 font-medium">
+                          {categorySpecs.map((row, idx) => (
+                            <tr
+                              key={idx}
+                              className={idx % 2 === 0 ? "bg-slate-50/60 dark:bg-zinc-900/40 hover:bg-slate-100/80 dark:hover:bg-zinc-900" : "bg-white dark:bg-zinc-950 hover:bg-slate-100/80 dark:hover:bg-zinc-900"}
+                            >
+                              <td className="py-2.5 px-3.5 font-bold text-slate-900 dark:text-white border-r border-slate-200/80 dark:border-zinc-800/80">
+                                {row.parameter}
+                              </td>
+                              <td className="py-2.5 px-3.5 text-slate-700 dark:text-slate-300">
+                                {row.specification}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </motion.div>
+
+          </div>
+        </motion.section>
+      )}
 
       {/* ============================================================ */}
       {/* 5. PRODUCT IMAGE GALLERY */}
