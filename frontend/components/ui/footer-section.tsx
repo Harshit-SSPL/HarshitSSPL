@@ -58,8 +58,98 @@ export function Footerdemo() {
     fetchFooter();
   }, []);
 
+  const footerPillars = [
+    {
+      title: "Good For Planet",
+      subtitle: "Promoting sustainability through responsible innovation",
+      icon: (
+        <svg className="w-7 h-7 text-white stroke-[1.5]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+          <path d="M2 12h20" />
+          <path d="M15 8.5c0 1.2-1.5 2.8-3 4.2-1.5-1.4-3-3-3-4.2a2.5 2.5 0 0 1 5 0z" fill="rgba(255,255,255,0.2)" />
+        </svg>
+      ),
+    },
+    {
+      title: "International Design Standards",
+      subtitle: "Precision engineered to global infrastructure benchmarks",
+      icon: (
+        <svg className="w-7 h-7 text-white stroke-[1.5]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M3.6 9h16.8M3.6 15h16.8" />
+          <path d="M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18" />
+          <circle cx="12" cy="12" r="3.5" fill="rgba(255,255,255,0.2)" stroke="currentColor" />
+        </svg>
+      ),
+    },
+    {
+      title: "ISO 9001:2015 Certified",
+      subtitle: "ISO 9001:2015 • ISO 14001:2015 • ISO 45001:2018",
+      icon: (
+        <svg className="w-7 h-7 text-white stroke-[1.5]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="12" r="9.5" strokeDasharray="3 2" />
+          <polygon points="12 3 14.5 8.5 20.5 9.2 16 13.5 17.2 19.5 12 16.5 6.8 19.5 8 13.5 3.5 9.2 9.5 8.5 12 3" fill="rgba(255,255,255,0.15)" />
+          <text x="12" y="13.5" textAnchor="middle" fontSize="4.5" fontWeight="bold" fill="currentColor" stroke="none">ISO</text>
+        </svg>
+      ),
+    },
+    {
+      title: "Sustainable Energy",
+      subtitle: "Energy-efficient lighting & smart green technology",
+      icon: (
+        <svg className="w-7 h-7 text-white stroke-[1.5]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 3.5.5 8-2 11.5-1.5 2.1-3.6 4.5-6 6.5Z" fill="rgba(255,255,255,0.15)" />
+          <path d="M13 9l-3 4h4l-2 5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      ),
+    },
+    {
+      title: "Built to Last",
+      subtitle: "In-house hot-dip galvanizing & high-tensile steel",
+      icon: (
+        <svg className="w-7 h-7 text-white stroke-[1.5]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(255,255,255,0.15)" />
+          <path d="m9 12 2 2 4-4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      ),
+    },
+  ];
+
   return (
     <footer className="relative border-t border-zinc-900 bg-black text-slate-100 transition-colors duration-300">
+      
+      {/* Top 5 Value Propositions / Trust Badges (Wipro Style) */}
+      <div className="border-b border-zinc-900/90 bg-gradient-to-b from-zinc-950 to-black py-10 sm:py-12">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8 items-start text-center">
+            {footerPillars.map((pillar, idx) => (
+              <div
+                key={idx}
+                className={`group flex flex-col items-center justify-start ${
+                  idx === 4 ? "col-span-2 md:col-span-1" : ""
+                }`}
+              >
+                {/* Circular Icon Container */}
+                <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-full border border-white/25 bg-white/[0.04] backdrop-blur-xs flex items-center justify-center mb-3.5 transition-all duration-300 group-hover:scale-110 group-hover:border-ssil-red/80 group-hover:bg-ssil-red/10 group-hover:shadow-lg group-hover:shadow-ssil-red/20 shadow-xs">
+                  {pillar.icon}
+                </div>
+
+                {/* Title */}
+                <h4 className="text-xs sm:text-sm font-bold text-white tracking-tight leading-snug group-hover:text-ssil-red transition-colors">
+                  {pillar.title}
+                </h4>
+
+                {/* Subtitle */}
+                <p className="text-[10px] sm:text-[11px] text-slate-400 mt-1 max-w-[170px] leading-relaxed font-normal">
+                  {pillar.subtitle}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <div className="container mx-auto px-4 py-10 sm:py-12 md:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           
