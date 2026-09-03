@@ -256,36 +256,36 @@ export default function StadiumHighMastPage() {
       {/* ============================================================ */}
       {/* 2. PRODUCT OVERVIEW STRIP */}
       {/* ============================================================ */}
-      <section className="relative z-10 py-10 bg-slate-50 dark:bg-zinc-950 border-b border-slate-200/80 dark:border-zinc-800/80">
+      <section className="relative z-10 py-14 sm:py-16 bg-slate-50 dark:bg-zinc-950 border-b border-slate-200/80 dark:border-zinc-800/80">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             {/* Description Narrative */}
             <div className="max-w-3xl">
-              <h2 className="text-xs font-black uppercase tracking-widest text-ssil-red mb-2">
+              <h2 className="text-xs sm:text-[13px] font-black uppercase tracking-widest text-ssil-red mb-3">
                 ENGINEERING &amp; APPLICATION OVERVIEW
               </h2>
-              <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+              <p className="text-[15px] sm:text-[17px] text-slate-800 dark:text-slate-200 font-medium leading-relaxed">
                 High-capacity stadium high mast towers engineered to support large multi-fixture LED floodlight headframes, providing uniform high-lux broadcast lighting with dynamic structural calculations.
               </p>
             </div>
 
             {/* Quick Specs Badges */}
-            <div className="grid grid-cols-2 gap-3 shrink-0 lg:max-w-md w-full">
-              <div className="flex items-center gap-2.5 p-3 rounded-none bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 shadow-xs">
-                <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
-                <span className="text-xs font-bold text-slate-800 dark:text-slate-200">ISO 9001:2015 Quality</span>
+            <div className="grid grid-cols-2 gap-3.5 shrink-0 lg:max-w-md w-full">
+              <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-none bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 shadow-xs">
+                <CheckCircle2 className="h-4.5 w-4.5 text-ssil-red shrink-0" />
+                <span className="text-[13px] sm:text-[14px] font-bold text-slate-800 dark:text-slate-200">ISO 9001:2015 Quality</span>
               </div>
-              <div className="flex items-center gap-2.5 p-3 rounded-none bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 shadow-xs">
-                <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
-                <span className="text-xs font-bold text-slate-800 dark:text-slate-200">IP66 Weather Protection</span>
+              <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-none bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 shadow-xs">
+                <CheckCircle2 className="h-4.5 w-4.5 text-ssil-red shrink-0" />
+                <span className="text-[13px] sm:text-[14px] font-bold text-slate-800 dark:text-slate-200">IP66 Weather Protection</span>
               </div>
-              <div className="flex items-center gap-2.5 p-3 rounded-none bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 shadow-xs">
-                <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
-                <span className="text-xs font-bold text-slate-800 dark:text-slate-200">Custom Engineering</span>
+              <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-none bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 shadow-xs">
+                <CheckCircle2 className="h-4.5 w-4.5 text-ssil-red shrink-0" />
+                <span className="text-[13px] sm:text-[14px] font-bold text-slate-800 dark:text-slate-200">Custom Engineering</span>
               </div>
-              <div className="flex items-center gap-2.5 p-3 rounded-none bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 shadow-xs">
-                <CheckCircle2 className="h-4 w-4 text-ssil-red shrink-0" />
-                <span className="text-xs font-bold text-slate-800 dark:text-slate-200">Hot-Dip Galvanized</span>
+              <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-none bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 shadow-xs">
+                <CheckCircle2 className="h-4.5 w-4.5 text-ssil-red shrink-0" />
+                <span className="text-[13px] sm:text-[14px] font-bold text-slate-800 dark:text-slate-200">Hot-Dip Galvanized</span>
               </div>
             </div>
           </div>
@@ -293,10 +293,10 @@ export default function StadiumHighMastPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 2. COMPACT HERO SECTION (BALANCED VERTICALLY & CENTERED) */}
+      {/* 3. COMPACT HERO SECTION (BALANCED VERTICALLY & CENTERED) */}
       {/* ============================================================ */}
       <motion.section
-        className="relative py-8 sm:py-10 lg:py-12 border-b border-slate-200 dark:border-zinc-900"
+        className="relative py-14 sm:py-16 lg:py-20 border-b border-slate-200 dark:border-zinc-900"
         initial="hidden"
         animate="visible"
         variants={sectionVariants}
