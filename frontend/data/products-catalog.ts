@@ -37,7 +37,7 @@ const generateGallery = (prefix: string, baseName: string, count: number): Galle
 export const catalogProducts: CatalogProduct[] = [
   {
     id: "cat-01",
-    name: "Decorative Poles",
+    name: "LED Decorative Poles",
     slug: "decorative-poles",
     designCount: 42,
     tagline: "Lighting infrastructure designed to elevate civic and urban public spaces.",
@@ -46,11 +46,11 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: "/images/products/homepage/product-02/day.png",
     nightImage: "/images/products/homepage/product-02/night.png",
     heroImage: "/products/products-hero.png",
-    galleryImages: generateGallery("dec-pole", "Decorative Pole Variant", 42),
+    galleryImages: generateGallery("dec-pole", "LED Decorative Pole Variant", 42),
   },
   {
     id: "cat-02",
-    name: "Designer Poles",
+    name: "LED Designer Poles",
     slug: "designer-poles",
     designCount: 24,
     tagline: "Distinctive contemporary pole design for landmark architectural environments.",
@@ -59,7 +59,7 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: "/images/products/homepage/product-02/day.png",
     nightImage: "/images/products/homepage/product-02/night.png",
     heroImage: "/products/products-hero.png",
-    galleryImages: generateGallery("des-pole", "Architectural Designer Pole", 24),
+    galleryImages: generateGallery("des-pole", "LED Designer Pole Variant", 24),
   },
   {
     id: "cat-03",
