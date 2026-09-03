@@ -151,40 +151,30 @@ const Navbar1 = ({
                   );
                 })}
 
-                {/* Shining Glossy Green Glass "Solar Solutions" Button on Right Side of Contact Us */}
+                {/* Refined Green Glass "Go Green" Button on Right Side of Contact Us */}
                 <div className="relative ml-2" ref={solarDropdownRef}>
                   <button
                     type="button"
                     onClick={() => setSolarDropdownOpen((prev) => !prev)}
-                    className="group relative inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-black text-white transition-all duration-300 shadow-lg shadow-emerald-950/40 hover:scale-105 active:scale-95 overflow-hidden border border-emerald-300/50 bg-gradient-to-r from-emerald-600 via-green-500 to-emerald-600 backdrop-blur-md cursor-pointer"
-                    style={{
-                      boxShadow: "0 0 16px rgba(16, 185, 129, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7), inset 0 -2px 4px rgba(0, 0, 0, 0.25)",
-                    }}
+                    className="group inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold text-white transition-all duration-200 bg-emerald-700 hover:bg-emerald-600 border border-emerald-500/50 shadow-sm hover:shadow-md cursor-pointer"
                   >
-                    {/* Shining Specular Reflection Sweep */}
-                    <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
-                    
-                    {/* Glass Top Edge Reflection Glow */}
-                    <span className="absolute top-0 left-2 right-2 h-[1px] bg-gradient-to-r from-transparent via-white/90 to-transparent pointer-events-none" />
-
-                    <Sun className="h-3.5 w-3.5 text-amber-200 animate-[spin_10s_linear_infinite]" />
                     <span className="tracking-wide">Go Green</span>
-                    <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${solarDropdownOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown className={`h-3 w-3 opacity-90 transition-transform duration-200 ${solarDropdownOpen ? "rotate-180" : ""}`} />
                   </button>
 
-                  {/* Dropdown Menu (White in Light theme, Black in Dark theme) */}
+                  {/* Dropdown Menu (White in Light theme, Black in Dark theme, Red on Hover) */}
                   {solarDropdownOpen && (
-                    <div className="absolute left-0 mt-2.5 w-64 rounded-2xl bg-white/95 dark:bg-black/95 backdrop-blur-2xl border border-emerald-500/30 dark:border-emerald-500/40 shadow-2xl shadow-slate-900/15 dark:shadow-black/90 p-2 z-50 animate-in fade-in zoom-in-95 duration-150">
+                    <div className="absolute left-0 mt-2.5 w-64 rounded-2xl bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 shadow-xl shadow-slate-900/10 dark:shadow-black/70 p-2 z-50 animate-in fade-in zoom-in-95 duration-150">
                       <Link
                         href="/products/solar-lights"
                         onClick={() => setSolarDropdownOpen(false)}
-                        className="flex items-center gap-3 p-2.5 rounded-xl text-left hover:bg-emerald-50/90 dark:hover:bg-emerald-950/60 hover:border-emerald-200 dark:hover:border-emerald-500/30 border border-transparent transition-all group/item"
+                        className="flex items-center gap-3 p-2.5 rounded-xl text-left hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200/60 dark:hover:border-red-900/40 border border-transparent transition-all group/item"
                       >
-                        <div className="w-9 h-9 rounded-xl bg-emerald-100/90 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/40 flex items-center justify-center shrink-0 group-hover/item:scale-110 group-hover/item:bg-emerald-200/90 dark:group-hover/item:bg-emerald-500/30 transition-all shadow-xs">
-                          <Sun className="h-4 w-4 text-amber-500 dark:text-amber-300" />
+                        <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-zinc-700 flex items-center justify-center shrink-0 group-hover/item:scale-105 group-hover/item:bg-ssil-red/10 group-hover/item:text-ssil-red group-hover/item:border-ssil-red/30 transition-all shadow-xs">
+                          <Sun className="h-4 w-4" />
                         </div>
                         <div>
-                          <span className="text-xs font-black text-slate-900 dark:text-white group-hover/item:text-emerald-600 dark:group-hover/item:text-emerald-400 block transition-colors">
+                          <span className="text-xs font-bold text-slate-900 dark:text-white group-hover/item:text-ssil-red block transition-colors">
                             Solar Lights
                           </span>
                           <span className="text-[10px] text-slate-500 dark:text-slate-400 block mt-0.5">
@@ -198,13 +188,13 @@ const Navbar1 = ({
                       <Link
                         href="/products/solar-power-plants"
                         onClick={() => setSolarDropdownOpen(false)}
-                        className="flex items-center gap-3 p-2.5 rounded-xl text-left hover:bg-emerald-50/90 dark:hover:bg-emerald-950/60 hover:border-emerald-200 dark:hover:border-emerald-500/30 border border-transparent transition-all group/item"
+                        className="flex items-center gap-3 p-2.5 rounded-xl text-left hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200/60 dark:hover:border-red-900/40 border border-transparent transition-all group/item"
                       >
-                        <div className="w-9 h-9 rounded-xl bg-emerald-100/90 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/40 flex items-center justify-center shrink-0 group-hover/item:scale-110 group-hover/item:bg-emerald-200/90 dark:group-hover/item:bg-emerald-500/30 transition-all shadow-xs">
-                          <Zap className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                        <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-zinc-700 flex items-center justify-center shrink-0 group-hover/item:scale-105 group-hover/item:bg-ssil-red/10 group-hover/item:text-ssil-red group-hover/item:border-ssil-red/30 transition-all shadow-xs">
+                          <Zap className="h-4 w-4" />
                         </div>
                         <div>
-                          <span className="text-xs font-black text-slate-900 dark:text-white group-hover/item:text-emerald-600 dark:group-hover/item:text-emerald-400 block transition-colors">
+                          <span className="text-xs font-bold text-slate-900 dark:text-white group-hover/item:text-ssil-red block transition-colors">
                             Solar Power Plants
                           </span>
                           <span className="text-[10px] text-slate-500 dark:text-slate-400 block mt-0.5">
