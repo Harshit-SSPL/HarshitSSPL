@@ -20,13 +20,14 @@ import {
   ChevronRight,
   PhoneCall,
   Sparkles,
+  PlusCircle,
 } from "lucide-react";
 import { AdminAuthProvider, useAdminAuth } from "@/context/admin-auth-context";
 import { Button } from "@/components/ui/button";
 import { ADMIN_BASE_PATH } from "@/lib/admin-api";
 
 const navItems = [
-  { label: "Overview Hub", href: ADMIN_BASE_PATH, icon: LayoutDashboard },
+  { label: "Dashboard", href: ADMIN_BASE_PATH, icon: LayoutDashboard },
   { label: "Home Page", href: `${ADMIN_BASE_PATH}/home`, icon: Home },
   { label: "About Us", href: `${ADMIN_BASE_PATH}/about`, icon: Layers },
   { label: "Products Catalog", href: `${ADMIN_BASE_PATH}/products`, icon: Package },
@@ -65,41 +66,38 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 dark:bg-zinc-950 flex text-slate-900 dark:text-white antialiased">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-zinc-950 flex text-slate-900 dark:text-white antialiased selection:bg-ssil-red/20 selection:text-ssil-red">
       
-      {/* Sidebar for Desktop (Collapsible) */}
+      {/* Sidebar for Desktop (Collapsible with Arrow Button) */}
       <aside
-        className={`hidden lg:flex flex-col bg-white dark:bg-zinc-900 border-r border-slate-200 dark:border-zinc-800 shrink-0 transition-all duration-300 relative ${
-          collapsed ? "w-20" : "w-64"
+        className={`hidden lg:flex flex-col bg-white dark:bg-zinc-900 border-r border-slate-200/80 dark:border-zinc-800 shrink-0 transition-all duration-300 relative ${
+          collapsed ? "w-[76px]" : "w-64"
         }`}
       >
-        
-        {/* Brand Header */}
-        <div className={`p-4 border-b border-slate-200 dark:border-zinc-800 flex items-center ${collapsed ? "justify-center" : "justify-between"}`}>
-          <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 rounded-lg bg-ssil-red text-white flex items-center justify-center font-black text-sm shrink-0 shadow-sm">
-              S
-            </div>
-            {!collapsed && (
-              <div className="min-w-0 overflow-hidden">
-                <h1 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight truncate">
-                  SSIL Admin
-                </h1>
-                <span className="text-[10px] font-bold text-slate-500 dark:text-zinc-400 block tracking-wider uppercase truncate">
-                  Control Console
-                </span>
-              </div>
-            )}
-          </div>
+        {/* Pinned Arrow Toggle Button on the Right Border */}
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="absolute -right-3.5 top-7 z-20 h-7 w-7 rounded-full bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 shadow-md flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-ssil-red hover:scale-110 transition-all"
+          title={collapsed ? "Expand Side Panel" : "Collapse Side Panel"}
+        >
+          {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+        </button>
 
-          {/* Collapse Toggle Button */}
-          <button
-            onClick={() => setCollapsed(!collapsed)}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors"
-            title={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-          >
-            {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-          </button>
+        {/* Brand Header */}
+        <div className={`p-5 border-b border-slate-100 dark:border-zinc-800 flex items-center ${collapsed ? "justify-center" : "gap-3"}`}>
+          <div className="w-9 h-9 rounded-xl bg-ssil-red text-white flex items-center justify-center font-black text-sm shrink-0 shadow-sm shadow-ssil-red/30">
+            S
+          </div>
+          {!collapsed && (
+            <div className="min-w-0 overflow-hidden">
+              <h1 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight truncate">
+                SSIL Admin
+              </h1>
+              <span className="text-[10px] font-bold text-slate-400 dark:text-zinc-500 block tracking-wider uppercase truncate">
+                Control Panel
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Navigation Items */}
@@ -111,14 +109,14 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all group ${
+                className={`flex items-center gap-3 px-3.5 py-3 rounded-2xl text-xs font-bold transition-all group ${
                   isActive
-                    ? "bg-ssil-red text-white shadow-xs"
-                    : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-zinc-800 hover:text-slate-900 dark:hover:text-white"
-                } ${collapsed ? "justify-center px-2" : ""}`}
+                    ? "bg-slate-900 text-white dark:bg-white dark:text-zinc-900 shadow-sm"
+                    : "text-slate-600 dark:text-slate-400 hover:bg-slate-100/80 dark:hover:bg-zinc-800/60 hover:text-slate-900 dark:hover:text-white"
+                } ${collapsed ? "justify-center px-0" : ""}`}
                 title={collapsed ? item.label : undefined}
               >
-                <Icon className="h-4 w-4 shrink-0 transition-transform group-hover:scale-110" />
+                <Icon className={`h-4 w-4 shrink-0 transition-transform group-hover:scale-110 ${isActive ? "text-ssil-red" : ""}`} />
                 {!collapsed && <span className="truncate">{item.label}</span>}
               </Link>
             );
@@ -126,15 +124,15 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
         </nav>
 
         {/* User Info & Footer Actions */}
-        <div className="p-3 border-t border-slate-200 dark:border-zinc-800 space-y-2">
+        <div className="p-3 border-t border-slate-100 dark:border-zinc-800 space-y-2">
           {!collapsed ? (
-            <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-50 dark:bg-zinc-800/50">
+            <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-50 dark:bg-zinc-800/50 border border-slate-100 dark:border-zinc-800">
               <Shield className="h-4 w-4 text-emerald-500 shrink-0" />
               <div className="min-w-0 flex-1">
                 <p className="text-xs font-bold truncate text-slate-800 dark:text-slate-200">
                   {admin?.username || "Admin"}
                 </p>
-                <p className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase tracking-wider font-semibold">
+                <p className="text-[9px] text-slate-400 dark:text-zinc-500 uppercase tracking-wider font-semibold">
                   {admin?.role || "Superadmin"}
                 </p>
               </div>
@@ -152,12 +150,12 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
               asChild
               variant="outline"
               size="sm"
-              className={`text-[11px] font-bold border-slate-200 dark:border-zinc-700 ${collapsed ? "w-full p-2" : "flex-1"}`}
+              className={`text-[11px] font-bold border-slate-200 dark:border-zinc-700 rounded-xl ${collapsed ? "w-full p-2" : "flex-1"}`}
               title="View Public Website"
             >
               <Link href="/" target="_blank">
                 <ExternalLink className="h-3.5 w-3.5" />
-                {!collapsed && <span className="ml-1.5">View Site</span>}
+                {!collapsed && <span className="ml-1.5">Live Site</span>}
               </Link>
             </Button>
 
@@ -165,7 +163,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
               variant="destructive"
               size="sm"
               onClick={logout}
-              className={`bg-red-50 hover:bg-red-100 text-ssil-red border border-red-200 dark:bg-red-950/40 dark:border-red-900/50 font-bold text-xs ${
+              className={`bg-red-50 hover:bg-red-100 text-ssil-red border border-red-200/80 dark:bg-red-950/40 dark:border-red-900/50 font-bold text-xs rounded-xl ${
                 collapsed ? "w-full p-2" : "px-3"
               }`}
               title="Sign Out"
@@ -178,7 +176,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Main Content Wrapper */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden">
         
         {/* Top Bar on Mobile & Tablet */}
         <header className="lg:hidden h-16 bg-white dark:bg-zinc-900 border-b border-slate-200 dark:border-zinc-800 flex items-center justify-between px-4 sticky top-0 z-30">
@@ -230,9 +228,9 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
                       key={item.href}
                       href={item.href}
                       onClick={() => setMobileOpen(false)}
-                      className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-colors ${
+                      className={`flex items-center gap-3 px-3.5 py-3 rounded-2xl text-xs font-bold transition-colors ${
                         isActive
-                          ? "bg-ssil-red text-white"
+                          ? "bg-slate-900 text-white dark:bg-white dark:text-zinc-900"
                           : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-zinc-800"
                       }`}
                     >
@@ -244,7 +242,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
               </nav>
 
               <div className="pt-4 border-t border-slate-200 dark:border-zinc-800 space-y-2">
-                <Button asChild variant="outline" className="w-full text-xs font-bold">
+                <Button asChild variant="outline" className="w-full text-xs font-bold rounded-xl">
                   <Link href="/" target="_blank">
                     <ExternalLink className="mr-2 h-4 w-4" /> View Public Site
                   </Link>
@@ -255,7 +253,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
                     setMobileOpen(false);
                     logout();
                   }}
-                  className="w-full text-xs font-bold"
+                  className="w-full text-xs font-bold rounded-xl"
                 >
                   <LogOut className="mr-2 h-4 w-4" /> Sign Out
                 </Button>

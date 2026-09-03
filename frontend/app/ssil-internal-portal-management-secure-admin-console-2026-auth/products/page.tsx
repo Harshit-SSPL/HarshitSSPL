@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   Plus,
   Edit2,
@@ -14,6 +15,11 @@ import {
   Package,
   X,
   ExternalLink,
+  Search,
+  LayoutGrid,
+  List,
+  ChevronRight,
+  ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { fetchApi, uploadImageFile, ADMIN_BASE_PATH } from "@/lib/admin-api";
@@ -34,9 +40,12 @@ interface ProductItem {
   active?: boolean;
 }
 
-export default function AdminProductsPage() {
+function ProductsContent() {
+  const searchParams = useSearchParams();
   const [products, setProducts] = useState<ProductItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
@@ -85,6 +94,12 @@ export default function AdminProductsPage() {
   useEffect(() => {
     loadProducts();
   }, []);
+
+  useEffect(() => {
+    if (searchParams.get("action") === "new") {
+      openAddModal();
+    }
+  }, [searchParams]);
 
   const openAddModal = () => {
     setSelectedProduct(null);
@@ -158,12 +173,10 @@ export default function AdminProductsPage() {
     setErrorMsg(null);
 
     try {
-      // Auto-generate slug if empty
       const slugVal = formState.slug || formState.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
       const payload = { ...formState, slug: slugVal };
 
       if (selectedProduct?._id && selectedProduct._id.length > 10) {
-        // Update existing
         const res = await fetchApi(`/products/${selectedProduct._id}`, {
           method: "PUT",
           body: JSON.stringify(payload),
@@ -172,7 +185,6 @@ export default function AdminProductsPage() {
           setSuccessMsg(`Product "${formState.name}" updated successfully!`);
         }
       } else {
-        // Create new
         const res = await fetchApi("/products", {
           method: "POST",
           body: JSON.stringify(payload),
@@ -214,6 +226,11 @@ export default function AdminProductsPage() {
     }
   };
 
+  const filteredProducts = products.filter((p) =>
+    p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    p.slug.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   if (loading) {
     return (
       <div className="p-12 flex flex-col items-center justify-center">
@@ -224,25 +241,25 @@ export default function AdminProductsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-6xl mx-auto">
       
       {/* Header */}
-      <div className="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200/90 dark:border-zinc-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-[11px] font-black uppercase tracking-widest text-ssil-red block mb-1">
             CATALOGUE MASTER CMS
           </span>
-          <h1 className="text-2xl font-black uppercase tracking-tight text-slate-900 dark:text-white">
-            Products &amp; Solutions Manager
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight font-serif">
+            Products &amp; Solutions
           </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            Manage all 18 product categories, route slugs, daytime &amp; nighttime imagery, and design models.
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+            Manage all 18 product categories, day/night visuals, and click any product to edit its internal model designs.
           </p>
         </div>
 
         <Button
           onClick={openAddModal}
-          className="bg-ssil-red hover:bg-ssil-red-600 text-white font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-md flex items-center gap-2 self-start sm:self-auto"
+          className="bg-ssil-red hover:bg-ssil-red-600 text-white font-bold px-5 py-2.5 rounded-2xl text-xs sm:text-sm shadow-md flex items-center gap-2 self-start sm:self-auto"
         >
           <Plus className="h-4 w-4" />
           Add Product Category
@@ -257,98 +274,204 @@ export default function AdminProductsPage() {
         </div>
       )}
 
-      {/* Products Table */}
-      <div className="rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-xs overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 dark:bg-zinc-800/60 text-slate-500 dark:text-zinc-400 font-extrabold uppercase border-b border-slate-200 dark:border-zinc-800">
-              <tr>
-                <th className="py-3.5 px-4 w-12">#</th>
-                <th className="py-3.5 px-4">Product Name</th>
-                <th className="py-3.5 px-4">Slug Route</th>
-                <th className="py-3.5 px-4">Day / Night Images</th>
-                <th className="py-3.5 px-4">Designs</th>
-                <th className="py-3.5 px-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-zinc-800 font-medium">
-              {products.map((product, idx) => {
-                const prodId = product._id || product.id || String(idx);
-                return (
-                  <tr key={prodId} className="hover:bg-slate-50/80 dark:hover:bg-zinc-800/40 transition-colors">
-                    <td className="py-3.5 px-4 font-bold text-slate-400">
-                      {idx + 1}
-                    </td>
+      {/* Filter and View Mode Switcher */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white dark:bg-zinc-900 p-3.5 rounded-2xl border border-slate-200/90 dark:border-zinc-800 shadow-xs">
+        <div className="relative flex-1 max-w-md">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search products by title or route slug..."
+            className="w-full pl-10 pr-4 py-2 rounded-xl bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 text-xs font-medium text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-ssil-red"
+          />
+        </div>
 
-                    <td className="py-3.5 px-4 font-black uppercase text-slate-900 dark:text-white">
-                      <div className="flex items-center gap-2">
-                        <span>{product.name}</span>
-                        <Link
-                          href={`/products/${product.slug}`}
-                          target="_blank"
-                          className="text-slate-400 hover:text-ssil-red"
-                          title="View Live Page"
-                        >
-                          <ExternalLink className="h-3 w-3" />
-                        </Link>
-                      </div>
-                    </td>
-
-                    <td className="py-3.5 px-4 font-mono text-[11px] text-slate-500">
-                      /products/{product.slug}
-                    </td>
-
-                    <td className="py-3.5 px-4">
-                      <div className="flex items-center gap-2">
-                        <div className="h-9 w-9 rounded-lg overflow-hidden border border-slate-200 dark:border-zinc-700 bg-slate-100 dark:bg-zinc-800 flex items-center justify-center">
-                          <img src={product.dayImage} alt="Day" className="h-full w-full object-cover" />
-                        </div>
-                        {product.nightImage && (
-                          <div className="h-9 w-9 rounded-lg overflow-hidden border border-slate-200 dark:border-zinc-700 bg-slate-900 flex items-center justify-center">
-                            <img src={product.nightImage} alt="Night" className="h-full w-full object-cover" />
-                          </div>
-                        )}
-                      </div>
-                    </td>
-
-                    <td className="py-3.5 px-4">
-                      <Link
-                        href={`${ADMIN_BASE_PATH}/products/${prodId}/designs`}
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-bold hover:bg-blue-100 transition-colors"
-                      >
-                        <Layers className="h-3.5 w-3.5" />
-                        <span>Manage Designs</span>
-                      </Link>
-                    </td>
-
-                    <td className="py-3.5 px-4 text-right">
-                      <div className="flex items-center justify-end gap-1">
-                        <button
-                          onClick={() => openEditModal(product)}
-                          className="p-1.5 rounded-lg text-slate-500 hover:text-ssil-red hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors"
-                          title="Edit Category"
-                        >
-                          <Edit2 className="h-4 w-4" />
-                        </button>
-                        <button
-                          onClick={() => {
-                            setSelectedProduct(product);
-                            setDeleteModalOpen(true);
-                          }}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors"
-                          title="Delete Category"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+        <div className="flex items-center gap-2 self-end sm:self-auto">
+          <span className="text-xs text-slate-500 font-bold mr-2">
+            Showing {filteredProducts.length} of {products.length} Products
+          </span>
+          <div className="flex items-center bg-slate-100 dark:bg-zinc-800 p-1 rounded-xl">
+            <button
+              onClick={() => setViewMode("grid")}
+              className={`p-1.5 rounded-lg transition-colors ${
+                viewMode === "grid" ? "bg-white dark:bg-zinc-700 text-ssil-red shadow-xs font-bold" : "text-slate-500 hover:text-slate-900"
+              }`}
+              title="Grid View"
+            >
+              <LayoutGrid className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => setViewMode("table")}
+              className={`p-1.5 rounded-lg transition-colors ${
+                viewMode === "table" ? "bg-white dark:bg-zinc-700 text-ssil-red shadow-xs font-bold" : "text-slate-500 hover:text-slate-900"
+              }`}
+              title="Table View"
+            >
+              <List className="h-4 w-4" />
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Grid View of Internal Products */}
+      {viewMode === "grid" ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {filteredProducts.map((product, idx) => {
+            const prodId = product._id || product.id || String(idx);
+            return (
+              <div
+                key={prodId}
+                className="group bg-white dark:bg-zinc-900 border border-slate-200/90 dark:border-zinc-800 rounded-3xl p-5 shadow-xs hover:shadow-xl hover:border-ssil-red/40 transition-all flex flex-col justify-between relative"
+              >
+                <div>
+                  {/* Image Previews (Day & Night) */}
+                  <div className="grid grid-cols-2 gap-2 mb-3">
+                    <div className="h-28 rounded-2xl overflow-hidden bg-slate-100 dark:bg-zinc-800 border border-slate-100 dark:border-zinc-700 relative">
+                      <img src={product.dayImage} alt="Day" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                      <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-white/90 dark:bg-black/70 text-[9px] font-black uppercase tracking-wider text-slate-800 dark:text-white">
+                        Day
+                      </span>
+                    </div>
+                    <div className="h-28 rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 relative">
+                      <img src={product.nightImage || product.dayImage} alt="Night" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                      <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-black/80 text-[9px] font-black uppercase tracking-wider text-amber-400">
+                        Night
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Title and Route */}
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <h3 className="text-sm font-black uppercase text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors line-clamp-1">
+                        {product.name}
+                      </h3>
+                      <p className="text-[11px] font-mono text-slate-400 mt-0.5">
+                        /products/{product.slug}
+                      </p>
+                    </div>
+
+                    <Link
+                      href={`/products/${product.slug}`}
+                      target="_blank"
+                      className="p-1 rounded-lg text-slate-400 hover:text-ssil-red hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors"
+                      title="View Live Page"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </Link>
+                  </div>
+
+                  {product.tagline && (
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 line-clamp-2">
+                      {product.tagline}
+                    </p>
+                  )}
+                </div>
+
+                {/* Bottom Actions: Internal Models & Edit Category */}
+                <div className="pt-4 mt-4 border-t border-slate-100 dark:border-zinc-800 flex items-center justify-between gap-2">
+                  <Link
+                    href={`${ADMIN_BASE_PATH}/products/${prodId}/designs`}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-bold text-xs hover:bg-blue-100 transition-colors"
+                  >
+                    <Layers className="h-3.5 w-3.5" />
+                    <span>Internal Designs ({product.designCount || 12}+)</span>
+                  </Link>
+
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => openEditModal(product)}
+                      className="p-2 rounded-xl text-slate-600 hover:text-ssil-red hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors"
+                      title="Edit Category Details"
+                    >
+                      <Edit2 className="h-4 w-4" />
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSelectedProduct(product);
+                        setDeleteModalOpen(true);
+                      }}
+                      className="p-2 rounded-xl text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors"
+                      title="Delete Product"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        /* Table View */
+        <div className="rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200/90 dark:border-zinc-800 shadow-xs overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-slate-50 dark:bg-zinc-800/60 text-slate-500 dark:text-zinc-400 font-extrabold uppercase border-b border-slate-200 dark:border-zinc-800">
+                <tr>
+                  <th className="py-3.5 px-4 w-12">#</th>
+                  <th className="py-3.5 px-4">Product Name</th>
+                  <th className="py-3.5 px-4">Slug Route</th>
+                  <th className="py-3.5 px-4">Day / Night Visuals</th>
+                  <th className="py-3.5 px-4">Internal Models</th>
+                  <th className="py-3.5 px-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-zinc-800 font-medium">
+                {filteredProducts.map((product, idx) => {
+                  const prodId = product._id || product.id || String(idx);
+                  return (
+                    <tr key={prodId} className="hover:bg-slate-50/80 dark:hover:bg-zinc-800/40 transition-colors">
+                      <td className="py-3.5 px-4 font-bold text-slate-400">{idx + 1}</td>
+                      <td className="py-3.5 px-4 font-black uppercase text-slate-900 dark:text-white">
+                        <div className="flex items-center gap-2">
+                          <span>{product.name}</span>
+                          <Link href={`/products/${product.slug}`} target="_blank" className="text-slate-400 hover:text-ssil-red">
+                            <ExternalLink className="h-3 w-3" />
+                          </Link>
+                        </div>
+                      </td>
+                      <td className="py-3.5 px-4 font-mono text-[11px] text-slate-500">/products/{product.slug}</td>
+                      <td className="py-3.5 px-4">
+                        <div className="flex items-center gap-2">
+                          <div className="h-9 w-9 rounded-lg overflow-hidden border border-slate-200 dark:border-zinc-700 bg-slate-100 flex items-center justify-center">
+                            <img src={product.dayImage} alt="Day" className="h-full w-full object-cover" />
+                          </div>
+                          {product.nightImage && (
+                            <div className="h-9 w-9 rounded-lg overflow-hidden border border-slate-200 dark:border-zinc-700 bg-slate-900 flex items-center justify-center">
+                              <img src={product.nightImage} alt="Night" className="h-full w-full object-cover" />
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                      <td className="py-3.5 px-4">
+                        <Link
+                          href={`${ADMIN_BASE_PATH}/products/${prodId}/designs`}
+                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-bold hover:bg-blue-100 transition-colors"
+                        >
+                          <Layers className="h-3.5 w-3.5" />
+                          <span>Manage Designs ({product.designCount || 12}+)</span>
+                        </Link>
+                      </td>
+                      <td className="py-3.5 px-4 text-right">
+                        <div className="flex items-center justify-end gap-1">
+                          <button onClick={() => openEditModal(product)} className="p-1.5 rounded-lg text-slate-500 hover:text-ssil-red hover:bg-slate-100 dark:hover:bg-zinc-800">
+                            <Edit2 className="h-4 w-4" />
+                          </button>
+                          <button onClick={() => { setSelectedProduct(product); setDeleteModalOpen(true); }} className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50">
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       {/* Add / Edit Product Modal */}
       {modalOpen && (
@@ -372,7 +495,6 @@ export default function AdminProductsPage() {
             )}
 
             <form onSubmit={handleSaveProduct} className="space-y-4">
-              
               <div>
                 <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Product Name</label>
                 <input
@@ -420,8 +542,6 @@ export default function AdminProductsPage() {
 
               {/* Day & Night Images */}
               <div className="grid grid-cols-2 gap-3 pt-2">
-                
-                {/* Daytime Image */}
                 <div>
                   <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Daytime Image (Cloudinary)</label>
                   <div className="h-20 rounded-xl bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 p-2 flex items-center justify-center mb-2 overflow-hidden">
@@ -434,7 +554,6 @@ export default function AdminProductsPage() {
                   </label>
                 </div>
 
-                {/* Nighttime Image */}
                 <div>
                   <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Nighttime Image (Cloudinary)</label>
                   <div className="h-20 rounded-xl bg-slate-900 border border-slate-700 p-2 flex items-center justify-center mb-2 overflow-hidden">
@@ -446,7 +565,6 @@ export default function AdminProductsPage() {
                     <input type="file" accept="image/*" onChange={handleNightImageUpload} className="hidden" />
                   </label>
                 </div>
-
               </div>
 
               <div className="flex justify-end gap-2 pt-4 border-t border-slate-100 dark:border-zinc-800">
@@ -504,5 +622,13 @@ export default function AdminProductsPage() {
       )}
 
     </div>
+  );
+}
+
+export default function AdminProductsPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center text-slate-400 text-xs font-bold">Loading Products...</div>}>
+      <ProductsContent />
+    </Suspense>
   );
 }
