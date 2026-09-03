@@ -298,22 +298,13 @@ export default function ProductDetailPage() {
             Our engineering team designs custom structural calculations, photometric layouts, and tender-compliant manufacturing drawings tailored for your project requirements.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+          <div className="flex items-center justify-center">
             <Button
               onClick={() => openEnquiry("Custom Specification Request")}
-              className="bg-ssil-red hover:bg-ssil-red-600 text-white font-bold text-xs sm:text-sm px-6 py-3 rounded-none shadow-lg w-full sm:w-auto"
+              size="lg"
+              className="bg-ssil-red hover:bg-red-700 text-white font-bold px-8 py-3 rounded-full text-xs sm:text-sm shadow-xl shadow-ssil-red/25 hover:scale-105 transition-all"
             >
               <FileText className="mr-2 h-4 w-4" /> Request Technical Tender Specs
-            </Button>
-
-            <Button
-              asChild
-              variant="outline"
-              className="border-white/20 text-white hover:bg-white/10 font-bold text-xs sm:text-sm px-6 py-3 rounded-none w-full sm:w-auto"
-            >
-              <Link href="/contact">
-                <PhoneCall className="mr-2 h-4 w-4 text-ssil-red" /> Speak with Lighting Engineer
-              </Link>
             </Button>
           </div>
 

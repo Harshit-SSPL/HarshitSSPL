@@ -20,13 +20,13 @@ export interface CatalogProduct {
 }
 
 // Helper generator to construct clean data-driven design variants using real product assets
-const generateGallery = (prefix: string, baseName: string, count: number): GalleryItem[] => {
+const generateGallery = (prefix: string, baseName: string, count: number, customPrefixName?: boolean): GalleryItem[] => {
   return Array.from({ length: count }, (_, i) => {
     const index = (i % 6) + 1;
     const itemNum = String(i + 1).padStart(2, "0");
     return {
       id: `${prefix}-${itemNum}`,
-      name: `${baseName} Model ${itemNum}`,
+      name: customPrefixName ? `${baseName}${itemNum}` : `${baseName} Model ${itemNum}`,
       dayImage: `/images/products/homepage/product-0${index}/day.png`,
       nightImage: `/images/products/homepage/product-0${index}/night.png`,
       specs: "IP66 Weatherproof • Custom Engineering • ISO Standards",
@@ -39,14 +39,14 @@ export const catalogProducts: CatalogProduct[] = [
     id: "cat-01",
     name: "LED Decorative Poles",
     slug: "decorative-poles",
-    designCount: 42,
+    designCount: 41,
     tagline: "Lighting infrastructure designed to elevate civic and urban public spaces.",
     description:
       "Aesthetically crafted decorative lighting poles designed for urban beautification, public parks, commercial plazas, and resort walkways, blending structural strength with architectural elegance.",
     dayImage: "/images/products/homepage/product-02/day.png",
     nightImage: "/images/products/homepage/product-02/night.png",
     heroImage: "/products/products-hero.png",
-    galleryImages: generateGallery("dec-pole", "LED Decorative Pole Variant", 42),
+    galleryImages: generateGallery("ssildp", "SSILDP", 41, true),
   },
   {
     id: "cat-02",
