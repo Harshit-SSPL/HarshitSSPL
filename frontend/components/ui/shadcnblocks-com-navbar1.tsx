@@ -172,42 +172,42 @@ const Navbar1 = ({
                     <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${solarDropdownOpen ? "rotate-180" : ""}`} />
                   </button>
 
-                  {/* Dropdown Menu */}
+                  {/* Dropdown Menu (White in Light theme, Black in Dark theme) */}
                   {solarDropdownOpen && (
-                    <div className="absolute left-0 mt-2.5 w-64 rounded-2xl bg-slate-950/95 backdrop-blur-2xl border border-emerald-500/40 shadow-2xl shadow-black/80 p-2 z-50 animate-in fade-in zoom-in-95 duration-150">
+                    <div className="absolute left-0 mt-2.5 w-64 rounded-2xl bg-white/95 dark:bg-black/95 backdrop-blur-2xl border border-emerald-500/30 dark:border-emerald-500/40 shadow-2xl shadow-slate-900/15 dark:shadow-black/90 p-2 z-50 animate-in fade-in zoom-in-95 duration-150">
                       <Link
                         href="/products/solar-lights"
                         onClick={() => setSolarDropdownOpen(false)}
-                        className="flex items-center gap-3 p-2.5 rounded-xl text-left hover:bg-emerald-950/60 hover:border-emerald-500/30 border border-transparent transition-all group/item"
+                        className="flex items-center gap-3 p-2.5 rounded-xl text-left hover:bg-emerald-50/90 dark:hover:bg-emerald-950/60 hover:border-emerald-200 dark:hover:border-emerald-500/30 border border-transparent transition-all group/item"
                       >
-                        <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center shrink-0 group-hover/item:scale-110 group-hover/item:bg-emerald-500/30 transition-all shadow-xs">
-                          <Sun className="h-4 w-4 text-amber-300" />
+                        <div className="w-9 h-9 rounded-xl bg-emerald-100/90 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/40 flex items-center justify-center shrink-0 group-hover/item:scale-110 group-hover/item:bg-emerald-200/90 dark:group-hover/item:bg-emerald-500/30 transition-all shadow-xs">
+                          <Sun className="h-4 w-4 text-amber-500 dark:text-amber-300" />
                         </div>
                         <div>
-                          <span className="text-xs font-black text-white group-hover/item:text-emerald-400 block transition-colors">
+                          <span className="text-xs font-black text-slate-900 dark:text-white group-hover/item:text-emerald-600 dark:group-hover/item:text-emerald-400 block transition-colors">
                             Solar Lights
                           </span>
-                          <span className="text-[10px] text-slate-400 block mt-0.5">
+                          <span className="text-[10px] text-slate-500 dark:text-slate-400 block mt-0.5">
                             Autonomous solar street luminaires
                           </span>
                         </div>
                       </Link>
 
-                      <div className="h-[1px] bg-slate-800/80 my-1 mx-2" />
+                      <div className="h-[1px] bg-slate-100 dark:bg-zinc-800/80 my-1 mx-2" />
 
                       <Link
                         href="/products/solar-power-plants"
                         onClick={() => setSolarDropdownOpen(false)}
-                        className="flex items-center gap-3 p-2.5 rounded-xl text-left hover:bg-emerald-950/60 hover:border-emerald-500/30 border border-transparent transition-all group/item"
+                        className="flex items-center gap-3 p-2.5 rounded-xl text-left hover:bg-emerald-50/90 dark:hover:bg-emerald-950/60 hover:border-emerald-200 dark:hover:border-emerald-500/30 border border-transparent transition-all group/item"
                       >
-                        <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center shrink-0 group-hover/item:scale-110 group-hover/item:bg-emerald-500/30 transition-all shadow-xs">
-                          <Zap className="h-4 w-4 text-emerald-400" />
+                        <div className="w-9 h-9 rounded-xl bg-emerald-100/90 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/40 flex items-center justify-center shrink-0 group-hover/item:scale-110 group-hover/item:bg-emerald-200/90 dark:group-hover/item:bg-emerald-500/30 transition-all shadow-xs">
+                          <Zap className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                         </div>
                         <div>
-                          <span className="text-xs font-black text-white group-hover/item:text-emerald-400 block transition-colors">
+                          <span className="text-xs font-black text-slate-900 dark:text-white group-hover/item:text-emerald-600 dark:group-hover/item:text-emerald-400 block transition-colors">
                             Solar Power Plants
                           </span>
-                          <span className="text-[10px] text-slate-400 block mt-0.5">
+                          <span className="text-[10px] text-slate-500 dark:text-slate-400 block mt-0.5">
                             Commercial turnkey solar arrays
                           </span>
                         </div>
