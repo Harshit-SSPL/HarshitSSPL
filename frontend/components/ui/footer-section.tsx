@@ -63,24 +63,24 @@ export function Footerdemo() {
       title: "Good For Planet",
       subtitle: "Promoting sustainability through responsible innovation",
       icon: (
-        <svg className="w-8 h-8 text-white" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <svg className="w-12 h-12 sm:w-13 sm:h-13 text-white" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           {/* Earth Circle Outline */}
-          <circle cx="15" cy="16" r="10" />
+          <circle cx="14" cy="16" r="11" />
           {/* Continent Lines */}
-          <path d="M12 7c-1 2-1 4 1 5s3 3 2 5-3 2-4 3" />
-          <path d="M18 7.5c.5 1.5 2 2 2 3.5" />
-          <path d="M8 14c1.5 0 2-1 3.5-1" />
-          <path d="M13 22c1.5-.5 2.5.5 3 0" />
+          <path d="M11 6.5c-1.2 2.5-1.2 5 1.2 6.2s3.8 3.8 2.5 6.2-3.8 2.5-5 3.8" />
+          <path d="M18 7c.6 1.8 2.5 2.5 2.5 4.4" />
+          <path d="M5.5 13.5c1.8 0 2.5-1.2 4.4-1.2" />
+          <path d="M12 24.5c1.8-.6 3.1.6 3.8 0" />
           {/* Overlapping Heart on Right */}
           <path
-            d="M21 12.5c-1.2-1.5-3.2-1.2-4 0-.8-1.2-2.8-1.5-4 0-1.5 1.8 0 4.2 4 7 4-2.8 5.5-5.2 4-7z"
-            transform="translate(4, 1) scale(0.72)"
-            fill="#09090b"
+            d="M23 11c-1.5-2-4-1.5-5 0-1-1.5-3.5-2-5 0-2 2.2 0 5.2 5 8.8 5-3.6 7-6.6 5-8.8z"
+            transform="translate(1.5, 3.5) scale(0.85)"
+            fill="#000"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="1.8"
           />
           {/* Heart Highlight Reflection */}
-          <path d="M21.5 13.5c.6-.4 1.2-.3 1.5.2" stroke="currentColor" strokeWidth="1.4" />
+          <path d="M22 13.5c.8-.5 1.5-.4 1.9.3" stroke="currentColor" strokeWidth="1.4" />
         </svg>
       ),
     },
@@ -88,11 +88,11 @@ export function Footerdemo() {
       title: "International Design Standards",
       subtitle: "Precision engineered to global infrastructure benchmarks",
       icon: (
-        <svg className="w-7 h-7 text-white stroke-[1.5]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <circle cx="12" cy="12" r="9" />
-          <path d="M3.6 9h16.8M3.6 15h16.8" />
-          <path d="M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18" />
-          <circle cx="12" cy="12" r="3.5" fill="rgba(255,255,255,0.2)" stroke="currentColor" />
+        <svg className="w-12 h-12 sm:w-13 sm:h-13 text-white" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="16" cy="16" r="12" />
+          <path d="M4.5 12h23M4.5 20h23" />
+          <path d="M15.5 4.2a22 22 0 0 0 0 23.6M16.5 4.2a22 22 0 0 1 0 23.6" />
+          <circle cx="16" cy="16" r="4.5" fill="rgba(255,255,255,0.2)" stroke="currentColor" />
         </svg>
       ),
     },
@@ -100,10 +100,10 @@ export function Footerdemo() {
       title: "ISO 9001:2015 Certified",
       subtitle: "ISO 9001:2015 • ISO 14001:2015 • ISO 45001:2018",
       icon: (
-        <svg className="w-7 h-7 text-white stroke-[1.5]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <circle cx="12" cy="12" r="9.5" strokeDasharray="3 2" />
-          <polygon points="12 3 14.5 8.5 20.5 9.2 16 13.5 17.2 19.5 12 16.5 6.8 19.5 8 13.5 3.5 9.2 9.5 8.5 12 3" fill="rgba(255,255,255,0.15)" />
-          <text x="12" y="13.5" textAnchor="middle" fontSize="4.5" fontWeight="bold" fill="currentColor" stroke="none">ISO</text>
+        <svg className="w-12 h-12 sm:w-13 sm:h-13 text-white" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="16" cy="16" r="12.5" strokeDasharray="3.5 2.5" />
+          <polygon points="16 4 19.5 11.5 27.5 12.5 21.5 18 23 26 16 22 9 26 10.5 18 4.5 12.5 12.5 11.5 16 4" fill="rgba(255,255,255,0.12)" />
+          <text x="16" y="17.5" textAnchor="middle" fontSize="6.5" fontWeight="900" fill="currentColor" stroke="none">ISO</text>
         </svg>
       ),
     },
@@ -111,18 +111,16 @@ export function Footerdemo() {
       title: "Solar Energy",
       subtitle: "Clean renewable solar power & high-efficiency LED systems",
       icon: (
-        <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-          {/* Central Sun Circle */}
-          <circle cx="12" cy="12" r="4.5" fill="rgba(255,255,255,0.15)" />
-          {/* Radiant Solar Rays */}
-          <line x1="12" y1="2" x2="12" y2="4.5" />
-          <line x1="12" y1="19.5" x2="12" y2="22" />
-          <line x1="2" y1="12" x2="4.5" y2="12" />
-          <line x1="19.5" y1="12" x2="22" y2="12" />
-          <line x1="4.93" y1="4.93" x2="6.7" y2="6.7" />
-          <line x1="17.3" y1="17.3" x2="19.07" y2="19.07" />
-          <line x1="4.93" y1="19.07" x2="6.7" y2="17.3" />
-          <line x1="17.3" y1="6.7" x2="19.07" y2="4.93" />
+        <svg className="w-12 h-12 sm:w-13 sm:h-13 text-white" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="16" cy="16" r="6" fill="rgba(255,255,255,0.18)" />
+          <line x1="16" y1="3" x2="16" y2="6.5" strokeWidth="1.8" />
+          <line x1="16" y1="25.5" x2="16" y2="29" strokeWidth="1.8" />
+          <line x1="3" y1="16" x2="6.5" y2="16" strokeWidth="1.8" />
+          <line x1="25.5" y1="16" x2="29" y2="16" strokeWidth="1.8" />
+          <line x1="6.8" y1="6.8" x2="9.3" y2="9.3" strokeWidth="1.8" />
+          <line x1="22.7" y1="22.7" x2="25.2" y2="25.2" strokeWidth="1.8" />
+          <line x1="6.8" y1="25.2" x2="9.3" y2="22.7" strokeWidth="1.8" />
+          <line x1="22.7" y1="9.3" x2="25.2" y2="6.8" strokeWidth="1.8" />
         </svg>
       ),
     },
@@ -130,9 +128,9 @@ export function Footerdemo() {
       title: "Built to Last",
       subtitle: "In-house hot-dip galvanizing & high-tensile steel",
       icon: (
-        <svg className="w-7 h-7 text-white stroke-[1.5]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(255,255,255,0.15)" />
-          <path d="m9 12 2 2 4-4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <svg className="w-12 h-12 sm:w-13 sm:h-13 text-white" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M16 29s10.5-5.2 10.5-13V6.5L16 2.5 5.5 6.5V16c0 7.8 10.5 13 10.5 13z" fill="rgba(255,255,255,0.12)" />
+          <path d="m11.5 16 3.2 3.2 6-6" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       ),
     },
@@ -142,7 +140,7 @@ export function Footerdemo() {
     <footer className="relative border-t border-zinc-900 bg-black text-slate-100 transition-colors duration-300">
       
       {/* Top 5 Value Propositions / Trust Badges (Wipro Style) */}
-      <div className="border-b border-zinc-900/90 bg-gradient-to-b from-zinc-950 to-black py-10 sm:py-12">
+      <div className="border-b border-zinc-900/90 bg-gradient-to-b from-zinc-950 to-black py-10 sm:py-14">
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8 items-start text-center">
             {footerPillars.map((pillar, idx) => (
@@ -153,7 +151,7 @@ export function Footerdemo() {
                 }`}
               >
                 {/* Circular Icon Container */}
-                <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-full border border-white/25 bg-white/[0.04] backdrop-blur-xs flex items-center justify-center mb-3.5 transition-all duration-300 group-hover:scale-110 group-hover:border-ssil-red/80 group-hover:bg-ssil-red/10 group-hover:shadow-lg group-hover:shadow-ssil-red/20 shadow-xs">
+                <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-full border border-white/25 bg-white/[0.04] backdrop-blur-xs flex items-center justify-center mb-3.5 transition-all duration-300 group-hover:scale-105 group-hover:border-ssil-red/80 group-hover:bg-ssil-red/10 group-hover:shadow-xl group-hover:shadow-ssil-red/20 shadow-xs">
                   {pillar.icon}
                 </div>
 
