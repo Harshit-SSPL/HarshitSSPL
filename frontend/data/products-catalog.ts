@@ -64,7 +64,7 @@ export const catalogProducts: CatalogProduct[] = [
       "Custom-engineered designer poles featuring contemporary architectural geometries, hot-dip galvanization, and premium powder-coated finishes for civic landmarks and luxury developments.",
     dayImage: "/images/products/homepage/product-01/day.png",
     nightImage: "/images/products/homepage/product-01/night.png",
-    heroImage: "/products/products-hero.png",
+    heroImage: "/images/products/designer-poles/banner.png",
     galleryImages: generateGallery("des-pole", "LED Designer Pole Variant", 24, false, 1),
   },
   {
