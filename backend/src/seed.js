@@ -223,8 +223,8 @@ export const seedDatabase = async () => {
           designCount: 16,
           tagline: "Heavy-duty galvanized steel infrastructure engineered for dependable performance.",
           description: "Industrial octagonal steel poles manufactured from high-tensile steel sheets, hot-dip galvanized in-house for expressways and heavy infrastructure.",
-          dayImage: "/images/products/homepage/product-05/day.png",
-          nightImage: "/images/products/homepage/product-05/night.png",
+          dayImage: "/images/products/octagonal-poles/day.png",
+          nightImage: "/images/products/octagonal-poles/night.png",
           order: 4,
         },
         {
