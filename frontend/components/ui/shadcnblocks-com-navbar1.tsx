@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, ChevronDown, Sun, Zap, Sparkles } from "lucide-react";
+import { Menu, ChevronDown, ChevronRight, Sun, Zap, Sparkles } from "lucide-react";
 import AnimatedThemeToggler from "@/components/ui/animated-theme-toggler";
 import { catalogProducts } from "@/data/products-catalog";
 
@@ -176,10 +176,10 @@ const Navbar1 = ({
                           {item.title}
                         </Link>
 
-                        {/* Products Sharp Dropdown (Sharp corners, 18 product titles, no arrow, auto closes on cursor leave) */}
+                        {/* Products Curved Dropdown with Partition Lines & Red Accents */}
                         {productsDropdownOpen && (
                           <div
-                            className="absolute -left-10 top-full pt-1.5 z-50 animate-in fade-in zoom-in-95 duration-100"
+                            className="absolute left-0 top-full pt-2 z-50 animate-in fade-in zoom-in-95 duration-150"
                             onMouseEnter={() => {
                               if (productsCloseTimeout.current) {
                                 clearTimeout(productsCloseTimeout.current);
@@ -192,19 +192,50 @@ const Navbar1 = ({
                               }, 120);
                             }}
                           >
-                            <div className="w-[660px] rounded-none bg-white/95 dark:bg-zinc-950/95 backdrop-blur-2xl border border-slate-200 dark:border-zinc-800 shadow-2xl p-3">
-                              <div className="grid grid-cols-3 gap-1">
-                                {catalogProducts.map((prod) => (
-                                  <Link
-                                    key={prod.id || prod.slug}
-                                    href={`/products/${prod.slug}`}
-                                    onClick={() => setProductsDropdownOpen(false)}
-                                    className="rounded-none px-2.5 py-1.5 text-left text-xs font-bold text-slate-800 dark:text-slate-200 hover:text-ssil-red dark:hover:text-ssil-red hover:bg-slate-100/90 dark:hover:bg-zinc-900 transition-colors block truncate"
-                                    title={prod.name}
-                                  >
-                                    {prod.name}
-                                  </Link>
-                                ))}
+                            <div className="w-[720px] rounded-2xl bg-white/95 dark:bg-zinc-950/95 backdrop-blur-2xl border border-slate-200/90 dark:border-zinc-800 shadow-2xl p-4 overflow-hidden">
+                              {/* Top Header Strip with Red Accent */}
+                              <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-slate-200/80 dark:border-zinc-800/80 px-1">
+                                <div className="flex items-center gap-2">
+                                  <span className="h-2 w-2 rounded-full bg-ssil-red animate-pulse" />
+                                  <span className="text-[11px] font-black uppercase tracking-wider text-ssil-red">
+                                    Product Categories &amp; Infrastructure
+                                  </span>
+                                </div>
+                                <Link
+                                  href="/products"
+                                  onClick={() => setProductsDropdownOpen(false)}
+                                  className="text-[11px] font-bold text-slate-500 hover:text-ssil-red dark:text-slate-400 dark:hover:text-ssil-red transition-colors flex items-center gap-1"
+                                >
+                                  <span>View All (18)</span>
+                                  <ChevronRight className="h-3 w-3 text-ssil-red" />
+                                </Link>
+                              </div>
+
+                              {/* 3 Columns with Vertical Partition Lines */}
+                              <div className="grid grid-cols-3 divide-x divide-slate-200/80 dark:divide-zinc-800/80">
+                                {[0, 1, 2].map((colIdx) => {
+                                  const colProducts = catalogProducts.slice(colIdx * 6, (colIdx + 1) * 6);
+                                  return (
+                                    <div
+                                      key={colIdx}
+                                      className={`flex flex-col gap-1 ${
+                                        colIdx === 0 ? "pr-3" : colIdx === 1 ? "px-3" : "pl-3"
+                                      }`}
+                                    >
+                                      {colProducts.map((prod) => (
+                                        <Link
+                                          key={prod.id || prod.slug}
+                                          href={`/products/${prod.slug}`}
+                                          onClick={() => setProductsDropdownOpen(false)}
+                                          className="group flex items-center justify-between px-2.5 py-1.5 rounded-xl text-left text-xs font-bold text-slate-800 dark:text-slate-200 hover:text-ssil-red dark:hover:text-ssil-red hover:bg-ssil-red/10 dark:hover:bg-ssil-red/15 transition-all duration-150"
+                                        >
+                                          <span className="truncate">{prod.name}</span>
+                                          <ChevronRight className="h-3 w-3 text-ssil-red opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all shrink-0 ml-1" />
+                                        </Link>
+                                      ))}
+                                    </div>
+                                  );
+                                })}
                               </div>
                             </div>
                           </div>
