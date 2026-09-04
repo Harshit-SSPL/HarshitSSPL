@@ -15,6 +15,7 @@ export interface ProductCardProps {
   buttonText?: string;
   showArrow?: boolean;
   enableImageCrossfade?: boolean;
+  imagePosition?: string;
   onEnquire?: (name: string) => void;
 }
 
@@ -38,6 +39,7 @@ export const ProductCard = ({
   buttonText = "View All",
   showArrow = true,
   enableImageCrossfade = true,
+  imagePosition = "object-top",
   onEnquire,
 }: ProductCardProps) => {
   const defaultDay = "/images/products/homepage/product-01/day.png";
@@ -70,7 +72,10 @@ export const ProductCard = ({
           <img
             src={daySrc}
             alt={`${name} Day`}
-            className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+            className={cn(
+              "absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105",
+              imagePosition || "object-top"
+            )}
             loading="eager"
             onError={() => {
               if (daySrc !== defaultDay) setDaySrc(defaultDay);
@@ -81,7 +86,10 @@ export const ProductCard = ({
           <img
             src={nightSrc}
             alt={`${name} Night`}
-            className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-all duration-700 ease-in-out group-hover:scale-105 pointer-events-none"
+            className={cn(
+              "absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-all duration-700 ease-in-out group-hover:scale-105 pointer-events-none",
+              imagePosition || "object-top"
+            )}
             loading="eager"
             onError={() => {
               if (nightSrc !== defaultNight) setNightSrc(defaultNight);
@@ -93,7 +101,10 @@ export const ProductCard = ({
         <img
           src={daySrc}
           alt={name}
-          className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
+          className={cn(
+            "absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105",
+            imagePosition || "object-top"
+          )}
           loading="eager"
           onError={() => {
             if (daySrc !== defaultDay) setDaySrc(defaultDay);

@@ -410,14 +410,14 @@ export default function OctagonalPolesPage() {
                   <img
                     src="/images/products/octagonal-poles/day.png"
                     alt="SSIL Hot-Dip Galvanized Octagonal Pole Daytime"
-                    className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                    className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
                   />
 
                   {/* Night Version (Smoothly crossfades in on hover) */}
                   <img
                     src="/images/products/octagonal-poles/night.png"
                     alt="SSIL Hot-Dip Galvanized Octagonal Pole Night Illumination"
-                    className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out group-hover:scale-105 pointer-events-none"
+                    className="absolute inset-0 w-full h-full object-cover object-top opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out group-hover:scale-105 pointer-events-none"
                   />
                   
                   {/* Subtle Gradient Shadow Overlay */}
