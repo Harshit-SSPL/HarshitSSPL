@@ -194,21 +194,15 @@ export function Footerdemo() {
             <p className="mb-4 text-xs sm:text-sm text-slate-300 leading-relaxed">
               Request SSIL&apos;s master technical product catalog and project tender specifications.
             </p>
-            <form className="relative" onSubmit={(e) => e.preventDefault()}>
-              <Input
-                type="email"
-                placeholder="Enter work email..."
-                className="pr-12 bg-zinc-900/90 border-zinc-800 text-white placeholder:text-slate-500 focus:border-ssil-red text-xs sm:text-sm"
-              />
-              <Button
-                type="submit"
-                size="icon"
-                className="absolute right-1 top-1 h-7 w-7 rounded-full bg-ssil-red text-white transition-transform hover:scale-105 hover:bg-ssil-red-600"
-              >
-                <Send className="h-3.5 w-3.5" />
-                <span className="sr-only">Request Catalog</span>
-              </Button>
-            </form>
+            <Button
+              asChild
+              className="w-full h-11 rounded-xl bg-ssil-red hover:bg-ssil-red-600 text-white font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-ssil-red/30 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+            >
+              <Link href="/contact">
+                <span>Enquire Now</span>
+                <Send className="h-4 w-4" />
+              </Link>
+            </Button>
           </div>
 
           {/* Column 2: Quick Links */}
