@@ -105,7 +105,7 @@ export const catalogProducts: CatalogProduct[] = [
       "Industrial octagonal steel poles manufactured from high-tensile steel sheets, hot-dip galvanized in-house for superior corrosion resistance on expressways and heavy infrastructure.",
     dayImage: "/images/products/octagonal-poles/day.png",
     nightImage: "/images/products/octagonal-poles/night.png",
-    heroImage: "/products/products-hero.png",
+    heroImage: "/images/products/octagonal-poles/banner.png",
     galleryImages: generateGallery("octagonal", "Galvanized Octagonal Steel Pole", 16, false, undefined, "/images/products/octagonal-poles/day.png", "/images/products/octagonal-poles/night.png"),
   },
   {
