@@ -278,96 +278,7 @@ export default function ProductDetailPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 3. COMPACT HERO SECTION (DAY/NIGHT HOVER CROSSFADE) */}
-      {/* ============================================================ */}
-      <motion.section
-        className="relative py-14 sm:py-16 lg:py-20 border-b border-slate-200 dark:border-zinc-900"
-        initial="hidden"
-        animate="visible"
-        variants={sectionVariants}
-      >
-        <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            
-            {/* Left Content Column */}
-            <motion.div variants={childVariants} className="lg:col-span-6 space-y-5 text-left flex flex-col justify-center">
-              <div className="space-y-3.5">
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight uppercase leading-[1.05]">
-                  {product.name.split(" ")[0]} <br />
-                  <span className="text-ssil-red">{product.name.split(" ").slice(1).join(" ") || "SYSTEMS."}</span>
-                </h2>
-
-                {/* 3 Product-Value Bullet Points */}
-                <div className="space-y-3 pt-1 text-left">
-                  <div className="flex items-start gap-2.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0 mt-2" />
-                    <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
-                      Precision engineered with high-durability structural housing and corrosion-resistant coatings designed for robust outdoor operation.
-                    </p>
-                  </div>
-
-                  <div className="flex items-start gap-2.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0 mt-2" />
-                    <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
-                      Equipped with high-efficiency optical systems and thermal management for uniform, glare-controlled lighting performance.
-                    </p>
-                  </div>
-
-                  <div className="flex items-start gap-2.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-ssil-red shrink-0 mt-2" />
-                    <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
-                      Designed and manufactured to tender-compliant Indian and international infrastructure quality standards.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Right Hero Image Column (Day/Night Hover Crossfade) */}
-            <motion.div variants={childVariants} className="lg:col-span-6">
-              <div className="group relative rounded-2xl sm:rounded-3xl border border-slate-200/90 dark:border-zinc-800 overflow-hidden shadow-lg bg-slate-100 dark:bg-zinc-900 cursor-pointer w-full max-w-[560px] mx-auto lg:max-w-none">
-                <div className="relative aspect-[12/9] w-full overflow-hidden">
-                  {/* Day Image (Default) */}
-                  <img
-                    src={product.dayImage}
-                    alt={`${product.name} Daytime`}
-                    className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-                    loading="eager"
-                  />
-                  {/* Night Image (Hover Transition) */}
-                  <img
-                    src={product.nightImage || product.dayImage}
-                    alt={`${product.name} Night Illumination`}
-                    className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out group-hover:scale-105 pointer-events-none"
-                    loading="eager"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 pointer-events-none" />
-                  
-                  {/* Glass Caption Pill */}
-                  <div className="absolute bottom-3.5 left-3.5 right-3.5 z-20 flex items-center justify-between p-3 sm:p-3.5 rounded-xl bg-white/80 dark:bg-black/60 backdrop-blur-md border border-white/30 dark:border-white/10 shadow-lg text-slate-900 dark:text-white transition-all">
-                    <div>
-                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-ssil-red block">
-                        {product.name}
-                      </span>
-                      <span className="text-xs sm:text-sm font-black">
-                        Commercial &amp; Civic Infrastructure
-                      </span>
-                    </div>
-                    <span className="text-[11px] font-bold text-slate-700 dark:text-slate-200 bg-slate-100/90 dark:bg-white/10 px-2.5 py-1 rounded-md border border-slate-200/80 dark:border-white/10">
-                      IP66 Standard
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-          </div>
-        </div>
-      </motion.section>
-
-
-      {/* ============================================================ */}
-      {/* 5. PRODUCT IMAGE GALLERY */}
+      {/* 3. PRODUCT IMAGE GALLERY */}
       {/* ============================================================ */}
       <section className="relative z-10 py-14 sm:py-20 bg-white dark:bg-black">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
@@ -379,7 +290,7 @@ export default function ProductDetailPage() {
                 PRODUCT CATALOGUE &amp; DESIGNS
               </span>
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
-                Available Designs ({product.galleryImages.length})
+                Available Designs
               </h2>
             </div>
             
