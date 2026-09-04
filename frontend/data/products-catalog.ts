@@ -20,9 +20,15 @@ export interface CatalogProduct {
 }
 
 // Helper generator to construct clean data-driven design variants using real product assets
-const generateGallery = (prefix: string, baseName: string, count: number, customPrefixName?: boolean): GalleryItem[] => {
+const generateGallery = (
+  prefix: string,
+  baseName: string,
+  count: number,
+  customPrefixName?: boolean,
+  fixedIndex?: number
+): GalleryItem[] => {
   return Array.from({ length: count }, (_, i) => {
-    const index = (i % 6) + 1;
+    const index = fixedIndex !== undefined ? fixedIndex : (i % 6) + 1;
     const itemNum = String(i + 1).padStart(2, "0");
     return {
       id: `${prefix}-${itemNum}`,
@@ -56,10 +62,10 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "Distinctive contemporary pole design for landmark architectural environments.",
     description:
       "Custom-engineered designer poles featuring contemporary architectural geometries, hot-dip galvanization, and premium powder-coated finishes for civic landmarks and luxury developments.",
-    dayImage: "/images/products/homepage/product-02/day.png",
-    nightImage: "/images/products/homepage/product-02/night.png",
+    dayImage: "/images/products/homepage/product-01/day.png",
+    nightImage: "/images/products/homepage/product-01/night.png",
     heroImage: "/products/products-hero.png",
-    galleryImages: generateGallery("des-pole", "LED Designer Pole Variant", 24),
+    galleryImages: generateGallery("des-pole", "LED Designer Pole Variant", 24, false, 1),
   },
   {
     id: "cat-03",
@@ -82,8 +88,8 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "Efficient indoor illumination engineered for architectural and commercial spaces.",
     description:
       "High-efficiency LED indoor luminaires designed for commercial complexes, corporate offices, industrial facilities, and public infrastructure spaces, delivering uniform glare-free light distribution and long-term energy savings.",
-    dayImage: "/images/products/homepage/product-01/day.png",
-    nightImage: "/images/products/homepage/product-01/night.png",
+    dayImage: "/images/products/homepage/product-03/day.png",
+    nightImage: "/images/products/homepage/product-03/night.png",
     heroImage: "/products/products-hero.png",
     galleryImages: generateGallery("indoor-light", "LED Indoor Luminaire", 26),
   },
