@@ -200,6 +200,8 @@ const childVariants = {
 
 export default function CameraPolesPage() {
   const [bannerImage, setBannerImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png");
+  const [dayImage, setDayImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510389/ssil_products_day/day.png");
+  const [nightImage, setNightImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510390/ssil_products_night/night.png");
   const [enquiryState, setEnquiryState] = useState<{
     isOpen: boolean;
     productCategory: string;
@@ -211,21 +213,23 @@ export default function CameraPolesPage() {
   });
 
   React.useEffect(() => {
-    const fetchBanner = async () => {
+    const fetchProductData = async () => {
       try {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
         const res = await fetch(`${apiUrl}/products/camera-poles`);
         if (res.ok) {
           const data = await res.json();
-          if (data.success && data.product?.heroImage) {
-            setBannerImage(data.product.heroImage);
+          if (data.success && data.product) {
+            if (data.product.heroImage) setBannerImage(data.product.heroImage);
+            if (data.product.dayImage) setDayImage(data.product.dayImage);
+            if (data.product.nightImage) setNightImage(data.product.nightImage);
           }
         }
       } catch (err) {
         // Fallback
       }
     };
-    fetchBanner();
+    fetchProductData();
   }, []);
 
   const openEnquiry = (modelName?: string) => {
@@ -400,7 +404,7 @@ export default function CameraPolesPage() {
                 <div className="relative aspect-[4/4.5] sm:aspect-[4/4.8] w-full overflow-hidden">
                   {/* Day Version (Default) */}
                   <img
-                    src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510389/ssil_products_day/day.png"
+                    src={dayImage}
                     alt="SSIL Smart Surveillance Camera Pole Daytime"
                     className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                     loading="eager"
@@ -408,7 +412,7 @@ export default function CameraPolesPage() {
 
                   {/* Night Version (Smoothly crossfades in on hover) */}
                   <img
-                    src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510390/ssil_products_night/night.png"
+                    src={nightImage || dayImage}
                     alt="SSIL Smart Surveillance Camera Pole Night Operation"
                     className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out group-hover:scale-105 pointer-events-none"
                     loading="eager"

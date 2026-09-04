@@ -580,29 +580,42 @@ function ProductsContent() {
               </div>
 
               {/* Day & Night Images */}
-              <div className="grid grid-cols-2 gap-3 pt-2">
-                <div>
-                  <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Daytime Image (Cloudinary)</label>
-                  <div className="h-20 rounded-xl bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 p-2 flex items-center justify-center mb-2 overflow-hidden">
-                    <img src={formState.dayImage} alt="Day" className="max-h-full max-w-full object-cover" />
-                  </div>
-                  <label className="cursor-pointer flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-dashed border-slate-300 dark:border-zinc-700 hover:border-ssil-red bg-slate-50 dark:bg-zinc-800 text-[11px] font-bold text-slate-600 dark:text-slate-300">
-                    {uploadingDay ? <Loader2 className="h-3.5 w-3.5 animate-spin text-ssil-red" /> : <Upload className="h-3.5 w-3.5 text-ssil-red" />}
-                    <span>Upload Day Image</span>
-                    <input type="file" accept="image/*" onChange={handleDayImageUpload} className="hidden" />
-                  </label>
+              <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-700 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-black uppercase text-slate-800 dark:text-slate-200">
+                    Day &amp; Night Interactive Visuals
+                  </span>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase">CATALOG &amp; INTERNAL SHOWCASE</span>
                 </div>
 
-                <div>
-                  <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Nighttime Image (Cloudinary)</label>
-                  <div className="h-20 rounded-xl bg-slate-900 border border-slate-700 p-2 flex items-center justify-center mb-2 overflow-hidden">
-                    <img src={formState.nightImage} alt="Night" className="max-h-full max-w-full object-cover" />
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase text-slate-500 mb-1">
+                      Daytime Visual (Default)
+                    </label>
+                    <div className="h-24 rounded-xl bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 p-1 flex items-center justify-center mb-2 overflow-hidden">
+                      <img src={formState.dayImage} alt="Day" className="max-h-full max-w-full object-cover rounded-lg" />
+                    </div>
+                    <label className="cursor-pointer flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-dashed border-slate-300 dark:border-zinc-700 hover:border-ssil-red bg-white dark:bg-zinc-900 text-[11px] font-bold text-slate-600 dark:text-slate-300 transition-colors">
+                      {uploadingDay ? <Loader2 className="h-3.5 w-3.5 animate-spin text-ssil-red" /> : <Upload className="h-3.5 w-3.5 text-ssil-red" />}
+                      <span>Upload Day Image</span>
+                      <input type="file" accept="image/*" onChange={handleDayImageUpload} className="hidden" />
+                    </label>
                   </div>
-                  <label className="cursor-pointer flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-dashed border-slate-300 dark:border-zinc-700 hover:border-ssil-red bg-slate-50 dark:bg-zinc-800 text-[11px] font-bold text-slate-600 dark:text-slate-300">
-                    {uploadingNight ? <Loader2 className="h-3.5 w-3.5 animate-spin text-ssil-red" /> : <Upload className="h-3.5 w-3.5 text-ssil-red" />}
-                    <span>Upload Night Image</span>
-                    <input type="file" accept="image/*" onChange={handleNightImageUpload} className="hidden" />
-                  </label>
+
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase text-slate-500 mb-1">
+                      Nighttime Visual (Hover)
+                    </label>
+                    <div className="h-24 rounded-xl bg-slate-950 border border-slate-700 p-1 flex items-center justify-center mb-2 overflow-hidden">
+                      <img src={formState.nightImage} alt="Night" className="max-h-full max-w-full object-cover rounded-lg" />
+                    </div>
+                    <label className="cursor-pointer flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-dashed border-slate-300 dark:border-zinc-700 hover:border-ssil-red bg-white dark:bg-zinc-900 text-[11px] font-bold text-slate-600 dark:text-slate-300 transition-colors">
+                      {uploadingNight ? <Loader2 className="h-3.5 w-3.5 animate-spin text-ssil-red" /> : <Upload className="h-3.5 w-3.5 text-ssil-red" />}
+                      <span>Upload Night Image</span>
+                      <input type="file" accept="image/*" onChange={handleNightImageUpload} className="hidden" />
+                    </label>
+                  </div>
                 </div>
               </div>
 

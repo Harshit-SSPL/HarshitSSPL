@@ -227,6 +227,8 @@ const childVariants = {
 
 export default function OctagonalPolesPage() {
   const [bannerImage, setBannerImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510362/ssil_banners/banner.png");
+  const [dayImage, setDayImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510369/ssil_products_day/day.png");
+  const [nightImage, setNightImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510370/ssil_products_night/night.png");
   const [enquiryState, setEnquiryState] = useState<{
     isOpen: boolean;
     productCategory: string;
@@ -238,21 +240,23 @@ export default function OctagonalPolesPage() {
   });
 
   React.useEffect(() => {
-    const fetchBanner = async () => {
+    const fetchProductData = async () => {
       try {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
         const res = await fetch(`${apiUrl}/products/octagonal-poles`);
         if (res.ok) {
           const data = await res.json();
-          if (data.success && data.product?.heroImage) {
-            setBannerImage(data.product.heroImage);
+          if (data.success && data.product) {
+            if (data.product.heroImage) setBannerImage(data.product.heroImage);
+            if (data.product.dayImage) setDayImage(data.product.dayImage);
+            if (data.product.nightImage) setNightImage(data.product.nightImage);
           }
         }
       } catch (err) {
         // Fallback
       }
     };
-    fetchBanner();
+    fetchProductData();
   }, []);
 
   const openEnquiry = (modelName?: string) => {
@@ -427,14 +431,14 @@ export default function OctagonalPolesPage() {
                 <div className="relative aspect-[4/4.5] sm:aspect-[4/4.8] w-full overflow-hidden">
                   {/* Day Version (Default) */}
                   <img
-                    src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510369/ssil_products_day/day.png"
+                    src={dayImage}
                     alt="SSIL Hot-Dip Galvanized Octagonal Pole Daytime"
                     className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
                   />
 
                   {/* Night Version (Smoothly crossfades in on hover) */}
                   <img
-                    src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510370/ssil_products_night/night.png"
+                    src={nightImage || dayImage}
                     alt="SSIL Hot-Dip Galvanized Octagonal Pole Night Illumination"
                     className="absolute inset-0 w-full h-full object-cover object-top opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out group-hover:scale-105 pointer-events-none"
                   />
