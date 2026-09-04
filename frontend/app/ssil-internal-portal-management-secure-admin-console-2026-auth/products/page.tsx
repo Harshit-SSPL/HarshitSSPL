@@ -52,6 +52,7 @@ function ProductsContent() {
   const [actionLoading, setActionLoading] = useState(false);
   const [uploadingDay, setUploadingDay] = useState(false);
   const [uploadingNight, setUploadingNight] = useState(false);
+  const [uploadingHero, setUploadingHero] = useState(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -164,6 +165,23 @@ function ProductsContent() {
       setErrorMsg(err.message || "Failed to upload nighttime image.");
     } finally {
       setUploadingNight(false);
+    }
+  };
+
+  const handleHeroImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingHero(true);
+    setErrorMsg(null);
+
+    try {
+      const uploaded = await uploadImageFile(file, "ssil_banners");
+      setFormState((prev) => ({ ...prev, heroImage: uploaded.url }));
+    } catch (err: any) {
+      setErrorMsg(err.message || "Failed to upload hero banner image.");
+    } finally {
+      setUploadingHero(false);
     }
   };
 
@@ -567,6 +585,47 @@ function ProductsContent() {
                 </div>
               </div>
 
+              {/* Product Page Hero Banner Photo */}
+              <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-700 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <label className="block text-[11px] font-black uppercase text-ssil-red">
+                    Product Page Top Hero Banner Photo (Cloudinary)
+                  </label>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase">FULL-BLEED BANNER</span>
+                </div>
+
+                {formState.heroImage && (
+                  <div className="relative h-28 w-full bg-slate-950 rounded-xl overflow-hidden border border-slate-200 dark:border-zinc-700 p-1 flex items-center justify-center">
+                    <img src={formState.heroImage} alt="Hero Banner Preview" className="max-h-full max-w-full object-cover rounded-lg" />
+                  </div>
+                )}
+
+                <div className="flex items-center gap-2">
+                  <label className="flex-1 cursor-pointer flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-dashed border-slate-300 dark:border-zinc-600 hover:border-ssil-red bg-white dark:bg-zinc-900 text-xs font-bold text-slate-700 dark:text-slate-200 transition-colors">
+                    {uploadingHero ? (
+                      <>
+                        <Loader2 className="h-3.5 w-3.5 animate-spin text-ssil-red" />
+                        <span>Uploading Banner to Cloudinary...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="h-3.5 w-3.5 text-ssil-red" />
+                        <span>Upload Banner Photo</span>
+                      </>
+                    )}
+                    <input type="file" accept="image/*" onChange={handleHeroImageUpload} className="hidden" />
+                  </label>
+                </div>
+
+                <input
+                  type="url"
+                  placeholder="Or paste Cloudinary banner URL"
+                  value={formState.heroImage}
+                  onChange={(e) => setFormState({ ...formState, heroImage: e.target.value })}
+                  className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-[11px] font-mono text-slate-500"
+                />
+              </div>
+
               <div className="flex justify-end gap-2 pt-4 border-t border-slate-100 dark:border-zinc-800">
                 <Button
                   type="button"
@@ -578,7 +637,7 @@ function ProductsContent() {
                 </Button>
                 <Button
                   type="submit"
-                  disabled={actionLoading || uploadingDay || uploadingNight}
+                  disabled={actionLoading || uploadingDay || uploadingNight || uploadingHero}
                   className="bg-ssil-red hover:bg-ssil-red-600 text-white text-xs font-bold rounded-xl"
                 >
                   {actionLoading ? "Saving..." : "Save Product Category"}

@@ -133,6 +133,19 @@ export const createProduct = async (req, res) => {
 // PUT /api/products/:id (Admin protected)
 export const updateProduct = async (req, res) => {
   try {
+    const existing = await Product.findById(req.params.id);
+    if (existing) {
+      if (req.body.heroImage && existing.heroImage !== req.body.heroImage && existing.heroCloudinaryId) {
+        await deleteFromCloudinary(existing.heroCloudinaryId);
+      }
+      if (req.body.dayImage && existing.dayImage !== req.body.dayImage && existing.dayCloudinaryId) {
+        await deleteFromCloudinary(existing.dayCloudinaryId);
+      }
+      if (req.body.nightImage && existing.nightImage !== req.body.nightImage && existing.nightCloudinaryId) {
+        await deleteFromCloudinary(existing.nightCloudinaryId);
+      }
+    }
+
     const updated = await Product.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
@@ -155,6 +168,13 @@ export const updateProduct = async (req, res) => {
 // DELETE /api/products/:id (Admin protected)
 export const deleteProduct = async (req, res) => {
   try {
+    const existing = await Product.findById(req.params.id);
+    if (existing) {
+      if (existing.heroCloudinaryId) await deleteFromCloudinary(existing.heroCloudinaryId);
+      if (existing.dayCloudinaryId) await deleteFromCloudinary(existing.dayCloudinaryId);
+      if (existing.nightCloudinaryId) await deleteFromCloudinary(existing.nightCloudinaryId);
+    }
+
     await Product.findByIdAndDelete(req.params.id);
     return res.status(200).json({
       success: true,

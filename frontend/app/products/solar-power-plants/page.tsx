@@ -63,6 +63,7 @@ const solarTechnicalSpecs: SolarSpecRow[] = [
 ];
 
 export default function SolarPowerPlantsPage() {
+  const [bannerImage, setBannerImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510364/ssil_banners/banner.png");
   const [enquiryState, setEnquiryState] = useState<{
     isOpen: boolean;
     productCategory: string;
@@ -72,6 +73,24 @@ export default function SolarPowerPlantsPage() {
     productCategory: "Solar Power Plants",
     productModel: "Turnkey Solar Power Plant (KWp to MW Scale)",
   });
+
+  React.useEffect(() => {
+    const fetchBanner = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+        const res = await fetch(`${apiUrl}/products/solar-power-plants`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.product?.heroImage) {
+            setBannerImage(data.product.heroImage);
+          }
+        }
+      } catch (err) {
+        // Fallback
+      }
+    };
+    fetchBanner();
+  }, []);
 
   const openEnquiry = (modelName?: string) => {
     setEnquiryState({
@@ -162,7 +181,7 @@ export default function SolarPowerPlantsPage() {
       <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
         {/* Full-bleed Background Image */}
         <Image
-          src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510364/ssil_banners/banner.png"
+          src={bannerImage}
           alt="Solar Power Plants SSIL Hero Banner"
           fill
           priority

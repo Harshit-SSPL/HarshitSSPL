@@ -199,6 +199,7 @@ const childVariants = {
 };
 
 export default function CameraPolesPage() {
+  const [bannerImage, setBannerImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png");
   const [enquiryState, setEnquiryState] = useState<{
     isOpen: boolean;
     productCategory: string;
@@ -208,6 +209,24 @@ export default function CameraPolesPage() {
     productCategory: "Camera Poles",
     productModel: "",
   });
+
+  React.useEffect(() => {
+    const fetchBanner = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+        const res = await fetch(`${apiUrl}/products/camera-poles`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.product?.heroImage) {
+            setBannerImage(data.product.heroImage);
+          }
+        }
+      } catch (err) {
+        // Fallback
+      }
+    };
+    fetchBanner();
+  }, []);
 
   const openEnquiry = (modelName?: string) => {
     setEnquiryState({
@@ -226,7 +245,7 @@ export default function CameraPolesPage() {
       <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
         {/* Full-bleed Background Image */}
         <Image
-          src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png"
+          src={bannerImage}
           alt="Camera Poles SSIL Hero"
           fill
           priority
