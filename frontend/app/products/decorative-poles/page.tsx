@@ -128,42 +128,30 @@ export default function LEDDecorativePolesPage() {
           if (prodRes.product.heroImage) {
             setBannerImage(prodRes.product.heroImage);
           }
-          if (prodRes.product.designs && prodRes.product.designs.length > 0) {
+          if (Array.isArray(prodRes.product.designs) && prodRes.product.designs.length > 0) {
             const dbDesigns = prodRes.product.designs;
-            setProductsList((prev) =>
-              prev.map((item, idx) => {
-                const matched = dbDesigns.find((d: any) => d.name === item.name || d.order === idx) || dbDesigns[idx];
-                if (matched) {
-                  return {
-                    ...item,
-                    name: matched.name || item.name,
-                    dayImage: matched.dayImage || item.dayImage,
-                    nightImage: matched.nightImage || item.nightImage,
-                    specs: matched.specs || item.specs,
-                  };
-                }
-                return item;
-              })
+            setProductsList(
+              dbDesigns.map((d: any, idx: number) => ({
+                id: d._id || d.id || `ssildp-${String(idx + 1).padStart(2, "0")}`,
+                name: d.name || `SSILDP${String(idx + 1).padStart(2, "0")}`,
+                dayImage: d.dayImage || "",
+                nightImage: d.nightImage || "",
+                specs: d.specs || "IP66 Weatherproof • Custom Engineering • ISO Standards",
+              }))
             );
           }
         }
 
         if (designRes && designRes.success && Array.isArray(designRes.designs) && designRes.designs.length > 0) {
           const dbDesigns = designRes.designs;
-          setProductsList((prev) =>
-            prev.map((item, idx) => {
-              const matched = dbDesigns.find((d: any) => d.name === item.name || d.order === idx) || dbDesigns[idx];
-              if (matched) {
-                return {
-                  ...item,
-                  name: matched.name || item.name,
-                  dayImage: matched.dayImage || item.dayImage,
-                  nightImage: matched.nightImage || item.nightImage,
-                  specs: matched.specs || item.specs,
-                };
-              }
-              return item;
-            })
+          setProductsList(
+            dbDesigns.map((d: any, idx: number) => ({
+              id: d._id || d.id || `ssildp-${String(idx + 1).padStart(2, "0")}`,
+              name: d.name || `SSILDP${String(idx + 1).padStart(2, "0")}`,
+              dayImage: d.dayImage || "",
+              nightImage: d.nightImage || "",
+              specs: d.specs || "IP66 Weatherproof • Custom Engineering • ISO Standards",
+            }))
           );
         }
       } catch (err) {

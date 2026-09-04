@@ -94,27 +94,24 @@ export default function ProductDetailPage() {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-        const res = await fetch(`${apiUrl}/products/${slug}`, { signal: controller.signal });
+        const targetSlug = resolvedSlug || slug;
+        const res = await fetch(`${apiUrl}/products/${targetSlug}`, { signal: controller.signal });
         clearTimeout(timeoutId);
 
         const data = await res.json();
         if (data.success && data.product && fallbackProduct) {
           const apiProd = data.product;
           let finalGallery = fallbackProduct.galleryImages;
-          if (apiProd.designs && apiProd.designs.length > 0) {
-            const dbDesigns = apiProd.designs;
-            finalGallery = fallbackProduct.galleryImages.map((localItem, idx) => {
-              const matched = dbDesigns.find((d: any) => d.name === localItem.name || d.order === idx) || dbDesigns[idx];
-              if (matched) {
-                return {
-                  ...localItem,
-                  name: matched.name || localItem.name,
-                  dayImage: matched.dayImage || localItem.dayImage,
-                  nightImage: matched.nightImage || localItem.nightImage,
-                  specs: matched.specs || localItem.specs,
-                };
-              }
-              return localItem;
+          if (Array.isArray(apiProd.designs) && apiProd.designs.length > 0) {
+            finalGallery = apiProd.designs.map((d: any, idx: number) => {
+              const fallbackItem = fallbackProduct.galleryImages[idx];
+              return {
+                id: d._id || d.id || `design-${idx + 1}`,
+                name: d.name || fallbackItem?.name || `Model ${String(idx + 1).padStart(2, "0")}`,
+                dayImage: d.dayImage || fallbackItem?.dayImage || "",
+                nightImage: d.nightImage || fallbackItem?.nightImage || "",
+                specs: d.specs || fallbackItem?.specs || "IP66 Weatherproof • Custom Engineering • ISO Standards",
+              };
             });
           }
 
@@ -122,7 +119,7 @@ export default function ProductDetailPage() {
             ...fallbackProduct,
             ...apiProd,
             name: fallbackProduct.name,
-            designCount: fallbackProduct.designCount,
+            designCount: finalGallery.length,
             galleryImages: finalGallery,
             heroImage: apiProd.heroImage || fallbackProduct.heroImage || "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png",
           });
