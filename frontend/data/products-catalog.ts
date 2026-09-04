@@ -25,7 +25,9 @@ const generateGallery = (
   baseName: string,
   count: number,
   customPrefixName?: boolean,
-  fixedIndex?: number
+  fixedIndex?: number,
+  customDayImage?: string,
+  customNightImage?: string
 ): GalleryItem[] => {
   return Array.from({ length: count }, (_, i) => {
     const index = fixedIndex !== undefined ? fixedIndex : (i % 6) + 1;
@@ -33,8 +35,8 @@ const generateGallery = (
     return {
       id: `${prefix}-${itemNum}`,
       name: customPrefixName ? `${baseName}${itemNum}` : `${baseName} Model ${itemNum}`,
-      dayImage: `/images/products/homepage/product-0${index}/day.png`,
-      nightImage: `/images/products/homepage/product-0${index}/night.png`,
+      dayImage: customDayImage || `/images/products/homepage/product-0${index}/day.png`,
+      nightImage: customNightImage || `/images/products/homepage/product-0${index}/night.png`,
       specs: "IP66 Weatherproof • Custom Engineering • ISO Standards",
     };
   });
@@ -88,10 +90,10 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "Efficient indoor illumination engineered for architectural and commercial spaces.",
     description:
       "High-efficiency LED indoor luminaires designed for commercial complexes, corporate offices, industrial facilities, and public infrastructure spaces, delivering uniform glare-free light distribution and long-term energy savings.",
-    dayImage: "/images/products/homepage/product-03/day.png",
-    nightImage: "/images/products/homepage/product-03/night.png",
+    dayImage: "/images/products/led-indoor-lights/day.png",
+    nightImage: "/images/products/led-indoor-lights/night.png",
     heroImage: "/products/products-hero.png",
-    galleryImages: generateGallery("indoor-light", "LED Indoor Luminaire", 26),
+    galleryImages: generateGallery("indoor-light", "LED Indoor Luminaire", 26, false, undefined, "/images/products/led-indoor-lights/day.png", "/images/products/led-indoor-lights/night.png"),
   },
   {
     id: "cat-05",
