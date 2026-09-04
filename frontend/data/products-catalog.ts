@@ -118,7 +118,7 @@ export const catalogProducts: CatalogProduct[] = [
       "High-tensile monumental flag mast poles designed and engineered to withstand extreme wind conditions, featuring internal halyard systems and motorized flag hoisting for civic landmarks.",
     dayImage: "/images/products/homepage/product-04/day.png",
     nightImage: "/images/products/homepage/product-04/night.png",
-    heroImage: "/products/products-hero.png",
+    heroImage: "/images/products/flag-mast-poles/banner.png",
     galleryImages: generateGallery("flag-mast", "Monumental Flag Mast Pole", 8),
   },
   {

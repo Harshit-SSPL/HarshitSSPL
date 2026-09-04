@@ -223,7 +223,7 @@ export default function FlagMastPage() {
       <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
         {/* Full-bleed Background Image */}
         <Image
-          src="/products/products-hero.png"
+          src="/images/products/flag-mast-poles/banner.png"
           alt="Flag Mast Poles SSIL Hero"
           fill
           priority
