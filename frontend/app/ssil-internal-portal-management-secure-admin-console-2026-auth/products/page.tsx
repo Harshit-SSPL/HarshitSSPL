@@ -70,9 +70,9 @@ function ProductsContent() {
     slug: "",
     tagline: "",
     description: "",
-    dayImage: "/images/products/homepage/product-01/day.png",
-    nightImage: "/images/products/homepage/product-01/night.png",
-    heroImage: "/products/products-hero.png",
+    dayImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510375/ssil_products_day/day.png",
+    nightImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510376/ssil_products_night/night.png",
+    heroImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png",
     active: true,
   });
 
@@ -108,9 +108,9 @@ function ProductsContent() {
       slug: "",
       tagline: "",
       description: "",
-      dayImage: "/images/products/homepage/product-01/day.png",
-      nightImage: "/images/products/homepage/product-01/night.png",
-      heroImage: "/products/products-hero.png",
+      dayImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510375/ssil_products_day/day.png",
+      nightImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510376/ssil_products_night/night.png",
+      heroImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png",
       active: true,
     });
     setErrorMsg(null);
@@ -124,9 +124,9 @@ function ProductsContent() {
       slug: product.slug,
       tagline: product.tagline || "",
       description: product.description || "",
-      dayImage: product.dayImage || "/images/products/homepage/product-01/day.png",
-      nightImage: product.nightImage || "/images/products/homepage/product-01/night.png",
-      heroImage: product.heroImage || "/products/products-hero.png",
+      dayImage: product.dayImage || "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510375/ssil_products_day/day.png",
+      nightImage: product.nightImage || "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510376/ssil_products_night/night.png",
+      heroImage: product.heroImage || "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png",
       active: product.active ?? true,
     });
     setErrorMsg(null);

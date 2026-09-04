@@ -223,7 +223,7 @@ export default function FlagMastPage() {
       <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
         {/* Full-bleed Background Image */}
         <Image
-          src="/images/products/flag-mast-poles/banner.png"
+          src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510359/ssil_banners/banner.png"
           alt="Flag Mast Poles SSIL Hero"
           fill
           priority
@@ -378,7 +378,7 @@ export default function FlagMastPage() {
                 <div className="relative aspect-[4/4.5] sm:aspect-[4/4.8] w-full overflow-hidden">
                   {/* Day Version (Default) */}
                   <img
-                    src="/images/products/homepage/product-04/day.png"
+                    src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510386/ssil_products_day/day.png"
                     alt="SSIL Monumental Flag Mast Pole Daytime"
                     className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                     loading="eager"
@@ -386,7 +386,7 @@ export default function FlagMastPage() {
 
                   {/* Night Version (Smoothly crossfades in on hover) */}
                   <img
-                    src="/images/products/homepage/product-04/night.png"
+                    src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510388/ssil_products_night/night.png"
                     alt="SSIL Monumental Flag Mast Pole Night Illumination"
                     className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out group-hover:scale-105 pointer-events-none"
                     loading="eager"

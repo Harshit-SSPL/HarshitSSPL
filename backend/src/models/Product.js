@@ -28,15 +28,15 @@ const ProductSchema = new mongoose.Schema(
     },
     dayImage: {
       type: String,
-      default: "/images/products/homepage/product-01/day.png",
+      default: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510375/ssil_products_day/day.png",
     },
     nightImage: {
       type: String,
-      default: "/images/products/homepage/product-01/night.png",
+      default: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510376/ssil_products_night/night.png",
     },
     heroImage: {
       type: String,
-      default: "/products/products-hero.png",
+      default: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png",
     },
     dayCloudinaryId: {
       type: String,

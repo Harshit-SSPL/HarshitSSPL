@@ -118,7 +118,7 @@ export default function ProductDetailPage() {
             name: fallbackProduct.name,
             designCount: fallbackProduct.designCount,
             galleryImages: finalGallery,
-            heroImage: fallbackProduct.heroImage || apiProd.heroImage || "/products/products-hero.png",
+            heroImage: fallbackProduct.heroImage || apiProd.heroImage || "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png",
           });
         }
       } catch (err) {
@@ -202,7 +202,7 @@ export default function ProductDetailPage() {
       <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
         {/* Full-bleed Background Image */}
         <Image
-          src={product.heroImage || "/products/products-hero.png"}
+          src={product.heroImage || "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png"}
           alt={`${product.name} SSIL Hero`}
           fill
           priority

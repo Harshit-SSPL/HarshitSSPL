@@ -54,7 +54,7 @@ export default function AdminProductDesignsPage() {
     active: boolean;
   }>({
     name: "",
-    dayImage: "/images/products/homepage/product-01/day.png",
+    dayImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510375/ssil_products_day/day.png",
     specs: "IP66 Weatherproof • Custom Engineering • ISO Standards",
     active: true,
   });
@@ -90,7 +90,7 @@ export default function AdminProductDesignsPage() {
     setSelectedDesign(null);
     setFormState({
       name: `${productName} Model ${String(designs.length + 1).padStart(2, "0")}`,
-      dayImage: "/images/products/homepage/product-01/day.png",
+      dayImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510375/ssil_products_day/day.png",
       specs: "IP66 Weatherproof • Custom Engineering • ISO Standards",
       active: true,
     });
@@ -102,7 +102,7 @@ export default function AdminProductDesignsPage() {
     setSelectedDesign(design);
     setFormState({
       name: design.name,
-      dayImage: design.dayImage || "/images/products/homepage/product-01/day.png",
+      dayImage: design.dayImage || "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510375/ssil_products_day/day.png",
       specs: design.specs || "IP66 Weatherproof • Custom Engineering • ISO Standards",
       active: design.active ?? true,
     });

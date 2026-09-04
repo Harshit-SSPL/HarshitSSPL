@@ -68,6 +68,26 @@ const decorativePoleSpecs: PoleSpecRow[] = [
   { parameter: "Project Applications", specification: "Urban Plazas, Heritage Corridors, Public Parks & Gated Estates" },
 ];
 
+const CLOUDINARY_PRODUCTS_DAY = [
+  "",
+  "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510375/ssil_products_day/day.png",
+  "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510377/ssil_products_day/day.png",
+  "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510382/ssil_products_day/day.png",
+  "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510386/ssil_products_day/day.png",
+  "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510389/ssil_products_day/day.png",
+  "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510391/ssil_products_day/day.png",
+];
+
+const CLOUDINARY_PRODUCTS_NIGHT = [
+  "",
+  "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510376/ssil_products_night/night.png",
+  "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510381/ssil_products_night/night.png",
+  "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510384/ssil_products_night/night.png",
+  "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510388/ssil_products_night/night.png",
+  "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510390/ssil_products_night/night.png",
+  "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510392/ssil_products_night/night.png",
+];
+
 // Generate exactly 41 products named SSILDP01 to SSILDP41
 const decorativeProducts = Array.from({ length: 41 }, (_, i) => {
   const index = (i % 6) + 1;
@@ -75,8 +95,8 @@ const decorativeProducts = Array.from({ length: 41 }, (_, i) => {
   return {
     id: `ssildp-${itemNum}`,
     name: `SSILDP${itemNum}`,
-    dayImage: `/images/products/homepage/product-0${index}/day.png`,
-    nightImage: `/images/products/homepage/product-0${index}/night.png`,
+    dayImage: CLOUDINARY_PRODUCTS_DAY[index],
+    nightImage: CLOUDINARY_PRODUCTS_NIGHT[index],
     specs: "IP66 Weatherproof • Custom Engineering • ISO Standards",
   };
 });
@@ -136,7 +156,7 @@ export default function LEDDecorativePolesPage() {
       <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
         {/* Full-bleed Background Image */}
         <Image
-          src="/products/products-hero.png"
+          src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png"
           alt="LED Decorative Poles SSIL Hero"
           fill
           priority

@@ -19,7 +19,45 @@ export interface CatalogProduct {
   galleryImages: GalleryItem[];
 }
 
-// Helper generator to construct clean data-driven design variants using real product assets
+const CLOUDINARY_MAP = {
+  heroBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png",
+  bollardsBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510357/ssil_banners/banner.png",
+  designerPolesBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510358/ssil_banners/banner.png",
+  flagMastBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510359/ssil_banners/banner.png",
+  indoorLightsBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510361/ssil_banners/banner.png",
+  octagonalPolesBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510362/ssil_banners/banner.png",
+  solarBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510364/ssil_banners/banner.png",
+
+  productDay: [
+    "",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510375/ssil_products_day/day.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510377/ssil_products_day/day.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510382/ssil_products_day/day.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510386/ssil_products_day/day.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510389/ssil_products_day/day.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510391/ssil_products_day/day.png",
+  ],
+  productNight: [
+    "",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510376/ssil_products_night/night.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510381/ssil_products_night/night.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510384/ssil_products_night/night.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510388/ssil_products_night/night.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510390/ssil_products_night/night.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510392/ssil_products_night/night.png",
+  ],
+
+  indoorDay: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510365/ssil_products_day/day.png",
+  indoorNight: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510367/ssil_products_night/night.png",
+
+  octagonalDay: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510369/ssil_products_day/day.png",
+  octagonalNight: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510370/ssil_products_night/night.png",
+
+  solarDay: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510371/ssil_products_day/day.png",
+  solarNight: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510373/ssil_products_night/night.png",
+};
+
+// Helper generator to construct clean data-driven design variants using Cloudinary CDN assets
 const generateGallery = (
   prefix: string,
   baseName: string,
@@ -35,8 +73,8 @@ const generateGallery = (
     return {
       id: `${prefix}-${itemNum}`,
       name: customPrefixName ? `${baseName}${itemNum}` : `${baseName} Model ${itemNum}`,
-      dayImage: customDayImage || `/images/products/homepage/product-0${index}/day.png`,
-      nightImage: customNightImage || `/images/products/homepage/product-0${index}/night.png`,
+      dayImage: customDayImage || CLOUDINARY_MAP.productDay[index],
+      nightImage: customNightImage || CLOUDINARY_MAP.productNight[index],
       specs: "IP66 Weatherproof • Custom Engineering • ISO Standards",
     };
   });
@@ -51,9 +89,9 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "Lighting infrastructure designed to elevate civic and urban public spaces.",
     description:
       "Aesthetically crafted decorative lighting poles designed for urban beautification, public parks, commercial plazas, and resort walkways, blending structural strength with architectural elegance.",
-    dayImage: "/images/products/homepage/product-02/day.png",
-    nightImage: "/images/products/homepage/product-02/night.png",
-    heroImage: "/products/products-hero.png",
+    dayImage: CLOUDINARY_MAP.productDay[2],
+    nightImage: CLOUDINARY_MAP.productNight[2],
+    heroImage: CLOUDINARY_MAP.heroBanner,
     galleryImages: generateGallery("ssildp", "SSILDP", 41, true),
   },
   {
@@ -64,9 +102,9 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "Distinctive contemporary pole design for landmark architectural environments.",
     description:
       "Custom-engineered designer poles featuring contemporary architectural geometries, hot-dip galvanization, and premium powder-coated finishes for civic landmarks and luxury developments.",
-    dayImage: "/images/products/homepage/product-01/day.png",
-    nightImage: "/images/products/homepage/product-01/night.png",
-    heroImage: "/images/products/designer-poles/banner.png",
+    dayImage: CLOUDINARY_MAP.productDay[1],
+    nightImage: CLOUDINARY_MAP.productNight[1],
+    heroImage: CLOUDINARY_MAP.designerPolesBanner,
     galleryImages: generateGallery("des-pole", "LED Designer Pole Variant", 24, false, 1),
   },
   {
@@ -77,9 +115,9 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "Durable outdoor pathway illumination for pedestrian zones and landscapes.",
     description:
       "Precision outdoor pathway bollards and landscape luminaires engineered for perimeter security, garden lighting, and pedestrian walkway guidance with vandal-resistant construction.",
-    dayImage: "/images/products/homepage/product-06/day.png",
-    nightImage: "/images/products/homepage/product-06/night.png",
-    heroImage: "/images/products/bollards/banner.png",
+    dayImage: CLOUDINARY_MAP.productDay[6],
+    nightImage: CLOUDINARY_MAP.productNight[6],
+    heroImage: CLOUDINARY_MAP.bollardsBanner,
     galleryImages: generateGallery("bollard", "Landscape Pathway Bollard", 23),
   },
   {
@@ -90,10 +128,18 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "Efficient indoor illumination engineered for architectural and commercial spaces.",
     description:
       "High-efficiency LED indoor luminaires designed for commercial complexes, corporate offices, industrial facilities, and public infrastructure spaces, delivering uniform glare-free light distribution and long-term energy savings.",
-    dayImage: "/images/products/led-indoor-lights/day.png",
-    nightImage: "/images/products/led-indoor-lights/night.png",
-    heroImage: "/images/products/led-indoor-lights/banner.png",
-    galleryImages: generateGallery("indoor-light", "LED Indoor Luminaire", 26, false, undefined, "/images/products/led-indoor-lights/day.png", "/images/products/led-indoor-lights/night.png"),
+    dayImage: CLOUDINARY_MAP.indoorDay,
+    nightImage: CLOUDINARY_MAP.indoorNight,
+    heroImage: CLOUDINARY_MAP.indoorLightsBanner,
+    galleryImages: generateGallery(
+      "indoor-light",
+      "LED Indoor Luminaire",
+      26,
+      false,
+      undefined,
+      CLOUDINARY_MAP.indoorDay,
+      CLOUDINARY_MAP.indoorNight
+    ),
   },
   {
     id: "cat-05",
@@ -103,10 +149,18 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "Heavy-duty galvanized steel infrastructure engineered for dependable performance.",
     description:
       "Industrial octagonal steel poles manufactured from high-tensile steel sheets, hot-dip galvanized in-house for superior corrosion resistance on expressways and heavy infrastructure.",
-    dayImage: "/images/products/octagonal-poles/day.png",
-    nightImage: "/images/products/octagonal-poles/night.png",
-    heroImage: "/images/products/octagonal-poles/banner.png",
-    galleryImages: generateGallery("octagonal", "Galvanized Octagonal Steel Pole", 16, false, undefined, "/images/products/octagonal-poles/day.png", "/images/products/octagonal-poles/night.png"),
+    dayImage: CLOUDINARY_MAP.octagonalDay,
+    nightImage: CLOUDINARY_MAP.octagonalNight,
+    heroImage: CLOUDINARY_MAP.octagonalPolesBanner,
+    galleryImages: generateGallery(
+      "octagonal",
+      "Galvanized Octagonal Steel Pole",
+      16,
+      false,
+      undefined,
+      CLOUDINARY_MAP.octagonalDay,
+      CLOUDINARY_MAP.octagonalNight
+    ),
   },
   {
     id: "cat-06",
@@ -116,9 +170,9 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "Monumental flag infrastructure engineered to stand tall across public and civic landmarks.",
     description:
       "High-tensile monumental flag mast poles designed and engineered to withstand extreme wind conditions, featuring internal halyard systems and motorized flag hoisting for civic landmarks.",
-    dayImage: "/images/products/homepage/product-04/day.png",
-    nightImage: "/images/products/homepage/product-04/night.png",
-    heroImage: "/images/products/flag-mast-poles/banner.png",
+    dayImage: CLOUDINARY_MAP.productDay[4],
+    nightImage: CLOUDINARY_MAP.productNight[4],
+    heroImage: CLOUDINARY_MAP.flagMastBanner,
     galleryImages: generateGallery("flag-mast", "Monumental Flag Mast Pole", 8),
   },
   {
@@ -129,9 +183,9 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "High-output arena floodlighting towers engineered for sports and stadiums.",
     description:
       "High-capacity stadium high mast towers engineered to support large multi-fixture LED floodlight headframes, providing uniform high-lux broadcast lighting with dynamic structural calculations.",
-    dayImage: "/images/products/homepage/product-05/day.png",
-    nightImage: "/images/products/homepage/product-05/night.png",
-    heroImage: "/products/products-hero.png",
+    dayImage: CLOUDINARY_MAP.productDay[5],
+    nightImage: CLOUDINARY_MAP.productNight[5],
+    heroImage: CLOUDINARY_MAP.heroBanner,
     galleryImages: generateGallery("stadium-mast", "Arena Stadium High Mast System", 12),
   },
   {
@@ -142,9 +196,9 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "High-output illumination for expansive transport hubs and industrial yards.",
     description:
       "Monumental high mast lighting towers equipped with motorized winch lowering systems, multi-fixture floodlight crowns, and wind-load resistance for ports, expressways, and industrial freight yards.",
-    dayImage: "/images/products/homepage/product-05/day.png",
-    nightImage: "/images/products/homepage/product-05/night.png",
-    heroImage: "/products/products-hero.png",
+    dayImage: CLOUDINARY_MAP.productDay[5],
+    nightImage: CLOUDINARY_MAP.productNight[5],
+    heroImage: CLOUDINARY_MAP.heroBanner,
     galleryImages: generateGallery("high-mast", "Industrial High Mast System", 18),
   },
   {
@@ -155,9 +209,9 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "Rigid vibration-resistant smart surveillance and ANPR camera mounting poles.",
     description:
       "Custom-built heavy-duty CCTV and traffic surveillance poles engineered with low-vibration deflection, internal cabling channels, and weatherproof junction compartments for smart city monitoring.",
-    dayImage: "/images/products/homepage/product-05/day.png",
-    nightImage: "/images/products/homepage/product-05/night.png",
-    heroImage: "/products/products-hero.png",
+    dayImage: CLOUDINARY_MAP.productDay[5],
+    nightImage: CLOUDINARY_MAP.productNight[5],
+    heroImage: CLOUDINARY_MAP.heroBanner,
     galleryImages: generateGallery("camera-pole", "Smart Surveillance Camera Pole", 14),
   },
   {
@@ -168,9 +222,9 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "High-performance street lighting built for modern highways and municipal roads.",
     description:
       "Advanced LED street light systems engineered for municipal expressways, urban thoroughfares, and highway corridors, providing high luminous efficacy, uniform light distribution, and IP66 weather resistance.",
-    dayImage: "/images/products/homepage/product-01/day.png",
-    nightImage: "/images/products/homepage/product-01/night.png",
-    heroImage: "/products/products-hero.png",
+    dayImage: CLOUDINARY_MAP.productDay[1],
+    nightImage: CLOUDINARY_MAP.productNight[1],
+    heroImage: CLOUDINARY_MAP.heroBanner,
     galleryImages: generateGallery("street-light", "LED Street Luminaire", 12),
   },
   {
@@ -181,9 +235,9 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "Architectural post-top lighting that brings urban streetscapes to life.",
     description:
       "Civic post-top luminaires providing 360-degree symmetrical illumination for urban streetscapes, civic plazas, and campus walkways with energy-saving LED technology.",
-    dayImage: "/images/products/homepage/product-03/day.png",
-    nightImage: "/images/products/homepage/product-03/night.png",
-    heroImage: "/products/products-hero.png",
+    dayImage: CLOUDINARY_MAP.productDay[3],
+    nightImage: CLOUDINARY_MAP.productNight[3],
+    heroImage: CLOUDINARY_MAP.heroBanner,
     galleryImages: generateGallery("post-top", "Civic Post Top Luminaire", 46),
   },
   {
@@ -194,9 +248,9 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "High-lumen optical floodlights for building facades, yards, and arenas.",
     description:
       "Heavy-duty industrial LED floodlights engineered with precision asymmetric optics, IP66 die-cast aluminum housing, and surge protection for facade washing and expansive outdoor yards.",
-    dayImage: "/images/products/homepage/product-01/day.png",
-    nightImage: "/images/products/homepage/product-01/night.png",
-    heroImage: "/products/products-hero.png",
+    dayImage: CLOUDINARY_MAP.productDay[1],
+    nightImage: CLOUDINARY_MAP.productNight[1],
+    heroImage: CLOUDINARY_MAP.heroBanner,
     galleryImages: generateGallery("flood-light", "High-Lumen Flood Light", 4),
   },
   {
@@ -207,9 +261,9 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "Robust impact-resistant bulkhead lighting for stairways, tunnels, and paths.",
     description:
       "Heavy-duty industrial bulkhead luminaires built with IK10 impact-resistant polycarbonate diffusers and die-cast aluminum enclosures for low-height pathway guidance and utility tunnels.",
-    dayImage: "/images/products/homepage/product-06/day.png",
-    nightImage: "/images/products/homepage/product-06/night.png",
-    heroImage: "/products/products-hero.png",
+    dayImage: CLOUDINARY_MAP.productDay[6],
+    nightImage: CLOUDINARY_MAP.productNight[6],
+    heroImage: CLOUDINARY_MAP.heroBanner,
     galleryImages: generateGallery("bulkhead", "Bulkhead & Pathway Luminaire", 15),
   },
   {
@@ -220,9 +274,9 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "Uniform vertical surface grazing and architectural facade illumination.",
     description:
       "Linear and modular LED wall washer fixtures engineered with narrow-beam optics to graze textured architectural surfaces, bridges, monuments, and commercial building facades.",
-    dayImage: "/images/products/homepage/product-06/day.png",
-    nightImage: "/images/products/homepage/product-06/night.png",
-    heroImage: "/products/products-hero.png",
+    dayImage: CLOUDINARY_MAP.productDay[6],
+    nightImage: CLOUDINARY_MAP.productNight[6],
+    heroImage: CLOUDINARY_MAP.heroBanner,
     galleryImages: generateGallery("wall-washer", "Wall Washer & Inground Luminaire", 12),
   },
   {
@@ -233,9 +287,9 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "Intricate ornamental cast-iron and aluminum bracket assemblies.",
     description:
       "Decorative heritage bracket arms and vintage mounting assemblies crafted with intricate historical patterns, corrosion-resistant coatings, and high load capacities for heritage pole installations.",
-    dayImage: "/images/products/homepage/product-02/day.png",
-    nightImage: "/images/products/homepage/product-02/night.png",
-    heroImage: "/products/products-hero.png",
+    dayImage: CLOUDINARY_MAP.productDay[2],
+    nightImage: CLOUDINARY_MAP.productNight[2],
+    heroImage: CLOUDINARY_MAP.heroBanner,
     galleryImages: generateGallery("heritage-bracket", "Ornamental Heritage Bracket Arm", 24),
   },
   {
@@ -246,9 +300,9 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "Architectural exterior and interior surface-mounted wall luminaires.",
     description:
       "Contemporary wall-mounted exterior fixtures delivering clean upward and downward light distribution for perimeter walls, building entrances, and architectural corridors.",
-    dayImage: "/images/products/homepage/product-06/day.png",
-    nightImage: "/images/products/homepage/product-06/night.png",
-    heroImage: "/products/products-hero.png",
+    dayImage: CLOUDINARY_MAP.productDay[6],
+    nightImage: CLOUDINARY_MAP.productNight[6],
+    heroImage: CLOUDINARY_MAP.heroBanner,
     galleryImages: generateGallery("wall-light", "Architectural Wall Luminaire", 18),
   },
   {
@@ -259,9 +313,9 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "Autonomous solar illumination for smart, sustainable outdoor spaces.",
     description:
       "Autonomous solar-powered LED street lights and standalone solar luminaires equipped with high-efficiency PV panels, long-life lithium batteries, and smart dusk-to-dawn controllers.",
-    dayImage: "/images/products/homepage/product-01/day.png",
-    nightImage: "/images/products/homepage/product-01/night.png",
-    heroImage: "/products/products-hero.png",
+    dayImage: CLOUDINARY_MAP.productDay[1],
+    nightImage: CLOUDINARY_MAP.productNight[1],
+    heroImage: CLOUDINARY_MAP.heroBanner,
     galleryImages: generateGallery("solar-light", "Standalone Solar Luminaire", 23),
   },
   {
@@ -272,9 +326,9 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "Engineered solar power generation systems for sustainable infrastructure.",
     description:
       "Turnkey commercial solar power plant installations and grid-interactive solar arrays designed for institutional facilities, manufacturing hubs, and public infrastructure energy independence.",
-    dayImage: "/images/products/solar-power-plants/day.png",
-    nightImage: "/images/products/solar-power-plants/night.png",
-    heroImage: "/images/products/solar-power-plants/banner.png",
-    galleryImages: generateGallery("solar-plant", "Commercial Solar Power Array", 6),
+    dayImage: CLOUDINARY_MAP.solarDay,
+    nightImage: CLOUDINARY_MAP.solarNight,
+    heroImage: CLOUDINARY_MAP.solarBanner,
+    galleryImages: generateGallery("solar-plant", "Commercial Solar Power Array", 6, false, undefined, CLOUDINARY_MAP.solarDay, CLOUDINARY_MAP.solarNight),
   },
 ];

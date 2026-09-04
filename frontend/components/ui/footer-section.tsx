@@ -180,7 +180,7 @@ export function Footerdemo() {
             <div className="mb-3 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm p-1 border border-zinc-700 shrink-0 overflow-hidden">
                 <Image
-                  src="/branding/companylogo-ui.png"
+                  src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510353/ssil_branding/companylogo-ui.png"
                   alt="Shiv Shakti India Limited Logo"
                   width={160}
                   height={45}

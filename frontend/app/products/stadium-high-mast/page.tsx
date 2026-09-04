@@ -218,7 +218,7 @@ export default function StadiumHighMastPage() {
       <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
         {/* Full-bleed Background Image */}
         <Image
-          src="/products/products-hero.png"
+          src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png"
           alt="Stadium High Mast SSIL Hero"
           fill
           priority
@@ -373,7 +373,7 @@ export default function StadiumHighMastPage() {
                 <div className="relative aspect-[4/4.5] sm:aspect-[4/4.8] w-full overflow-hidden">
                   {/* Day Version (Default) */}
                   <img
-                    src="/images/products/homepage/product-05/day.png"
+                    src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510389/ssil_products_day/day.png"
                     alt="SSIL Stadium High Mast Lighting Tower Daytime"
                     className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                     loading="eager"
@@ -381,7 +381,7 @@ export default function StadiumHighMastPage() {
 
                   {/* Night Version (Smoothly crossfades in on hover) */}
                   <img
-                    src="/images/products/homepage/product-05/night.png"
+                    src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510390/ssil_products_night/night.png"
                     alt="SSIL Stadium High Mast Floodlighting Night Illumination"
                     className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out group-hover:scale-105 pointer-events-none"
                     loading="eager"

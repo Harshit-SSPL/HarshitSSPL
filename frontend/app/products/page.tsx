@@ -71,7 +71,7 @@ export default function ProductsPage() {
         
         {/* Full-bleed Background Image */}
         <img
-          src="/products/products-hero.png"
+          src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png"
           alt="SSIL World Street Night Lighting Installation"
           className="absolute inset-0 w-full h-full object-cover object-center rounded-none"
           loading="eager"

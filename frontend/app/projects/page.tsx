@@ -52,7 +52,7 @@ export default function GalleryPage() {
         
         {/* Full-bleed Background Hero Image */}
         <Image
-          src="/products/products-hero.png"
+          src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png"
           alt="SSIL Real World Infrastructure & Lighting Projects"
           fill
           priority

@@ -162,7 +162,7 @@ export default function SolarPowerPlantsPage() {
       <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
         {/* Full-bleed Background Image */}
         <Image
-          src="/images/products/solar-power-plants/banner.png"
+          src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510364/ssil_banners/banner.png"
           alt="Solar Power Plants SSIL Hero Banner"
           fill
           priority
@@ -292,14 +292,14 @@ export default function SolarPowerPlantsPage() {
                 <div className="relative aspect-[12/9] w-full overflow-hidden">
                   {/* Day Image (Default) */}
                   <img
-                    src="/images/products/solar-power-plants/day.png"
+                    src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510371/ssil_products_day/day.png"
                     alt="SSIL Commercial Solar Power Plant Daytime"
                     className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                     loading="eager"
                   />
                   {/* Night Image (Hover Transition) */}
                   <img
-                    src="/images/products/solar-power-plants/night.png"
+                    src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510373/ssil_products_night/night.png"
                     alt="SSIL Solar Power Plant Night Illumination"
                     className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out group-hover:scale-105 pointer-events-none"
                     loading="eager"
