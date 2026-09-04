@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import {
   ArrowLeft,
@@ -17,9 +18,12 @@ import {
   Layers,
   Sparkles,
   Eye,
-  ImageIcon,
+  Camera,
   X,
-  FileText,
+  Check,
+  RefreshCw,
+  Sun,
+  Moon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { fetchApi, uploadImageFile, ADMIN_BASE_PATH } from "@/lib/admin-api";
@@ -51,9 +55,9 @@ interface ProductDetail {
   active?: boolean;
 }
 
-export default function ProductStudioPage() {
+export default function VisualProductPageEditor() {
   const params = useParams();
-  const productId = params?.id as string;
+  const productId = (params?.id as string) || "decorative-poles";
   const router = useRouter();
 
   const [loading, setLoading] = useState(true);
@@ -61,16 +65,22 @@ export default function ProductStudioPage() {
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  // Upload States
-  const [uploadingCatalogDay, setUploadingCatalogDay] = useState(false);
-  const [uploadingCatalogNight, setUploadingCatalogNight] = useState(false);
-  const [uploadingHeroBanner, setUploadingHeroBanner] = useState(false);
-  const [uploadingDesignPhoto, setUploadingDesignPhoto] = useState(false);
+  // Upload Indicators per Card
+  const [uploadingBanner, setUploadingBanner] = useState(false);
+  const [uploadingDayShowcase, setUploadingDayShowcase] = useState(false);
+  const [uploadingNightShowcase, setUploadingNightShowcase] = useState(false);
+  const [uploadingDesignIdx, setUploadingDesignIdx] = useState<number | null>(null);
 
-  // Product Form State
+  // Edit Modals
+  const [metaModalOpen, setMetaModalOpen] = useState(false);
+  const [designModalOpen, setDesignModalOpen] = useState(false);
+  const [selectedDesignIdx, setSelectedDesignIdx] = useState<number | null>(null);
+  const [designActionLoading, setDesignActionLoading] = useState(false);
+
+  // Active Product & Designs State
   const [product, setProduct] = useState<ProductDetail>({
-    name: "",
-    slug: "",
+    name: "Product Page",
+    slug: productId,
     tagline: "",
     description: "",
     dayImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510375/ssil_products_day/day.png",
@@ -79,38 +89,56 @@ export default function ProductStudioPage() {
     active: true,
   });
 
-  // Designs State
   const [designs, setDesigns] = useState<DesignItem[]>([]);
-  const [designModalOpen, setDesignModalOpen] = useState(false);
-  const [selectedDesign, setSelectedDesign] = useState<DesignItem | null>(null);
+
+  // Design Edit Form
   const [designForm, setDesignForm] = useState<{
     name: string;
     dayImage: string;
     specs: string;
-    active: boolean;
   }>({
     name: "",
-    dayImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510375/ssil_products_day/day.png",
+    dayImage: "",
     specs: "IP66 Weatherproof • Custom Engineering • ISO Standards",
-    active: true,
   });
-  const [designActionLoading, setDesignActionLoading] = useState(false);
 
-  // Load Data
-  const loadProductStudio = async () => {
+  // Meta Edit Form
+  const [metaForm, setMetaForm] = useState<{
+    name: string;
+    tagline: string;
+    description: string;
+  }>({
+    name: "",
+    tagline: "",
+    description: "",
+  });
+
+  // Load Product & Designs
+  const loadProductData = async () => {
     try {
-      // 1. Fetch Product
-      const prodRes = await fetchApi(`/products/${productId}/designs/admin`);
-      if (prodRes.success && prodRes.product) {
-        setProduct(prodRes.product);
-        setDesigns(prodRes.designs || []);
-        return;
+      const res = await fetchApi(`/products/${productId}/designs/admin`);
+      if (res.success && res.product) {
+        setProduct(res.product);
+        setMetaForm({
+          name: res.product.name,
+          tagline: res.product.tagline || "",
+          description: res.product.description || "",
+        });
+
+        if (Array.isArray(res.designs) && res.designs.length > 0) {
+          setDesigns(res.designs);
+          return;
+        }
       }
 
-      // Fallback
-      const fallback = catalogProducts.find((p) => p.slug === productId || p.id === productId);
+      // Fallback from catalog
+      const fallback = catalogProducts.find(
+        (p) => p.slug === productId || p.id === productId || p.name.toLowerCase().includes(productId.toLowerCase())
+      ) || catalogProducts[0];
+
       if (fallback) {
-        setProduct({
+        setProduct((prev) => ({
+          ...prev,
           _id: fallback.id,
           name: fallback.name,
           slug: fallback.slug,
@@ -120,11 +148,16 @@ export default function ProductStudioPage() {
           nightImage: fallback.nightImage,
           heroImage: fallback.heroImage,
           active: true,
+        }));
+        setMetaForm({
+          name: fallback.name,
+          tagline: fallback.tagline || "",
+          description: fallback.description || "",
         });
-        setDesigns(fallback.galleryImages.map((g, i) => ({ ...g, _id: g.id, order: i, active: true })));
+        setDesigns(fallback.galleryImages.map((g, idx) => ({ ...g, order: idx, active: true })));
       }
-    } catch (err: any) {
-      console.warn("Using fallback data for product studio");
+    } catch (err) {
+      console.warn("Using fallback catalog data for product editor");
     } finally {
       setLoading(false);
     }
@@ -132,150 +165,250 @@ export default function ProductStudioPage() {
 
   useEffect(() => {
     if (productId) {
-      loadProductStudio();
+      loadProductData();
     }
   }, [productId]);
 
-  // Upload Handlers
-  const handleCatalogDayUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setUploadingCatalogDay(true);
-    setErrorMsg(null);
-    try {
-      const uploaded = await uploadImageFile(file, "ssil_products_day");
-      setProduct((prev) => ({ ...prev, dayImage: uploaded.url }));
-      setSuccessMsg("Daytime photo uploaded! Click 'Save All Changes' to apply.");
-      setTimeout(() => setSuccessMsg(null), 4000);
-    } catch (err: any) {
-      setErrorMsg(err.message || "Failed to upload daytime image.");
-    } finally {
-      setUploadingCatalogDay(false);
-    }
+  // Flash Message Helper
+  const showSuccess = (msg: string) => {
+    setSuccessMsg(msg);
+    setTimeout(() => setSuccessMsg(null), 4000);
   };
 
-  const handleCatalogNightUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  // 1. AUTO-SAVE HERO BANNER UPLOAD
+  const handleBannerUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    setUploadingCatalogNight(true);
-    setErrorMsg(null);
-    try {
-      const uploaded = await uploadImageFile(file, "ssil_products_night");
-      setProduct((prev) => ({ ...prev, nightImage: uploaded.url }));
-      setSuccessMsg("Nighttime photo uploaded! Click 'Save All Changes' to apply.");
-      setTimeout(() => setSuccessMsg(null), 4000);
-    } catch (err: any) {
-      setErrorMsg(err.message || "Failed to upload nighttime image.");
-    } finally {
-      setUploadingCatalogNight(false);
-    }
-  };
 
-  const handleHeroBannerUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setUploadingHeroBanner(true);
+    setUploadingBanner(true);
     setErrorMsg(null);
     try {
       const uploaded = await uploadImageFile(file, "ssil_banners");
-      setProduct((prev) => ({ ...prev, heroImage: uploaded.url }));
-      setSuccessMsg("Hero banner photo uploaded! Click 'Save All Changes' to apply.");
-      setTimeout(() => setSuccessMsg(null), 4000);
+      const updatedProduct = { ...product, heroImage: uploaded.url };
+      setProduct(updatedProduct);
+
+      // Auto-save to MongoDB
+      const prodId = product._id || productId;
+      await fetchApi(`/products/${prodId}`, {
+        method: "PUT",
+        body: JSON.stringify(updatedProduct),
+      });
+
+      showSuccess("Top Hero Banner updated and saved to live website!");
     } catch (err: any) {
-      setErrorMsg(err.message || "Failed to upload banner image.");
+      setErrorMsg(err.message || "Failed to upload banner photo.");
     } finally {
-      setUploadingHeroBanner(false);
+      setUploadingBanner(false);
     }
   };
 
-  const handleDesignPhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  // 2. AUTO-SAVE DAY SHOWCASE PHOTO
+  const handleDayShowcaseUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    setUploadingDesignPhoto(true);
+
+    setUploadingDayShowcase(true);
     setErrorMsg(null);
     try {
-      const uploaded = await uploadImageFile(file, "ssil_product_designs");
-      setDesignForm((prev) => ({ ...prev, dayImage: uploaded.url }));
+      const uploaded = await uploadImageFile(file, "ssil_products_day");
+      const updatedProduct = { ...product, dayImage: uploaded.url };
+      setProduct(updatedProduct);
+
+      const prodId = product._id || productId;
+      await fetchApi(`/products/${prodId}`, {
+        method: "PUT",
+        body: JSON.stringify(updatedProduct),
+      });
+
+      showSuccess("Daytime showcase photo updated and saved!");
     } catch (err: any) {
-      setErrorMsg(err.message || "Failed to upload design model photo.");
+      setErrorMsg(err.message || "Failed to upload daytime image.");
     } finally {
-      setUploadingDesignPhoto(false);
+      setUploadingDayShowcase(false);
     }
   };
 
-  // Save All Product Details
-  const handleSaveAll = async () => {
-    setSaving(true);
+  // 3. AUTO-SAVE NIGHT SHOWCASE PHOTO
+  const handleNightShowcaseUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingNightShowcase(true);
     setErrorMsg(null);
     try {
+      const uploaded = await uploadImageFile(file, "ssil_products_night");
+      const updatedProduct = { ...product, nightImage: uploaded.url };
+      setProduct(updatedProduct);
+
       const prodId = product._id || productId;
+      await fetchApi(`/products/${prodId}`, {
+        method: "PUT",
+        body: JSON.stringify(updatedProduct),
+      });
+
+      showSuccess("Nighttime showcase photo updated and saved!");
+    } catch (err: any) {
+      setErrorMsg(err.message || "Failed to upload nighttime image.");
+    } finally {
+      setUploadingNightShowcase(false);
+    }
+  };
+
+  // 4. AUTO-SAVE DESIGN MODEL PHOTO UPLOAD (DIRECTLY ON CARD)
+  const handleDirectDesignPhotoUpload = async (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingDesignIdx(index);
+    setErrorMsg(null);
+
+    try {
+      const uploaded = await uploadImageFile(file, "ssil_product_designs");
+      const currentItem = designs[index];
+      const prodId = product._id || productId;
+
+      // Update local state instantly
+      const updatedDesigns = [...designs];
+      updatedDesigns[index] = { ...currentItem, dayImage: uploaded.url };
+      setDesigns(updatedDesigns);
+
+      // Save to database
+      if (currentItem._id && currentItem._id.length === 24) {
+        // Update existing in DB
+        await fetchApi(`/products/${prodId}/designs/${currentItem._id}`, {
+          method: "PUT",
+          body: JSON.stringify({ dayImage: uploaded.url }),
+        });
+      } else {
+        // Create new in DB
+        const res = await fetchApi(`/products/${prodId}/designs`, {
+          method: "POST",
+          body: JSON.stringify({
+            name: currentItem.name,
+            dayImage: uploaded.url,
+            specs: currentItem.specs || "IP66 Weatherproof • Custom Engineering • ISO Standards",
+            order: index,
+            active: true,
+          }),
+        });
+        if (res.success && res.design) {
+          updatedDesigns[index] = res.design;
+          setDesigns([...updatedDesigns]);
+        }
+      }
+
+      showSuccess(`Photo for ${currentItem.name} updated and saved!`);
+    } catch (err: any) {
+      setErrorMsg(err.message || "Failed to upload design model image.");
+    } finally {
+      setUploadingDesignIdx(null);
+    }
+  };
+
+  // 5. SAVE META DETAILS (TITLE & TAGLINE)
+  const handleSaveMeta = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSaving(true);
+    try {
+      const prodId = product._id || productId;
+      const updatedProduct = {
+        ...product,
+        name: metaForm.name,
+        tagline: metaForm.tagline,
+        description: metaForm.description,
+      };
+
       const res = await fetchApi(`/products/${prodId}`, {
         method: "PUT",
-        body: JSON.stringify(product),
+        body: JSON.stringify(updatedProduct),
       });
 
       if (res.success) {
-        setSuccessMsg(`"${product.name}" details and showcase photos saved successfully!`);
-        setTimeout(() => setSuccessMsg(null), 4000);
-      } else {
-        throw new Error(res.message || "Failed to save product.");
+        setProduct(updatedProduct);
+        setMetaModalOpen(false);
+        showSuccess("Product details updated and saved!");
       }
     } catch (err: any) {
-      setErrorMsg(err.message || "Failed to save product changes.");
+      setErrorMsg(err.message || "Failed to save product details.");
     } finally {
       setSaving(false);
     }
   };
 
-  // Design Model Actions
-  const openAddDesign = () => {
-    setSelectedDesign(null);
+  // 6. OPEN ADD DESIGN MODAL
+  const openAddDesignModal = () => {
+    setSelectedDesignIdx(null);
     setDesignForm({
       name: `${product.name} Model ${String(designs.length + 1).padStart(2, "0")}`,
       dayImage: product.dayImage || "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510375/ssil_products_day/day.png",
       specs: "IP66 Weatherproof • Custom Engineering • ISO Standards",
-      active: true,
     });
     setDesignModalOpen(true);
   };
 
-  const openEditDesign = (item: DesignItem) => {
-    setSelectedDesign(item);
+  // 7. OPEN EDIT DESIGN MODAL
+  const openEditDesignModal = (index: number) => {
+    setSelectedDesignIdx(index);
+    const item = designs[index];
     setDesignForm({
       name: item.name,
       dayImage: item.dayImage,
       specs: item.specs || "IP66 Weatherproof • Custom Engineering • ISO Standards",
-      active: item.active ?? true,
     });
     setDesignModalOpen(true);
   };
 
-  const handleSaveDesign = async (e: React.FormEvent) => {
+  // 8. SAVE DESIGN MODAL FORM
+  const handleSaveDesignForm = async (e: React.FormEvent) => {
     e.preventDefault();
     setDesignActionLoading(true);
     try {
       const prodId = product._id || productId;
-      if (selectedDesign?._id && selectedDesign._id.length > 10) {
-        const res = await fetchApi(`/products/${prodId}/designs/${selectedDesign._id}`, {
-          method: "PUT",
-          body: JSON.stringify(designForm),
-        });
-        if (res.success) {
-          setSuccessMsg(`Model "${designForm.name}" updated!`);
+
+      if (selectedDesignIdx !== null) {
+        // Edit existing
+        const currentItem = designs[selectedDesignIdx];
+        const updatedDesigns = [...designs];
+        updatedDesigns[selectedDesignIdx] = {
+          ...currentItem,
+          name: designForm.name,
+          dayImage: designForm.dayImage,
+          specs: designForm.specs,
+        };
+        setDesigns(updatedDesigns);
+
+        if (currentItem._id && currentItem._id.length === 24) {
+          await fetchApi(`/products/${prodId}/designs/${currentItem._id}`, {
+            method: "PUT",
+            body: JSON.stringify(designForm),
+          });
+        } else {
+          const res = await fetchApi(`/products/${prodId}/designs`, {
+            method: "POST",
+            body: JSON.stringify({ ...designForm, order: selectedDesignIdx, active: true }),
+          });
+          if (res.success && res.design) {
+            updatedDesigns[selectedDesignIdx] = res.design;
+            setDesigns([...updatedDesigns]);
+          }
         }
+        showSuccess(`Model "${designForm.name}" saved!`);
       } else {
+        // Add new
         const res = await fetchApi(`/products/${prodId}/designs`, {
           method: "POST",
-          body: JSON.stringify({ ...designForm, productId: prodId }),
+          body: JSON.stringify({ ...designForm, order: designs.length, active: true }),
         });
-        if (res.success) {
-          setSuccessMsg(`Model "${designForm.name}" created!`);
+
+        if (res.success && res.design) {
+          setDesigns([...designs, res.design]);
+        } else {
+          setDesigns([...designs, { ...designForm, order: designs.length, active: true }]);
         }
+        showSuccess(`New model "${designForm.name}" created!`);
       }
 
       setDesignModalOpen(false);
-      await loadProductStudio();
-      setTimeout(() => setSuccessMsg(null), 4000);
     } catch (err: any) {
       setErrorMsg(err.message || "Failed to save design model.");
     } finally {
@@ -283,18 +416,20 @@ export default function ProductStudioPage() {
     }
   };
 
-  const handleDeleteDesign = async (designId?: string) => {
-    if (!designId || !confirm("Are you sure you want to delete this model design?")) return;
+  // 9. DELETE DESIGN
+  const handleDeleteDesign = async (index: number) => {
+    const item = designs[index];
+    if (!confirm(`Are you sure you want to delete ${item.name}?`)) return;
+
     const prodId = product._id || productId;
     try {
-      const res = await fetchApi(`/products/${prodId}/designs/${designId}`, {
-        method: "DELETE",
-      });
-      if (res.success) {
-        setSuccessMsg("Design model removed.");
-        await loadProductStudio();
-        setTimeout(() => setSuccessMsg(null), 4000);
+      if (item._id && item._id.length === 24) {
+        await fetchApi(`/products/${prodId}/designs/${item._id}`, {
+          method: "DELETE",
+        });
       }
+      setDesigns(designs.filter((_, i) => i !== index));
+      showSuccess(`Model ${item.name} deleted.`);
     } catch (err: any) {
       alert(err.message || "Failed to delete design");
     }
@@ -311,423 +446,536 @@ export default function ProductStudioPage() {
 
   if (loading) {
     return (
-      <div className="p-16 flex flex-col items-center justify-center">
+      <div className="min-h-[60vh] flex flex-col items-center justify-center">
         <Loader2 className="h-10 w-10 text-ssil-red animate-spin mb-4" />
         <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">
-          Loading Product Studio...
+          Loading Visual Product Studio...
         </span>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto pb-16">
+    <div className="relative min-h-screen bg-slate-100 dark:bg-black text-slate-900 dark:text-white pb-24">
       
-      {/* Top Breadcrumb & Main Header */}
-      <div className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200/90 dark:border-zinc-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <Link
-            href={`${ADMIN_BASE_PATH}/products`}
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-ssil-red transition-colors mb-2"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" /> Back to Products Master List
-          </Link>
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] font-black uppercase tracking-widest text-ssil-red block">
-              DEDICATED PRODUCT STUDIO
-            </span>
-            {isSpecializedShowcase && (
-              <span className="px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300 text-[10px] font-black uppercase tracking-wider">
-                ✨ Interactive Showcase Product
+      {/* ============================================================ */}
+      {/* TOP FLOATING VISUAL CMS ADMIN BAR */}
+      {/* ============================================================ */}
+      <div className="sticky top-0 z-50 w-full bg-slate-900/95 backdrop-blur-md border-b border-slate-800 text-white px-4 sm:px-6 py-3 shadow-xl">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+          
+          <div className="flex items-center gap-3">
+            <Link
+              href={`${ADMIN_BASE_PATH}/products`}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 transition-colors"
+            >
+              <ArrowLeft className="h-3.5 w-3.5 text-ssil-red" />
+              <span>All Products</span>
+            </Link>
+
+            <div className="h-4 w-[1px] bg-slate-700 hidden sm:block" />
+
+            <div className="flex items-center gap-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-xs font-black uppercase tracking-wider text-slate-200">
+                Visual In-Page Editor:
+              </span>
+              <span className="text-xs font-extrabold text-ssil-red uppercase">
+                {product.name}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5">
+            {successMsg && (
+              <span className="text-xs font-bold text-emerald-400 bg-emerald-950/80 border border-emerald-800 px-3 py-1 rounded-lg flex items-center gap-1.5 animate-fadeIn">
+                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+                {successMsg}
               </span>
             )}
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight uppercase font-serif">
-            {product.name}
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5 font-mono">
-            /products/{product.slug}
-          </p>
-        </div>
 
-        <div className="flex items-center gap-2.5 self-start sm:self-auto">
-          <Link
-            href={`/products/${product.slug}`}
-            target="_blank"
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 hover:bg-slate-50 dark:hover:bg-zinc-800 text-slate-700 dark:text-slate-200 font-bold text-xs shadow-xs transition-colors"
-          >
-            <Eye className="h-3.5 w-3.5 text-slate-400" />
-            <span>View Live Page</span>
-            <ExternalLink className="h-3 w-3 text-slate-400" />
-          </Link>
+            {errorMsg && (
+              <span className="text-xs font-bold text-rose-400 bg-rose-950/80 border border-rose-800 px-3 py-1 rounded-lg flex items-center gap-1.5">
+                <AlertCircle className="h-3.5 w-3.5 text-rose-400" />
+                {errorMsg}
+              </span>
+            )}
 
-          <Button
-            onClick={handleSaveAll}
-            disabled={saving}
-            className="bg-ssil-red hover:bg-ssil-red-600 text-white font-black px-6 py-2.5 rounded-xl text-xs sm:text-sm shadow-md flex items-center gap-2 cursor-pointer"
-          >
-            {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-            <span>Save All Changes</span>
-          </Button>
-        </div>
-      </div>
+            <button
+              onClick={() => setMetaModalOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-bold text-slate-200 transition-colors shadow-xs"
+            >
+              <Edit2 className="h-3.5 w-3.5 text-amber-400" />
+              <span>Edit Title &amp; Details</span>
+            </button>
 
-      {/* Notifications */}
-      {successMsg && (
-        <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200 text-xs font-bold flex items-center gap-2">
-          <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
-          <span>{successMsg}</span>
-        </div>
-      )}
-      {errorMsg && (
-        <div className="p-4 rounded-2xl bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 text-xs font-bold flex items-center gap-2">
-          <AlertCircle className="h-4 w-4 shrink-0 text-red-600" />
-          <span>{errorMsg}</span>
-        </div>
-      )}
-
-      {/* ============================================================ */}
-      {/* SECTION 1: BASIC INFORMATION & ROUTE SLUG */}
-      {/* ============================================================ */}
-      <div className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200/90 dark:border-zinc-800 shadow-xs space-y-5">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-zinc-800">
-          <div>
-            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block">
-              SECTION 1
-            </span>
-            <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white uppercase">
-              Product Overview &amp; Route Slug
-            </h2>
-          </div>
-          <span className="text-xs font-bold text-slate-400">Meta &amp; SEO</span>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Product Title</label>
-            <input
-              type="text"
-              value={product.name}
-              onChange={(e) => setProduct({ ...product, name: e.target.value })}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs sm:text-sm font-black text-slate-900 dark:text-white"
-            />
-          </div>
-
-          <div>
-            <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Route Slug (/products/[slug])</label>
-            <input
-              type="text"
-              value={product.slug}
-              onChange={(e) => setProduct({ ...product, slug: e.target.value })}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-mono font-bold text-slate-900 dark:text-white"
-            />
-          </div>
-
-          <div className="sm:col-span-2">
-            <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Tagline (High-Level Summary)</label>
-            <input
-              type="text"
-              value={product.tagline || ""}
-              onChange={(e) => setProduct({ ...product, tagline: e.target.value })}
-              placeholder="e.g. Precision-engineered outdoor lighting infrastructure..."
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-medium text-slate-900 dark:text-white"
-            />
-          </div>
-
-          <div className="sm:col-span-2">
-            <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Detailed Engineering Description</label>
-            <textarea
-              rows={3}
-              value={product.description || ""}
-              onChange={(e) => setProduct({ ...product, description: e.target.value })}
-              placeholder="Full architectural and engineering specifications summary..."
-              className="w-full p-3.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-medium leading-relaxed text-slate-900 dark:text-white"
-            />
+            <Link
+              href={`/products/${product.slug}`}
+              target="_blank"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-ssil-red hover:bg-ssil-red-600 text-white text-xs font-black transition-colors shadow-md shadow-ssil-red/20"
+            >
+              <Eye className="h-3.5 w-3.5" />
+              <span>View Live Website</span>
+              <ExternalLink className="h-3 w-3 opacity-70" />
+            </Link>
           </div>
         </div>
       </div>
 
       {/* ============================================================ */}
-      {/* SECTION 2: TOP FULL-BLEED HERO BANNER PHOTO */}
+      {/* 1. VISUAL PRODUCT HERO BANNER SECTION (WITH DIRECT EDIT OVERLAY) */}
       {/* ============================================================ */}
-      <div className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200/90 dark:border-zinc-800 shadow-xs space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-zinc-800">
-          <div>
-            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block">
-              SECTION 2
-            </span>
-            <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white uppercase">
-              Product Page Top Hero Banner Photo
-            </h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              The full-bleed background banner displayed across the top of <code className="text-ssil-red font-mono font-bold">/products/{product.slug}</code>.
-            </p>
-          </div>
-          <span className="text-xs font-bold text-ssil-red uppercase">Top Banner</span>
-        </div>
+      <div className="relative w-full h-[52vh] sm:h-[60vh] max-h-[520px] bg-slate-950 overflow-hidden group/hero border-b-4 border-ssil-red">
+        <Image
+          src={product.heroImage || "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png"}
+          alt={product.name}
+          fill
+          priority
+          className="object-cover object-center brightness-90 group-hover/hero:brightness-75 transition-all duration-300"
+        />
 
-        {product.heroImage && (
-          <div className="relative h-44 sm:h-52 w-full bg-slate-950 rounded-2xl overflow-hidden border border-slate-200 dark:border-zinc-700 p-1 flex items-center justify-center shadow-inner">
-            <img src={product.heroImage} alt="Hero Banner" className="w-full h-full object-cover rounded-xl" />
-          </div>
-        )}
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20 pointer-events-none" />
 
-        <div className="flex flex-col sm:flex-row items-center gap-3">
-          <label className="w-full sm:w-auto cursor-pointer flex items-center justify-center gap-2 px-5 py-3 rounded-2xl border border-dashed border-slate-300 dark:border-zinc-600 hover:border-ssil-red bg-slate-50 dark:bg-zinc-800 text-xs font-black text-slate-800 dark:text-slate-100 transition-colors shadow-xs">
-            {uploadingHeroBanner ? <Loader2 className="h-4 w-4 animate-spin text-ssil-red" /> : <Upload className="h-4 w-4 text-ssil-red" />}
-            <span>Upload New Banner Photo to Cloudinary</span>
-            <input type="file" accept="image/*" onChange={handleHeroBannerUpload} className="hidden" />
+        {/* Floating Hero Banner Edit Button */}
+        <div className="absolute top-6 right-6 z-20">
+          <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-black/80 hover:bg-ssil-red text-white text-xs font-black tracking-wider uppercase border border-white/20 shadow-2xl backdrop-blur-md hover:scale-105 transition-all">
+            {uploadingBanner ? <Loader2 className="h-4 w-4 animate-spin" /> : <Camera className="h-4 w-4 text-amber-400" />}
+            <span>{uploadingBanner ? "Uploading to Cloudinary..." : "Change Hero Banner Photo"}</span>
+            <input type="file" accept="image/*" onChange={handleBannerUpload} className="hidden" />
           </label>
+        </div>
 
-          <input
-            type="url"
-            value={product.heroImage || ""}
-            onChange={(e) => setProduct({ ...product, heroImage: e.target.value })}
-            placeholder="Or paste Cloudinary image URL directly"
-            className="flex-1 w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-mono text-slate-500"
-          />
+        {/* Hero Title & Breadcrumb Overlay */}
+        <div className="absolute bottom-10 left-6 sm:left-12 z-20 max-w-3xl text-left">
+          <div className="flex items-center gap-2 text-xs font-mono font-extrabold uppercase tracking-widest text-slate-300 mb-2">
+            <span>SSIL PRODUCTS</span>
+            <span>/</span>
+            <span className="text-ssil-red">/products/{product.slug}</span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <h1 className="text-3xl sm:text-5xl font-black text-white uppercase tracking-tight font-serif drop-shadow-md">
+              {product.name}
+            </h1>
+            <button
+              onClick={() => setMetaModalOpen(true)}
+              className="p-2 rounded-xl bg-white/20 hover:bg-ssil-red text-white transition-colors backdrop-blur-xs"
+              title="Edit Product Title"
+            >
+              <Edit2 className="h-4 w-4" />
+            </button>
+          </div>
+
+          {product.tagline && (
+            <p className="text-sm sm:text-base text-slate-200 mt-2 line-clamp-2 drop-shadow-sm font-medium">
+              {product.tagline}
+            </p>
+          )}
         </div>
       </div>
 
       {/* ============================================================ */}
-      {/* SECTION 3: CATALOG & INTERNAL DAY/NIGHT SHOWCASE PHOTOS */}
+      {/* 2. INTERACTIVE DAY / NIGHT SHOWCASE SECTION */}
       {/* ============================================================ */}
-      <div className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200/90 dark:border-zinc-800 shadow-xs space-y-5">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-100 dark:border-zinc-800 gap-2">
-          <div>
-            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block">
-              SECTION 3
-            </span>
-            <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white uppercase">
-              Day &amp; Night Visuals {isSpecializedShowcase && "— (Catalog + Internal Showcase)"}
-            </h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              {isSpecializedShowcase
-                ? `Controls both the card on /products and the interactive Day/Night crossfade showcase on /products/${product.slug}.`
-                : `Controls the daytime and night hover glow image on the main /products catalogue card.`}
-            </p>
-          </div>
-          <span className="text-xs font-bold text-amber-500 uppercase">Day / Night Hover</span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {/* Day Visual */}
-          <div className="p-5 rounded-2xl bg-slate-50 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-700 flex flex-col justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200/90 dark:border-zinc-800 shadow-md">
+          
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-slate-100 dark:border-zinc-800 mb-6">
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-black uppercase text-slate-900 dark:text-white">
-                  Daytime Visual (Default View)
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-black uppercase tracking-widest text-ssil-red">
+                  VISUAL SHOWCASE SECTION
                 </span>
-                <span className="text-[10px] font-bold text-slate-500 bg-white dark:bg-zinc-900 px-2 py-0.5 rounded-md border border-slate-200 dark:border-zinc-700">
-                  Day
-                </span>
+                {isSpecializedShowcase && (
+                  <span className="px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-300 text-[10px] font-black">
+                    Interactive Hover Active
+                  </span>
+                )}
               </div>
-              <div className="h-44 sm:h-52 w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 mb-3 flex items-center justify-center">
-                <img src={product.dayImage} alt="Daytime" className="w-full h-full object-cover" />
+              <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white uppercase font-serif mt-0.5">
+                Day &amp; Night Interactive Showcase
+              </h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                These photos control the interactive Day/Night hover preview on the website catalog and internal product showcase.
+              </p>
+            </div>
+
+            <div className="text-xs font-mono font-bold text-slate-400 self-start sm:self-auto">
+              Auto-saved to Cloudinary &amp; MongoDB
+            </div>
+          </div>
+
+          {/* 2-Column Visual Photo Cards with Direct Change Overlay */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            {/* Daytime Photo Card */}
+            <div className="relative group rounded-3xl overflow-hidden bg-slate-100 dark:bg-zinc-800 border-2 border-slate-200 dark:border-zinc-700 shadow-xs hover:border-ssil-red transition-all">
+              <div className="relative h-64 sm:h-72 w-full overflow-hidden">
+                <img
+                  src={product.dayImage}
+                  alt="Daytime Showcase"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white text-slate-900 text-xs font-black shadow-xl hover:scale-105 transition-transform">
+                    {uploadingDayShowcase ? <Loader2 className="h-4 w-4 animate-spin text-ssil-red" /> : <Upload className="h-4 w-4 text-ssil-red" />}
+                    <span>Upload New Daytime Photo</span>
+                    <input type="file" accept="image/*" onChange={handleDayShowcaseUpload} className="hidden" />
+                  </label>
+                </div>
+              </div>
+
+              <div className="p-4 bg-white dark:bg-zinc-900 flex items-center justify-between border-t border-slate-100 dark:border-zinc-800">
+                <div className="flex items-center gap-2">
+                  <Sun className="h-4 w-4 text-amber-500" />
+                  <span className="text-xs font-black uppercase text-slate-900 dark:text-white">Daytime Photo</span>
+                </div>
+                <label className="cursor-pointer inline-flex items-center gap-1.5 text-xs font-bold text-ssil-red hover:underline">
+                  <Camera className="h-3.5 w-3.5" />
+                  <span>Replace Photo</span>
+                  <input type="file" accept="image/*" onChange={handleDayShowcaseUpload} className="hidden" />
+                </label>
               </div>
             </div>
 
-            <label className="cursor-pointer flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-dashed border-slate-300 dark:border-zinc-600 hover:border-ssil-red bg-white dark:bg-zinc-900 text-xs font-bold text-slate-800 dark:text-slate-200 transition-colors shadow-xs">
-              {uploadingCatalogDay ? <Loader2 className="h-4 w-4 animate-spin text-ssil-red" /> : <Upload className="h-4 w-4 text-ssil-red" />}
-              <span>Upload Day Photo (Cloudinary)</span>
-              <input type="file" accept="image/*" onChange={handleCatalogDayUpload} className="hidden" />
-            </label>
-          </div>
-
-          {/* Night Visual */}
-          <div className="p-5 rounded-2xl bg-slate-50 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-700 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-black uppercase text-slate-900 dark:text-white">
-                  Nighttime Visual (Hover Crossfade Glow)
-                </span>
-                <span className="text-[10px] font-bold text-amber-400 bg-black px-2 py-0.5 rounded-md">
-                  Night Hover
-                </span>
+            {/* Nighttime Photo Card */}
+            <div className="relative group rounded-3xl overflow-hidden bg-slate-950 border-2 border-slate-800 shadow-xs hover:border-amber-400 transition-all">
+              <div className="relative h-64 sm:h-72 w-full overflow-hidden">
+                <img
+                  src={product.nightImage || product.dayImage}
+                  alt="Nighttime Showcase"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-amber-400 text-slate-950 text-xs font-black shadow-xl hover:scale-105 transition-transform">
+                    {uploadingNightShowcase ? <Loader2 className="h-4 w-4 animate-spin text-slate-950" /> : <Upload className="h-4 w-4 text-slate-950" />}
+                    <span>Upload New Nighttime Photo</span>
+                    <input type="file" accept="image/*" onChange={handleNightShowcaseUpload} className="hidden" />
+                  </label>
+                </div>
               </div>
-              <div className="h-44 sm:h-52 w-full rounded-xl overflow-hidden bg-slate-950 border border-slate-800 mb-3 flex items-center justify-center">
-                <img src={product.nightImage || product.dayImage} alt="Nighttime" className="w-full h-full object-cover" />
+
+              <div className="p-4 bg-slate-900 flex items-center justify-between border-t border-slate-800">
+                <div className="flex items-center gap-2">
+                  <Moon className="h-4 w-4 text-amber-400" />
+                  <span className="text-xs font-black uppercase text-white">Nighttime Photo (Luminaires Active)</span>
+                </div>
+                <label className="cursor-pointer inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 hover:underline">
+                  <Camera className="h-3.5 w-3.5" />
+                  <span>Replace Photo</span>
+                  <input type="file" accept="image/*" onChange={handleNightShowcaseUpload} className="hidden" />
+                </label>
               </div>
             </div>
 
-            <label className="cursor-pointer flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-dashed border-slate-300 dark:border-zinc-600 hover:border-ssil-red bg-white dark:bg-zinc-900 text-xs font-bold text-slate-800 dark:text-slate-200 transition-colors shadow-xs">
-              {uploadingCatalogNight ? <Loader2 className="h-4 w-4 animate-spin text-ssil-red" /> : <Upload className="h-4 w-4 text-ssil-red" />}
-              <span>Upload Night Photo (Cloudinary)</span>
-              <input type="file" accept="image/*" onChange={handleCatalogNightUpload} className="hidden" />
-            </label>
           </div>
         </div>
       </div>
 
       {/* ============================================================ */}
-      {/* SECTION 4: INTERNAL MODEL DESIGNS (ALL 12+ / 24+ / 41+ DESIGNS) */}
+      {/* 3. VISUAL PRODUCT DESIGNS & MODELS GALLERY (DIRECT INLINE EDIT) */}
       {/* ============================================================ */}
-      <div className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200/90 dark:border-zinc-800 shadow-xs space-y-5">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-100 dark:border-zinc-800 gap-3">
-          <div>
-            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block">
-              SECTION 4
-            </span>
-            <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white uppercase">
-              Internal Model Designs &amp; Variations ({designs.length})
-            </h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              Manage all individual model variants, engineering drawings, and specifications for this category.
-            </p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200/90 dark:border-zinc-800 shadow-md space-y-6">
+          
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100 dark:border-zinc-800">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-black uppercase tracking-widest text-ssil-red">
+                  INTERNAL PRODUCT MODELS
+                </span>
+                <span className="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-[10px] font-black">
+                  {designs.length} Models Active
+                </span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white uppercase font-serif mt-0.5">
+                Available Product Designs &amp; Variants
+              </h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Hover over any model card to directly upload/replace its photo or edit its model name and specifications.
+              </p>
+            </div>
+
+            <Button
+              onClick={openAddDesignModal}
+              className="bg-ssil-red hover:bg-ssil-red-600 text-white font-black px-5 py-2.5 rounded-2xl text-xs shadow-md flex items-center gap-2 self-start sm:self-auto cursor-pointer"
+            >
+              <Plus className="h-4 w-4" />
+              <span>Add New Model Variant</span>
+            </Button>
           </div>
 
-          <Button
-            onClick={openAddDesign}
-            className="bg-slate-900 hover:bg-ssil-red text-white font-bold px-4 py-2 rounded-xl text-xs shadow-xs flex items-center gap-1.5 self-start sm:self-auto cursor-pointer"
-          >
-            <Plus className="h-3.5 w-3.5" />
-            <span>Add New Model Variant</span>
-          </Button>
-        </div>
+          {/* 4-Column Responsive Visual Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+            {designs.map((item, idx) => {
+              const isUploadingThis = uploadingDesignIdx === idx;
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {designs.map((design, idx) => {
-            const desId = design._id || design.id || String(idx);
-            return (
-              <div
-                key={desId}
-                className="group p-4 rounded-2xl bg-slate-50 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-700 shadow-xs flex flex-col justify-between hover:border-ssil-red/50 transition-all"
-              >
-                <div>
-                  <div className="w-full aspect-[4/3] rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-900 mb-3 relative border border-slate-200/80 dark:border-zinc-700">
+              return (
+                <div
+                  key={item._id || item.id || `design-${idx}`}
+                  className="group relative rounded-3xl bg-slate-50 dark:bg-zinc-800/70 border border-slate-200/90 dark:border-zinc-700/80 overflow-hidden shadow-xs hover:shadow-xl hover:border-ssil-red transition-all flex flex-col justify-between"
+                >
+                  {/* Photo with Direct Upload Hover Trigger */}
+                  <div className="relative h-56 w-full bg-white dark:bg-zinc-900 overflow-hidden border-b border-slate-200 dark:border-zinc-700">
                     <img
-                      src={design.dayImage}
-                      alt={design.name}
+                      src={item.dayImage}
+                      alt={item.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
+
+                    {/* Quick Upload Overlay */}
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 p-4">
+                      <label className="cursor-pointer w-full py-2.5 px-3 rounded-xl bg-ssil-red hover:bg-ssil-red-600 text-white text-xs font-black flex items-center justify-center gap-2 shadow-lg transition-transform hover:scale-105">
+                        {isUploadingThis ? <Loader2 className="h-4 w-4 animate-spin" /> : <Camera className="h-4 w-4" />}
+                        <span>{isUploadingThis ? "Uploading..." : "Upload Photo"}</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleDirectDesignPhotoUpload(idx, e)}
+                          className="hidden"
+                        />
+                      </label>
+
+                      <button
+                        onClick={() => openEditDesignModal(idx)}
+                        className="w-full py-2 px-3 rounded-xl bg-white/90 hover:bg-white text-slate-900 text-xs font-bold flex items-center justify-center gap-1.5 shadow-md transition-transform hover:scale-105"
+                      >
+                        <Edit2 className="h-3.5 w-3.5 text-ssil-red" />
+                        <span>Edit Name &amp; Specs</span>
+                      </button>
+                    </div>
+
+                    {/* Index Tag */}
+                    <span className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-md bg-black/70 text-white text-[10px] font-black font-mono">
+                      #{String(idx + 1).padStart(2, "0")}
+                    </span>
                   </div>
 
-                  <span className="text-xs font-black uppercase text-slate-900 dark:text-white tracking-tight line-clamp-1">
-                    {design.name}
-                  </span>
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-2 mt-1">
-                    {design.specs || "Custom Engineering Standard"}
-                  </span>
-                </div>
+                  {/* Details & Actions Footer */}
+                  <div className="p-4 flex flex-col justify-between flex-1 gap-2">
+                    <div>
+                      <h4 className="text-sm font-black uppercase text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors line-clamp-1">
+                        {item.name}
+                      </h4>
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2 mt-0.5">
+                        {item.specs || "IP66 Weatherproof • Custom Engineering • ISO Standards"}
+                      </p>
+                    </div>
 
-                <div className="flex items-center justify-end gap-1 pt-3 mt-3 border-t border-slate-200/60 dark:border-zinc-700">
-                  <button
-                    onClick={() => openEditDesign(design)}
-                    className="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:text-ssil-red hover:bg-white dark:hover:bg-zinc-800 transition-colors cursor-pointer"
-                    title="Edit Model"
-                  >
-                    <Edit2 className="h-3.5 w-3.5" />
-                  </button>
-                  <button
-                    onClick={() => handleDeleteDesign(design._id)}
-                    className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
-                    title="Delete Model"
-                  >
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </button>
+                    <div className="pt-2 border-t border-slate-200/70 dark:border-zinc-700/70 flex items-center justify-between">
+                      <label className="cursor-pointer text-[11px] font-black text-ssil-red hover:underline flex items-center gap-1">
+                        <Upload className="h-3 w-3" />
+                        <span>Replace</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleDirectDesignPhotoUpload(idx, e)}
+                          className="hidden"
+                        />
+                      </label>
+
+                      <div className="flex items-center gap-1">
+                        <button
+                          onClick={() => openEditDesignModal(idx)}
+                          className="p-1 rounded-lg text-slate-400 hover:text-ssil-red transition-colors"
+                          title="Edit Specs"
+                        >
+                          <Edit2 className="h-3.5 w-3.5" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteDesign(idx)}
+                          className="p-1 rounded-lg text-slate-400 hover:text-red-600 transition-colors"
+                          title="Delete Model"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              );
+            })}
+
+            {/* Quick Add Model Card */}
+            <button
+              onClick={openAddDesignModal}
+              className="h-full min-h-[280px] rounded-3xl border-2 border-dashed border-slate-300 dark:border-zinc-700 hover:border-ssil-red hover:bg-white dark:hover:bg-zinc-800 transition-all flex flex-col items-center justify-center p-6 text-center group cursor-pointer"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-ssil-red/10 text-ssil-red group-hover:bg-ssil-red group-hover:text-white flex items-center justify-center mb-3 transition-colors">
+                <Plus className="h-6 w-6" />
               </div>
-            );
-          })}
+              <h4 className="text-sm font-black text-slate-900 dark:text-white uppercase group-hover:text-ssil-red transition-colors">
+                Add Model #{String(designs.length + 1).padStart(2, "0")}
+              </h4>
+              <p className="text-[11px] text-slate-400 mt-1 max-w-[180px]">
+                Add another design model with image and technical specifications
+              </p>
+            </button>
+          </div>
+
         </div>
       </div>
 
-      {/* Floating Bottom Save Action Bar */}
-      <div className="sticky bottom-6 z-40 p-4 rounded-2xl bg-slate-900/90 dark:bg-zinc-900/90 backdrop-blur-md border border-slate-700 dark:border-zinc-700 shadow-2xl flex items-center justify-between gap-4 text-white">
-        <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-xs font-bold">
-            Editing: <span className="text-ssil-red uppercase">{product.name}</span>
-          </span>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <Link
-            href={`${ADMIN_BASE_PATH}/products`}
-            className="text-xs font-bold text-slate-300 hover:text-white transition-colors"
-          >
-            Cancel
-          </Link>
-
-          <Button
-            onClick={handleSaveAll}
-            disabled={saving}
-            className="bg-ssil-red hover:bg-ssil-red-600 text-white font-black px-6 py-2 rounded-xl text-xs shadow-md flex items-center gap-2 cursor-pointer"
-          >
-            {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-            <span>Save All Product Changes</span>
-          </Button>
-        </div>
-      </div>
-
-      {/* Add / Edit Design Modal */}
-      {designModalOpen && (
+      {/* ============================================================ */}
+      {/* MODAL 1: EDIT PRODUCT TITLE, TAGLINE & DESCRIPTION */}
+      {/* ============================================================ */}
+      {metaModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-2xl border border-slate-200 dark:border-zinc-800">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-zinc-800 mb-4">
-              <h3 className="text-sm font-black uppercase text-slate-900 dark:text-white">
-                {selectedDesign ? "Edit Design Model" : "Add New Design Model"}
+          <div className="bg-white dark:bg-zinc-900 rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 dark:border-zinc-800 animate-fadeIn">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-zinc-800">
+              <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase">
+                Edit Product Page Details
               </h3>
-              <button
-                onClick={() => setDesignModalOpen(false)}
-                className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800 cursor-pointer"
-              >
-                <X className="h-4 w-4" />
+              <button onClick={() => setMetaModalOpen(false)} className="p-1 rounded-lg text-slate-400 hover:text-slate-600">
+                <X className="h-5 w-5" />
               </button>
             </div>
 
-            <form onSubmit={handleSaveDesign} className="space-y-4">
+            <form onSubmit={handleSaveMeta} className="space-y-4 mt-4">
               <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Model Name / Code</label>
+                <label className="block text-xs font-bold uppercase text-slate-500 mb-1">Product Title</label>
                 <input
                   type="text"
+                  value={metaForm.name}
+                  onChange={(e) => setMetaForm({ ...metaForm, name: e.target.value })}
                   required
-                  value={designForm.name}
-                  onChange={(e) => setDesignForm({ ...designForm, name: e.target.value })}
-                  placeholder="e.g. SSILDP-01"
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-bold"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-sm font-bold text-slate-900 dark:text-white"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Specifications</label>
+                <label className="block text-xs font-bold uppercase text-slate-500 mb-1">Tagline</label>
+                <input
+                  type="text"
+                  value={metaForm.tagline}
+                  onChange={(e) => setMetaForm({ ...metaForm, tagline: e.target.value })}
+                  placeholder="e.g. Precision-engineered architectural lighting..."
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs text-slate-900 dark:text-white"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase text-slate-500 mb-1">Detailed Description</label>
+                <textarea
+                  rows={3}
+                  value={metaForm.description}
+                  onChange={(e) => setMetaForm({ ...metaForm, description: e.target.value })}
+                  placeholder="Engineering specifications summary..."
+                  className="w-full p-3.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs text-slate-900 dark:text-white"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-4 border-t border-slate-100 dark:border-zinc-800">
+                <button
+                  type="button"
+                  onClick={() => setMetaModalOpen(false)}
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100"
+                >
+                  Cancel
+                </button>
+                <Button
+                  type="submit"
+                  disabled={saving}
+                  className="bg-ssil-red hover:bg-ssil-red-600 text-white font-black px-5 py-2 rounded-xl text-xs"
+                >
+                  {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save Changes"}
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ============================================================ */}
+      {/* MODAL 2: ADD / EDIT DESIGN MODEL */}
+      {/* ============================================================ */}
+      {designModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-zinc-900 rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 dark:border-zinc-800 animate-fadeIn">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-zinc-800">
+              <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase">
+                {selectedDesignIdx !== null ? `Edit ${designForm.name}` : "Add New Product Model"}
+              </h3>
+              <button onClick={() => setDesignModalOpen(false)} className="p-1 rounded-lg text-slate-400 hover:text-slate-600">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveDesignForm} className="space-y-4 mt-4">
+              <div>
+                <label className="block text-xs font-bold uppercase text-slate-500 mb-1">Model Name</label>
+                <input
+                  type="text"
+                  value={designForm.name}
+                  onChange={(e) => setDesignForm({ ...designForm, name: e.target.value })}
+                  required
+                  placeholder="e.g. SSILDP01"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-sm font-bold text-slate-900 dark:text-white"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase text-slate-500 mb-1">Model Photo (Cloudinary)</label>
+                {designForm.dayImage && (
+                  <div className="h-36 w-full rounded-2xl overflow-hidden bg-slate-950 mb-2 border border-slate-200 dark:border-zinc-700">
+                    <img src={designForm.dayImage} alt="Preview" className="w-full h-full object-cover" />
+                  </div>
+                )}
+                <div className="flex items-center gap-2">
+                  <label className="cursor-pointer px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-black hover:bg-ssil-red transition-colors">
+                    <span>Upload Image</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={async (e) => {
+                        const f = e.target.files?.[0];
+                        if (!f) return;
+                        try {
+                          const up = await uploadImageFile(f, "ssil_product_designs");
+                          setDesignForm((p) => ({ ...p, dayImage: up.url }));
+                        } catch (err: any) {
+                          alert("Upload failed: " + err.message);
+                        }
+                      }}
+                      className="hidden"
+                    />
+                  </label>
+                  <input
+                    type="url"
+                    value={designForm.dayImage}
+                    onChange={(e) => setDesignForm({ ...designForm, dayImage: e.target.value })}
+                    placeholder="Or paste image URL"
+                    className="flex-1 px-3 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-mono text-slate-600"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase text-slate-500 mb-1">Specifications</label>
                 <input
                   type="text"
                   value={designForm.specs}
                   onChange={(e) => setDesignForm({ ...designForm, specs: e.target.value })}
-                  placeholder="e.g. 6M to 12M • Octagonal HDG Steel"
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-medium"
+                  placeholder="e.g. IP66 Weatherproof • Custom Engineering • ISO Standards"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs text-slate-900 dark:text-white"
                 />
               </div>
 
-              <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Model Image Preview</label>
-                <div className="h-36 w-full rounded-xl bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 p-2 flex items-center justify-center mb-2 overflow-hidden">
-                  <img src={designForm.dayImage} alt="Model" className="max-h-full max-w-full object-cover rounded-lg" />
-                </div>
-
-                <label className="cursor-pointer flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-dashed border-slate-300 dark:border-zinc-700 hover:border-ssil-red bg-slate-50 dark:bg-zinc-800 text-xs font-bold text-slate-700 dark:text-slate-200 shadow-xs">
-                  {uploadingDesignPhoto ? <Loader2 className="h-3.5 w-3.5 animate-spin text-ssil-red" /> : <Upload className="h-3.5 w-3.5 text-ssil-red" />}
-                  <span>Upload Model Photo to Cloudinary</span>
-                  <input type="file" accept="image/*" onChange={handleDesignPhotoUpload} className="hidden" />
-                </label>
-              </div>
-
-              <div className="flex justify-end gap-2 pt-4 border-t border-slate-100 dark:border-zinc-800">
-                <Button
+              <div className="flex items-center justify-end gap-2 pt-4 border-t border-slate-100 dark:border-zinc-800">
+                <button
                   type="button"
-                  variant="outline"
                   onClick={() => setDesignModalOpen(false)}
-                  className="text-xs font-bold rounded-xl"
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100"
                 >
                   Cancel
-                </Button>
+                </button>
                 <Button
                   type="submit"
                   disabled={designActionLoading}
-                  className="bg-ssil-red hover:bg-ssil-red-600 text-white font-bold text-xs rounded-xl shadow-xs"
+                  className="bg-ssil-red hover:bg-ssil-red-600 text-white font-black px-5 py-2 rounded-xl text-xs"
                 >
-                  {designActionLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Save Design Model"}
+                  {designActionLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save Model"}
                 </Button>
               </div>
             </form>

@@ -2,11 +2,26 @@ import ProductDesign from "../models/ProductDesign.js";
 import Product from "../models/Product.js";
 import { deleteFromCloudinary } from "../config/cloudinary.js";
 
-// GET /api/products/:productId/designs (Fetch designs for a product)
+// Helper to find a product by either MongoDB ObjectId or URL slug
+const resolveProduct = async (identifier) => {
+  if (!identifier) return null;
+  if (identifier.match(/^[0-9a-fA-F]{24}$/)) {
+    const byId = await Product.findById(identifier);
+    if (byId) return byId;
+  }
+  return await Product.findOne({ slug: identifier.toLowerCase().trim() });
+};
+
+// GET /api/products/:productId/designs (Fetch public designs for a product)
 export const getProductDesigns = async (req, res) => {
   try {
     const { productId } = req.params;
-    const designs = await ProductDesign.find({ productId, active: true }).sort({ order: 1, createdAt: 1 });
+    const product = await resolveProduct(productId);
+    if (!product) {
+      return res.status(200).json({ success: true, designs: [] });
+    }
+
+    const designs = await ProductDesign.find({ productId: product._id, active: true }).sort({ order: 1, createdAt: 1 });
     return res.status(200).json({
       success: true,
       designs,
@@ -23,13 +38,7 @@ export const getProductDesigns = async (req, res) => {
 export const getAllProductDesignsAdmin = async (req, res) => {
   try {
     const { productId } = req.params;
-    let product = null;
-    if (productId.match(/^[0-9a-fA-F]{24}$/)) {
-      product = await Product.findById(productId);
-    }
-    if (!product) {
-      product = await Product.findOne({ slug: productId });
-    }
+    const product = await resolveProduct(productId);
     if (!product) {
       return res.status(404).json({
         success: false,
@@ -55,7 +64,7 @@ export const getAllProductDesignsAdmin = async (req, res) => {
 export const createProductDesign = async (req, res) => {
   try {
     const { productId } = req.params;
-    const product = await Product.findById(productId);
+    const product = await resolveProduct(productId);
     if (!product) {
       return res.status(404).json({
         success: false,
@@ -63,16 +72,16 @@ export const createProductDesign = async (req, res) => {
       });
     }
 
-    const count = await ProductDesign.countDocuments({ productId });
+    const count = await ProductDesign.countDocuments({ productId: product._id });
     const design = await ProductDesign.create({
       ...req.body,
-      productId,
+      productId: product._id,
       order: req.body.order ?? count,
     });
 
     // Update parent product designCount
-    const newCount = await ProductDesign.countDocuments({ productId, active: true });
-    await Product.findByIdAndUpdate(productId, { designCount: newCount });
+    const newCount = await ProductDesign.countDocuments({ productId: product._id, active: true });
+    await Product.findByIdAndUpdate(product._id, { designCount: newCount });
 
     return res.status(201).json({
       success: true,
@@ -90,7 +99,8 @@ export const createProductDesign = async (req, res) => {
 // PUT /api/product-designs/:id (Admin protected)
 export const updateProductDesign = async (req, res) => {
   try {
-    const existing = await ProductDesign.findById(req.params.id);
+    const targetId = req.params.id || req.params.designId;
+    const existing = await ProductDesign.findById(targetId);
     if (!existing) {
       return res.status(404).json({
         success: false,
@@ -102,7 +112,7 @@ export const updateProductDesign = async (req, res) => {
       await deleteFromCloudinary(existing.cloudinaryPublicId);
     }
 
-    const updated = await ProductDesign.findByIdAndUpdate(req.params.id, req.body, {
+    const updated = await ProductDesign.findByIdAndUpdate(targetId, req.body, {
       new: true,
       runValidators: true,
     });
@@ -127,7 +137,8 @@ export const updateProductDesign = async (req, res) => {
 // DELETE /api/product-designs/:id (Admin protected)
 export const deleteProductDesign = async (req, res) => {
   try {
-    const design = await ProductDesign.findById(req.params.id);
+    const targetId = req.params.id || req.params.designId;
+    const design = await ProductDesign.findById(targetId);
     if (!design) {
       return res.status(404).json({
         success: false,
@@ -140,7 +151,7 @@ export const deleteProductDesign = async (req, res) => {
     }
 
     const productId = design.productId;
-    await ProductDesign.findByIdAndDelete(req.params.id);
+    await ProductDesign.findByIdAndDelete(targetId);
 
     // Update parent product count
     const activeCount = await ProductDesign.countDocuments({ productId, active: true });

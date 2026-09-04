@@ -88,24 +88,17 @@ export default function ProductDetailPage() {
         if (data.success && data.product && fallbackProduct) {
           const apiProd = data.product;
           let finalGallery = fallbackProduct.galleryImages;
-          if (apiProd.designs && apiProd.designs.length >= fallbackProduct.galleryImages.length) {
-            finalGallery = apiProd.designs.map((d: any, idx: number) => ({
-              id: d._id || d.id || `${slug}-${idx}`,
-              name: d.name,
-              dayImage: d.dayImage || fallbackProduct.galleryImages[idx % fallbackProduct.galleryImages.length]?.dayImage,
-              nightImage: d.nightImage,
-              specs: d.specs || "IP66 Weatherproof • Custom Engineering • ISO Standards",
-            }));
-          } else if (apiProd.designs && apiProd.designs.length > 0) {
+          if (apiProd.designs && apiProd.designs.length > 0) {
+            const dbDesigns = apiProd.designs;
             finalGallery = fallbackProduct.galleryImages.map((localItem, idx) => {
-              const remote = apiProd.designs[idx];
-              if (remote) {
+              const matched = dbDesigns.find((d: any) => d.name === localItem.name || d.order === idx) || dbDesigns[idx];
+              if (matched) {
                 return {
                   ...localItem,
-                  name: remote.name || localItem.name,
-                  dayImage: remote.dayImage || localItem.dayImage,
-                  nightImage: remote.nightImage || localItem.nightImage,
-                  specs: remote.specs || localItem.specs,
+                  name: matched.name || localItem.name,
+                  dayImage: matched.dayImage || localItem.dayImage,
+                  nightImage: matched.nightImage || localItem.nightImage,
+                  specs: matched.specs || localItem.specs,
                 };
               }
               return localItem;

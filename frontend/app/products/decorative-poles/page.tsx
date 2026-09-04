@@ -103,6 +103,7 @@ const decorativeProducts = Array.from({ length: 41 }, (_, i) => {
 
 export default function LEDDecorativePolesPage() {
   const [bannerImage, setBannerImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png");
+  const [productsList, setProductsList] = useState(decorativeProducts);
   const [enquiryState, setEnquiryState] = useState<{
     isOpen: boolean;
     productCategory: string;
@@ -114,21 +115,61 @@ export default function LEDDecorativePolesPage() {
   });
 
   React.useEffect(() => {
-    const fetchBanner = async () => {
+    const fetchProductData = async () => {
       try {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-        const res = await fetch(`${apiUrl}/products/decorative-poles`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data.success && data.product?.heroImage) {
-            setBannerImage(data.product.heroImage);
+        const [prodRes, designRes] = await Promise.all([
+          fetch(`${apiUrl}/products/decorative-poles`).then((r) => (r.ok ? r.json() : null)),
+          fetch(`${apiUrl}/products/decorative-poles/designs`).then((r) => (r.ok ? r.json() : null)),
+        ]);
+
+        if (prodRes && prodRes.success && prodRes.product) {
+          if (prodRes.product.heroImage) {
+            setBannerImage(prodRes.product.heroImage);
+          }
+          if (prodRes.product.designs && prodRes.product.designs.length > 0) {
+            const dbDesigns = prodRes.product.designs;
+            setProductsList((prev) =>
+              prev.map((item, idx) => {
+                const matched = dbDesigns.find((d: any) => d.name === item.name || d.order === idx) || dbDesigns[idx];
+                if (matched) {
+                  return {
+                    ...item,
+                    name: matched.name || item.name,
+                    dayImage: matched.dayImage || item.dayImage,
+                    nightImage: matched.nightImage || item.nightImage,
+                    specs: matched.specs || item.specs,
+                  };
+                }
+                return item;
+              })
+            );
           }
         }
+
+        if (designRes && designRes.success && Array.isArray(designRes.designs) && designRes.designs.length > 0) {
+          const dbDesigns = designRes.designs;
+          setProductsList((prev) =>
+            prev.map((item, idx) => {
+              const matched = dbDesigns.find((d: any) => d.name === item.name || d.order === idx) || dbDesigns[idx];
+              if (matched) {
+                return {
+                  ...item,
+                  name: matched.name || item.name,
+                  dayImage: matched.dayImage || item.dayImage,
+                  nightImage: matched.nightImage || item.nightImage,
+                  specs: matched.specs || item.specs,
+                };
+              }
+              return item;
+            })
+          );
+        }
       } catch (err) {
-        // Fallback
+        // Fallback to initial defaults
       }
     };
-    fetchBanner();
+    fetchProductData();
   }, []);
 
   const openEnquiry = (modelName?: string) => {
@@ -269,7 +310,7 @@ export default function LEDDecorativePolesPage() {
             </div>
             
             <span className="text-xs font-bold text-ssil-red uppercase tracking-wider bg-ssil-red/10 border border-ssil-red/20 px-3 py-1.5 rounded-none self-start sm:self-auto">
-              {decorativeProducts.length} Available Models
+              {productsList.length} Available Models
             </span>
           </div>
 
@@ -281,7 +322,7 @@ export default function LEDDecorativePolesPage() {
             viewport={{ once: true, margin: "-40px" }}
             variants={containerVariants}
           >
-            {decorativeProducts.map((item) => (
+            {productsList.map((item) => (
               <div
                 key={item.id}
                 className="w-full sm:w-[calc((100%-0.75rem)/2)] lg:w-[calc((100%-2.625rem)/4)] flex"

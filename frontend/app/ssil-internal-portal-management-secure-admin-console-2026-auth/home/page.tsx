@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
+  ArrowLeft,
   Save,
   Loader2,
   CheckCircle2,
@@ -14,14 +16,17 @@ import {
   Trash2,
   Sun,
   Moon,
-  Layers,
   Eye,
   AlertCircle,
   X,
-  ArrowUpDown,
+  ExternalLink,
+  Camera,
+  ArrowRight,
+  ShieldCheck,
+  Building2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { fetchApi, uploadImageFile } from "@/lib/admin-api";
+import { fetchApi, uploadImageFile, ADMIN_BASE_PATH } from "@/lib/admin-api";
 import { featuredProducts as defaultFeatured, FeaturedProduct } from "@/data/featured-products";
 
 interface FeaturedProductAdminItem {
@@ -33,51 +38,41 @@ interface FeaturedProductAdminItem {
   description?: string;
   dayImage: string;
   nightImage: string;
-  dayCloudinaryId?: string;
-  nightCloudinaryId?: string;
   slug?: string;
   order?: number;
   active?: boolean;
 }
 
-export default function AdminHomePage() {
-  const [activeTab, setActiveTab] = useState<"featured" | "stats">("featured");
+export default function VisualHomePageEditor() {
   const [loading, setLoading] = useState(true);
   const [savingStats, setSavingStats] = useState(false);
-  const [actionLoading, setActionLoading] = useState(false);
-  const [uploadingDay, setUploadingDay] = useState(false);
-  const [uploadingNight, setUploadingNight] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // 6 Featured Products State
   const [featuredList, setFeaturedList] = useState<FeaturedProductAdminItem[]>([]);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<FeaturedProductAdminItem | null>(null);
+  const [uploadingIdx, setUploadingIdx] = useState<{ idx: number; type: "day" | "night" } | null>(null);
 
-  // Form State for Featured Product
-  const [formState, setFormState] = useState<{
+  // Modals State
+  const [editProductModalOpen, setEditProductModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<FeaturedProductAdminItem | null>(null);
+  const [productForm, setProductForm] = useState<{
     name: string;
-    category: string;
     tagline: string;
     description: string;
     dayImage: string;
     nightImage: string;
     slug: string;
-    order: number;
-    active: boolean;
   }>({
     name: "",
-    category: "Commercial & Architectural",
     tagline: "",
     description: "",
     dayImage: "",
     nightImage: "",
     slug: "",
-    order: 0,
-    active: true,
   });
+
+  const [statsModalOpen, setStatsModalOpen] = useState(false);
 
   // 4 Stats State
   const [stats, setStats] = useState({
@@ -100,41 +95,30 @@ export default function AdminHomePage() {
             projectsCompleted: statsRes.stats.projectsCompleted || stats.projectsCompleted,
           });
         }
-      } catch (err) {
-        console.warn("Could not load stats from DB, using fallback");
+      } catch (e) {
+        // Fallback
       }
 
-      // 2. Load Featured Products
+      // 2. Load 6 Featured Products
       try {
-        const featRes = await fetchApi("/home/featured/admin/all");
-        if (featRes.success && Array.isArray(featRes.products) && featRes.products.length > 0) {
-          setFeaturedList(featRes.products);
+        const featRes = await fetchApi("/home/featured-products/admin");
+        if (featRes.success && Array.isArray(featRes.featuredProducts) && featRes.featuredProducts.length > 0) {
+          setFeaturedList(featRes.featuredProducts);
         } else {
-          // Fallback to static defaults
           setFeaturedList(
-            defaultFeatured.slice(0, 6).map((p, idx) => ({
+            defaultFeatured.map((p, idx) => ({
+              ...p,
               _id: p.id,
-              name: p.name,
-              dayImage: p.dayImage,
-              nightImage: p.nightImage,
-              category: "Commercial & Architectural",
-              tagline: "High-efficiency lighting engineered for architectural and infrastructure spaces.",
-              slug: p.name.toLowerCase().replace(/\s+/g, "-"),
               order: idx,
               active: true,
             }))
           );
         }
-      } catch (err) {
+      } catch (e) {
         setFeaturedList(
-          defaultFeatured.slice(0, 6).map((p, idx) => ({
+          defaultFeatured.map((p, idx) => ({
+            ...p,
             _id: p.id,
-            name: p.name,
-            dayImage: p.dayImage,
-            nightImage: p.nightImage,
-            category: "Commercial & Architectural",
-            tagline: "High-efficiency lighting engineered for architectural and infrastructure spaces.",
-            slug: p.name.toLowerCase().replace(/\s+/g, "-"),
             order: idx,
             active: true,
           }))
@@ -149,353 +133,399 @@ export default function AdminHomePage() {
     loadData();
   }, []);
 
-  // --- STATS HANDLER ---
+  const showSuccess = (msg: string) => {
+    setSuccessMessage(msg);
+    setTimeout(() => setSuccessMessage(null), 4000);
+  };
+
+  // Quick Direct Upload on Featured Product Card
+  const handleDirectUpload = async (index: number, type: "day" | "night", e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingIdx({ idx: index, type });
+    setErrorMessage(null);
+
+    try {
+      const folder = type === "day" ? "ssil_products_day" : "ssil_products_night";
+      const uploaded = await uploadImageFile(file, folder);
+
+      const target = featuredList[index];
+      const updatedProduct = {
+        ...target,
+        [type === "day" ? "dayImage" : "nightImage"]: uploaded.url,
+      };
+
+      const nextList = [...featuredList];
+      nextList[index] = updatedProduct;
+      setFeaturedList(nextList);
+
+      // Save to MongoDB
+      const prodId = target._id || target.id;
+      if (prodId && prodId.length === 24) {
+        await fetchApi(`/home/featured-products/${prodId}`, {
+          method: "PUT",
+          body: JSON.stringify(updatedProduct),
+        });
+      }
+
+      showSuccess(`${type === "day" ? "Daytime" : "Nighttime"} photo for "${target.name}" updated!`);
+    } catch (err: any) {
+      setErrorMessage(err.message || `Failed to upload ${type} photo.`);
+    } finally {
+      setUploadingIdx(null);
+    }
+  };
+
+  // Open Edit Product Modal
+  const openEditModal = (p: FeaturedProductAdminItem) => {
+    setSelectedProduct(p);
+    setProductForm({
+      name: p.name,
+      tagline: p.tagline || "",
+      description: p.description || "",
+      dayImage: p.dayImage,
+      nightImage: p.nightImage,
+      slug: p.slug || "",
+    });
+    setEditProductModalOpen(true);
+  };
+
+  // Save Product Modal Form
+  const handleSaveProductModal = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const prodId = selectedProduct?._id || selectedProduct?.id;
+      if (selectedProduct && prodId && prodId.length === 24) {
+        await fetchApi(`/home/featured-products/${prodId}`, {
+          method: "PUT",
+          body: JSON.stringify(productForm),
+        });
+      }
+
+      setFeaturedList((prev) =>
+        prev.map((item) => (item.id === selectedProduct?.id || item._id === selectedProduct?._id ? { ...item, ...productForm } : item))
+      );
+
+      setEditProductModalOpen(false);
+      showSuccess(`Featured product "${productForm.name}" updated!`);
+    } catch (err: any) {
+      setErrorMessage(err.message || "Failed to update featured product.");
+    }
+  };
+
+  // Save Stats Form
   const handleSaveStats = async (e: React.FormEvent) => {
     e.preventDefault();
     setSavingStats(true);
-    setSuccessMessage(null);
-
     try {
-      const res = await fetchApi("/home/stats", {
+      await fetchApi("/home/stats", {
         method: "PUT",
         body: JSON.stringify(stats),
       });
-
-      if (res.success) {
-        setSuccessMessage("Home statistics updated successfully! Live website reflects changes.");
-        setTimeout(() => setSuccessMessage(null), 4000);
-      }
+      setStatsModalOpen(false);
+      showSuccess("Homepage 4 Stats updated and saved!");
     } catch (err: any) {
-      alert(err.message || "Failed to update statistics");
+      setErrorMessage(err.message || "Failed to save stats.");
     } finally {
       setSavingStats(false);
     }
   };
 
-  // --- FEATURED PRODUCTS HANDLERS ---
-  const openAddFeaturedModal = () => {
-    setSelectedProduct(null);
-    setFormState({
-      name: "",
-      category: "Commercial & Architectural",
-      tagline: "",
-      description: "",
-      dayImage: "",
-      nightImage: "",
-      slug: "",
-      order: featuredList.length,
-      active: true,
-    });
-    setErrorMessage(null);
-    setModalOpen(true);
-  };
-
-  const openEditFeaturedModal = (prod: FeaturedProductAdminItem, idx: number) => {
-    setSelectedProduct(prod);
-    setFormState({
-      name: prod.name,
-      category: prod.category || "Commercial & Architectural",
-      tagline: prod.tagline || "",
-      description: prod.description || "",
-      dayImage: prod.dayImage || "",
-      nightImage: prod.nightImage || "",
-      slug: prod.slug || prod.name.toLowerCase().replace(/\s+/g, "-"),
-      order: prod.order ?? idx,
-      active: prod.active ?? true,
-    });
-    setErrorMessage(null);
-    setModalOpen(true);
-  };
-
-  const handleUploadDayImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setUploadingDay(true);
-    setErrorMessage(null);
-
-    try {
-      const uploaded = await uploadImageFile(file, "ssil_products_day");
-      setFormState((prev) => ({ ...prev, dayImage: uploaded.url }));
-    } catch (err: any) {
-      setErrorMessage(err.message || "Failed to upload Day image to Cloudinary.");
-    } finally {
-      setUploadingDay(false);
-    }
-  };
-
-  const handleUploadNightImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setUploadingNight(true);
-    setErrorMessage(null);
-
-    try {
-      const uploaded = await uploadImageFile(file, "ssil_products_night");
-      setFormState((prev) => ({ ...prev, nightImage: uploaded.url }));
-    } catch (err: any) {
-      setErrorMessage(err.message || "Failed to upload Night image to Cloudinary.");
-    } finally {
-      setUploadingNight(false);
-    }
-  };
-
-  const handleSaveFeaturedProduct = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formState.dayImage || !formState.nightImage) {
-      setErrorMessage("Please provide both Day and Night images for the hover transition.");
-      return;
-    }
-
-    setActionLoading(true);
-    setErrorMessage(null);
-
-    try {
-      const slugVal = formState.slug.trim() || formState.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-      const payload = {
-        ...formState,
-        slug: slugVal,
-      };
-
-      if (selectedProduct?._id && selectedProduct._id.length > 10) {
-        const res = await fetchApi(`/home/featured/${selectedProduct._id}`, {
-          method: "PUT",
-          body: JSON.stringify(payload),
-        });
-        if (res.success) {
-          setSuccessMessage(`Featured Product "${formState.name}" updated successfully!`);
-        }
-      } else {
-        const res = await fetchApi("/home/featured", {
-          method: "POST",
-          body: JSON.stringify(payload),
-        });
-        if (res.success) {
-          setSuccessMessage(`Featured Product "${formState.name}" added to Home page!`);
-        }
-      }
-
-      setModalOpen(false);
-      await loadData();
-      setTimeout(() => setSuccessMessage(null), 4000);
-    } catch (err: any) {
-      setErrorMessage(err.message || "Failed to save featured product.");
-    } finally {
-      setActionLoading(false);
-    }
-  };
-
-  const handleDeleteFeaturedProduct = async () => {
-    if (!selectedProduct?._id) return;
-    setActionLoading(true);
-
-    try {
-      const res = await fetchApi(`/home/featured/${selectedProduct._id}`, {
-        method: "DELETE",
-      });
-
-      if (res.success) {
-        setSuccessMessage("Featured product deleted successfully.");
-        setDeleteModalOpen(false);
-        await loadData();
-        setTimeout(() => setSuccessMessage(null), 4000);
-      }
-    } catch (err: any) {
-      alert(err.message || "Failed to delete featured product.");
-    } finally {
-      setActionLoading(false);
-    }
-  };
-
   if (loading) {
     return (
-      <div className="p-12 flex flex-col items-center justify-center">
-        <Loader2 className="h-8 w-8 text-ssil-red animate-spin mb-3" />
-        <span className="text-xs font-bold text-slate-500 uppercase">Loading Home Page CMS...</span>
+      <div className="min-h-[60vh] flex flex-col items-center justify-center">
+        <Loader2 className="h-10 w-10 text-ssil-red animate-spin mb-4" />
+        <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">
+          Loading Home Page Visual Editor...
+        </span>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8">
+    <div className="relative min-h-screen bg-slate-100 dark:bg-black text-slate-900 dark:text-white pb-24">
       
-      {/* Header */}
-      <div className="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <span className="text-[11px] font-black uppercase tracking-widest text-ssil-red block mb-1">
-            HOME PAGE CMS
+      {/* ============================================================ */}
+      {/* TOP FLOATING VISUAL CMS ADMIN BAR */}
+      {/* ============================================================ */}
+      <div className="sticky top-0 z-50 w-full bg-slate-900/95 backdrop-blur-md border-b border-slate-800 text-white px-4 sm:px-6 py-3 shadow-xl">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+          
+          <div className="flex items-center gap-3">
+            <Link
+              href={ADMIN_BASE_PATH}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 transition-colors"
+            >
+              <ArrowLeft className="h-3.5 w-3.5 text-ssil-red" />
+              <span>Dashboard</span>
+            </Link>
+
+            <div className="h-4 w-[1px] bg-slate-700 hidden sm:block" />
+
+            <div className="flex items-center gap-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-xs font-black uppercase tracking-wider text-slate-200">
+                Visual Home Page CMS:
+              </span>
+              <span className="text-xs font-extrabold text-ssil-red uppercase">
+                6 Featured Products &amp; 4 Stats
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5">
+            {successMessage && (
+              <span className="text-xs font-bold text-emerald-400 bg-emerald-950/80 border border-emerald-800 px-3 py-1 rounded-lg flex items-center gap-1.5 animate-fadeIn">
+                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+                {successMessage}
+              </span>
+            )}
+
+            {errorMessage && (
+              <span className="text-xs font-bold text-rose-400 bg-rose-950/80 border border-rose-800 px-3 py-1 rounded-lg flex items-center gap-1.5">
+                <AlertCircle className="h-3.5 w-3.5 text-rose-400" />
+                {errorMessage}
+              </span>
+            )}
+
+            <button
+              onClick={() => setStatsModalOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-bold text-slate-200 transition-colors shadow-xs"
+            >
+              <TrendingUp className="h-3.5 w-3.5 text-emerald-400" />
+              <span>Edit 4 Stats</span>
+            </button>
+
+            <Link
+              href="/"
+              target="_blank"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-ssil-red hover:bg-ssil-red-600 text-white text-xs font-black transition-colors shadow-md shadow-ssil-red/20"
+            >
+              <Eye className="h-3.5 w-3.5" />
+              <span>View Live Home Page</span>
+              <ExternalLink className="h-3 w-3 opacity-70" />
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* ============================================================ */}
+      {/* 1. VISUAL HOME HERO SECTION */}
+      {/* ============================================================ */}
+      <div className="relative w-full h-[54vh] sm:h-[62vh] max-h-[540px] bg-slate-950 overflow-hidden group/hero border-b-4 border-ssil-red">
+        <Image
+          src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png"
+          alt="Home Hero"
+          fill
+          priority
+          className="object-cover object-center brightness-90"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/60 to-slate-950/30" />
+
+        <div className="absolute bottom-12 left-6 sm:left-12 z-20 max-w-2xl text-left">
+          <span className="text-[11px] font-mono font-black uppercase tracking-widest text-ssil-red block mb-2">
+            SHREE SANT KRIPA APPLIANCES PVT. LTD.
           </span>
-          <h1 className="text-2xl font-black uppercase tracking-tight text-slate-900 dark:text-white">
-            Home Page Management
+          <h1 className="text-3xl sm:text-5xl font-black text-white uppercase tracking-tight font-serif drop-shadow-md">
+            Illuminating India's National Infrastructure
           </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            Manage the <strong>6 Featured Products</strong> with interactive Day/Night hover crossfades and the <strong>Company Scale Statistics</strong>.
+          <p className="text-xs sm:text-sm text-slate-200 mt-2 line-clamp-2 max-w-xl font-medium">
+            India's foremost manufacturer of smart lighting, octagonal poles, monumental high masts, and clean energy infrastructure.
           </p>
         </div>
+      </div>
 
-        {/* Tab Switcher */}
-        <div className="flex items-center gap-1.5 p-1.5 bg-slate-100 dark:bg-zinc-800 rounded-2xl self-start sm:self-auto border border-slate-200/80 dark:border-zinc-700">
+      {/* ============================================================ */}
+      {/* 2. VISUAL 4 STATS COUNTER BAR */}
+      {/* ============================================================ */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-30">
+        <div className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200/90 dark:border-zinc-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 w-full">
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">
+                {stats.deployedFootprints.sublabel}
+              </span>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-serif text-ssil-red">
+                {stats.deployedFootprints.value.toLocaleString()}{stats.deployedFootprints.suffix}
+              </div>
+              <p className="text-xs text-slate-500 font-medium mt-0.5">{stats.deployedFootprints.label}</p>
+            </div>
+
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">
+                {stats.yearsExperience.sublabel}
+              </span>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-serif text-ssil-red">
+                {stats.yearsExperience.value}{stats.yearsExperience.suffix}
+              </div>
+              <p className="text-xs text-slate-500 font-medium mt-0.5">{stats.yearsExperience.label}</p>
+            </div>
+
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">
+                {stats.statesServed.sublabel}
+              </span>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-serif text-ssil-red">
+                {stats.statesServed.value}{stats.statesServed.suffix}
+              </div>
+              <p className="text-xs text-slate-500 font-medium mt-0.5">{stats.statesServed.label}</p>
+            </div>
+
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">
+                {stats.projectsCompleted.sublabel}
+              </span>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-serif text-ssil-red">
+                {stats.projectsCompleted.value.toLocaleString()}{stats.projectsCompleted.suffix}
+              </div>
+              <p className="text-xs text-slate-500 font-medium mt-0.5">{stats.projectsCompleted.label}</p>
+            </div>
+          </div>
+
           <button
-            onClick={() => setActiveTab("featured")}
-            className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
-              activeTab === "featured"
-                ? "bg-white dark:bg-zinc-900 text-ssil-red shadow-sm"
-                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-            }`}
+            onClick={() => setStatsModalOpen(true)}
+            className="shrink-0 px-4 py-2.5 rounded-2xl bg-slate-900 dark:bg-zinc-800 hover:bg-ssil-red text-white text-xs font-bold flex items-center gap-1.5 transition-colors shadow-xs"
           >
-            Our Products (6 Items)
-          </button>
-          <button
-            onClick={() => setActiveTab("stats")}
-            className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
-              activeTab === "stats"
-                ? "bg-white dark:bg-zinc-900 text-ssil-red shadow-sm"
-                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-            }`}
-          >
-            Scale &amp; Metrics
+            <Edit2 className="h-3.5 w-3.5 text-amber-400" />
+            <span>Edit Stats</span>
           </button>
         </div>
       </div>
 
-      {/* Success Notification */}
-      {successMessage && (
-        <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200 text-xs font-bold flex items-center gap-2">
-          <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
-          <span>{successMessage}</span>
-        </div>
-      )}
-
       {/* ============================================================ */}
-      {/* TAB 1: OUR PRODUCTS (6 FEATURED ITEMS WITH DAY/NIGHT HOVER) */}
+      {/* 3. VISUAL 6 FEATURED PRODUCTS WITH DAY/NIGHT HOVER */}
       {/* ============================================================ */}
-      {activeTab === "featured" && (
-        <div className="space-y-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200/90 dark:border-zinc-800 shadow-md space-y-6">
           
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-slate-100 dark:border-zinc-800">
             <div>
-              <h2 className="text-lg font-black uppercase tracking-tight text-slate-900 dark:text-white">
-                Featured Products Grid (Home Page)
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-black uppercase tracking-widest text-ssil-red">
+                  HOMEPAGE PRODUCT SHOWCASE
+                </span>
+                <span className="px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300 text-[10px] font-black">
+                  6 Interactive Cards Active
+                </span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white uppercase font-serif mt-0.5">
+                Featured Products (Day &amp; Night Interactive Cards)
               </h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
-                The home page displays the 6 active products below with smooth Day &amp; Night crossfade hover effects.
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Hover over the cards below to preview Day/Night transitions. Click "Day Photo" or "Night Photo" to directly upload and auto-save.
               </p>
             </div>
 
-            <Button
-              onClick={openAddFeaturedModal}
-              className="bg-ssil-red hover:bg-ssil-red-600 text-white font-bold px-4 py-2 rounded-xl text-xs shadow-sm flex items-center gap-2 self-start sm:self-auto"
+            <Link
+              href={`${ADMIN_BASE_PATH}/products`}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-900 hover:bg-ssil-red text-white text-xs font-bold transition-colors self-start sm:self-auto shadow-xs"
             >
-              <Plus className="h-4 w-4" />
-              Add Featured Product
-            </Button>
+              <span>Manage All 18 Products</span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
           </div>
 
-          {/* 6 Featured Products Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {featuredList.map((prod, idx) => {
-              const numStr = String(idx + 1).padStart(2, "0");
+          {/* 6 Product Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featuredList.map((item, idx) => {
+              const isUploadingDay = uploadingIdx?.idx === idx && uploadingIdx?.type === "day";
+              const isUploadingNight = uploadingIdx?.idx === idx && uploadingIdx?.type === "night";
 
               return (
                 <div
-                  key={prod._id || prod.id || idx}
-                  className="group relative rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 overflow-hidden shadow-xs hover:border-ssil-red/50 hover:shadow-md transition-all flex flex-col"
+                  key={item._id || item.id || `featured-${idx}`}
+                  className="group relative rounded-3xl bg-slate-50 dark:bg-zinc-800/70 border border-slate-200 dark:border-zinc-700/80 p-4 shadow-xs hover:shadow-xl hover:border-ssil-red transition-all flex flex-col justify-between"
                 >
-                  {/* Top Bar with Number Badge & Active Status */}
-                  <div className="p-4 pb-3 flex items-center justify-between border-b border-slate-100 dark:border-zinc-800/80">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-black text-white bg-ssil-red px-2.5 py-0.5 rounded-md tracking-wider">
-                        #{numStr}
-                      </span>
-                      <span className="text-xs font-black uppercase text-slate-900 dark:text-white tracking-tight truncate max-w-[150px]">
-                        {prod.name}
+                  <div>
+                    {/* Number Badge */}
+                    <div className="flex items-center justify-between text-xs font-black mb-3">
+                      <span className="font-mono text-ssil-red font-black">#{String(idx + 1).padStart(2, "0")}</span>
+                      <span className="text-[10px] font-bold text-slate-400 uppercase">
+                        {item.category || "Infrastructure"}
                       </span>
                     </div>
 
-                    <span
-                      className={`text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full ${
-                        prod.active !== false
-                          ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
-                          : "bg-slate-100 text-slate-500 dark:bg-zinc-800 dark:text-slate-400"
-                      }`}
-                    >
-                      {prod.active !== false ? "Live" : "Draft"}
-                    </span>
-                  </div>
-
-                  {/* Interactive Live Hover Card Preview (Day/Night) */}
-                  <div className="p-4 flex-1 flex flex-col items-center">
-                    <div className="relative w-full aspect-[10/14] rounded-2xl overflow-hidden bg-slate-50 dark:bg-zinc-950/80 border border-slate-100 dark:border-zinc-800 group/image cursor-pointer">
-                      {/* Day Image */}
-                      {prod.dayImage && (
-                        <Image
-                          src={prod.dayImage}
-                          alt={`${prod.name} Day`}
-                          fill
-                          sizes="300px"
-                          className="object-contain p-3 opacity-100 group-hover/image:opacity-0 transition-opacity duration-500 ease-in-out"
+                    {/* Day / Night Previews */}
+                    <div className="grid grid-cols-2 gap-2 mb-3">
+                      <div className="h-32 rounded-2xl overflow-hidden bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 relative">
+                        <img
+                          src={item.dayImage}
+                          alt="Day"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
-                      )}
+                        <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-white/90 text-[9px] font-black uppercase text-slate-900">
+                          Day
+                        </span>
+                      </div>
 
-                      {/* Night Image */}
-                      {prod.nightImage && (
-                        <Image
-                          src={prod.nightImage}
-                          alt={`${prod.name} Night`}
-                          fill
-                          sizes="300px"
-                          className="object-contain p-3 opacity-0 group-hover/image:opacity-100 transition-opacity duration-500 ease-in-out"
+                      <div className="h-32 rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 relative">
+                        <img
+                          src={item.nightImage || item.dayImage}
+                          alt="Night"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
-                      )}
-
-                      {/* Hover Hint Pill */}
-                      <div className="absolute top-2.5 right-2.5 z-10 flex items-center gap-1 bg-black/60 backdrop-blur-md px-2 py-1 rounded-full text-[10px] text-white font-bold pointer-events-none">
-                        <Sun className="h-3 w-3 text-amber-400" />
-                        <span>/</span>
-                        <Moon className="h-3 w-3 text-blue-300" />
-                        <span className="ml-1 text-[9px] text-slate-300">Hover</span>
+                        <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-black/80 text-[9px] font-black uppercase text-amber-400">
+                          Night
+                        </span>
                       </div>
                     </div>
 
-                    <div className="mt-3 w-full text-center">
-                      <p className="text-xs font-black uppercase text-slate-900 dark:text-white tracking-tight truncate">
-                        {prod.name}
-                      </p>
-                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">
-                        {prod.category || "Commercial & Architectural"}
-                      </p>
+                    {/* Title & Tagline */}
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <h4 className="text-sm font-black uppercase text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors line-clamp-1">
+                          {item.name}
+                        </h4>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
+                          {item.tagline || item.description}
+                        </p>
+                      </div>
+
+                      <button
+                        onClick={() => openEditModal(item)}
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-ssil-red hover:bg-slate-200 dark:hover:bg-zinc-700 transition-colors"
+                        title="Edit Info"
+                      >
+                        <Edit2 className="h-4 w-4" />
+                      </button>
                     </div>
                   </div>
 
-                  {/* Actions Footer */}
-                  <div className="p-3 bg-slate-50 dark:bg-zinc-800/50 border-t border-slate-100 dark:border-zinc-800 flex items-center justify-between">
-                    <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
-                      <ArrowUpDown className="h-3.5 w-3.5 text-ssil-red" />
-                      <span>Order: #{prod.order ?? idx}</span>
+                  {/* Direct Card Upload Actions */}
+                  <div className="pt-4 mt-4 border-t border-slate-200 dark:border-zinc-700 space-y-2">
+                    <div className="grid grid-cols-2 gap-2">
+                      <label className="cursor-pointer py-2 px-2.5 rounded-xl bg-white dark:bg-zinc-900 hover:bg-slate-200 border border-slate-200 dark:border-zinc-700 text-slate-800 dark:text-slate-200 text-xs font-black flex items-center justify-center gap-1.5 transition-colors shadow-2xs">
+                        {isUploadingDay ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Sun className="h-3.5 w-3.5 text-amber-500" />}
+                        <span>{isUploadingDay ? "..." : "Day Photo"}</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleDirectUpload(idx, "day", e)}
+                          className="hidden"
+                        />
+                      </label>
+
+                      <label className="cursor-pointer py-2 px-2.5 rounded-xl bg-slate-900 hover:bg-black border border-slate-800 text-white text-xs font-black flex items-center justify-center gap-1.5 transition-colors shadow-2xs">
+                        {isUploadingNight ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Moon className="h-3.5 w-3.5 text-amber-400" />}
+                        <span>{isUploadingNight ? "..." : "Night Photo"}</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleDirectUpload(idx, "night", e)}
+                          className="hidden"
+                        />
+                      </label>
                     </div>
 
-                    <div className="flex items-center gap-1.5">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => openEditFeaturedModal(prod, idx)}
-                        className="h-8 px-2.5 text-xs font-bold rounded-xl text-slate-700 dark:text-slate-200 border-slate-200 dark:border-zinc-700 hover:text-ssil-red"
-                      >
-                        <Edit2 className="h-3.5 w-3.5 mr-1" /> Edit
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        onClick={() => {
-                          setSelectedProduct(prod);
-                          setDeleteModalOpen(true);
-                        }}
-                        className="h-8 px-2.5 text-xs font-bold rounded-xl bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-950/40 dark:border-red-900"
-                      >
-                        <Trash2 className="h-3.5 w-3.5" />
-                      </Button>
-                    </div>
+                    <Link
+                      href={`${ADMIN_BASE_PATH}/products/${item.slug || "decorative-poles"}`}
+                      className="w-full py-2 px-3 rounded-xl bg-blue-50 dark:bg-blue-950/50 hover:bg-blue-100 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
+                    >
+                      <Sparkles className="h-3.5 w-3.5" />
+                      <span>Open Product Studio</span>
+                    </Link>
                   </div>
                 </div>
               );
@@ -503,574 +533,219 @@ export default function AdminHomePage() {
           </div>
 
         </div>
-      )}
+      </div>
 
       {/* ============================================================ */}
-      {/* TAB 2: SCALE & CREDIBILITY METRICS (4 COUNTERS) */}
+      {/* 4. VISUAL LINKS TO PARTNER LOGOS & GALLERY */}
       {/* ============================================================ */}
-      {activeTab === "stats" && (
-        <form onSubmit={handleSaveStats} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            
-            {/* 1. Deployed Footprints */}
-            <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-xs space-y-3">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-zinc-800">
-                <span className="text-xs font-black uppercase text-ssil-red">Stat 1: Deployed Footprints</span>
-                <span className="text-[10px] font-bold uppercase text-slate-400">COUNTER #01</span>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          
+          <Link
+            href={`${ADMIN_BASE_PATH}/national-projects`}
+            className="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200/90 dark:border-zinc-800 shadow-xs hover:shadow-lg hover:border-ssil-red transition-all flex items-center justify-between group"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                <Sparkles className="h-6 w-6" />
               </div>
-
               <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Target Counter Value</label>
-                <input
-                  type="number"
-                  required
-                  value={stats.deployedFootprints.value}
-                  onChange={(e) =>
-                    setStats({
-                      ...stats,
-                      deployedFootprints: { ...stats.deployedFootprints, value: Number(e.target.value) },
-                    })
-                  }
-                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-sm font-bold"
-                />
-              </div>
-
-              <div className="grid grid-cols-3 gap-2">
-                <div className="col-span-1">
-                  <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Suffix</label>
-                  <input
-                    type="text"
-                    value={stats.deployedFootprints.suffix}
-                    onChange={(e) =>
-                      setStats({
-                        ...stats,
-                        deployedFootprints: { ...stats.deployedFootprints, suffix: e.target.value },
-                      })
-                    }
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-bold"
-                  />
-                </div>
-                <div className="col-span-2">
-                  <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Sublabel (Badge)</label>
-                  <input
-                    type="text"
-                    value={stats.deployedFootprints.sublabel}
-                    onChange={(e) =>
-                      setStats({
-                        ...stats,
-                        deployedFootprints: { ...stats.deployedFootprints, sublabel: e.target.value },
-                      })
-                    }
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-bold"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Main Label</label>
-                <input
-                  type="text"
-                  value={stats.deployedFootprints.label}
-                  onChange={(e) =>
-                    setStats({
-                      ...stats,
-                      deployedFootprints: { ...stats.deployedFootprints, label: e.target.value },
-                    })
-                  }
-                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-medium"
-                />
-              </div>
-            </div>
-
-            {/* 2. Years of Experience */}
-            <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-xs space-y-3">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-zinc-800">
-                <span className="text-xs font-black uppercase text-ssil-red">Stat 2: Experience</span>
-                <span className="text-[10px] font-bold uppercase text-slate-400">COUNTER #02</span>
-              </div>
-
-              <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Years Value</label>
-                <input
-                  type="number"
-                  required
-                  value={stats.yearsExperience.value}
-                  onChange={(e) =>
-                    setStats({
-                      ...stats,
-                      yearsExperience: { ...stats.yearsExperience, value: Number(e.target.value) },
-                    })
-                  }
-                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-sm font-bold"
-                />
-              </div>
-
-              <div className="grid grid-cols-3 gap-2">
-                <div className="col-span-1">
-                  <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Suffix</label>
-                  <input
-                    type="text"
-                    value={stats.yearsExperience.suffix}
-                    onChange={(e) =>
-                      setStats({
-                        ...stats,
-                        yearsExperience: { ...stats.yearsExperience, suffix: e.target.value },
-                      })
-                    }
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-bold"
-                  />
-                </div>
-                <div className="col-span-2">
-                  <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Sublabel (Badge)</label>
-                  <input
-                    type="text"
-                    value={stats.yearsExperience.sublabel}
-                    onChange={(e) =>
-                      setStats({
-                        ...stats,
-                        yearsExperience: { ...stats.yearsExperience, sublabel: e.target.value },
-                      })
-                    }
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-bold"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Main Label</label>
-                <input
-                  type="text"
-                  value={stats.yearsExperience.label}
-                  onChange={(e) =>
-                    setStats({
-                      ...stats,
-                      yearsExperience: { ...stats.yearsExperience, label: e.target.value },
-                    })
-                  }
-                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-medium"
-                />
-              </div>
-            </div>
-
-            {/* 3. States Served */}
-            <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-xs space-y-3">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-zinc-800">
-                <span className="text-xs font-black uppercase text-ssil-red">Stat 3: States &amp; UTs</span>
-                <span className="text-[10px] font-bold uppercase text-slate-400">COUNTER #03</span>
-              </div>
-
-              <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">States Count</label>
-                <input
-                  type="number"
-                  required
-                  value={stats.statesServed.value}
-                  onChange={(e) =>
-                    setStats({
-                      ...stats,
-                      statesServed: { ...stats.statesServed, value: Number(e.target.value) },
-                    })
-                  }
-                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-sm font-bold"
-                />
-              </div>
-
-              <div className="grid grid-cols-3 gap-2">
-                <div className="col-span-1">
-                  <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Suffix</label>
-                  <input
-                    type="text"
-                    value={stats.statesServed.suffix}
-                    onChange={(e) =>
-                      setStats({
-                        ...stats,
-                        statesServed: { ...stats.statesServed, suffix: e.target.value },
-                      })
-                    }
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-bold"
-                  />
-                </div>
-                <div className="col-span-2">
-                  <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Sublabel (Badge)</label>
-                  <input
-                    type="text"
-                    value={stats.statesServed.sublabel}
-                    onChange={(e) =>
-                      setStats({
-                        ...stats,
-                        statesServed: { ...stats.statesServed, sublabel: e.target.value },
-                      })
-                    }
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-bold"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Main Label</label>
-                <input
-                  type="text"
-                  value={stats.statesServed.label}
-                  onChange={(e) =>
-                    setStats({
-                      ...stats,
-                      statesServed: { ...stats.statesServed, label: e.target.value },
-                    })
-                  }
-                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-medium"
-                />
-              </div>
-            </div>
-
-            {/* 4. Projects Completed */}
-            <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-xs space-y-3">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-zinc-800">
-                <span className="text-xs font-black uppercase text-ssil-red">Stat 4: Projects Completed</span>
-                <span className="text-[10px] font-bold uppercase text-slate-400">COUNTER #04</span>
-              </div>
-
-              <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Projects Count</label>
-                <input
-                  type="number"
-                  required
-                  value={stats.projectsCompleted.value}
-                  onChange={(e) =>
-                    setStats({
-                      ...stats,
-                      projectsCompleted: { ...stats.projectsCompleted, value: Number(e.target.value) },
-                    })
-                  }
-                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-sm font-bold"
-                />
-              </div>
-
-              <div className="grid grid-cols-3 gap-2">
-                <div className="col-span-1">
-                  <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Suffix</label>
-                  <input
-                    type="text"
-                    value={stats.projectsCompleted.suffix}
-                    onChange={(e) =>
-                      setStats({
-                        ...stats,
-                        projectsCompleted: { ...stats.projectsCompleted, suffix: e.target.value },
-                      })
-                    }
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-bold"
-                  />
-                </div>
-                <div className="col-span-2">
-                  <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Sublabel (Badge)</label>
-                  <input
-                    type="text"
-                    value={stats.projectsCompleted.sublabel}
-                    onChange={(e) =>
-                      setStats({
-                        ...stats,
-                        projectsCompleted: { ...stats.projectsCompleted, sublabel: e.target.value },
-                      })
-                    }
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-bold"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Main Label</label>
-                <input
-                  type="text"
-                  value={stats.projectsCompleted.label}
-                  onChange={(e) =>
-                    setStats({
-                      ...stats,
-                      projectsCompleted: { ...stats.projectsCompleted, label: e.target.value },
-                    })
-                  }
-                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-medium"
-                />
-              </div>
-            </div>
-
-          </div>
-
-          <div className="flex justify-end pt-2">
-            <Button
-              type="submit"
-              disabled={savingStats}
-              className="bg-ssil-red hover:bg-ssil-red-600 text-white font-bold px-7 py-2.5 rounded-xl text-xs sm:text-sm shadow-md"
-            >
-              {savingStats ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Saving Statistics...
-                </>
-              ) : (
-                <>
-                  <Save className="mr-2 h-4 w-4" />
-                  Save Statistics Changes
-                </>
-              )}
-            </Button>
-          </div>
-        </form>
-      )}
-
-      {/* ============================================================ */}
-      {/* ADD / EDIT FEATURED PRODUCT MODAL */}
-      {/* ============================================================ */}
-      {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-          <div className="w-full max-w-2xl bg-white dark:bg-zinc-900 rounded-3xl p-6 sm:p-7 shadow-2xl border border-slate-200 dark:border-zinc-800 my-8 max-h-[90vh] overflow-y-auto">
-            
-            <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-zinc-800 mb-5">
-              <div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-ssil-red block mb-0.5">
-                  FEATURED PRODUCT CONFIGURATION
-                </span>
-                <h3 className="text-lg font-black uppercase tracking-tight text-slate-900 dark:text-white">
-                  {selectedProduct ? "Edit Featured Product" : "Add Featured Product"}
+                <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors">
+                  Powering National Projects (Client Logos)
                 </h3>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  Manage government &amp; private client partner logos on the homepage
+                </p>
               </div>
-              <button
-                onClick={() => setModalOpen(false)}
-                className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-500"
-              >
+            </div>
+            <ArrowRight className="h-5 w-5 text-slate-400 group-hover:text-ssil-red group-hover:translate-x-1 transition-all" />
+          </Link>
+
+          <Link
+            href={`${ADMIN_BASE_PATH}/gallery`}
+            className="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200/90 dark:border-zinc-800 shadow-xs hover:shadow-lg hover:border-ssil-red transition-all flex items-center justify-between group"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                <Building2 className="h-6 w-6" />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors">
+                  Projects &amp; Gallery Showcase
+                </h3>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  Manage executed case studies, locations &amp; photo gallery
+                </p>
+              </div>
+            </div>
+            <ArrowRight className="h-5 w-5 text-slate-400 group-hover:text-ssil-red group-hover:translate-x-1 transition-all" />
+          </Link>
+
+        </div>
+      </div>
+
+      {/* ============================================================ */}
+      {/* MODAL: EDIT FEATURED PRODUCT */}
+      {/* ============================================================ */}
+      {editProductModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-zinc-900 rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 dark:border-zinc-800 animate-fadeIn">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-zinc-800">
+              <h3 className="text-lg font-black uppercase text-slate-900 dark:text-white">
+                Edit {selectedProduct?.name}
+              </h3>
+              <button onClick={() => setEditProductModalOpen(false)} className="p-1 text-slate-400 hover:text-slate-600">
                 <X className="h-5 w-5" />
               </button>
             </div>
 
-            {errorMessage && (
-              <div className="mb-4 p-3 rounded-xl bg-red-50 dark:bg-red-950/50 border border-red-200 text-red-700 dark:text-red-300 text-xs font-semibold flex items-center gap-2">
-                <AlertCircle className="h-4 w-4 shrink-0" />
-                <span>{errorMessage}</span>
-              </div>
-            )}
-
-            <form onSubmit={handleSaveFeaturedProduct} className="space-y-4">
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Product Title</label>
-                  <input
-                    type="text"
-                    required
-                    value={formState.name}
-                    onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                    placeholder="e.g. LED Designer Pole"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs sm:text-sm font-bold"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Category Badge</label>
-                  <input
-                    type="text"
-                    value={formState.category}
-                    onChange={(e) => setFormState({ ...formState, category: e.target.value })}
-                    placeholder="e.g. Commercial & Architectural"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs sm:text-sm font-medium"
-                  />
-                </div>
+            <form onSubmit={handleSaveProductModal} className="space-y-4 mt-4">
+              <div>
+                <label className="block text-xs font-bold uppercase text-slate-500 mb-1">Product Title</label>
+                <input
+                  type="text"
+                  value={productForm.name}
+                  onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
+                  required
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-sm font-bold text-slate-900 dark:text-white"
+                />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Slug / Product URL Path</label>
-                  <input
-                    type="text"
-                    value={formState.slug}
-                    onChange={(e) => setFormState({ ...formState, slug: e.target.value })}
-                    placeholder="e.g. designer-poles"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-mono"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Display Order</label>
-                    <input
-                      type="number"
-                      value={formState.order}
-                      onChange={(e) => setFormState({ ...formState, order: Number(e.target.value) })}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-bold"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[11px] font-bold uppercase text-slate-500 mb-1">Status</label>
-                    <select
-                      value={formState.active ? "active" : "draft"}
-                      onChange={(e) => setFormState({ ...formState, active: e.target.value === "active" })}
-                      className="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-bold"
-                    >
-                      <option value="active">Active (Visible)</option>
-                      <option value="draft">Draft (Hidden)</option>
-                    </select>
-                  </div>
-                </div>
+              <div>
+                <label className="block text-xs font-bold uppercase text-slate-500 mb-1">Tagline</label>
+                <input
+                  type="text"
+                  value={productForm.tagline}
+                  onChange={(e) => setProductForm({ ...productForm, tagline: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs text-slate-900 dark:text-white"
+                />
               </div>
 
-              {/* Day & Night Cloudinary Image Uploader & Live Preview */}
-              <div className="p-4 rounded-2xl bg-slate-50 dark:bg-zinc-800/60 border border-slate-200/80 dark:border-zinc-700 space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-200 dark:border-zinc-700 pb-2">
-                  <span className="text-xs font-black uppercase text-ssil-red flex items-center gap-1.5">
-                    <Sun className="h-4 w-4 text-amber-500" /> Day &amp; <Moon className="h-4 w-4 text-blue-400" /> Night Images (Cloudinary)
-                  </span>
-                  <span className="text-[10px] text-slate-400 font-bold uppercase">ASPECT RATIO 10:15</span>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Day Image */}
-                  <div className="space-y-2">
-                    <label className="block text-[11px] font-bold uppercase text-slate-600 dark:text-slate-300 flex items-center gap-1">
-                      <Sun className="h-3.5 w-3.5 text-amber-500" /> 1. Day Image (Default)
-                    </label>
-
-                    {formState.dayImage && (
-                      <div className="relative h-44 w-full bg-white dark:bg-zinc-900 rounded-xl overflow-hidden border border-slate-200 dark:border-zinc-700 flex items-center justify-center p-2">
-                        <img src={formState.dayImage} alt="Day Preview" className="max-h-full max-w-full object-contain" />
-                      </div>
-                    )}
-
-                    <div className="flex items-center gap-2">
-                      <label className="flex-1 cursor-pointer flex items-center justify-center gap-2 px-3 py-2 rounded-xl border border-dashed border-slate-300 dark:border-zinc-600 hover:border-ssil-red bg-white dark:bg-zinc-900 text-xs font-bold text-slate-700 dark:text-slate-200 transition-colors">
-                        {uploadingDay ? (
-                          <>
-                            <Loader2 className="h-3.5 w-3.5 animate-spin text-ssil-red" />
-                            <span>Uploading...</span>
-                          </>
-                        ) : (
-                          <>
-                            <Upload className="h-3.5 w-3.5 text-ssil-red" />
-                            <span>Upload Day Photo</span>
-                          </>
-                        )}
-                        <input type="file" accept="image/*" onChange={handleUploadDayImage} className="hidden" />
-                      </label>
-                    </div>
-
-                    <input
-                      type="url"
-                      placeholder="Or paste Cloudinary URL"
-                      value={formState.dayImage}
-                      onChange={(e) => setFormState({ ...formState, dayImage: e.target.value })}
-                      className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-[11px] font-mono text-slate-500"
-                    />
-                  </div>
-
-                  {/* Night Image */}
-                  <div className="space-y-2">
-                    <label className="block text-[11px] font-bold uppercase text-slate-600 dark:text-slate-300 flex items-center gap-1">
-                      <Moon className="h-3.5 w-3.5 text-blue-400" /> 2. Night Image (On Hover)
-                    </label>
-
-                    {formState.nightImage && (
-                      <div className="relative h-44 w-full bg-slate-950 rounded-xl overflow-hidden border border-zinc-700 flex items-center justify-center p-2">
-                        <img src={formState.nightImage} alt="Night Preview" className="max-h-full max-w-full object-contain" />
-                      </div>
-                    )}
-
-                    <div className="flex items-center gap-2">
-                      <label className="flex-1 cursor-pointer flex items-center justify-center gap-2 px-3 py-2 rounded-xl border border-dashed border-slate-300 dark:border-zinc-600 hover:border-ssil-red bg-white dark:bg-zinc-900 text-xs font-bold text-slate-700 dark:text-slate-200 transition-colors">
-                        {uploadingNight ? (
-                          <>
-                            <Loader2 className="h-3.5 w-3.5 animate-spin text-ssil-red" />
-                            <span>Uploading...</span>
-                          </>
-                        ) : (
-                          <>
-                            <Upload className="h-3.5 w-3.5 text-ssil-red" />
-                            <span>Upload Night Photo</span>
-                          </>
-                        )}
-                        <input type="file" accept="image/*" onChange={handleUploadNightImage} className="hidden" />
-                      </label>
-                    </div>
-
-                    <input
-                      type="url"
-                      placeholder="Or paste Cloudinary URL"
-                      value={formState.nightImage}
-                      onChange={(e) => setFormState({ ...formState, nightImage: e.target.value })}
-                      className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-[11px] font-mono text-slate-500"
-                    />
-                  </div>
-                </div>
-
-                {/* Live Hover Preview Demo if both present */}
-                {formState.dayImage && formState.nightImage && (
-                  <div className="pt-3 border-t border-slate-200 dark:border-zinc-700 flex flex-col items-center">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-2">
-                      Live Hover Crossfade Preview (Move cursor over image below):
-                    </span>
-                    <div className="relative w-36 aspect-[10/14] rounded-xl overflow-hidden bg-slate-900 border border-slate-300 dark:border-zinc-600 group/test cursor-pointer shadow-md">
-                      <img
-                        src={formState.dayImage}
-                        alt="Day"
-                        className="absolute inset-0 w-full h-full object-contain p-2 opacity-100 group-hover/test:opacity-0 transition-opacity duration-500"
-                      />
-                      <img
-                        src={formState.nightImage}
-                        alt="Night"
-                        className="absolute inset-0 w-full h-full object-contain p-2 opacity-0 group-hover/test:opacity-100 transition-opacity duration-500"
-                      />
-                    </div>
-                  </div>
-                )}
+              <div>
+                <label className="block text-xs font-bold uppercase text-slate-500 mb-1">Route Slug</label>
+                <input
+                  type="text"
+                  value={productForm.slug}
+                  onChange={(e) => setProductForm({ ...productForm, slug: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-xs font-mono text-slate-900 dark:text-white"
+                />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-100 dark:border-zinc-800">
-                <Button
+              <div className="flex items-center justify-end gap-2 pt-4 border-t border-slate-100 dark:border-zinc-800">
+                <button
                   type="button"
-                  variant="outline"
-                  onClick={() => setModalOpen(false)}
-                  className="text-xs font-bold rounded-xl"
+                  onClick={() => setEditProductModalOpen(false)}
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100"
                 >
                   Cancel
-                </Button>
+                </button>
                 <Button
                   type="submit"
-                  disabled={actionLoading || uploadingDay || uploadingNight}
-                  className="bg-ssil-red hover:bg-ssil-red-600 text-white text-xs font-bold rounded-xl px-6"
+                  className="bg-ssil-red hover:bg-ssil-red-600 text-white font-black px-5 py-2 rounded-xl text-xs"
                 >
-                  {actionLoading ? "Saving Product..." : "Save Product"}
+                  Save Changes
                 </Button>
               </div>
             </form>
-
           </div>
         </div>
       )}
 
       {/* ============================================================ */}
-      {/* DELETE FEATURED PRODUCT CONFIRMATION MODAL */}
+      {/* MODAL: EDIT 4 STATS */}
       {/* ============================================================ */}
-      {deleteModalOpen && selectedProduct && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-sm bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-2xl border border-slate-200 dark:border-zinc-800 text-center">
-            <div className="w-12 h-12 rounded-2xl bg-red-50 dark:bg-red-950/60 text-red-600 flex items-center justify-center mx-auto mb-3">
-              <Trash2 className="h-6 w-6" />
+      {statsModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-zinc-900 rounded-3xl max-w-xl w-full p-6 shadow-2xl border border-slate-200 dark:border-zinc-800 animate-fadeIn">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-zinc-800">
+              <h3 className="text-lg font-black uppercase text-slate-900 dark:text-white">
+                Edit 4 Core Performance Stats
+              </h3>
+              <button onClick={() => setStatsModalOpen(false)} className="p-1 text-slate-400 hover:text-slate-600">
+                <X className="h-5 w-5" />
+              </button>
             </div>
-            <h3 className="text-base font-black uppercase text-slate-900 dark:text-white">Delete Featured Product?</h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-5">
-              Are you sure you want to remove <strong>{selectedProduct.name}</strong> from the home page featured list?
-            </p>
-            <div className="flex justify-center gap-2">
-              <Button
-                variant="outline"
-                onClick={() => setDeleteModalOpen(false)}
-                className="text-xs font-bold rounded-xl"
-              >
-                Cancel
-              </Button>
-              <Button
-                disabled={actionLoading}
-                onClick={handleDeleteFeaturedProduct}
-                className="bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl"
-              >
-                {actionLoading ? "Deleting..." : "Confirm Delete"}
-              </Button>
-            </div>
+
+            <form onSubmit={handleSaveStats} className="space-y-4 mt-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold uppercase text-slate-500 mb-1">Deployed Footprint Value</label>
+                  <input
+                    type="number"
+                    value={stats.deployedFootprints.value}
+                    onChange={(e) =>
+                      setStats({
+                        ...stats,
+                        deployedFootprints: { ...stats.deployedFootprints, value: Number(e.target.value) },
+                      })
+                    }
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-sm font-bold text-slate-900 dark:text-white"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase text-slate-500 mb-1">Years of Experience</label>
+                  <input
+                    type="number"
+                    value={stats.yearsExperience.value}
+                    onChange={(e) =>
+                      setStats({
+                        ...stats,
+                        yearsExperience: { ...stats.yearsExperience, value: Number(e.target.value) },
+                      })
+                    }
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-sm font-bold text-slate-900 dark:text-white"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase text-slate-500 mb-1">States &amp; UTs Served</label>
+                  <input
+                    type="number"
+                    value={stats.statesServed.value}
+                    onChange={(e) =>
+                      setStats({
+                        ...stats,
+                        statesServed: { ...stats.statesServed, value: Number(e.target.value) },
+                      })
+                    }
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-sm font-bold text-slate-900 dark:text-white"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase text-slate-500 mb-1">Completed Projects</label>
+                  <input
+                    type="number"
+                    value={stats.projectsCompleted.value}
+                    onChange={(e) =>
+                      setStats({
+                        ...stats,
+                        projectsCompleted: { ...stats.projectsCompleted, value: Number(e.target.value) },
+                      })
+                    }
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 text-sm font-bold text-slate-900 dark:text-white"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-4 border-t border-slate-100 dark:border-zinc-800">
+                <button
+                  type="button"
+                  onClick={() => setStatsModalOpen(false)}
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100"
+                >
+                  Cancel
+                </button>
+                <Button
+                  type="submit"
+                  disabled={savingStats}
+                  className="bg-ssil-red hover:bg-ssil-red-600 text-white font-black px-5 py-2 rounded-xl text-xs"
+                >
+                  {savingStats ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save Stats"}
+                </Button>
+              </div>
+            </form>
           </div>
         </div>
       )}
