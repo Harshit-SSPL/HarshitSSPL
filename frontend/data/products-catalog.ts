@@ -222,8 +222,8 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "High-performance street lighting built for modern highways and municipal roads.",
     description:
       "Advanced LED street light systems engineered for municipal expressways, urban thoroughfares, and highway corridors, providing high luminous efficacy, uniform light distribution, and IP66 weather resistance.",
-    dayImage: CLOUDINARY_MAP.productDay[1],
-    nightImage: CLOUDINARY_MAP.productNight[1],
+    dayImage: CLOUDINARY_MAP.octagonalDay,
+    nightImage: CLOUDINARY_MAP.octagonalNight,
     heroImage: CLOUDINARY_MAP.heroBanner,
     galleryImages: generateGallery("street-light", "LED Street Luminaire", 12),
   },

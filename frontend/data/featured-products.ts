@@ -45,8 +45,8 @@ export const featuredProducts: FeaturedProduct[] = [
   {
     id: "product-07",
     name: "Urban Street Luminaire",
-    dayImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510375/ssil_products_day/day.png",
-    nightImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510376/ssil_products_night/night.png",
+    dayImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510369/ssil_products_day/day.png",
+    nightImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510370/ssil_products_night/night.png",
   },
   {
     id: "product-08",
