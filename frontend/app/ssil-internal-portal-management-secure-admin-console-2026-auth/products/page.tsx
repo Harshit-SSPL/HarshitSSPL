@@ -378,22 +378,22 @@ export default function VisualProductsCatalogEditor() {
             return (
               <div
                 key={prodId}
-                className="group relative rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200/90 dark:border-zinc-800 p-4 shadow-sm hover:shadow-xl hover:border-ssil-red transition-all flex flex-col justify-between"
+                className="group relative rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200/90 dark:border-zinc-800 p-5 shadow-sm hover:shadow-xl hover:border-ssil-red transition-all flex flex-col justify-between"
               >
                 <div>
-                  {/* Top Bar: Number & Status */}
+                  {/* Top Bar: Number & Route */}
                   <div className="flex items-center justify-between text-xs font-black mb-3">
-                    <span className="font-mono text-ssil-red font-black">#{numFormatted}</span>
-                    <span className="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-[10px] font-black">
-                      {product.designCount || 12}+ Models
+                    <span className="font-mono text-ssil-red font-black text-sm">#{numFormatted}</span>
+                    <span className="text-[10px] font-mono text-slate-400 bg-slate-100 dark:bg-zinc-800 px-2 py-0.5 rounded-md">
+                      /products/{product.slug}
                     </span>
                   </div>
 
-                  {/* Day / Night Image Previews */}
+                  {/* Day / Night Image Previews (Clickable to enter Studio) */}
                   <Link
                     href={`${ADMIN_BASE_PATH}/products/${product.slug || prodId}`}
-                    className="grid grid-cols-2 gap-2 mb-3 block"
-                    title="Click to open Full-Page Product Studio"
+                    className="grid grid-cols-2 gap-2 mb-3.5 block group-hover:opacity-95 transition-opacity"
+                    title="Click to open Product Studio"
                   >
                     <div className="h-28 rounded-2xl overflow-hidden bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 relative">
                       <img
@@ -401,7 +401,7 @@ export default function VisualProductsCatalogEditor() {
                         alt="Day"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
-                      <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-white/90 text-[9px] font-black uppercase tracking-wider text-slate-900">
+                      <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-white/90 text-[9px] font-black uppercase tracking-wider text-slate-900 shadow-xs">
                         Day
                       </span>
                     </div>
@@ -412,76 +412,39 @@ export default function VisualProductsCatalogEditor() {
                         alt="Night"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
-                      <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-black/80 text-[9px] font-black uppercase tracking-wider text-amber-400">
+                      <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-black/80 text-[9px] font-black uppercase tracking-wider text-amber-400 shadow-xs">
                         Night
                       </span>
                     </div>
                   </Link>
 
-                  {/* Title & Route */}
-                  <div className="flex items-start justify-between gap-2">
-                    <Link
-                      href={`${ADMIN_BASE_PATH}/products/${product.slug || prodId}`}
-                      className="block group-hover:text-ssil-red transition-colors"
-                    >
-                      <h3 className="text-sm font-black uppercase text-slate-900 dark:text-white line-clamp-1">
-                        {product.name}
-                      </h3>
-                      <p className="text-[11px] font-mono text-slate-400 mt-0.5">
-                        /products/{product.slug}
-                      </p>
-                    </Link>
-
-                    <Link
-                      href={`/products/${product.slug}`}
-                      target="_blank"
-                      className="p-1 rounded-lg text-slate-400 hover:text-ssil-red"
-                      title="View Live Page"
-                    >
-                      <ExternalLink className="h-3.5 w-3.5" />
-                    </Link>
-                  </div>
+                  {/* Title */}
+                  <Link
+                    href={`${ADMIN_BASE_PATH}/products/${product.slug || prodId}`}
+                    className="block group-hover:text-ssil-red transition-colors"
+                  >
+                    <h3 className="text-sm font-black uppercase text-slate-900 dark:text-white line-clamp-1">
+                      {product.name}
+                    </h3>
+                  </Link>
 
                   {product.tagline && (
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 line-clamp-2">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
                       {product.tagline}
                     </p>
                   )}
                 </div>
 
-                {/* Direct Actions: Open Studio & Quick Uploads */}
-                <div className="pt-4 mt-4 border-t border-slate-100 dark:border-zinc-800 space-y-2">
+                {/* Single Clean Action to Open Studio */}
+                <div className="pt-4 mt-4 border-t border-slate-100 dark:border-zinc-800">
                   <Link
                     href={`${ADMIN_BASE_PATH}/products/${product.slug || prodId}`}
-                    className="w-full py-2.5 px-3 rounded-xl bg-slate-900 dark:bg-zinc-100 hover:bg-ssil-red dark:hover:bg-ssil-red text-white dark:text-zinc-900 dark:hover:text-white text-xs font-black flex items-center justify-center gap-1.5 transition-colors shadow-sm"
+                    className="w-full py-2.5 px-4 rounded-xl bg-slate-900 dark:bg-zinc-100 hover:bg-ssil-red dark:hover:bg-ssil-red text-white dark:text-zinc-900 dark:hover:text-white text-xs font-bold flex items-center justify-center gap-2 transition-colors shadow-sm"
                   >
                     <Edit2 className="h-3.5 w-3.5" />
-                    <span>Open Product Studio (Edit All)</span>
+                    <span>Edit Product</span>
+                    <ArrowRight className="h-3.5 w-3.5 ml-auto opacity-70 group-hover:translate-x-0.5 transition-transform" />
                   </Link>
-
-                  <div className="grid grid-cols-2 gap-1.5 pt-1">
-                    <label className="cursor-pointer py-1.5 px-2 rounded-lg bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 text-slate-700 dark:text-slate-200 text-[10px] font-black flex items-center justify-center gap-1 transition-colors">
-                      {isUploadingDay ? <Loader2 className="h-3 w-3 animate-spin" /> : <Sun className="h-3 w-3 text-amber-500" />}
-                      <span>{isUploadingDay ? "..." : "Day Photo"}</span>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => handleDirectCardUpload(idx, "day", e)}
-                        className="hidden"
-                      />
-                    </label>
-
-                    <label className="cursor-pointer py-1.5 px-2 rounded-lg bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 text-slate-700 dark:text-slate-200 text-[10px] font-black flex items-center justify-center gap-1 transition-colors">
-                      {isUploadingNight ? <Loader2 className="h-3 w-3 animate-spin" /> : <Moon className="h-3 w-3 text-amber-400" />}
-                      <span>{isUploadingNight ? "..." : "Night Photo"}</span>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => handleDirectCardUpload(idx, "night", e)}
-                        className="hidden"
-                      />
-                    </label>
-                  </div>
                 </div>
               </div>
             );

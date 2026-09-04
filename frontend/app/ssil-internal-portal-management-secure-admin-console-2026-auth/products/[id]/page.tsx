@@ -523,7 +523,7 @@ export default function VisualProductPageEditor() {
       </div>
 
       {/* ============================================================ */}
-      {/* 1. VISUAL PRODUCT HERO BANNER SECTION (WITH DIRECT EDIT OVERLAY) */}
+      {/* 1. VISUAL PRODUCT HERO BANNER SECTION */}
       {/* ============================================================ */}
       <div className="relative w-full h-[52vh] sm:h-[60vh] max-h-[520px] bg-slate-950 overflow-hidden group/hero border-b-4 border-ssil-red">
         <Image
@@ -541,7 +541,7 @@ export default function VisualProductPageEditor() {
         <div className="absolute top-6 right-6 z-20">
           <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-black/80 hover:bg-ssil-red text-white text-xs font-black tracking-wider uppercase border border-white/20 shadow-2xl backdrop-blur-md hover:scale-105 transition-all">
             {uploadingBanner ? <Loader2 className="h-4 w-4 animate-spin" /> : <Camera className="h-4 w-4 text-amber-400" />}
-            <span>{uploadingBanner ? "Uploading to Cloudinary..." : "Change Hero Banner Photo"}</span>
+            <span>{uploadingBanner ? "Uploading Banner..." : "Change Top Banner Photo"}</span>
             <input type="file" accept="image/*" onChange={handleBannerUpload} className="hidden" />
           </label>
         </div>
@@ -554,18 +554,9 @@ export default function VisualProductPageEditor() {
             <span className="text-ssil-red">/products/{product.slug}</span>
           </div>
 
-          <div className="flex items-center gap-3">
-            <h1 className="text-3xl sm:text-5xl font-black text-white uppercase tracking-tight font-serif drop-shadow-md">
-              {product.name}
-            </h1>
-            <button
-              onClick={() => setMetaModalOpen(true)}
-              className="p-2 rounded-xl bg-white/20 hover:bg-ssil-red text-white transition-colors backdrop-blur-xs"
-              title="Edit Product Title"
-            >
-              <Edit2 className="h-4 w-4" />
-            </button>
-          </div>
+          <h1 className="text-3xl sm:text-5xl font-black text-white uppercase tracking-tight font-serif drop-shadow-md">
+            {product.name}
+          </h1>
 
           {product.tagline && (
             <p className="text-sm sm:text-base text-slate-200 mt-2 line-clamp-2 drop-shadow-sm font-medium">
@@ -583,26 +574,19 @@ export default function VisualProductPageEditor() {
           
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-slate-100 dark:border-zinc-800 mb-6">
             <div>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-black uppercase tracking-widest text-ssil-red">
-                  VISUAL SHOWCASE SECTION
-                </span>
-                {isSpecializedShowcase && (
-                  <span className="px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-300 text-[10px] font-black">
-                    Interactive Hover Active
-                  </span>
-                )}
-              </div>
+              <span className="text-[10px] font-black uppercase tracking-widest text-ssil-red">
+                DAY &amp; NIGHT PHOTOS
+              </span>
               <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white uppercase font-serif mt-0.5">
-                Day &amp; Night Interactive Showcase
+                Day &amp; Night Photos
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                These photos control the interactive Day/Night hover preview on the website catalog and internal product showcase.
+                These photos control the Day/Night interactive hover preview on the catalog and product page.
               </p>
             </div>
 
             <div className="text-xs font-mono font-bold text-slate-400 self-start sm:self-auto">
-              Auto-saved to Cloudinary &amp; MongoDB
+              Auto-saved to Cloudinary
             </div>
           </div>
 
@@ -659,7 +643,7 @@ export default function VisualProductPageEditor() {
               <div className="p-4 bg-slate-900 flex items-center justify-between border-t border-slate-800">
                 <div className="flex items-center gap-2">
                   <Moon className="h-4 w-4 text-amber-400" />
-                  <span className="text-xs font-black uppercase text-white">Nighttime Photo (Luminaires Active)</span>
+                  <span className="text-xs font-black uppercase text-white">Nighttime Photo</span>
                 </div>
                 <label className="cursor-pointer inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 hover:underline">
                   <Camera className="h-3.5 w-3.5" />
@@ -674,148 +658,150 @@ export default function VisualProductPageEditor() {
       </div>
 
       {/* ============================================================ */}
-      {/* 3. VISUAL PRODUCT DESIGNS & MODELS GALLERY (DIRECT INLINE EDIT) */}
+      {/* 3. VISUAL PRODUCT DESIGNS & MODELS GALLERY (ONLY FOR PRODUCTS WITH VARIANTS) */}
       {/* ============================================================ */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
-        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200/90 dark:border-zinc-800 shadow-md space-y-6">
-          
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100 dark:border-zinc-800">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-black uppercase tracking-widest text-ssil-red">
-                  INTERNAL PRODUCT MODELS
-                </span>
-                <span className="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-[10px] font-black">
-                  {designs.length} Models Active
-                </span>
+      {!isSpecializedShowcase && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
+          <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200/90 dark:border-zinc-800 shadow-md space-y-6">
+            
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100 dark:border-zinc-800">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-ssil-red">
+                    INTERNAL PRODUCT MODELS
+                  </span>
+                  <span className="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-[10px] font-black">
+                    {designs.length} Models Active
+                  </span>
+                </div>
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white uppercase font-serif mt-0.5">
+                  Available Product Designs &amp; Variants
+                </h2>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                  Hover over any model card to upload/replace its photo or edit its model name and specifications.
+                </p>
               </div>
-              <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white uppercase font-serif mt-0.5">
-                Available Product Designs &amp; Variants
-              </h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                Hover over any model card to directly upload/replace its photo or edit its model name and specifications.
-              </p>
+
+              <Button
+                onClick={openAddDesignModal}
+                className="bg-ssil-red hover:bg-ssil-red-600 text-white font-black px-5 py-2.5 rounded-2xl text-xs shadow-md flex items-center gap-2 self-start sm:self-auto cursor-pointer"
+              >
+                <Plus className="h-4 w-4" />
+                <span>Add New Model Variant</span>
+              </Button>
             </div>
 
-            <Button
-              onClick={openAddDesignModal}
-              className="bg-ssil-red hover:bg-ssil-red-600 text-white font-black px-5 py-2.5 rounded-2xl text-xs shadow-md flex items-center gap-2 self-start sm:self-auto cursor-pointer"
-            >
-              <Plus className="h-4 w-4" />
-              <span>Add New Model Variant</span>
-            </Button>
-          </div>
+            {/* 4-Column Responsive Visual Cards Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+              {designs.map((item, idx) => {
+                const isUploadingThis = uploadingDesignIdx === idx;
 
-          {/* 4-Column Responsive Visual Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
-            {designs.map((item, idx) => {
-              const isUploadingThis = uploadingDesignIdx === idx;
+                return (
+                  <div
+                    key={item._id || item.id || `design-${idx}`}
+                    className="group relative rounded-3xl bg-slate-50 dark:bg-zinc-800/70 border border-slate-200/90 dark:border-zinc-700/80 overflow-hidden shadow-xs hover:shadow-xl hover:border-ssil-red transition-all flex flex-col justify-between"
+                  >
+                    {/* Photo with Direct Upload Hover Trigger */}
+                    <div className="relative h-56 w-full bg-white dark:bg-zinc-900 overflow-hidden border-b border-slate-200 dark:border-zinc-700">
+                      <img
+                        src={item.dayImage}
+                        alt={item.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
 
-              return (
-                <div
-                  key={item._id || item.id || `design-${idx}`}
-                  className="group relative rounded-3xl bg-slate-50 dark:bg-zinc-800/70 border border-slate-200/90 dark:border-zinc-700/80 overflow-hidden shadow-xs hover:shadow-xl hover:border-ssil-red transition-all flex flex-col justify-between"
-                >
-                  {/* Photo with Direct Upload Hover Trigger */}
-                  <div className="relative h-56 w-full bg-white dark:bg-zinc-900 overflow-hidden border-b border-slate-200 dark:border-zinc-700">
-                    <img
-                      src={item.dayImage}
-                      alt={item.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
+                      {/* Quick Upload Overlay */}
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 p-4">
+                        <label className="cursor-pointer w-full py-2.5 px-3 rounded-xl bg-ssil-red hover:bg-ssil-red-600 text-white text-xs font-black flex items-center justify-center gap-2 shadow-lg transition-transform hover:scale-105">
+                          {isUploadingThis ? <Loader2 className="h-4 w-4 animate-spin" /> : <Camera className="h-4 w-4" />}
+                          <span>{isUploadingThis ? "Uploading..." : "Upload Photo"}</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => handleDirectDesignPhotoUpload(idx, e)}
+                            className="hidden"
+                          />
+                        </label>
 
-                    {/* Quick Upload Overlay */}
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 p-4">
-                      <label className="cursor-pointer w-full py-2.5 px-3 rounded-xl bg-ssil-red hover:bg-ssil-red-600 text-white text-xs font-black flex items-center justify-center gap-2 shadow-lg transition-transform hover:scale-105">
-                        {isUploadingThis ? <Loader2 className="h-4 w-4 animate-spin" /> : <Camera className="h-4 w-4" />}
-                        <span>{isUploadingThis ? "Uploading..." : "Upload Photo"}</span>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => handleDirectDesignPhotoUpload(idx, e)}
-                          className="hidden"
-                        />
-                      </label>
-
-                      <button
-                        onClick={() => openEditDesignModal(idx)}
-                        className="w-full py-2 px-3 rounded-xl bg-white/90 hover:bg-white text-slate-900 text-xs font-bold flex items-center justify-center gap-1.5 shadow-md transition-transform hover:scale-105"
-                      >
-                        <Edit2 className="h-3.5 w-3.5 text-ssil-red" />
-                        <span>Edit Name &amp; Specs</span>
-                      </button>
-                    </div>
-
-                    {/* Index Tag */}
-                    <span className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-md bg-black/70 text-white text-[10px] font-black font-mono">
-                      #{String(idx + 1).padStart(2, "0")}
-                    </span>
-                  </div>
-
-                  {/* Details & Actions Footer */}
-                  <div className="p-4 flex flex-col justify-between flex-1 gap-2">
-                    <div>
-                      <h4 className="text-sm font-black uppercase text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors line-clamp-1">
-                        {item.name}
-                      </h4>
-                      <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2 mt-0.5">
-                        {item.specs || "IP66 Weatherproof • Custom Engineering • ISO Standards"}
-                      </p>
-                    </div>
-
-                    <div className="pt-2 border-t border-slate-200/70 dark:border-zinc-700/70 flex items-center justify-between">
-                      <label className="cursor-pointer text-[11px] font-black text-ssil-red hover:underline flex items-center gap-1">
-                        <Upload className="h-3 w-3" />
-                        <span>Replace</span>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => handleDirectDesignPhotoUpload(idx, e)}
-                          className="hidden"
-                        />
-                      </label>
-
-                      <div className="flex items-center gap-1">
                         <button
                           onClick={() => openEditDesignModal(idx)}
-                          className="p-1 rounded-lg text-slate-400 hover:text-ssil-red transition-colors"
-                          title="Edit Specs"
+                          className="w-full py-2 px-3 rounded-xl bg-white/90 hover:bg-white text-slate-900 text-xs font-bold flex items-center justify-center gap-1.5 shadow-md transition-transform hover:scale-105"
                         >
-                          <Edit2 className="h-3.5 w-3.5" />
+                          <Edit2 className="h-3.5 w-3.5 text-ssil-red" />
+                          <span>Edit Name &amp; Specs</span>
                         </button>
-                        <button
-                          onClick={() => handleDeleteDesign(idx)}
-                          className="p-1 rounded-lg text-slate-400 hover:text-red-600 transition-colors"
-                          title="Delete Model"
-                        >
-                          <Trash2 className="h-3.5 w-3.5" />
-                        </button>
+                      </div>
+
+                      {/* Index Tag */}
+                      <span className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-md bg-black/70 text-white text-[10px] font-black font-mono">
+                        #{String(idx + 1).padStart(2, "0")}
+                      </span>
+                    </div>
+
+                    {/* Details & Actions Footer */}
+                    <div className="p-4 flex flex-col justify-between flex-1 gap-2">
+                      <div>
+                        <h4 className="text-sm font-black uppercase text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors line-clamp-1">
+                          {item.name}
+                        </h4>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2 mt-0.5">
+                          {item.specs || "IP66 Weatherproof • Custom Engineering • ISO Standards"}
+                        </p>
+                      </div>
+
+                      <div className="pt-2 border-t border-slate-200/70 dark:border-zinc-700/70 flex items-center justify-between">
+                        <label className="cursor-pointer text-[11px] font-black text-ssil-red hover:underline flex items-center gap-1">
+                          <Upload className="h-3 w-3" />
+                          <span>Replace</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => handleDirectDesignPhotoUpload(idx, e)}
+                            className="hidden"
+                          />
+                        </label>
+
+                        <div className="flex items-center gap-1">
+                          <button
+                            onClick={() => openEditDesignModal(idx)}
+                            className="p-1 rounded-lg text-slate-400 hover:text-ssil-red transition-colors"
+                            title="Edit Specs"
+                          >
+                            <Edit2 className="h-3.5 w-3.5" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteDesign(idx)}
+                            className="p-1 rounded-lg text-slate-400 hover:text-red-600 transition-colors"
+                            title="Delete Model"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
+                );
+              })}
+
+              {/* Quick Add Model Card */}
+              <button
+                onClick={openAddDesignModal}
+                className="h-full min-h-[280px] rounded-3xl border-2 border-dashed border-slate-300 dark:border-zinc-700 hover:border-ssil-red hover:bg-white dark:hover:bg-zinc-800 transition-all flex flex-col items-center justify-center p-6 text-center group cursor-pointer"
+              >
+                <div className="w-14 h-14 rounded-2xl bg-ssil-red/10 text-ssil-red group-hover:bg-ssil-red group-hover:text-white flex items-center justify-center mb-3 transition-colors">
+                  <Plus className="h-6 w-6" />
                 </div>
-              );
-            })}
+                <h4 className="text-sm font-black text-slate-900 dark:text-white uppercase group-hover:text-ssil-red transition-colors">
+                  Add Model #{String(designs.length + 1).padStart(2, "0")}
+                </h4>
+                <p className="text-[11px] text-slate-400 mt-1 max-w-[180px]">
+                  Add another design model with image and technical specifications
+                </p>
+              </button>
+            </div>
 
-            {/* Quick Add Model Card */}
-            <button
-              onClick={openAddDesignModal}
-              className="h-full min-h-[280px] rounded-3xl border-2 border-dashed border-slate-300 dark:border-zinc-700 hover:border-ssil-red hover:bg-white dark:hover:bg-zinc-800 transition-all flex flex-col items-center justify-center p-6 text-center group cursor-pointer"
-            >
-              <div className="w-14 h-14 rounded-2xl bg-ssil-red/10 text-ssil-red group-hover:bg-ssil-red group-hover:text-white flex items-center justify-center mb-3 transition-colors">
-                <Plus className="h-6 w-6" />
-              </div>
-              <h4 className="text-sm font-black text-slate-900 dark:text-white uppercase group-hover:text-ssil-red transition-colors">
-                Add Model #{String(designs.length + 1).padStart(2, "0")}
-              </h4>
-              <p className="text-[11px] text-slate-400 mt-1 max-w-[180px]">
-                Add another design model with image and technical specifications
-              </p>
-            </button>
           </div>
-
         </div>
-      </div>
+      )}
 
       {/* ============================================================ */}
       {/* MODAL 1: EDIT PRODUCT TITLE, TAGLINE & DESCRIPTION */}
