@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
+import mongoose from "mongoose";
 
 import authRoutes from "./routes/authRoutes.js";
 import homeRoutes from "./routes/homeRoutes.js";
@@ -41,14 +42,44 @@ app.use(express.json({ limit: "15mb" }));
 app.use(express.urlencoded({ extended: true, limit: "15mb" }));
 app.use(cookieParser());
 
-// Health Check
-app.get("/api/health", (req, res) => {
+// Health Checkpoint Handler
+const healthCheckHandler = (req, res) => {
+  const dbStates = {
+    0: "disconnected",
+    1: "connected",
+    2: "connecting",
+    3: "disconnecting",
+  };
+  const dbReadyState = mongoose.connection?.readyState ?? 0;
+  const dbStatus = dbStates[dbReadyState] || "unknown";
+  const memoryUsage = process.memoryUsage();
+
   res.status(200).json({
-    status: "ok",
+    status: "healthy",
+    checkpoint: "OK",
     service: "SSIL CMS API Backend",
+    uptime: `${Math.floor(process.uptime())}s`,
     timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || "development",
+    database: {
+      status: dbStatus,
+      readyState: dbReadyState,
+      host: mongoose.connection?.host || null,
+      name: mongoose.connection?.name || null,
+    },
+    memory: {
+      heapUsed: `${(memoryUsage.heapUsed / 1024 / 1024).toFixed(2)} MB`,
+      heapTotal: `${(memoryUsage.heapTotal / 1024 / 1024).toFixed(2)} MB`,
+      rss: `${(memoryUsage.rss / 1024 / 1024).toFixed(2)} MB`,
+    },
   });
-});
+};
+
+// Health Check & Checkpoint Routes
+app.get("/healthcheckpoint", healthCheckHandler);
+app.get("/api/healthcheckpoint", healthCheckHandler);
+app.get("/health", healthCheckHandler);
+app.get("/api/health", healthCheckHandler);
 
 // API Routes
 app.use("/api/auth", authRoutes);

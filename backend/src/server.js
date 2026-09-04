@@ -12,7 +12,8 @@ const server = app.listen(PORT, async () => {
   console.log(`=============================================`);
   console.log(`  SSIL CMS API Backend Server is running!   `);
   console.log(`  Port: http://localhost:${PORT}             `);
-  console.log(`  Health Check: http://localhost:${PORT}/api/health`);
+  console.log(`  Health Checkpoint: http://localhost:${PORT}/healthcheckpoint`);
+  console.log(`  API Health: http://localhost:${PORT}/api/health`);
   console.log(`=============================================`);
 
   // Connect to DB and seed in background
