@@ -307,19 +307,58 @@ export const catalogProducts: CatalogProduct[] = [
   },
   {
     id: "cat-17",
-    name: "Solar Lights",
-    slug: "solar-lights",
-    designCount: 23,
-    tagline: "Autonomous solar illumination for smart, sustainable outdoor spaces.",
+    name: "Solar Street Lights",
+    slug: "solar-street-lights",
+    designCount: 16,
+    tagline: "Autonomous high-efficiency solar street lighting for highways and roads.",
     description:
-      "Autonomous solar-powered LED street lights and standalone solar luminaires equipped with high-efficiency PV panels, long-life lithium batteries, and smart dusk-to-dawn controllers.",
+      "All-in-one and split-type solar LED street lights engineered with high-efficiency monocrystalline solar panels, MPPT smart charge controllers, and deep-cycle lithium LiFePO4 batteries.",
     dayImage: CLOUDINARY_MAP.productDay[1],
     nightImage: CLOUDINARY_MAP.productNight[1],
-    heroImage: CLOUDINARY_MAP.heroBanner,
-    galleryImages: generateGallery("solar-light", "Standalone Solar Luminaire", 23),
+    heroImage: CLOUDINARY_MAP.solarBanner,
+    galleryImages: generateGallery("solar-street", "Solar Street Luminaire", 16),
   },
   {
     id: "cat-18",
+    name: "Solar Bollards",
+    slug: "solar-bollards",
+    designCount: 12,
+    tagline: "Eco-friendly solar landscape and pathway bollards.",
+    description:
+      "Modern architectural solar bollards designed for parks, resorts, and pedestrian pathways, operating with zero external wiring and dusk-to-dawn automated illumination.",
+    dayImage: CLOUDINARY_MAP.productDay[6],
+    nightImage: CLOUDINARY_MAP.productNight[6],
+    heroImage: CLOUDINARY_MAP.solarBanner,
+    galleryImages: generateGallery("solar-bollard", "Solar Pathway Bollard", 12),
+  },
+  {
+    id: "cat-19",
+    name: "Solar Flood Lights",
+    slug: "solar-flood-lights",
+    designCount: 10,
+    tagline: "High-output solar floodlighting for perimeter security and yards.",
+    description:
+      "Heavy-duty solar-powered LED floodlights engineered with high lumen output, wide beam angles, and rugged IP66 die-cast aluminum housing for off-grid outdoor areas.",
+    dayImage: CLOUDINARY_MAP.productDay[1],
+    nightImage: CLOUDINARY_MAP.productNight[1],
+    heroImage: CLOUDINARY_MAP.solarBanner,
+    galleryImages: generateGallery("solar-flood", "Solar Industrial Floodlight", 10),
+  },
+  {
+    id: "cat-20",
+    name: "Solar Pilar Lights",
+    slug: "solar-pillar-lights",
+    designCount: 12,
+    tagline: "Architectural solar pillar and gate top luminaires.",
+    description:
+      "Decorative solar pillar and post-cap lighting fixtures featuring integrated solar cells and 360-degree ambient lighting for boundary walls, gates, and terrace railings.",
+    dayImage: CLOUDINARY_MAP.productDay[3],
+    nightImage: CLOUDINARY_MAP.productNight[3],
+    heroImage: CLOUDINARY_MAP.solarBanner,
+    galleryImages: generateGallery("solar-pillar", "Solar Architectural Pillar Light", 12),
+  },
+  {
+    id: "cat-21",
     name: "Solar Power Plants",
     slug: "solar-power-plants",
     designCount: 6,
@@ -332,3 +371,10 @@ export const catalogProducts: CatalogProduct[] = [
     galleryImages: generateGallery("solar-plant", "Commercial Solar Power Array", 6, false, undefined, CLOUDINARY_MAP.solarDay, CLOUDINARY_MAP.solarNight),
   },
 ];
+
+// 16 Mainstream infrastructure products (LED Decorative Poles to Wall Lights)
+export const mainstreamProducts = catalogProducts.slice(0, 16);
+
+// 5 Go Green / Solar products (Solar Street Lights, Solar Bollards, Solar Flood Lights, Solar Pilar Lights, Solar Power Plants)
+export const solarProducts = catalogProducts.slice(16);
+

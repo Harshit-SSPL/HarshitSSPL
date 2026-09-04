@@ -65,6 +65,8 @@ export default function ProductDetailPage() {
     if (lower === "post-top-luminaries") return "post-top-illuminaries";
     if (lower === "bulkhead-pathways-luminaries") return "bulkhead-pathways";
     if (lower === "wall-washer-inground-lighting" || lower === "wall-washer-and-inground-lighting") return "wall-washer";
+    if (lower === "solar-pilar-lights") return "solar-pillar-lights";
+    if (lower === "solar-lights" || lower === "solar-lighting") return "solar-street-lights";
     return lower;
   };
 

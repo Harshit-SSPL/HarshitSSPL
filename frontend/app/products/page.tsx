@@ -61,6 +61,9 @@ export default function ProductsPage() {
     fetchProducts();
   }, []);
 
+  const mainstreamList = products.slice(0, 16);
+  const solarList = products.slice(16);
+
   return (
     <div className="relative min-h-screen w-full bg-white dark:bg-black text-slate-900 dark:text-white transition-colors duration-300 overflow-hidden">
       
@@ -93,7 +96,7 @@ export default function ProductsPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 2. OUR PRODUCTS SECTION */}
+      {/* 2. MAINSTREAM PRODUCTS SECTION (16 PRODUCTS) */}
       {/* ============================================================ */}
       <section className="relative z-10 py-14 sm:py-20 bg-white dark:bg-black">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
@@ -114,7 +117,7 @@ export default function ProductsPage() {
             </p>
           </motion.div>
 
-          {/* 18 Official Catalog Products Grid */}
+          {/* 16 Mainstream Products Grid */}
           <div className="mb-8">
             <motion.div
               className="w-full flex flex-wrap justify-center gap-2.5 sm:gap-3 lg:gap-3.5"
@@ -123,7 +126,7 @@ export default function ProductsPage() {
               viewport={{ once: true, margin: "-40px" }}
               variants={containerVariants}
             >
-              {products.map((product) => {
+              {mainstreamList.map((product) => {
                 const isComingSoon =
                   product.slug === "heritage-brackets" ||
                   product.slug === "wall-lights" ||
@@ -151,6 +154,61 @@ export default function ProductsPage() {
                   </div>
                 );
               })}
+            </motion.div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* 2.5 GO GREEN & SOLAR INFRASTRUCTURE SECTION (5 PRODUCTS) */}
+      {/* ============================================================ */}
+      <section className="relative z-10 py-16 bg-slate-50 dark:bg-zinc-950 border-t border-b border-slate-200 dark:border-zinc-800">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+          
+          {/* Green Border Header */}
+          <motion.div
+            className="text-left max-w-4xl mb-10 sm:mb-12 border-l-[5px] border-emerald-500 pl-4 sm:pl-5"
+            initial={{ opacity: 0, x: -60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.65, ease: "easeOut" }}
+          >
+            <span className="text-xs font-black uppercase tracking-widest text-emerald-500 block mb-1">
+              CLEAN ENERGY &amp; SUSTAINABLE SOLUTIONS
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
+              GO GREEN SOLAR INFRASTRUCTURE
+            </h2>
+            <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 mt-2.5 leading-relaxed font-medium">
+              Explore SSIL&apos;s engineered solar lighting systems and commercial power plants—delivering autonomous, zero-emission illumination and grid-resilient renewable energy.
+            </p>
+          </motion.div>
+
+          {/* 5 Solar Products Grid */}
+          <div className="mb-4">
+            <motion.div
+              className="w-full flex flex-wrap justify-center gap-2.5 sm:gap-3 lg:gap-3.5"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-40px" }}
+              variants={containerVariants}
+            >
+              {solarList.map((product) => (
+                <div
+                  key={product.slug || product.id}
+                  className="w-full sm:w-[calc((100%-0.75rem)/2)] lg:w-[calc((100%-2.625rem)/4)] flex"
+                >
+                  <ProductCard
+                    name={product.name}
+                    dayImage={product.dayImage}
+                    nightImage={product.nightImage}
+                    href={`/products/${product.slug}`}
+                    buttonText="View All"
+                    showArrow={true}
+                  />
+                </div>
+              ))}
             </motion.div>
           </div>
 

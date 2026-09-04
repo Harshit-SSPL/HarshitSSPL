@@ -53,8 +53,11 @@ const Navbar1 = ({
 }: Navbar1Props) => {
   const [scrolled, setScrolled] = useState(false);
   const [solarDropdownOpen, setSolarDropdownOpen] = useState(false);
+  const [solarLightingSubOpen, setSolarLightingSubOpen] = useState(false);
   const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
   const solarDropdownRef = useRef<HTMLDivElement>(null);
+  const solarCloseTimeout = useRef<NodeJS.Timeout | null>(null);
+  const solarSubCloseTimeout = useRef<NodeJS.Timeout | null>(null);
   const productsDropdownRef = useRef<HTMLDivElement>(null);
   const productsCloseTimeout = useRef<NodeJS.Timeout | null>(null);
   const pathname = usePathname();
@@ -79,6 +82,7 @@ const Navbar1 = ({
         !solarDropdownRef.current.contains(event.target as Node)
       ) {
         setSolarDropdownOpen(false);
+        setSolarLightingSubOpen(false);
       }
       if (
         productsDropdownRef.current &&
@@ -94,6 +98,7 @@ const Navbar1 = ({
   // Close dropdowns on route change
   useEffect(() => {
     setSolarDropdownOpen(false);
+    setSolarLightingSubOpen(false);
     setProductsDropdownOpen(false);
   }, [pathname]);
 
@@ -214,7 +219,7 @@ const Navbar1 = ({
                               {/* 3 Columns with Vertical Partition Lines */}
                               <div className="grid grid-cols-3 divide-x divide-slate-200/80 dark:divide-zinc-800/80">
                                 {[0, 1, 2].map((colIdx) => {
-                                  const colProducts = catalogProducts.slice(colIdx * 6, (colIdx + 1) * 6);
+                                  const colProducts = catalogProducts.slice(colIdx * 7, (colIdx + 1) * 7);
                                   return (
                                     <div
                                       key={colIdx}
@@ -259,8 +264,21 @@ const Navbar1 = ({
                   );
                 })}
 
-                {/* Shiny Glossy Green "Go Green" Nav Item (No box/border) */}
-                <div className="relative" ref={solarDropdownRef}>
+                {/* Shiny Glossy Green "Go Green" Nav Item (Hover-triggered with flyout) */}
+                <div
+                  className="relative"
+                  ref={solarDropdownRef}
+                  onMouseEnter={() => {
+                    if (solarCloseTimeout.current) clearTimeout(solarCloseTimeout.current);
+                    setSolarDropdownOpen(true);
+                  }}
+                  onMouseLeave={() => {
+                    solarCloseTimeout.current = setTimeout(() => {
+                      setSolarDropdownOpen(false);
+                      setSolarLightingSubOpen(false);
+                    }, 140);
+                  }}
+                >
                   <button
                     type="button"
                     onClick={() => setSolarDropdownOpen((prev) => !prev)}
@@ -274,44 +292,121 @@ const Navbar1 = ({
 
                   {/* Dropdown Menu (White in Light theme, Black in Dark theme, Green on Hover) */}
                   {solarDropdownOpen && (
-                    <div className="absolute left-0 mt-2.5 w-64 rounded-2xl bg-white dark:bg-zinc-950 border border-emerald-500/20 dark:border-emerald-500/30 shadow-xl shadow-slate-900/10 dark:shadow-black/70 p-2 z-50 animate-in fade-in zoom-in-95 duration-150">
-                      <Link
-                        href="/products/solar-lights"
-                        onClick={() => setSolarDropdownOpen(false)}
-                        className="flex items-center gap-3 p-2.5 rounded-xl text-left hover:bg-emerald-50 dark:hover:bg-emerald-950/40 hover:border-emerald-200/80 dark:hover:border-emerald-800/40 border border-transparent transition-all group/item"
-                      >
-                        <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-zinc-700 flex items-center justify-center shrink-0 group-hover/item:scale-105 group-hover/item:bg-emerald-500/20 group-hover/item:text-emerald-500 group-hover/item:border-emerald-500/40 transition-all shadow-xs">
-                          <Sun className="h-4 w-4" />
-                        </div>
-                        <div>
-                          <span className="text-xs font-bold text-slate-900 dark:text-white group-hover/item:text-emerald-600 dark:group-hover/item:text-emerald-400 block transition-colors">
-                            Solar Lights
-                          </span>
-                          <span className="text-[10px] text-slate-500 dark:text-slate-400 block mt-0.5">
-                            Autonomous solar street luminaires
-                          </span>
-                        </div>
-                      </Link>
+                    <div
+                      className="absolute left-0 top-full pt-1.5 z-50 animate-in fade-in zoom-in-95 duration-150"
+                      onMouseEnter={() => {
+                        if (solarCloseTimeout.current) clearTimeout(solarCloseTimeout.current);
+                        setSolarDropdownOpen(true);
+                      }}
+                      onMouseLeave={() => {
+                        solarCloseTimeout.current = setTimeout(() => {
+                          setSolarDropdownOpen(false);
+                          setSolarLightingSubOpen(false);
+                        }, 140);
+                      }}
+                    >
+                      <div className="w-64 rounded-2xl bg-white/95 dark:bg-zinc-950/95 backdrop-blur-2xl border border-emerald-500/20 dark:border-emerald-500/30 shadow-xl shadow-slate-900/10 dark:shadow-black/70 p-2 relative">
+                        {/* Option 1: Solar Lighting with side flyout */}
+                        <div
+                          className="relative"
+                          onMouseEnter={() => {
+                            if (solarSubCloseTimeout.current) clearTimeout(solarSubCloseTimeout.current);
+                            setSolarLightingSubOpen(true);
+                          }}
+                          onMouseLeave={() => {
+                            solarSubCloseTimeout.current = setTimeout(() => {
+                              setSolarLightingSubOpen(false);
+                            }, 120);
+                          }}
+                        >
+                          <div
+                            className="flex items-center justify-between p-2.5 rounded-xl cursor-pointer hover:bg-emerald-50 dark:hover:bg-emerald-950/40 hover:border-emerald-200/80 dark:hover:border-emerald-800/40 border border-transparent transition-all group/item"
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-zinc-700 flex items-center justify-center shrink-0 group-hover/item:scale-105 group-hover/item:bg-emerald-500/20 group-hover/item:text-emerald-500 group-hover/item:border-emerald-500/40 transition-all shadow-xs">
+                                <Sun className="h-4 w-4" />
+                              </div>
+                              <div>
+                                <span className="text-xs font-bold text-slate-900 dark:text-white group-hover/item:text-emerald-600 dark:group-hover/item:text-emerald-400 block transition-colors">
+                                  Solar Lighting
+                                </span>
+                                <span className="text-[10px] text-slate-500 dark:text-slate-400 block mt-0.5">
+                                  4 specialized fixtures
+                                </span>
+                              </div>
+                            </div>
+                            <ChevronRight className="h-4 w-4 text-emerald-500 transition-transform group-hover/item:translate-x-0.5" />
+                          </div>
 
-                      <div className="h-[1px] bg-slate-100 dark:bg-zinc-800/80 my-1 mx-2" />
+                          {/* Flyout Sub-Dropdown to the right */}
+                          {solarLightingSubOpen && (
+                            <div
+                              className="absolute left-full top-0 ml-2 w-64 rounded-2xl bg-white/95 dark:bg-zinc-950/95 backdrop-blur-2xl border border-emerald-500/30 shadow-2xl p-2 z-50 animate-in fade-in zoom-in-95 duration-120"
+                              onMouseEnter={() => {
+                                if (solarSubCloseTimeout.current) clearTimeout(solarSubCloseTimeout.current);
+                                setSolarLightingSubOpen(true);
+                              }}
+                              onMouseLeave={() => {
+                                solarSubCloseTimeout.current = setTimeout(() => {
+                                  setSolarLightingSubOpen(false);
+                                }, 120);
+                              }}
+                            >
+                              <div className="px-3 py-1.5 border-b border-emerald-500/15 mb-1.5">
+                                <span className="text-[10px] font-black uppercase tracking-wider text-emerald-500">
+                                  Solar Lighting Range
+                                </span>
+                              </div>
 
-                      <Link
-                        href="/products/solar-power-plants"
-                        onClick={() => setSolarDropdownOpen(false)}
-                        className="flex items-center gap-3 p-2.5 rounded-xl text-left hover:bg-emerald-50 dark:hover:bg-emerald-950/40 hover:border-emerald-200/80 dark:hover:border-emerald-800/40 border border-transparent transition-all group/item"
-                      >
-                        <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-zinc-700 flex items-center justify-center shrink-0 group-hover/item:scale-105 group-hover/item:bg-emerald-500/20 group-hover/item:text-emerald-500 group-hover/item:border-emerald-500/40 transition-all shadow-xs">
-                          <Zap className="h-4 w-4" />
+                              <div className="flex flex-col gap-1">
+                                {[
+                                  { name: "Solar Street Lights", slug: "solar-street-lights" },
+                                  { name: "Solar Bollards", slug: "solar-bollards" },
+                                  { name: "Solar Flood Lights", slug: "solar-flood-lights" },
+                                  { name: "Solar Pilar Lights", slug: "solar-pillar-lights" },
+                                ].map((subItem) => (
+                                  <Link
+                                    key={subItem.slug}
+                                    href={`/products/${subItem.slug}`}
+                                    onClick={() => {
+                                      setSolarDropdownOpen(false);
+                                      setSolarLightingSubOpen(false);
+                                    }}
+                                    className="px-3 py-2 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 transition-colors flex items-center justify-between group/sub"
+                                  >
+                                    <span>{subItem.name}</span>
+                                    <ChevronRight className="h-3 w-3 text-emerald-500 opacity-0 group-hover/sub:opacity-100 -translate-x-1 group-hover/sub:translate-x-0 transition-all" />
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          )}
                         </div>
-                        <div>
-                          <span className="text-xs font-bold text-slate-900 dark:text-white group-hover/item:text-emerald-600 dark:group-hover/item:text-emerald-400 block transition-colors">
-                            Solar Power Plants
-                          </span>
-                          <span className="text-[10px] text-slate-500 dark:text-slate-400 block mt-0.5">
-                            Commercial turnkey solar arrays
-                          </span>
-                        </div>
-                      </Link>
+
+                        <div className="h-[1px] bg-slate-100 dark:bg-zinc-800/80 my-1 mx-2" />
+
+                        {/* Option 2: Solar Power Plants */}
+                        <Link
+                          href="/products/solar-power-plants"
+                          onClick={() => {
+                            setSolarDropdownOpen(false);
+                            setSolarLightingSubOpen(false);
+                          }}
+                          className="flex items-center gap-3 p-2.5 rounded-xl text-left hover:bg-emerald-50 dark:hover:bg-emerald-950/40 hover:border-emerald-200/80 dark:hover:border-emerald-800/40 border border-transparent transition-all group/item"
+                        >
+                          <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-zinc-700 flex items-center justify-center shrink-0 group-hover/item:scale-105 group-hover/item:bg-emerald-500/20 group-hover/item:text-emerald-500 group-hover/item:border-emerald-500/40 transition-all shadow-xs">
+                            <Zap className="h-4 w-4" />
+                          </div>
+                          <div>
+                            <span className="text-xs font-bold text-slate-900 dark:text-white group-hover/item:text-emerald-600 dark:group-hover/item:text-emerald-400 block transition-colors">
+                              Solar Power Plants
+                            </span>
+                            <span className="text-[10px] text-slate-500 dark:text-slate-400 block mt-0.5">
+                              Commercial turnkey solar arrays
+                            </span>
+                          </div>
+                        </Link>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -407,26 +502,48 @@ const Navbar1 = ({
                       })}
 
                       {/* Mobile Go Green Section */}
-                      <div className="pt-3 pb-2 border-t border-slate-800">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400 block mb-2">
-                          Go Green Solutions
+                      <div className="pt-3 pb-2 border-t border-slate-800 space-y-2">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400 block mb-1">
+                          Solar Lighting &amp; Clean Energy
                         </span>
-                        <div className="flex flex-col gap-2">
+                        <div className="grid grid-cols-2 gap-1.5">
                           <Link
-                            href="/products/solar-lights"
-                            className="flex items-center gap-2.5 p-2 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs font-bold text-emerald-300"
+                            href="/products/solar-street-lights"
+                            className="p-2 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs font-bold text-emerald-300 flex items-center gap-1.5"
                           >
-                            <Sun className="h-4 w-4 text-amber-300" />
-                            <span>Solar Lights</span>
+                            <Sun className="h-3.5 w-3.5 text-amber-300 shrink-0" />
+                            <span className="truncate">Solar Street</span>
                           </Link>
                           <Link
-                            href="/products/solar-power-plants"
-                            className="flex items-center gap-2.5 p-2 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs font-bold text-emerald-300"
+                            href="/products/solar-bollards"
+                            className="p-2 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs font-bold text-emerald-300 flex items-center gap-1.5"
                           >
-                            <Zap className="h-4 w-4 text-emerald-400" />
-                            <span>Solar Power Plants</span>
+                            <Sun className="h-3.5 w-3.5 text-amber-300 shrink-0" />
+                            <span className="truncate">Solar Bollards</span>
+                          </Link>
+                          <Link
+                            href="/products/solar-flood-lights"
+                            className="p-2 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs font-bold text-emerald-300 flex items-center gap-1.5"
+                          >
+                            <Sun className="h-3.5 w-3.5 text-amber-300 shrink-0" />
+                            <span className="truncate">Solar Flood</span>
+                          </Link>
+                          <Link
+                            href="/products/solar-pillar-lights"
+                            className="p-2 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs font-bold text-emerald-300 flex items-center gap-1.5"
+                          >
+                            <Sun className="h-3.5 w-3.5 text-amber-300 shrink-0" />
+                            <span className="truncate">Solar Pillar</span>
                           </Link>
                         </div>
+
+                        <Link
+                          href="/products/solar-power-plants"
+                          className="flex items-center gap-2.5 p-2 rounded-xl bg-emerald-950/50 border border-emerald-500/40 text-xs font-bold text-emerald-300 mt-2"
+                        >
+                          <Zap className="h-4 w-4 text-emerald-400" />
+                          <span>Solar Power Plants</span>
+                        </Link>
                       </div>
 
                       <div className="flex flex-col gap-3 pt-4 border-t border-slate-800">
