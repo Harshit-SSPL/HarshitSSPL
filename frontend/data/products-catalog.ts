@@ -92,7 +92,7 @@ export const catalogProducts: CatalogProduct[] = [
       "High-efficiency LED indoor luminaires designed for commercial complexes, corporate offices, industrial facilities, and public infrastructure spaces, delivering uniform glare-free light distribution and long-term energy savings.",
     dayImage: "/images/products/led-indoor-lights/day.png",
     nightImage: "/images/products/led-indoor-lights/night.png",
-    heroImage: "/products/products-hero.png",
+    heroImage: "/images/products/led-indoor-lights/banner.png",
     galleryImages: generateGallery("indoor-light", "LED Indoor Luminaire", 26, false, undefined, "/images/products/led-indoor-lights/day.png", "/images/products/led-indoor-lights/night.png"),
   },
   {
