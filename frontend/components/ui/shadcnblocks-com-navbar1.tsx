@@ -6,6 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, ChevronDown, Sun, Zap, Sparkles } from "lucide-react";
 import AnimatedThemeToggler from "@/components/ui/animated-theme-toggler";
+import { catalogProducts } from "@/data/products-catalog";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -52,7 +53,10 @@ const Navbar1 = ({
 }: Navbar1Props) => {
   const [scrolled, setScrolled] = useState(false);
   const [solarDropdownOpen, setSolarDropdownOpen] = useState(false);
+  const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
   const solarDropdownRef = useRef<HTMLDivElement>(null);
+  const productsDropdownRef = useRef<HTMLDivElement>(null);
+  const productsCloseTimeout = useRef<NodeJS.Timeout | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -76,14 +80,21 @@ const Navbar1 = ({
       ) {
         setSolarDropdownOpen(false);
       }
+      if (
+        productsDropdownRef.current &&
+        !productsDropdownRef.current.contains(event.target as Node)
+      ) {
+        setProductsDropdownOpen(false);
+      }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Close dropdown on route change
+  // Close dropdowns on route change
   useEffect(() => {
     setSolarDropdownOpen(false);
+    setProductsDropdownOpen(false);
   }, [pathname]);
 
   const isAdminLogin = pathname?.includes("ssil-internal-portal-management-secure-admin-console-2026-auth/login");
@@ -135,6 +146,72 @@ const Navbar1 = ({
                   const isActive =
                     pathname === item.url ||
                     (item.url !== "/" && pathname?.startsWith(item.url));
+
+                  if (item.title === "Products") {
+                    return (
+                      <div
+                        key={item.title}
+                        ref={productsDropdownRef}
+                        className="relative"
+                        onMouseEnter={() => {
+                          if (productsCloseTimeout.current) {
+                            clearTimeout(productsCloseTimeout.current);
+                          }
+                          setProductsDropdownOpen(true);
+                        }}
+                        onMouseLeave={() => {
+                          productsCloseTimeout.current = setTimeout(() => {
+                            setProductsDropdownOpen(false);
+                          }, 120);
+                        }}
+                      >
+                        <Link
+                          className={`inline-flex h-9 items-center justify-center bg-transparent px-3 py-2 text-sm font-semibold transition-colors duration-200 cursor-pointer ${
+                            isActive
+                              ? "text-ssil-red font-extrabold"
+                              : "text-white hover:text-ssil-red font-medium"
+                          }`}
+                          href={item.url}
+                        >
+                          {item.title}
+                        </Link>
+
+                        {/* Products Sharp Dropdown (Sharp corners, 18 product titles, no arrow, auto closes on cursor leave) */}
+                        {productsDropdownOpen && (
+                          <div
+                            className="absolute -left-10 top-full pt-1.5 z-50 animate-in fade-in zoom-in-95 duration-100"
+                            onMouseEnter={() => {
+                              if (productsCloseTimeout.current) {
+                                clearTimeout(productsCloseTimeout.current);
+                              }
+                              setProductsDropdownOpen(true);
+                            }}
+                            onMouseLeave={() => {
+                              productsCloseTimeout.current = setTimeout(() => {
+                                setProductsDropdownOpen(false);
+                              }, 120);
+                            }}
+                          >
+                            <div className="w-[660px] rounded-none bg-white/95 dark:bg-zinc-950/95 backdrop-blur-2xl border border-slate-200 dark:border-zinc-800 shadow-2xl p-3">
+                              <div className="grid grid-cols-3 gap-1">
+                                {catalogProducts.map((prod) => (
+                                  <Link
+                                    key={prod.id || prod.slug}
+                                    href={`/products/${prod.slug}`}
+                                    onClick={() => setProductsDropdownOpen(false)}
+                                    className="rounded-none px-2.5 py-1.5 text-left text-xs font-bold text-slate-800 dark:text-slate-200 hover:text-ssil-red dark:hover:text-ssil-red hover:bg-slate-100/90 dark:hover:bg-zinc-900 transition-colors block truncate"
+                                    title={prod.name}
+                                  >
+                                    {prod.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }
 
                   return (
                     <Link
