@@ -185,8 +185,9 @@ export default function ProductsPage() {
             </p>
           </motion.div>
 
-          {/* 5 Solar Products Grid */}
-          <div className="mb-4">
+          {/* 5 Solar Products: Top 3 + Bottom 2 Centralized */}
+          <div className="mb-4 space-y-3.5">
+            {/* Top Row: 3 Products */}
             <motion.div
               className="w-full flex flex-wrap justify-center gap-2.5 sm:gap-3 lg:gap-3.5"
               initial="hidden"
@@ -194,10 +195,35 @@ export default function ProductsPage() {
               viewport={{ once: true, margin: "-40px" }}
               variants={containerVariants}
             >
-              {solarList.map((product) => (
+              {solarList.slice(0, 3).map((product) => (
                 <div
                   key={product.slug || product.id}
-                  className="w-full sm:w-[calc((100%-0.75rem)/2)] lg:w-[calc((100%-2.625rem)/4)] flex"
+                  className="w-full sm:w-[calc((100%-0.75rem)/2)] lg:w-[calc((100%-1.75rem)/3)] flex"
+                >
+                  <ProductCard
+                    name={product.name}
+                    dayImage={product.dayImage}
+                    nightImage={product.nightImage}
+                    href={`/products/${product.slug}`}
+                    buttonText="View All"
+                    showArrow={true}
+                  />
+                </div>
+              ))}
+            </motion.div>
+
+            {/* Bottom Row: 2 Products Centralized */}
+            <motion.div
+              className="w-full flex flex-wrap justify-center gap-2.5 sm:gap-3 lg:gap-3.5"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-40px" }}
+              variants={containerVariants}
+            >
+              {solarList.slice(3, 5).map((product) => (
+                <div
+                  key={product.slug || product.id}
+                  className="w-full sm:w-[calc((100%-0.75rem)/2)] lg:w-[calc((100%-1.75rem)/3)] flex"
                 >
                   <ProductCard
                     name={product.name}
