@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EnquiryModal } from "@/components/ui/enquiry-modal";
+import { ImagePreviewModal } from "@/components/ui/image-preview-modal";
 
 import Image from "next/image";
 
@@ -259,6 +260,18 @@ export default function OctagonalPolesPage() {
     fetchProductData();
   }, []);
 
+  const [previewImage, setPreviewImage] = useState<{
+    isOpen: boolean;
+    imageSrc: string;
+    title: string;
+    subtitle?: string;
+  }>({
+    isOpen: false,
+    imageSrc: "",
+    title: "",
+    subtitle: "",
+  });
+
   const openEnquiry = (modelName?: string) => {
     setEnquiryState({
       isOpen: true,
@@ -425,7 +438,17 @@ export default function OctagonalPolesPage() {
 
             {/* Right Hero Image Column (Top-Aligned, Full Visibility, Day/Night Crossfade on Hover) */}
             <motion.div variants={childVariants} className="lg:col-span-5">
-              <div className="group relative rounded-2xl sm:rounded-3xl border border-slate-200/90 dark:border-zinc-800 overflow-hidden shadow-lg bg-slate-100 dark:bg-zinc-900 cursor-pointer max-w-[420px] mx-auto lg:max-w-none">
+              <div
+                onClick={() =>
+                  setPreviewImage({
+                    isOpen: true,
+                    imageSrc: dayImage,
+                    title: "Octagonal Pole (3M-13M Series)",
+                    subtitle: "Hot-Dip Galvanized Octagonal Lighting Pole",
+                  })
+                }
+                className="group relative rounded-2xl sm:rounded-3xl border border-slate-200/90 dark:border-zinc-800 overflow-hidden shadow-lg bg-slate-100 dark:bg-zinc-900 cursor-pointer max-w-[420px] mx-auto lg:max-w-none"
+              >
                 
                 {/* Image Container with Day/Night hover transition */}
                 <div className="relative aspect-[4/4.5] sm:aspect-[4/4.8] w-full overflow-hidden">
@@ -1019,13 +1042,22 @@ export default function OctagonalPolesPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 8. PRODUCT ENQUIRY MODAL */}
+      {/* 8. PRODUCT ENQUIRY MODAL & IMAGE PREVIEW LIGHTBOX */}
       {/* ============================================================ */}
       <EnquiryModal
         isOpen={enquiryState.isOpen}
         onClose={() => setEnquiryState({ ...enquiryState, isOpen: false })}
         productCategory={enquiryState.productCategory}
         productModel={enquiryState.productModel}
+      />
+
+      <ImagePreviewModal
+        isOpen={previewImage.isOpen}
+        imageSrc={previewImage.imageSrc}
+        title={previewImage.title}
+        subtitle={previewImage.subtitle}
+        onClose={() => setPreviewImage((p) => ({ ...p, isOpen: false }))}
+        onEnquire={(m) => openEnquiry(m)}
       />
 
     </div>

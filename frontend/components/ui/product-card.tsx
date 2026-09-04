@@ -17,6 +17,7 @@ export interface ProductCardProps {
   enableImageCrossfade?: boolean;
   imagePosition?: string;
   onEnquire?: (name: string) => void;
+  onImageClick?: (imageSrc: string, name: string) => void;
 }
 
 export const cardVariants = {
@@ -41,6 +42,7 @@ export const ProductCard = ({
   enableImageCrossfade = true,
   imagePosition = "object-top",
   onEnquire,
+  onImageClick,
 }: ProductCardProps) => {
   const defaultDay = "/images/products/homepage/product-01/day.png";
   const defaultNight = "/images/products/homepage/product-01/night.png";
@@ -60,7 +62,10 @@ export const ProductCard = ({
         "hover:-translate-y-2 hover:scale-[1.015] hover:border-ssil-red dark:hover:border-ssil-red shadow-md hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.35),0_0_28px_-2px_rgba(229,62,62,0.5)] dark:hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.9),0_0_35px_0px_rgba(229,62,62,0.6)]"
       )}
       onClick={(e) => {
-        if (onEnquire) {
+        if (onImageClick) {
+          e.preventDefault();
+          onImageClick(daySrc, name);
+        } else if (onEnquire) {
           e.preventDefault();
           onEnquire(name);
         }

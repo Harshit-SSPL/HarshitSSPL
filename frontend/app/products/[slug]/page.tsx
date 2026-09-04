@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { catalogProducts, CatalogProduct } from "@/data/products-catalog";
 import { ProductCard } from "@/components/ui/product-card";
 import { EnquiryModal } from "@/components/ui/enquiry-modal";
+import { ImagePreviewModal } from "@/components/ui/image-preview-modal";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -72,6 +73,18 @@ export default function ProductDetailPage() {
     (p) => p.slug === slug || p.slug === resolvedSlug || p.id === slug
   );
   const [product, setProduct] = useState<CatalogProduct | undefined>(fallbackProduct);
+
+  const [previewImage, setPreviewImage] = useState<{
+    isOpen: boolean;
+    imageSrc: string;
+    title: string;
+    subtitle?: string;
+  }>({
+    isOpen: false,
+    imageSrc: "",
+    title: "",
+    subtitle: "",
+  });
 
   useEffect(() => {
     const fetchProductData = async () => {
@@ -160,6 +173,19 @@ export default function ProductDetailPage() {
 
   const closeEnquiry = () => {
     setEnquiryState((prev) => ({ ...prev, isOpen: false }));
+  };
+
+  const openImagePreview = (imageSrc: string, modelName: string) => {
+    setPreviewImage({
+      isOpen: true,
+      imageSrc,
+      title: modelName,
+      subtitle: `${product.name} Model Specification`,
+    });
+  };
+
+  const closeImagePreview = () => {
+    setPreviewImage((prev) => ({ ...prev, isOpen: false }));
   };
 
 
@@ -331,6 +357,7 @@ export default function ProductDetailPage() {
                   showArrow={true}
                   enableImageCrossfade={false}
                   onEnquire={openEnquiry}
+                  onImageClick={(imgSrc, name) => openImagePreview(imgSrc, name)}
                 />
               </div>
             ))}
@@ -412,13 +439,22 @@ export default function ProductDetailPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 8. ENQUIRY MODAL POPUP */}
+      {/* 8. ENQUIRY MODAL & IMAGE PREVIEW LIGHTBOX */}
       {/* ============================================================ */}
       <EnquiryModal
         isOpen={enquiryState.isOpen}
         onClose={closeEnquiry}
         productCategory={enquiryState.productCategory}
         productModel={enquiryState.productModel}
+      />
+
+      <ImagePreviewModal
+        isOpen={previewImage.isOpen}
+        imageSrc={previewImage.imageSrc}
+        title={previewImage.title}
+        subtitle={previewImage.subtitle}
+        onClose={closeImagePreview}
+        onEnquire={(model) => openEnquiry(model)}
       />
 
     </div>

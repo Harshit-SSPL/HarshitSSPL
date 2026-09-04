@@ -17,6 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ui/product-card";
 import { EnquiryModal } from "@/components/ui/enquiry-modal";
+import { ImagePreviewModal } from "@/components/ui/image-preview-modal";
 
 const sectionVariants = {
   hidden: { opacity: 0 },
@@ -171,6 +172,31 @@ export default function LEDDecorativePolesPage() {
     };
     fetchProductData();
   }, []);
+
+  const [previewImage, setPreviewImage] = useState<{
+    isOpen: boolean;
+    imageSrc: string;
+    title: string;
+    subtitle?: string;
+  }>({
+    isOpen: false,
+    imageSrc: "",
+    title: "",
+    subtitle: "",
+  });
+
+  const openImagePreview = (imageSrc: string, modelName: string) => {
+    setPreviewImage({
+      isOpen: true,
+      imageSrc,
+      title: modelName,
+      subtitle: "LED Decorative Poles Model Specification",
+    });
+  };
+
+  const closeImagePreview = () => {
+    setPreviewImage((prev) => ({ ...prev, isOpen: false }));
+  };
 
   const openEnquiry = (modelName?: string) => {
     setEnquiryState({
@@ -334,6 +360,7 @@ export default function LEDDecorativePolesPage() {
                   showArrow={true}
                   enableImageCrossfade={false}
                   onEnquire={openEnquiry}
+                  onImageClick={(src, name) => openImagePreview(src, name)}
                 />
               </div>
             ))}
@@ -385,7 +412,7 @@ export default function LEDDecorativePolesPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 7. CALL TO ACTION SECTION (SPEAK WITH LIGHTING ENGINEER REMOVED) */}
+      {/* 7. CALL TO ACTION SECTION */}
       {/* ============================================================ */}
       <section className="relative z-10 py-16 bg-gradient-to-br from-slate-900 via-slate-950 to-black text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl text-center">
@@ -420,6 +447,16 @@ export default function LEDDecorativePolesPage() {
         onClose={closeEnquiry}
         productCategory={enquiryState.productCategory}
         productModel={enquiryState.productModel}
+      />
+
+      {/* Image Preview Lightbox Modal */}
+      <ImagePreviewModal
+        isOpen={previewImage.isOpen}
+        imageSrc={previewImage.imageSrc}
+        title={previewImage.title}
+        subtitle={previewImage.subtitle}
+        onClose={closeImagePreview}
+        onEnquire={(model) => openEnquiry(model)}
       />
 
     </div>
