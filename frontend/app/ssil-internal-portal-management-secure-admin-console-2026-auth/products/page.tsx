@@ -423,32 +423,38 @@ function ProductsContent() {
                     </span>
                   </div>
 
-                  {/* Image Previews (Day & Night) */}
-                  <div className="grid grid-cols-2 gap-2 mb-3">
+                  {/* Image Previews (Day & Night) - Clickable to Studio */}
+                  <Link
+                    href={`${ADMIN_BASE_PATH}/products/${product.slug || prodId}`}
+                    className="grid grid-cols-2 gap-2 mb-3 block group/img"
+                  >
                     <div className="h-28 rounded-2xl overflow-hidden bg-slate-100 dark:bg-zinc-800 border border-slate-100 dark:border-zinc-700 relative">
-                      <img src={product.dayImage} alt="Day" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                      <img src={product.dayImage} alt="Day" className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-300" />
                       <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-white/90 dark:bg-black/70 text-[9px] font-black uppercase tracking-wider text-slate-800 dark:text-white">
                         Day
                       </span>
                     </div>
                     <div className="h-28 rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 relative">
-                      <img src={product.nightImage || product.dayImage} alt="Night" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                      <img src={product.nightImage || product.dayImage} alt="Night" className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-300" />
                       <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-black/80 text-[9px] font-black uppercase tracking-wider text-amber-400">
                         Night
                       </span>
                     </div>
-                  </div>
+                  </Link>
 
                   {/* Title and Route */}
                   <div className="flex items-start justify-between gap-2">
-                    <div>
+                    <Link
+                      href={`${ADMIN_BASE_PATH}/products/${product.slug || prodId}`}
+                      className="block group-hover:opacity-90"
+                    >
                       <h3 className="text-sm font-black uppercase text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors line-clamp-1">
                         {product.name}
                       </h3>
                       <p className="text-[11px] font-mono text-slate-400 mt-0.5">
                         /products/{product.slug}
                       </p>
-                    </div>
+                    </Link>
 
                     <Link
                       href={`/products/${product.slug}`}
@@ -467,23 +473,23 @@ function ProductsContent() {
                   )}
                 </div>
 
-                {/* Prominent Edit Showcase & Designs Buttons */}
+                {/* Prominent Edit Studio & Quick Actions */}
                 <div className="pt-4 mt-4 border-t border-slate-100 dark:border-zinc-800 space-y-2">
-                  <button
-                    onClick={() => openEditModal(product)}
-                    className="w-full py-2 px-3 rounded-xl bg-slate-900 dark:bg-zinc-100 hover:bg-ssil-red dark:hover:bg-ssil-red text-white dark:text-zinc-900 dark:hover:text-white text-xs font-black flex items-center justify-center gap-1.5 transition-colors shadow-xs cursor-pointer"
+                  <Link
+                    href={`${ADMIN_BASE_PATH}/products/${product.slug || prodId}`}
+                    className="w-full py-2.5 px-3 rounded-xl bg-slate-900 dark:bg-zinc-100 hover:bg-ssil-red dark:hover:bg-ssil-red text-white dark:text-zinc-900 dark:hover:text-white text-xs font-black flex items-center justify-center gap-1.5 transition-colors shadow-xs"
                   >
                     <Edit2 className="h-3.5 w-3.5" />
-                    <span>Edit Showcase Photos &amp; Banner</span>
-                  </button>
+                    <span>Open Product Studio (Edit All)</span>
+                  </Link>
 
                   <div className="flex items-center justify-between gap-2">
                     <Link
-                      href={`${ADMIN_BASE_PATH}/products/${prodId}/designs`}
+                      href={`${ADMIN_BASE_PATH}/products/${product.slug || prodId}`}
                       className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-bold text-xs hover:bg-blue-100 transition-colors"
                     >
                       <Layers className="h-3.5 w-3.5" />
-                      <span>Internal Designs ({product.designCount || 12}+)</span>
+                      <span>{product.designCount || 12}+ Internal Models</span>
                     </Link>
 
                     <button
@@ -513,7 +519,7 @@ function ProductsContent() {
                   <th className="py-3.5 px-4">Product Name</th>
                   <th className="py-3.5 px-4">Slug Route</th>
                   <th className="py-3.5 px-4">Day / Night Visuals</th>
-                  <th className="py-3.5 px-4">Internal Models</th>
+                  <th className="py-3.5 px-4">Studio Editor</th>
                   <th className="py-3.5 px-4 text-right">Actions</th>
                 </tr>
               </thead>
@@ -530,7 +536,9 @@ function ProductsContent() {
                       <td className="py-3.5 px-4 font-black font-mono text-ssil-red">#{numFormatted}</td>
                       <td className="py-3.5 px-4 font-black uppercase text-slate-900 dark:text-white">
                         <div className="flex items-center gap-2">
-                          <span>{product.name}</span>
+                          <Link href={`${ADMIN_BASE_PATH}/products/${product.slug || prodId}`} className="hover:text-ssil-red transition-colors">
+                            {product.name}
+                          </Link>
                           <Link href={`/products/${product.slug}`} target="_blank" className="text-slate-400 hover:text-ssil-red">
                             <ExternalLink className="h-3 w-3" />
                           </Link>
@@ -551,18 +559,18 @@ function ProductsContent() {
                       </td>
                       <td className="py-3.5 px-4">
                         <Link
-                          href={`${ADMIN_BASE_PATH}/products/${prodId}/designs`}
-                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-bold hover:bg-blue-100 transition-colors"
+                          href={`${ADMIN_BASE_PATH}/products/${product.slug || prodId}`}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-ssil-red text-white font-bold transition-colors shadow-xs"
                         >
-                          <Layers className="h-3.5 w-3.5" />
-                          <span>Manage Designs ({product.designCount || 12}+)</span>
+                          <Edit2 className="h-3.5 w-3.5" />
+                          <span>Open Studio ({product.designCount || 12}+ Models)</span>
                         </Link>
                       </td>
                       <td className="py-3.5 px-4 text-right">
                         <div className="flex items-center justify-end gap-1">
-                          <button onClick={() => openEditModal(product)} className="p-1.5 rounded-lg text-slate-500 hover:text-ssil-red hover:bg-slate-100 dark:hover:bg-zinc-800">
+                          <Link href={`${ADMIN_BASE_PATH}/products/${product.slug || prodId}`} className="p-1.5 rounded-lg text-slate-500 hover:text-ssil-red hover:bg-slate-100 dark:hover:bg-zinc-800">
                             <Edit2 className="h-4 w-4" />
-                          </button>
+                          </Link>
                           <button onClick={() => { setSelectedProduct(product); setDeleteModalOpen(true); }} className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50">
                             <Trash2 className="h-4 w-4" />
                           </button>

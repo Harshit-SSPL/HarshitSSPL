@@ -191,6 +191,84 @@ export default function AdminDashboardPage() {
         })}
       </div>
 
+      {/* Quick Launch: Product Studio Editors */}
+      <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200/90 dark:border-zinc-800 shadow-xs space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100 dark:border-zinc-800">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-black uppercase tracking-widest text-ssil-red">
+                1-CLICK EDITORS
+              </span>
+              <span className="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-[10px] font-black">
+                {catalogProducts.length} Product Studios
+              </span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white uppercase font-serif mt-1">
+              Direct Product Page Studios
+            </h2>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              Click any product below to instantly edit its Top Banner, Day/Night Showcase Photos, and all Internal Model Designs.
+            </p>
+          </div>
+
+          <Link
+            href={`${ADMIN_BASE_PATH}/products`}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-900 dark:bg-zinc-100 hover:bg-ssil-red dark:hover:bg-ssil-red text-white dark:text-zinc-900 dark:hover:text-white font-black text-xs transition-colors self-start sm:self-auto shadow-xs"
+          >
+            <span>Open Master Catalog</span>
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          {catalogProducts.map((prod, idx) => {
+            const numFormatted = String(idx + 1).padStart(2, "0");
+            const isSpecial = [
+              "octagonal-poles",
+              "flag-mast-poles",
+              "stadium-high-mast",
+              "high-mast",
+              "camera-poles",
+              "solar-power-plants",
+            ].includes(prod.slug);
+
+            return (
+              <Link
+                key={prod.id || prod.slug}
+                href={`${ADMIN_BASE_PATH}/products/${prod.slug}`}
+                className="group relative rounded-2xl p-3 border border-slate-200 dark:border-zinc-800 hover:border-ssil-red bg-slate-50/70 dark:bg-zinc-800/50 hover:bg-white dark:hover:bg-zinc-800 transition-all duration-200 shadow-2xs hover:shadow-md flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between text-[10px] font-black text-slate-400 mb-1.5">
+                    <span className="font-mono text-ssil-red">#{numFormatted}</span>
+                    {isSpecial && (
+                      <span className="text-[8px] uppercase tracking-wider px-1.5 py-0.2 rounded bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 font-extrabold">
+                        Showcase
+                      </span>
+                    )}
+                  </div>
+                  <div className="h-16 w-full rounded-xl overflow-hidden bg-slate-200 dark:bg-zinc-700 mb-2 border border-slate-200 dark:border-zinc-700">
+                    <img
+                      src={prod.dayImage}
+                      alt={prod.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <h4 className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-ssil-red transition-colors line-clamp-1">
+                    {prod.name}
+                  </h4>
+                </div>
+
+                <div className="mt-2 pt-2 border-t border-slate-200/60 dark:border-zinc-700/60 flex items-center justify-between text-[10px] font-bold text-slate-400 group-hover:text-ssil-red">
+                  <span>Edit Studio</span>
+                  <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+
     </div>
   );
 }
