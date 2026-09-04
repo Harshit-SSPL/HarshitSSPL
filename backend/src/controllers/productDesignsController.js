@@ -23,7 +23,13 @@ export const getProductDesigns = async (req, res) => {
 export const getAllProductDesignsAdmin = async (req, res) => {
   try {
     const { productId } = req.params;
-    const product = await Product.findById(productId);
+    let product = null;
+    if (productId.match(/^[0-9a-fA-F]{24}$/)) {
+      product = await Product.findById(productId);
+    }
+    if (!product) {
+      product = await Product.findOne({ slug: productId });
+    }
     if (!product) {
       return res.status(404).json({
         success: false,
@@ -31,7 +37,7 @@ export const getAllProductDesignsAdmin = async (req, res) => {
       });
     }
 
-    const designs = await ProductDesign.find({ productId }).sort({ order: 1, createdAt: 1 });
+    const designs = await ProductDesign.find({ productId: product._id }).sort({ order: 1, createdAt: 1 });
     return res.status(200).json({
       success: true,
       product,

@@ -293,6 +293,55 @@ function ProductsContent() {
         </div>
       )}
 
+      {/* Quick Action: 6 Specialized Products with Day/Night Showcases */}
+      <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-red-500/10 via-amber-500/10 to-rose-500/10 border border-red-200 dark:border-zinc-800 shadow-xs space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <span className="text-[10px] font-black uppercase tracking-widest text-ssil-red block">
+              SPECIALIZED PRODUCT SHOWCASE EDITOR
+            </span>
+            <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white">
+              Internal Product Page Day/Night Showcases &amp; Banners
+            </h2>
+            <p className="text-xs text-slate-600 dark:text-slate-400">
+              Click any of these 6 specialized products below to edit their internal interactive Day/Night crossfade photos and top hero banner:
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 pt-1">
+          {[
+            { name: "Octagonal Pole", slug: "octagonal-poles", badge: "HDG Steel" },
+            { name: "Flag Mast Poles", slug: "flag-mast-poles", badge: "Monumental" },
+            { name: "Stadium High Mast", slug: "stadium-high-mast", badge: "Arena Mast" },
+            { name: "High Mast", slug: "high-mast", badge: "Industrial" },
+            { name: "Camera Pole", slug: "camera-poles", badge: "Surveillance" },
+            { name: "Solar Power Plant", slug: "solar-power-plants", badge: "Clean Energy" },
+          ].map((item) => {
+            const p = products.find((x) => x.slug === item.slug);
+            return (
+              <button
+                key={item.slug}
+                onClick={() => {
+                  if (p) openEditModal(p);
+                }}
+                className="flex flex-col items-center justify-center p-3 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 hover:border-ssil-red hover:shadow-lg transition-all text-center group cursor-pointer"
+              >
+                <span className="text-xs font-black text-slate-900 dark:text-white group-hover:text-ssil-red line-clamp-1">
+                  {item.name}
+                </span>
+                <span className="text-[9px] font-mono text-slate-400 mt-0.5">
+                  {item.badge}
+                </span>
+                <span className="text-[10px] font-bold text-white bg-ssil-red px-2 py-0.5 rounded-lg mt-2 flex items-center gap-1 shadow-xs">
+                  <Edit2 className="h-2.5 w-2.5" /> Edit Photos
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Filter and View Mode Switcher */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white dark:bg-zinc-900 p-3.5 rounded-2xl border border-slate-200/90 dark:border-zinc-800 shadow-xs">
         <div className="relative flex-1 max-w-md">
@@ -342,6 +391,14 @@ function ProductsContent() {
               ? product.order + 1
               : idx + 1;
             const numFormatted = String(displayIndex).padStart(2, "0");
+            const isSpecialized = [
+              "octagonal-poles",
+              "flag-mast-poles",
+              "stadium-high-mast",
+              "high-mast",
+              "camera-poles",
+              "solar-power-plants"
+            ].includes(product.slug);
 
             return (
               <div
@@ -351,9 +408,16 @@ function ProductsContent() {
                 <div>
                   {/* Numbering Header */}
                   <div className="flex items-center justify-between mb-3">
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-slate-900 dark:bg-zinc-100 text-white dark:text-zinc-900 font-mono text-[11px] font-black tracking-wider shadow-xs">
-                      #{numFormatted}
-                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-slate-900 dark:bg-zinc-100 text-white dark:text-zinc-900 font-mono text-[11px] font-black tracking-wider shadow-xs">
+                        #{numFormatted}
+                      </span>
+                      {isSpecialized && (
+                        <span className="px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300 text-[9px] font-black uppercase tracking-wider">
+                          Interactive Showcase
+                        </span>
+                      )}
+                    </div>
                     <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md ${product.active !== false ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/60" : "bg-zinc-100 text-zinc-500"}`}>
                       {product.active !== false ? "Active" : "Draft"}
                     </span>
@@ -403,30 +467,31 @@ function ProductsContent() {
                   )}
                 </div>
 
-                {/* Bottom Actions: Internal Models & Edit Category */}
-                <div className="pt-4 mt-4 border-t border-slate-100 dark:border-zinc-800 flex items-center justify-between gap-2">
-                  <Link
-                    href={`${ADMIN_BASE_PATH}/products/${prodId}/designs`}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-bold text-xs hover:bg-blue-100 transition-colors"
+                {/* Prominent Edit Showcase & Designs Buttons */}
+                <div className="pt-4 mt-4 border-t border-slate-100 dark:border-zinc-800 space-y-2">
+                  <button
+                    onClick={() => openEditModal(product)}
+                    className="w-full py-2 px-3 rounded-xl bg-slate-900 dark:bg-zinc-100 hover:bg-ssil-red dark:hover:bg-ssil-red text-white dark:text-zinc-900 dark:hover:text-white text-xs font-black flex items-center justify-center gap-1.5 transition-colors shadow-xs cursor-pointer"
                   >
-                    <Layers className="h-3.5 w-3.5" />
-                    <span>Internal Designs ({product.designCount || 12}+)</span>
-                  </Link>
+                    <Edit2 className="h-3.5 w-3.5" />
+                    <span>Edit Showcase Photos &amp; Banner</span>
+                  </button>
 
-                  <div className="flex items-center gap-1">
-                    <button
-                      onClick={() => openEditModal(product)}
-                      className="p-2 rounded-xl text-slate-600 hover:text-ssil-red hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors"
-                      title="Edit Category Details"
+                  <div className="flex items-center justify-between gap-2">
+                    <Link
+                      href={`${ADMIN_BASE_PATH}/products/${prodId}/designs`}
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-bold text-xs hover:bg-blue-100 transition-colors"
                     >
-                      <Edit2 className="h-4 w-4" />
-                    </button>
+                      <Layers className="h-3.5 w-3.5" />
+                      <span>Internal Designs ({product.designCount || 12}+)</span>
+                    </Link>
+
                     <button
                       onClick={() => {
                         setSelectedProduct(product);
                         setDeleteModalOpen(true);
                       }}
-                      className="p-2 rounded-xl text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors"
+                      className="p-1.5 rounded-xl text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors"
                       title="Delete Product"
                     >
                       <Trash2 className="h-4 w-4" />

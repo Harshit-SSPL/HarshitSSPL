@@ -36,6 +36,14 @@ export default function AdminProductDesignsPage() {
   const router = useRouter();
 
   const [productName, setProductName] = useState<string>("Product");
+  const [productData, setProductData] = useState<{
+    _id?: string;
+    name: string;
+    slug: string;
+    dayImage: string;
+    nightImage?: string;
+    heroImage?: string;
+  } | null>(null);
   const [designs, setDesigns] = useState<DesignItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
@@ -43,6 +51,10 @@ export default function AdminProductDesignsPage() {
   const [selectedDesign, setSelectedDesign] = useState<DesignItem | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [savingShowcase, setSavingShowcase] = useState(false);
+  const [uploadingShowcaseDay, setUploadingShowcaseDay] = useState(false);
+  const [uploadingShowcaseNight, setUploadingShowcaseNight] = useState(false);
+  const [uploadingShowcaseHero, setUploadingShowcaseHero] = useState(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -64,6 +76,7 @@ export default function AdminProductDesignsPage() {
       const res = await fetchApi(`/products/${productId}/designs/admin`);
       if (res.success && res.product) {
         setProductName(res.product.name);
+        setProductData(res.product);
         setDesigns(res.designs || []);
         return;
       }
@@ -71,6 +84,14 @@ export default function AdminProductDesignsPage() {
       const fallbackProd = catalogProducts.find((p) => p.slug === productId || p.id === productId);
       if (fallbackProd) {
         setProductName(fallbackProd.name);
+        setProductData({
+          _id: fallbackProd.id,
+          name: fallbackProd.name,
+          slug: fallbackProd.slug,
+          dayImage: fallbackProd.dayImage,
+          nightImage: fallbackProd.nightImage,
+          heroImage: fallbackProd.heroImage,
+        });
         setDesigns(fallbackProd.galleryImages.map((g, i) => ({ ...g, _id: g.id, order: i, active: true })));
       }
     } catch (e) {
@@ -85,6 +106,84 @@ export default function AdminProductDesignsPage() {
       loadDesigns();
     }
   }, [productId]);
+
+  const handleShowcaseDayUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingShowcaseDay(true);
+    setErrorMsg(null);
+    try {
+      const uploaded = await uploadImageFile(file, "ssil_products_day");
+      setProductData((prev) => (prev ? { ...prev, dayImage: uploaded.url } : null));
+      setSuccessMsg("Daytime showcase photo uploaded! Click 'Save Showcase Changes' to apply.");
+    } catch (err: any) {
+      setErrorMsg(err.message || "Failed to upload daytime image.");
+    } finally {
+      setUploadingShowcaseDay(false);
+    }
+  };
+
+  const handleShowcaseNightUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingShowcaseNight(true);
+    setErrorMsg(null);
+    try {
+      const uploaded = await uploadImageFile(file, "ssil_products_night");
+      setProductData((prev) => (prev ? { ...prev, nightImage: uploaded.url } : null));
+      setSuccessMsg("Nighttime showcase photo uploaded! Click 'Save Showcase Changes' to apply.");
+    } catch (err: any) {
+      setErrorMsg(err.message || "Failed to upload nighttime image.");
+    } finally {
+      setUploadingShowcaseNight(false);
+    }
+  };
+
+  const handleShowcaseHeroUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingShowcaseHero(true);
+    setErrorMsg(null);
+    try {
+      const uploaded = await uploadImageFile(file, "ssil_banners");
+      setProductData((prev) => (prev ? { ...prev, heroImage: uploaded.url } : null));
+      setSuccessMsg("Top banner photo uploaded! Click 'Save Showcase Changes' to apply.");
+    } catch (err: any) {
+      setErrorMsg(err.message || "Failed to upload banner image.");
+    } finally {
+      setUploadingShowcaseHero(false);
+    }
+  };
+
+  const handleSaveShowcasePhotos = async () => {
+    if (!productData) return;
+    setSavingShowcase(true);
+    setErrorMsg(null);
+
+    try {
+      const prodId = productData._id || productId;
+      const res = await fetchApi(`/products/${prodId}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          dayImage: productData.dayImage,
+          nightImage: productData.nightImage,
+          heroImage: productData.heroImage,
+        }),
+      });
+
+      if (res.success) {
+        setSuccessMsg("Product Showcase photos & Hero Banner updated successfully!");
+        setTimeout(() => setSuccessMsg(null), 4000);
+      }
+    } catch (err: any) {
+      setErrorMsg(err.message || "Failed to save showcase photos.");
+    } finally {
+      setSavingShowcase(false);
+    }
+  };
 
   const openAddModal = () => {
     setSelectedDesign(null);
@@ -231,6 +330,99 @@ export default function AdminProductDesignsPage() {
         <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200 text-xs font-bold flex items-center gap-2">
           <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
           <span>{successMsg}</span>
+        </div>
+      )}
+
+      {/* Internal Page Hero Showcase & Top Banner Photos Editor */}
+      {productData && (
+        <div className="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-xs space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100 dark:border-zinc-800">
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-widest text-ssil-red block">
+                INTERNAL PRODUCT PAGE PHOTOS
+              </span>
+              <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white">
+                Day/Night Showcase &amp; Top Hero Banner Photos
+              </h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                These photos render at the top of the live product page (<code className="text-ssil-red font-mono font-bold">/products/{productData.slug}</code>).
+              </p>
+            </div>
+
+            <Button
+              onClick={handleSaveShowcasePhotos}
+              disabled={savingShowcase}
+              className="bg-slate-900 hover:bg-ssil-red text-white font-black px-5 py-2.5 rounded-xl text-xs shadow-md flex items-center gap-2 self-start sm:self-auto cursor-pointer"
+            >
+              {savingShowcase ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4 text-emerald-400" />}
+              <span>Save Showcase &amp; Banner Photos</span>
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Daytime Showcase */}
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-700 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[11px] font-black uppercase text-slate-800 dark:text-slate-200">
+                    Daytime Showcase Photo
+                  </span>
+                  <span className="text-[9px] font-bold text-slate-400 uppercase">Default</span>
+                </div>
+                <div className="h-36 w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 mb-3 flex items-center justify-center">
+                  <img src={productData.dayImage} alt="Daytime Showcase" className="w-full h-full object-cover" />
+                </div>
+              </div>
+
+              <label className="cursor-pointer flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-dashed border-slate-300 dark:border-zinc-600 hover:border-ssil-red bg-white dark:bg-zinc-900 text-xs font-bold text-slate-700 dark:text-slate-200 transition-colors shadow-xs">
+                {uploadingShowcaseDay ? <Loader2 className="h-3.5 w-3.5 animate-spin text-ssil-red" /> : <Upload className="h-3.5 w-3.5 text-ssil-red" />}
+                <span>Upload Day Photo</span>
+                <input type="file" accept="image/*" onChange={handleShowcaseDayUpload} className="hidden" />
+              </label>
+            </div>
+
+            {/* Nighttime Showcase */}
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-700 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[11px] font-black uppercase text-slate-800 dark:text-slate-200">
+                    Nighttime Showcase Photo
+                  </span>
+                  <span className="text-[9px] font-bold text-amber-500 uppercase">Hover Glow</span>
+                </div>
+                <div className="h-36 w-full rounded-xl overflow-hidden bg-slate-950 border border-slate-800 mb-3 flex items-center justify-center">
+                  <img src={productData.nightImage || productData.dayImage} alt="Nighttime Showcase" className="w-full h-full object-cover" />
+                </div>
+              </div>
+
+              <label className="cursor-pointer flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-dashed border-slate-300 dark:border-zinc-600 hover:border-ssil-red bg-white dark:bg-zinc-900 text-xs font-bold text-slate-700 dark:text-slate-200 transition-colors shadow-xs">
+                {uploadingShowcaseNight ? <Loader2 className="h-3.5 w-3.5 animate-spin text-ssil-red" /> : <Upload className="h-3.5 w-3.5 text-ssil-red" />}
+                <span>Upload Night Photo</span>
+                <input type="file" accept="image/*" onChange={handleShowcaseNightUpload} className="hidden" />
+              </label>
+            </div>
+
+            {/* Top Full-Bleed Banner */}
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-700 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[11px] font-black uppercase text-slate-800 dark:text-slate-200">
+                    Top Hero Banner Photo
+                  </span>
+                  <span className="text-[9px] font-bold text-ssil-red uppercase">Full-Bleed</span>
+                </div>
+                <div className="h-36 w-full rounded-xl overflow-hidden bg-slate-950 border border-slate-800 mb-3 flex items-center justify-center">
+                  <img src={productData.heroImage || "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png"} alt="Top Banner" className="w-full h-full object-cover" />
+                </div>
+              </div>
+
+              <label className="cursor-pointer flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-dashed border-slate-300 dark:border-zinc-600 hover:border-ssil-red bg-white dark:bg-zinc-900 text-xs font-bold text-slate-700 dark:text-slate-200 transition-colors shadow-xs">
+                {uploadingShowcaseHero ? <Loader2 className="h-3.5 w-3.5 animate-spin text-ssil-red" /> : <Upload className="h-3.5 w-3.5 text-ssil-red" />}
+                <span>Upload Banner Photo</span>
+                <input type="file" accept="image/*" onChange={handleShowcaseHeroUpload} className="hidden" />
+              </label>
+            </div>
+          </div>
         </div>
       )}
 
