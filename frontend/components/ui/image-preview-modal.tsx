@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { X, ZoomIn, MessageSquareText } from "lucide-react";
+import { X, ChevronRight, MessageSquare } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export interface ImagePreviewModalProps {
@@ -17,7 +17,6 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
   isOpen,
   imageSrc,
   title,
-  subtitle,
   onClose,
   onEnquire,
 }) => {
@@ -41,89 +40,71 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-3 sm:p-6 md:p-8">
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6">
           
-          {/* Backdrop: Clicking outside closes modal */}
+          {/* Transparent Glass Backdrop: Underlying website is visible, clicking outside closes */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: 0.2 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/90 backdrop-blur-md cursor-zoom-out"
+            className="absolute inset-0 bg-black/40 backdrop-blur-xs cursor-pointer"
           />
 
-          {/* Modal Container */}
+          {/* Compact 9:16 Portrait Glass Card */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.92, y: 10 }}
+            initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.94, y: 10 }}
-            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ opacity: 0, scale: 0.92, y: 15 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="relative z-10 max-w-5xl w-full max-h-[92vh] flex flex-col items-center justify-center overflow-hidden rounded-3xl bg-slate-950/95 border border-white/10 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)]"
+            className="relative z-10 w-full max-w-[330px] sm:max-w-[360px] max-h-[85vh] rounded-3xl bg-slate-950/70 dark:bg-black/70 backdrop-blur-xl border border-white/20 shadow-[0_20px_60px_-10px_rgba(0,0,0,0.8),0_0_35px_-5px_rgba(229,62,62,0.3)] overflow-hidden flex flex-col justify-between"
           >
-            {/* Top Bar with Title & Close Button */}
-            <div className="w-full px-5 py-4 flex items-center justify-between border-b border-white/10 bg-slate-900/60 backdrop-blur-md">
-              <div className="flex items-center gap-2.5">
-                <span className="h-2 w-2 rounded-full bg-ssil-red animate-pulse" />
-                <div>
-                  <h3 className="text-sm sm:text-base font-black uppercase text-white tracking-wide">
-                    {title}
-                  </h3>
-                  {subtitle && (
-                    <p className="text-[11px] text-slate-400 font-medium">{subtitle}</p>
-                  )}
-                </div>
-              </div>
+            {/* Top Transparent Bar: ID / Model Title & Close Button */}
+            <div className="w-full px-4 py-3 flex items-center justify-between border-b border-white/10 bg-white/5 backdrop-blur-md">
+              <span className="text-xs font-black uppercase text-white tracking-wide truncate max-w-[240px]">
+                {title}
+              </span>
 
               <button
                 type="button"
                 onClick={onClose}
-                className="p-2 rounded-full bg-white/10 hover:bg-ssil-red text-white transition-colors cursor-pointer"
-                title="Close (Esc)"
+                className="p-1.5 rounded-full bg-white/10 hover:bg-ssil-red text-white transition-colors cursor-pointer shrink-0"
+                title="Close"
               >
-                <X className="h-5 w-5" />
+                <X className="h-4 w-4" />
               </button>
             </div>
 
-            {/* High-Resolution Image Container */}
-            <div className="relative w-full flex-1 flex items-center justify-center p-4 sm:p-8 overflow-hidden min-h-[300px] max-h-[72vh] bg-black/50">
+            {/* Centered Image (9:16 Portrait Ratio) */}
+            <div className="relative w-full flex-1 flex items-center justify-center p-4 sm:p-5 min-h-[340px] max-h-[58vh]">
               <img
                 src={imageSrc}
                 alt={title}
-                className="max-h-[66vh] max-w-full w-auto object-contain rounded-xl shadow-2xl transition-transform duration-300 select-none"
+                className="max-h-[54vh] max-w-full w-auto object-contain rounded-2xl drop-shadow-2xl select-none"
               />
             </div>
 
-            {/* Bottom Action Bar */}
-            <div className="w-full px-5 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-white/10 bg-slate-900/80 backdrop-blur-md">
-              <span className="text-xs text-slate-400 font-mono hidden sm:inline-block">
-                Click anywhere outside the photo to close
+            {/* Bottom Glass Bar: Title ID & Enquire Now Button */}
+            <div className="w-full px-4 py-3 flex items-center justify-between gap-3 border-t border-white/10 bg-slate-950/60 backdrop-blur-md">
+              <span className="text-[11px] font-bold text-slate-200 truncate flex-1 text-left">
+                {title}
               </span>
 
-              <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+              {onEnquire && (
                 <button
                   type="button"
-                  onClick={onClose}
-                  className="px-4 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                  onClick={() => {
+                    onClose();
+                    onEnquire(title);
+                  }}
+                  className="inline-flex items-center gap-1.5 text-xs font-black text-white bg-ssil-red hover:bg-ssil-red-600 transition-all duration-200 px-3.5 py-1.5 rounded-xl shadow-md shrink-0 hover:scale-105 cursor-pointer"
                 >
-                  Close Preview
+                  <MessageSquare className="h-3.5 w-3.5" />
+                  <span>Enquire Now</span>
                 </button>
-
-                {onEnquire && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      onClose();
-                      onEnquire(title);
-                    }}
-                    className="px-5 py-2 rounded-xl bg-ssil-red hover:bg-ssil-red-600 text-white text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-ssil-red/30 transition-all hover:scale-105 cursor-pointer"
-                  >
-                    <MessageSquareText className="h-3.5 w-3.5" />
-                    <span>Enquire For This Model</span>
-                  </button>
-                )}
-              </div>
+              )}
             </div>
 
           </motion.div>
