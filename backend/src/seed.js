@@ -300,7 +300,7 @@ export const seedDatabase = async () => {
         {
           name: "Solar Lights",
           slug: "solar-lights",
-          designCount: 16,
+          designCount: 23,
           tagline: "Autonomous solar illumination for smart, sustainable outdoor spaces.",
           description: "Autonomous solar-powered LED street lights and standalone solar luminaires equipped with high-efficiency PV panels.",
           dayImage: "/images/products/homepage/product-01/day.png",

@@ -247,14 +247,14 @@ export const catalogProducts: CatalogProduct[] = [
     id: "cat-17",
     name: "Solar Lights",
     slug: "solar-lights",
-    designCount: 12,
+    designCount: 23,
     tagline: "Autonomous solar illumination for smart, sustainable outdoor spaces.",
     description:
       "Autonomous solar-powered LED street lights and standalone solar luminaires equipped with high-efficiency PV panels, long-life lithium batteries, and smart dusk-to-dawn controllers.",
     dayImage: "/images/products/homepage/product-01/day.png",
     nightImage: "/images/products/homepage/product-01/night.png",
     heroImage: "/products/products-hero.png",
-    galleryImages: generateGallery("solar-light", "Standalone Solar Luminaire", 12),
+    galleryImages: generateGallery("solar-light", "Standalone Solar Luminaire", 23),
   },
   {
     id: "cat-18",
