@@ -77,7 +77,7 @@ export const catalogProducts: CatalogProduct[] = [
       "Precision outdoor pathway bollards and landscape luminaires engineered for perimeter security, garden lighting, and pedestrian walkway guidance with vandal-resistant construction.",
     dayImage: "/images/products/homepage/product-06/day.png",
     nightImage: "/images/products/homepage/product-06/night.png",
-    heroImage: "/products/products-hero.png",
+    heroImage: "/images/products/bollards/banner.png",
     galleryImages: generateGallery("bollard", "Landscape Pathway Bollard", 23),
   },
   {

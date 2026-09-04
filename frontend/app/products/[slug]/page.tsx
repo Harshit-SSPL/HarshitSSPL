@@ -118,6 +118,7 @@ export default function ProductDetailPage() {
             name: fallbackProduct.name,
             designCount: fallbackProduct.designCount,
             galleryImages: finalGallery,
+            heroImage: fallbackProduct.heroImage || apiProd.heroImage || "/products/products-hero.png",
           });
         }
       } catch (err) {
