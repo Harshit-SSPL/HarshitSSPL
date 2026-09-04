@@ -6,7 +6,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { MapPin, ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { galleryProjects } from "@/data/gallery-projects";
+import { galleryProjects, GalleryProject } from "@/data/gallery-projects";
 
 // Animation Variants matching Home & About Us design system
 const sectionVariants = {
@@ -33,6 +33,8 @@ const childVariants = {
 };
 
 export default function GalleryPage() {
+  const [projects, setProjects] = React.useState<GalleryProject[]>(galleryProjects);
+
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       if ("scrollRestoration" in window.history) {
@@ -40,6 +42,35 @@ export default function GalleryPage() {
       }
       window.scrollTo(0, 0);
     }
+
+    const fetchGallery = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+        const res = await fetch(`${apiUrl}/gallery`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && Array.isArray(data.projects) && data.projects.length > 0) {
+            const mapped: GalleryProject[] = data.projects.map((p: any) => ({
+              id: p._id || p.id,
+              number: p.number || "01",
+              title: p.title,
+              subtitle: p.subtitle || "",
+              location: p.location || "India",
+              categoryTag: p.categoryTag || "INFRASTRUCTURE",
+              provided: p.provided,
+              description: p.description || "",
+              image: p.image,
+              stats: p.stats || [],
+            }));
+            setProjects(mapped);
+          }
+        }
+      } catch (err) {
+        // Fallback to static gallery
+      }
+    };
+
+    fetchGallery();
   }, []);
 
   return (
@@ -91,7 +122,7 @@ export default function GalleryPage() {
       <section className="py-16 sm:py-20 md:py-28 bg-white dark:bg-slate-950 text-slate-900 dark:text-white space-y-20 sm:space-y-28 md:space-y-36 transition-colors duration-300">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl space-y-20 sm:space-y-28 md:space-y-36">
           
-          {galleryProjects.map((project, idx) => {
+          {projects.map((project, idx) => {
             const isEven = idx % 2 === 0;
 
             return (

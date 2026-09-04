@@ -17,6 +17,7 @@ router.put("/stats", authenticateAdmin, updateHomeStats);
 
 // Featured Products
 router.get("/featured", getFeaturedProducts);
+router.get("/featured/admin/all", authenticateAdmin, getFeaturedProducts);
 router.post("/featured", authenticateAdmin, createFeaturedProduct);
 router.put("/featured/:id", authenticateAdmin, updateFeaturedProduct);
 router.delete("/featured/:id", authenticateAdmin, deleteFeaturedProduct);

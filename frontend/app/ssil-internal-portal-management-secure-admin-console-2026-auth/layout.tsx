@@ -28,10 +28,11 @@ import { ADMIN_BASE_PATH } from "@/lib/admin-api";
 
 const navItems = [
   { label: "Dashboard", href: ADMIN_BASE_PATH, icon: LayoutDashboard },
-  { label: "Home Page", href: `${ADMIN_BASE_PATH}/home`, icon: Home },
+  { label: "Home Page (Products & Stats)", href: `${ADMIN_BASE_PATH}/home`, icon: Home },
   { label: "About Us", href: `${ADMIN_BASE_PATH}/about`, icon: Layers },
   { label: "Products Catalog", href: `${ADMIN_BASE_PATH}/products`, icon: Package },
-  { label: "Gallery & Projects", href: `${ADMIN_BASE_PATH}/national-projects`, icon: Building2 },
+  { label: "Projects & Gallery", href: `${ADMIN_BASE_PATH}/gallery`, icon: Building2 },
+  { label: "National Projects", href: `${ADMIN_BASE_PATH}/national-projects`, icon: Sparkles },
   { label: "Footer & Contact", href: `${ADMIN_BASE_PATH}/footer`, icon: MapPin },
 ];
 

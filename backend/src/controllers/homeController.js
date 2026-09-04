@@ -1,5 +1,6 @@
 import HomeStats from "../models/HomeStats.js";
 import FeaturedProduct from "../models/FeaturedProduct.js";
+import { deleteFromCloudinary } from "../config/cloudinary.js";
 
 const fallbackStats = {
   deployedFootprints: {
@@ -82,10 +83,11 @@ export const updateHomeStats = async (req, res) => {
   }
 };
 
-// GET /api/home/featured
+// GET /api/home/featured (Public & Admin)
 export const getFeaturedProducts = async (req, res) => {
   try {
-    const products = await FeaturedProduct.find({ active: true }).sort({ order: 1 });
+    const query = req.path.includes("admin") ? {} : { active: true };
+    const products = await FeaturedProduct.find(query).sort({ order: 1, createdAt: 1 });
     return res.status(200).json({
       success: true,
       products: products.length > 0 ? products : [],
@@ -113,10 +115,9 @@ export const createFeaturedProduct = async (req, res) => {
       product,
     });
   } catch (error) {
-    return res.status(200).json({
-      success: true,
-      message: "Featured product created.",
-      product: req.body,
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Failed to create featured product.",
     });
   }
 };
@@ -124,7 +125,22 @@ export const createFeaturedProduct = async (req, res) => {
 // PUT /api/home/featured/:id (Admin protected)
 export const updateFeaturedProduct = async (req, res) => {
   try {
-    const product = await FeaturedProduct.findByIdAndUpdate(req.params.id, req.body, {
+    const existing = await FeaturedProduct.findById(req.params.id);
+    if (!existing) {
+      return res.status(404).json({
+        success: false,
+        message: "Featured product not found.",
+      });
+    }
+
+    if (req.body.dayImage && existing.dayImage !== req.body.dayImage && existing.dayCloudinaryId) {
+      await deleteFromCloudinary(existing.dayCloudinaryId);
+    }
+    if (req.body.nightImage && existing.nightImage !== req.body.nightImage && existing.nightCloudinaryId) {
+      await deleteFromCloudinary(existing.nightCloudinaryId);
+    }
+
+    const updated = await FeaturedProduct.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
     });
@@ -132,13 +148,12 @@ export const updateFeaturedProduct = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Featured product updated successfully.",
-      product,
+      product: updated,
     });
   } catch (error) {
-    return res.status(200).json({
-      success: true,
-      message: "Featured product updated.",
-      product: req.body,
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Failed to update featured product.",
     });
   }
 };
@@ -146,15 +161,26 @@ export const updateFeaturedProduct = async (req, res) => {
 // DELETE /api/home/featured/:id (Admin protected)
 export const deleteFeaturedProduct = async (req, res) => {
   try {
+    const existing = await FeaturedProduct.findById(req.params.id);
+    if (!existing) {
+      return res.status(404).json({
+        success: false,
+        message: "Featured product not found.",
+      });
+    }
+
+    if (existing.dayCloudinaryId) await deleteFromCloudinary(existing.dayCloudinaryId);
+    if (existing.nightCloudinaryId) await deleteFromCloudinary(existing.nightCloudinaryId);
+
     await FeaturedProduct.findByIdAndDelete(req.params.id);
     return res.status(200).json({
       success: true,
       message: "Featured product deleted successfully.",
     });
   } catch (error) {
-    return res.status(200).json({
-      success: true,
-      message: "Featured product deleted.",
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Failed to delete featured product.",
     });
   }
 };

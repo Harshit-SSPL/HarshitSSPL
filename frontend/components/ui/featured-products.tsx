@@ -1,12 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { featuredProducts, FeaturedProduct } from "@/data/featured-products";
+import { featuredProducts as defaultFeatured, FeaturedProduct } from "@/data/featured-products";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -67,8 +67,35 @@ const ProductCard = ({ product }: { product: FeaturedProduct }) => {
 };
 
 export const FeaturedProducts = () => {
-  // Homepage showcases exactly the first 6 main featured products (2 rows x 3 columns)
-  const homepageProducts = featuredProducts.slice(0, 6);
+  const [products, setProducts] = useState<FeaturedProduct[]>(defaultFeatured.slice(0, 6));
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+        const res = await fetch(`${apiUrl}/home/featured`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && Array.isArray(data.products) && data.products.length > 0) {
+            const mapped: FeaturedProduct[] = data.products.map((p: any) => ({
+              id: p._id || p.id,
+              name: p.name,
+              dayImage: p.dayImage,
+              nightImage: p.nightImage,
+              category: p.category,
+              tagline: p.tagline,
+              slug: p.slug,
+            }));
+            setProducts(mapped.slice(0, 6));
+          }
+        }
+      } catch (err) {
+        // Fallback to static defaults
+      }
+    };
+
+    fetchFeatured();
+  }, []);
 
   return (
     <section className="py-16 md:py-24 bg-white dark:bg-slate-950 border-b border-slate-200/60 dark:border-slate-800/80 transition-colors overflow-hidden">
@@ -101,7 +128,7 @@ export const FeaturedProducts = () => {
           viewport={{ once: true, margin: "-40px" }}
           variants={containerVariants}
         >
-          {homepageProducts.map((product) => (
+          {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </motion.div>

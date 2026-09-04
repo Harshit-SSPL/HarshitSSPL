@@ -10,6 +10,7 @@ import Product from "./models/Product.js";
 import ProductDesign from "./models/ProductDesign.js";
 import AboutUs from "./models/AboutUs.js";
 import FooterSettings from "./models/FooterSettings.js";
+import GalleryProject from "./models/GalleryProject.js";
 import { connectDB } from "./config/db.js";
 
 dotenv.config();
@@ -390,11 +391,115 @@ export const seedDatabase = async () => {
       console.log("[Seed] Initialized About Us content.");
     }
 
-    // 7. Seed Footer Settings
-    const footerCount = await FooterSettings.countDocuments();
-    if (footerCount === 0) {
-      await FooterSettings.create({});
-      console.log("[Seed] Initialized Footer settings.");
+    // 8. Seed Projects & Gallery
+    const galleryCount = await GalleryProject.countDocuments();
+    if (galleryCount === 0) {
+      const initialGallery = [
+        {
+          number: "01",
+          title: "Monumental High-Tensile National Flag Mast Installation",
+          subtitle: "Civic Landmark & Government Infrastructure Deployment",
+          location: "Civic Plaza & National Monument Complex, India",
+          categoryTag: "MONUMENTAL FLAG MAST",
+          provided: "SSIL supplied and installed a 100-foot monumental high-tensile Indian National Flag mast system equipped with internal motorized winch hoisting, wind-load resistant structural engineering, and 360-degree LED floodlighting.",
+          description: "Designed for extreme weather resilience and structural durability, this landmark installation features hot-dip galvanized steel sections manufactured to exact government tender specifications.",
+          image: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510386/ssil_products_day/day.png",
+          stats: [
+            { label: "Mast Height", value: "100 Ft." },
+            { label: "Wind Rating", value: "180 km/h" },
+            { label: "Finish", value: "Hot-Dip Galvanized" },
+          ],
+          order: 0,
+          active: true,
+        },
+        {
+          number: "02",
+          title: "Expressway & National Highway Lighting Corridor",
+          subtitle: "High-Speed Roadway Infrastructure & Expressway Illumination",
+          location: "State Expressway & Highway Corridor Network",
+          categoryTag: "HIGHWAY INFRASTRUCTURE",
+          provided: "SSIL manufactured and deployed heavy-duty octagonal steel poles, dual-arm brackets, and IP66 high-efficacy LED street luminaires across a 45 km expressway thoroughfare.",
+          description: "Built to endure industrial traffic, vibration, and extreme seasonal weather, the high-performance optics deliver uniform luminaire distribution and zero glare.",
+          image: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510375/ssil_products_day/day.png",
+          stats: [
+            { label: "Corridor Span", value: "45 Km" },
+            { label: "Protection", value: "IP66 / IK10" },
+            { label: "Lifespan", value: "25+ Years" },
+          ],
+          order: 1,
+          active: true,
+        },
+        {
+          number: "03",
+          title: "Urban Heritage Plazas & Civic Beautification",
+          subtitle: "Architectural Heritage Lighting & Ornamental Pole Installation",
+          location: "Royal Civic Plaza & Heritage Promenade",
+          categoryTag: "HERITAGE & DESIGNER POLES",
+          provided: "SSIL designed, cast, and supplied vintage ornamental heritage poles with intricate cast-iron brackets, antique bronze finishes, and warm 3000K LED post-top luminaires.",
+          description: "Seamlessly blending historical aesthetic charm with modern energy-saving technology, this installation transforms public pedestrian promenades.",
+          image: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510377/ssil_products_day/day.png",
+          stats: [
+            { label: "Design Type", value: "Cast-Iron Vintage" },
+            { label: "Color Temp", value: "3000K Warm LED" },
+            { label: "Poles Deployed", value: "120+ Units" },
+          ],
+          order: 2,
+          active: true,
+        },
+        {
+          number: "04",
+          title: "High Mast & Industrial Arena Floodlighting",
+          subtitle: "High-Output Sports Arena & Logistic Yard Illumination",
+          location: "Industrial Freight Terminal & Sports Stadium Arena",
+          categoryTag: "HIGH MAST TOWERS",
+          provided: "SSIL engineered and delivered multi-fixture high mast towers featuring motorized lowering winch mechanisms, asymmetric floodlight crowns, and high-lumen stadium optics.",
+          description: "Providing high-intensity, flicker-free illumination across expansive logistics and athletic spaces.",
+          image: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510389/ssil_products_day/day.png",
+          stats: [
+            { label: "Tower Height", value: "30 Meters" },
+            { label: "Luminaires", value: "16x 400W Floodlights" },
+            { label: "Lowering System", value: "Motorized Winch" },
+          ],
+          order: 3,
+          active: true,
+        },
+        {
+          number: "05",
+          title: "Smart Civic Post-Top & Pedestrian Urban Streetscapes",
+          subtitle: "Municipal Smart City & Public Walkway Lighting",
+          location: "Smart City Civic Centre & Commercial District",
+          categoryTag: "SMART CIVIC LIGHTING",
+          provided: "SSIL supplied contemporary post-top luminaires integrated onto smart pole structures, supporting IoT surveillance camera mounts, environmental sensors, and automated central management system (CMS) controls.",
+          description: "An end-to-end municipal smart city deployment that optimizes energy consumption by up to 65%.",
+          image: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510382/ssil_products_day/day.png",
+          stats: [
+            { label: "Smart Controls", value: "IoT CMS Enabled" },
+            { label: "Energy Savings", value: "Up to 65%" },
+            { label: "Distribution", value: "360° Symmetrical" },
+          ],
+          order: 4,
+          active: true,
+        },
+        {
+          number: "06",
+          title: "Landscape Pathway & Perimeter Security Bollard Installation",
+          subtitle: "Luxury Real Estate & Public Resort Environment",
+          location: "Commercial Park & Luxury Residential Estate",
+          categoryTag: "PATHWAY BOLLARDS",
+          provided: "SSIL manufactured and integrated outdoor vandal-resistant architectural bollards along perimeter walkways, garden lawns, and water feature promenades.",
+          description: "Combining low-glare architectural lighting with robust corrosion-resistant extruded aluminum housings.",
+          image: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510391/ssil_products_day/day.png",
+          stats: [
+            { label: "Housing Material", value: "Extruded Aluminum" },
+            { label: "Vandal Rating", value: "IK10 Impact Resistant" },
+            { label: "Environment", value: "Coastal / Landscape" },
+          ],
+          order: 5,
+          active: true,
+        },
+      ];
+      await GalleryProject.insertMany(initialGallery);
+      console.log(`[Seed] Initialized ${initialGallery.length} Gallery Projects.`);
     }
 
     console.log("[Seed] Database initialization complete.");
