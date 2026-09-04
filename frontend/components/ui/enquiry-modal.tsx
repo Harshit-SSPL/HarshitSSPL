@@ -44,8 +44,14 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
         onClose();
       }
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    if (isOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "unset";
+    };
   }, [isOpen, onClose]);
 
   const handleChange = (
@@ -75,184 +81,181 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
-          {/* Refined Glassmorphic Backdrop Overlay */}
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          {/* Transparent Glass Backdrop: Underlying website is completely visible */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: 0.2 }}
             onClick={onClose}
-            className="fixed inset-0 bg-slate-950/60 dark:bg-black/80 backdrop-blur-md"
+            className="fixed inset-0 bg-black/25 backdrop-blur-[3px] cursor-pointer"
           />
 
-          {/* Modal Container: Elevated Floating Product Showcase with Refined 2px Border & Layered Shadow */}
+          {/* Fully Transparent Glass Card Container */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.98, y: 14 }}
+            initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.98, y: 10 }}
-            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-            className="relative z-10 w-full max-w-lg sm:max-w-xl rounded-2xl sm:rounded-[1.25rem] bg-slate-950/90 dark:bg-zinc-950/95 backdrop-blur-2xl border-2 border-white/35 dark:border-white/40 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.9),0_15px_35px_-8px_rgba(0,0,0,0.7),0_0_40px_0px_rgba(230,57,70,0.22)] p-5 sm:p-6 md:p-7 text-white my-4 overflow-hidden"
+            exit={{ opacity: 0, scale: 0.92, y: 15 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            onClick={(e) => e.stopPropagation()}
+            className="relative z-10 w-full max-w-lg sm:max-w-xl rounded-3xl bg-white/10 dark:bg-black/20 backdrop-blur-2xl border border-white/30 dark:border-white/20 shadow-[0_15px_40px_rgba(0,0,0,0.35),inset_0_1px_1px_rgba(255,255,255,0.4)] overflow-hidden text-white my-4"
           >
-            {/* Subtle Top-Edge Specular Highlight for refined depth */}
-            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent pointer-events-none" />
-
-            {/* Subtle Ambient Red Glow Accent in Background */}
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-ssil-red/15 rounded-full blur-3xl pointer-events-none" />
-
-            {/* Small Red Close Cross Icon (No Outer Box) */}
-            <button
-              onClick={onClose}
-              type="button"
-              className="absolute top-4 right-4 p-1 text-ssil-red hover:text-red-400 bg-transparent border-0 transition-transform hover:scale-110 focus:outline-none"
-              aria-label="Close Enquiry Modal"
-            >
-              <X className="h-5 w-5 stroke-[2.5]" />
-            </button>
-
-            {/* Header: Title Only */}
-            <div className="mb-4 pr-8">
-              <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+            {/* Top Transparent Bar */}
+            <div className="w-full px-6 py-4 flex items-center justify-between border-b border-white/15 bg-white/5 dark:bg-white/5 backdrop-blur-md">
+              <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white uppercase tracking-wide drop-shadow-sm">
                 Send us an enquiry
               </h2>
+
+              <button
+                onClick={onClose}
+                type="button"
+                className="p-1.5 rounded-full bg-white/10 hover:bg-ssil-red text-slate-800 dark:text-white transition-colors cursor-pointer shrink-0"
+                title="Close"
+              >
+                <X className="h-4 w-4" />
+              </button>
             </div>
 
-            {submitted ? (
-              <div className="py-10 text-center space-y-4 border border-emerald-500/40 bg-emerald-500/10 p-6 rounded-xl backdrop-blur-md shadow-lg">
-                <CheckCircle2 className="h-16 w-16 text-emerald-400 mx-auto stroke-[2.2]" />
-                <h3 className="text-xl font-extrabold text-white tracking-tight">
-                  Enquiry Received
-                </h3>
-                <p className="text-sm text-slate-200 max-w-md mx-auto leading-relaxed font-medium">
-                  Thank you for inquiring about{" "}
-                  <span className="text-white font-bold">{formData.model || formData.category || "our product"}</span>.
-                  Our engineering team will get back to you shortly.
-                </p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-3.5">
-                {/* First & Last Name Row */}
-                <div className="grid gap-3 sm:grid-cols-2">
+            {/* Content Container */}
+            <div className="p-5 sm:p-6 md:p-7">
+              {submitted ? (
+                <div className="py-10 text-center space-y-4 border border-emerald-500/40 bg-emerald-500/15 p-6 rounded-2xl backdrop-blur-md shadow-lg">
+                  <CheckCircle2 className="h-16 w-16 text-emerald-400 mx-auto stroke-[2.2]" />
+                  <h3 className="text-xl font-black text-white tracking-tight">
+                    Enquiry Received
+                  </h3>
+                  <p className="text-sm text-slate-200 max-w-md mx-auto leading-relaxed font-medium">
+                    Thank you for inquiring about{" "}
+                    <span className="text-white font-bold">{formData.model || formData.category || "our product"}</span>.
+                    Our engineering team will get back to you shortly.
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-3.5">
+                  {/* First & Last Name Row */}
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div className="space-y-1">
+                      <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                        First Name <span className="text-ssil-red">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="firstName"
+                        required
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        placeholder="First Name"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/20 dark:bg-black/30 text-slate-900 dark:text-white text-xs sm:text-sm font-medium placeholder:text-slate-500 dark:placeholder:text-slate-400 border border-white/30 dark:border-white/20 focus:outline-none focus:border-ssil-red focus:bg-white/30 dark:focus:bg-black/40 shadow-xs transition-all"
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                        Last Name <span className="text-ssil-red">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="lastName"
+                        required
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        placeholder="Last Name"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/20 dark:bg-black/30 text-slate-900 dark:text-white text-xs sm:text-sm font-medium placeholder:text-slate-500 dark:placeholder:text-slate-400 border border-white/30 dark:border-white/20 focus:outline-none focus:border-ssil-red focus:bg-white/30 dark:focus:bg-black/40 shadow-xs transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Email & Phone Row */}
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div className="space-y-1">
+                      <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                        Email <span className="text-ssil-red">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        required
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="Email Address"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/20 dark:bg-black/30 text-slate-900 dark:text-white text-xs sm:text-sm font-medium placeholder:text-slate-500 dark:placeholder:text-slate-400 border border-white/30 dark:border-white/20 focus:outline-none focus:border-ssil-red focus:bg-white/30 dark:focus:bg-black/40 shadow-xs transition-all"
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                        Phone Number <span className="text-ssil-red">*</span>
+                      </label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        required
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="+91 XXXXXXXXXX"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/20 dark:bg-black/30 text-slate-900 dark:text-white text-xs sm:text-sm font-medium placeholder:text-slate-500 dark:placeholder:text-slate-400 border border-white/30 dark:border-white/20 focus:outline-none focus:border-ssil-red focus:bg-white/30 dark:focus:bg-black/40 shadow-xs transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Non-editable Product Category Field */}
                   <div className="space-y-1">
-                    <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-200">
-                      First Name <span className="text-ssil-red">*</span>
+                    <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                      Product
                     </label>
                     <input
                       type="text"
-                      name="firstName"
-                      required
-                      value={formData.firstName}
-                      onChange={handleChange}
-                      placeholder="First Name"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white text-slate-900 text-xs sm:text-sm font-medium placeholder:text-slate-400 border border-slate-200 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red shadow-sm transition-all"
+                      name="category"
+                      readOnly
+                      value={formData.category}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/10 dark:bg-black/40 border border-white/20 text-slate-800 dark:text-slate-200 cursor-not-allowed text-xs sm:text-sm font-bold focus:outline-none select-none"
                     />
                   </div>
 
+                  {/* Non-editable Product ID / Model Field */}
                   <div className="space-y-1">
-                    <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-200">
-                      Last Name <span className="text-ssil-red">*</span>
+                    <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                      Product ID
                     </label>
                     <input
                       type="text"
-                      name="lastName"
-                      required
-                      value={formData.lastName}
-                      onChange={handleChange}
-                      placeholder="Last Name"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white text-slate-900 text-xs sm:text-sm font-medium placeholder:text-slate-400 border border-slate-200 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red shadow-sm transition-all"
+                      name="model"
+                      readOnly
+                      value={formData.model}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/10 dark:bg-black/40 border border-white/20 text-slate-800 dark:text-slate-200 cursor-not-allowed text-xs sm:text-sm font-bold focus:outline-none select-none"
                     />
                   </div>
-                </div>
 
-                {/* Email & Phone Row */}
-                <div className="grid gap-3 sm:grid-cols-2">
+                  {/* Enquiry Text Area */}
                   <div className="space-y-1">
-                    <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-200">
-                      Email <span className="text-ssil-red">*</span>
+                    <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                      Enquiry <span className="text-ssil-red">*</span>
                     </label>
-                    <input
-                      type="email"
-                      name="email"
+                    <textarea
+                      name="enquiry"
                       required
-                      value={formData.email}
+                      rows={3}
+                      value={formData.enquiry}
                       onChange={handleChange}
-                      placeholder="Email Address"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white text-slate-900 text-xs sm:text-sm font-medium placeholder:text-slate-400 border border-slate-200 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red shadow-sm transition-all"
-                    />
+                      placeholder="Tell us about your project requirements, quantities, or technical specifications..."
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/20 dark:bg-black/30 text-slate-900 dark:text-white text-xs sm:text-sm font-medium placeholder:text-slate-500 dark:placeholder:text-slate-400 border border-white/30 dark:border-white/20 focus:outline-none focus:border-ssil-red focus:bg-white/30 dark:focus:bg-black/40 shadow-xs transition-all resize-none"
+                    ></textarea>
                   </div>
 
-                  <div className="space-y-1">
-                    <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-200">
-                      Phone Number <span className="text-ssil-red">*</span>
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      required
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="+91 XXXXXXXXXX"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white text-slate-900 text-xs sm:text-sm font-medium placeholder:text-slate-400 border border-slate-200 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red shadow-sm transition-all"
-                    />
+                  {/* Submit Button */}
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      className="w-full py-3 px-6 rounded-2xl bg-ssil-red hover:bg-ssil-red-600 text-white font-black text-xs sm:text-sm tracking-wider uppercase transition-all duration-200 shadow-lg shadow-ssil-red/35 flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                    >
+                      <span>Submit Enquiry</span>
+                      <Send className="h-4 w-4" />
+                    </button>
                   </div>
-                </div>
-
-                {/* Non-editable Product Category Field */}
-                <div className="space-y-1">
-                  <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-200">
-                    Product
-                  </label>
-                  <input
-                    type="text"
-                    name="category"
-                    readOnly
-                    value={formData.category}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/60 border border-white/15 text-slate-200 cursor-not-allowed text-xs sm:text-sm font-semibold focus:outline-none select-none"
-                  />
-                </div>
-
-                {/* Non-editable Product ID / Model Field */}
-                <div className="space-y-1">
-                  <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-200">
-                    Product ID
-                  </label>
-                  <input
-                    type="text"
-                    name="model"
-                    readOnly
-                    value={formData.model}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/60 border border-white/15 text-slate-200 cursor-not-allowed text-xs sm:text-sm font-semibold focus:outline-none select-none"
-                  />
-                </div>
-
-                {/* Enquiry Text Area (White Background) */}
-                <div className="space-y-1">
-                  <label className="text-[11px] font-extrabold uppercase tracking-wider text-slate-200">
-                    Enquiry <span className="text-ssil-red">*</span>
-                  </label>
-                  <textarea
-                    name="enquiry"
-                    required
-                    rows={3}
-                    value={formData.enquiry}
-                    onChange={handleChange}
-                    placeholder="Tell us about your project requirements, quantities, or technical specifications..."
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white text-slate-900 text-xs sm:text-sm font-medium placeholder:text-slate-400 border border-slate-200 focus:outline-none focus:border-ssil-red focus:ring-1 focus:ring-ssil-red shadow-sm transition-all resize-none"
-                  ></textarea>
-                </div>
-
-                {/* Submit Button */}
-                <div className="pt-1.5">
-                  <button
-                    type="submit"
-                    className="w-full px-6 py-3 rounded-xl bg-ssil-red hover:bg-ssil-red-600 text-white font-extrabold text-xs sm:text-sm tracking-wider uppercase transition-all duration-200 shadow-md flex items-center justify-center gap-2 group"
-                  >
-                    <span>Submit Enquiry</span>
-                    <Send className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </button>
-                </div>
-              </form>
-            )}
+                </form>
+              )}
+            </div>
           </motion.div>
         </div>
       )}
