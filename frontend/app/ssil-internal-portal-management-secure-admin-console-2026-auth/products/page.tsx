@@ -81,7 +81,8 @@ function ProductsContent() {
     try {
       const res = await fetchApi("/products/admin/all");
       if (res.success && Array.isArray(res.products) && res.products.length > 0) {
-        setProducts(res.products);
+        const sorted = [...res.products].sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+        setProducts(sorted);
       } else {
         setProducts(catalogProducts.map((p, i) => ({ ...p, _id: p.id, order: i, active: true })));
       }
@@ -337,12 +338,27 @@ function ProductsContent() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {filteredProducts.map((product, idx) => {
             const prodId = product._id || product.id || String(idx);
+            const displayIndex = (product.order !== undefined && product.order !== null)
+              ? product.order + 1
+              : idx + 1;
+            const numFormatted = String(displayIndex).padStart(2, "0");
+
             return (
               <div
                 key={prodId}
                 className="group bg-white dark:bg-zinc-900 border border-slate-200/90 dark:border-zinc-800 rounded-3xl p-5 shadow-xs hover:shadow-xl hover:border-ssil-red/40 transition-all flex flex-col justify-between relative"
               >
                 <div>
+                  {/* Numbering Header */}
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-slate-900 dark:bg-zinc-100 text-white dark:text-zinc-900 font-mono text-[11px] font-black tracking-wider shadow-xs">
+                      #{numFormatted}
+                    </span>
+                    <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md ${product.active !== false ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/60" : "bg-zinc-100 text-zinc-500"}`}>
+                      {product.active !== false ? "Active" : "Draft"}
+                    </span>
+                  </div>
+
                   {/* Image Previews (Day & Night) */}
                   <div className="grid grid-cols-2 gap-2 mb-3">
                     <div className="h-28 rounded-2xl overflow-hidden bg-slate-100 dark:bg-zinc-800 border border-slate-100 dark:border-zinc-700 relative">
@@ -428,7 +444,7 @@ function ProductsContent() {
             <table className="w-full text-left text-xs">
               <thead className="bg-slate-50 dark:bg-zinc-800/60 text-slate-500 dark:text-zinc-400 font-extrabold uppercase border-b border-slate-200 dark:border-zinc-800">
                 <tr>
-                  <th className="py-3.5 px-4 w-12">#</th>
+                  <th className="py-3.5 px-4 w-14">#</th>
                   <th className="py-3.5 px-4">Product Name</th>
                   <th className="py-3.5 px-4">Slug Route</th>
                   <th className="py-3.5 px-4">Day / Night Visuals</th>
@@ -439,9 +455,14 @@ function ProductsContent() {
               <tbody className="divide-y divide-slate-100 dark:divide-zinc-800 font-medium">
                 {filteredProducts.map((product, idx) => {
                   const prodId = product._id || product.id || String(idx);
+                  const displayIndex = (product.order !== undefined && product.order !== null)
+                    ? product.order + 1
+                    : idx + 1;
+                  const numFormatted = String(displayIndex).padStart(2, "0");
+
                   return (
                     <tr key={prodId} className="hover:bg-slate-50/80 dark:hover:bg-zinc-800/40 transition-colors">
-                      <td className="py-3.5 px-4 font-bold text-slate-400">{idx + 1}</td>
+                      <td className="py-3.5 px-4 font-black font-mono text-ssil-red">#{numFormatted}</td>
                       <td className="py-3.5 px-4 font-black uppercase text-slate-900 dark:text-white">
                         <div className="flex items-center gap-2">
                           <span>{product.name}</span>
