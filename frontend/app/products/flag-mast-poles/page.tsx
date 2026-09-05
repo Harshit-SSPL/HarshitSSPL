@@ -197,9 +197,9 @@ const childVariants = {
 };
 
 export default function FlagMastPage() {
-  const [bannerImage, setBannerImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510359/ssil_banners/banner.png");
-  const [dayImage, setDayImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510386/ssil_products_day/day.png");
-  const [nightImage, setNightImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510388/ssil_products_night/night.png");
+  const [bannerImage, setBannerImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614307/ssil_banner_flag_mast.png");
+  const [dayImage, setDayImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614342/ssil_hp_prod04_day.png");
+  const [nightImage, setNightImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614344/ssil_hp_prod04_night.png");
   const [enquiryState, setEnquiryState] = useState<{
     isOpen: boolean;
     productCategory: string;

@@ -101,12 +101,18 @@ export default function VisualHomePageEditor() {
 
       // 2. Load 6 Featured Products
       try {
-        const featRes = await fetchApi("/home/featured-products/admin");
-        if (featRes.success && Array.isArray(featRes.featuredProducts) && featRes.featuredProducts.length > 0) {
-          setFeaturedList(featRes.featuredProducts);
+        const featRes = await fetchApi("/home/featured");
+        const list = Array.isArray(featRes.products)
+          ? featRes.products
+          : Array.isArray(featRes.featuredProducts)
+          ? featRes.featuredProducts
+          : [];
+
+        if (featRes.success && list.length > 0) {
+          setFeaturedList(list.slice(0, 6));
         } else {
           setFeaturedList(
-            defaultFeatured.map((p, idx) => ({
+            defaultFeatured.slice(0, 6).map((p, idx) => ({
               ...p,
               _id: p.id,
               order: idx,
@@ -116,7 +122,7 @@ export default function VisualHomePageEditor() {
         }
       } catch (e) {
         setFeaturedList(
-          defaultFeatured.map((p, idx) => ({
+          defaultFeatured.slice(0, 6).map((p, idx) => ({
             ...p,
             _id: p.id,
             order: idx,
@@ -163,7 +169,7 @@ export default function VisualHomePageEditor() {
       // Save to MongoDB
       const prodId = target._id || target.id;
       if (prodId && prodId.length === 24) {
-        await fetchApi(`/home/featured-products/${prodId}`, {
+        await fetchApi(`/home/featured/${prodId}`, {
           method: "PUT",
           body: JSON.stringify(updatedProduct),
         });
@@ -197,7 +203,7 @@ export default function VisualHomePageEditor() {
     try {
       const prodId = selectedProduct?._id || selectedProduct?.id;
       if (selectedProduct && prodId && prodId.length === 24) {
-        await fetchApi(`/home/featured-products/${prodId}`, {
+        await fetchApi(`/home/featured/${prodId}`, {
           method: "PUT",
           body: JSON.stringify(productForm),
         });
@@ -315,7 +321,7 @@ export default function VisualHomePageEditor() {
       {/* ============================================================ */}
       <div className="relative w-full h-[54vh] sm:h-[62vh] max-h-[540px] bg-slate-950 overflow-hidden group/hero border-b-4 border-ssil-red">
         <Image
-          src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png"
+          src="https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614300/ssil_banner_products_hero.png"
           alt="Home Hero"
           fill
           priority

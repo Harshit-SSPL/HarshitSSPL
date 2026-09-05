@@ -19,42 +19,42 @@ export interface CatalogProduct {
   galleryImages: GalleryItem[];
 }
 
-const CLOUDINARY_MAP = {
-  heroBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png",
-  bollardsBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510357/ssil_banners/banner.png",
-  designerPolesBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510358/ssil_banners/banner.png",
-  flagMastBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510359/ssil_banners/banner.png",
-  indoorLightsBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510361/ssil_banners/banner.png",
-  octagonalPolesBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510362/ssil_banners/banner.png",
-  solarBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510364/ssil_banners/banner.png",
+export const CLOUDINARY_MAP = {
+  heroBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614300/ssil_banner_products_hero.png",
+  bollardsBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614302/ssil_banner_bollards.png",
+  designerPolesBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614304/ssil_banner_designer_poles.png",
+  flagMastBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614307/ssil_banner_flag_mast.png",
+  indoorLightsBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614309/ssil_banner_indoor_lights.png",
+  octagonalPolesBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614311/ssil_banner_octagonal_poles.png",
+  solarBanner: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614314/ssil_banner_solar_power_plants.png",
 
   productDay: [
     "",
-    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510375/ssil_products_day/day.png",
-    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510377/ssil_products_day/day.png",
-    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510382/ssil_products_day/day.png",
-    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510386/ssil_products_day/day.png",
-    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510389/ssil_products_day/day.png",
-    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510391/ssil_products_day/day.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614330/ssil_hp_prod01_day.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614334/ssil_hp_prod02_day.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614338/ssil_hp_prod03_day.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614342/ssil_hp_prod04_day.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614346/ssil_hp_prod05_day.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614350/ssil_hp_prod06_day.png",
   ],
   productNight: [
     "",
-    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510376/ssil_products_night/night.png",
-    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510381/ssil_products_night/night.png",
-    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510384/ssil_products_night/night.png",
-    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510388/ssil_products_night/night.png",
-    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510390/ssil_products_night/night.png",
-    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510392/ssil_products_night/night.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614332/ssil_hp_prod01_night.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614336/ssil_hp_prod02_night.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614340/ssil_hp_prod03_night.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614344/ssil_hp_prod04_night.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614348/ssil_hp_prod05_night.png",
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614352/ssil_hp_prod06_night.png",
   ],
 
-  indoorDay: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510365/ssil_products_day/day.png",
-  indoorNight: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510367/ssil_products_night/night.png",
+  indoorDay: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614316/ssil_product_indoor_day.png",
+  indoorNight: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614319/ssil_product_indoor_night.png",
 
-  octagonalDay: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510369/ssil_products_day/day.png",
-  octagonalNight: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510370/ssil_products_night/night.png",
+  octagonalDay: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614320/ssil_product_octagonal_day.png",
+  octagonalNight: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614322/ssil_product_octagonal_night.png",
 
-  solarDay: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510371/ssil_products_day/day.png",
-  solarNight: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510373/ssil_products_night/night.png",
+  solarDay: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614325/ssil_product_solar_day.png",
+  solarNight: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614328/ssil_product_solar_night.png",
 };
 
 // Helper generator to construct clean data-driven design variants using Cloudinary CDN assets
@@ -261,8 +261,8 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "Robust impact-resistant bulkhead lighting for stairways, tunnels, and paths.",
     description:
       "Heavy-duty industrial bulkhead luminaires built with IK10 impact-resistant polycarbonate diffusers and die-cast aluminum enclosures for low-height pathway guidance and utility tunnels.",
-    dayImage: CLOUDINARY_MAP.productDay[6],
-    nightImage: CLOUDINARY_MAP.productNight[6],
+    dayImage: CLOUDINARY_MAP.indoorDay,
+    nightImage: CLOUDINARY_MAP.indoorNight,
     heroImage: CLOUDINARY_MAP.heroBanner,
     galleryImages: generateGallery("bulkhead", "Bulkhead & Pathway Luminaire", 15),
   },
@@ -274,8 +274,8 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "Uniform vertical surface grazing and architectural facade illumination.",
     description:
       "Linear and modular LED wall washer fixtures engineered with narrow-beam optics to graze textured architectural surfaces, bridges, monuments, and commercial building facades.",
-    dayImage: CLOUDINARY_MAP.productDay[6],
-    nightImage: CLOUDINARY_MAP.productNight[6],
+    dayImage: CLOUDINARY_MAP.productDay[3],
+    nightImage: CLOUDINARY_MAP.productNight[3],
     heroImage: CLOUDINARY_MAP.heroBanner,
     galleryImages: generateGallery("wall-washer", "Wall Washer & Inground Luminaire", 12),
   },
@@ -300,8 +300,8 @@ export const catalogProducts: CatalogProduct[] = [
     tagline: "Architectural exterior and interior surface-mounted wall luminaires.",
     description:
       "Contemporary wall-mounted exterior fixtures delivering clean upward and downward light distribution for perimeter walls, building entrances, and architectural corridors.",
-    dayImage: CLOUDINARY_MAP.productDay[6],
-    nightImage: CLOUDINARY_MAP.productNight[6],
+    dayImage: CLOUDINARY_MAP.indoorDay,
+    nightImage: CLOUDINARY_MAP.indoorNight,
     heroImage: CLOUDINARY_MAP.heroBanner,
     galleryImages: generateGallery("wall-light", "Architectural Wall Luminaire", 18),
   },
@@ -377,4 +377,3 @@ export const mainstreamProducts = catalogProducts.slice(0, 16);
 
 // 5 Go Green / Solar products (Solar Street Lights, Solar Bollards, Solar Flood Lights, Solar Pilar Lights, Solar Power Plants)
 export const solarProducts = catalogProducts.slice(16);
-

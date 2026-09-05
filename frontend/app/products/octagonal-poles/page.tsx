@@ -228,9 +228,9 @@ const childVariants = {
 };
 
 export default function OctagonalPolesPage() {
-  const [bannerImage, setBannerImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510362/ssil_banners/banner.png");
-  const [dayImage, setDayImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510369/ssil_products_day/day.png");
-  const [nightImage, setNightImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510370/ssil_products_night/night.png");
+  const [bannerImage, setBannerImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614311/ssil_banner_octagonal_poles.png");
+  const [dayImage, setDayImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614320/ssil_product_octagonal_day.png");
+  const [nightImage, setNightImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614322/ssil_product_octagonal_night.png");
   const [enquiryState, setEnquiryState] = useState<{
     isOpen: boolean;
     productCategory: string;

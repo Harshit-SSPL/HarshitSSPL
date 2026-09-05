@@ -79,7 +79,7 @@ export default function VisualProductsCatalogEditor() {
 
   // Catalog Hero Banner State
   const [catalogBanner, setCatalogBanner] = useState(
-    "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png"
+    "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614300/ssil_banner_products_hero.png"
   );
 
   const loadProducts = async () => {
@@ -260,9 +260,9 @@ export default function VisualProductsCatalogEditor() {
                   slug: "",
                   tagline: "",
                   description: "",
-                  dayImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510375/ssil_products_day/day.png",
-                  nightImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510376/ssil_products_night/night.png",
-                  heroImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png",
+                  dayImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614330/ssil_hp_prod01_day.png",
+                  nightImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614332/ssil_hp_prod01_night.png",
+                  heroImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614300/ssil_banner_products_hero.png",
                   active: true,
                 });
                 setModalOpen(true);

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
@@ -14,7 +13,7 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.08,
+      staggerChildren: 0.06,
     },
   },
 };
@@ -25,7 +24,7 @@ const cardVariants = {
     y: 0,
     opacity: 1,
     transition: {
-      duration: 0.45,
+      duration: 0.35,
       ease: [0.21, 0.47, 0.32, 0.98],
     },
   },
@@ -34,32 +33,31 @@ const cardVariants = {
 const ProductCard = ({ product }: { product: FeaturedProduct }) => {
   return (
     <motion.div variants={cardVariants} className="group flex flex-col w-full">
-      {/* Product Image Frame with Fixed 10:15 Aspect Ratio & Zero Outer Padding / Borders */}
-      <div className="relative w-full aspect-[10/15] rounded-none overflow-hidden transition-all duration-300 group-hover:-translate-y-1.5">
-        {/* Day Image (Default, object-contain to preserve full uncropped artwork) */}
-        <Image
+      {/* Product Image Frame */}
+      <div className="relative w-full aspect-[10/14] rounded-none overflow-hidden bg-slate-100 dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 transition-all duration-300 group-hover:-translate-y-1.5 group-hover:border-ssil-red">
+        {/* Day Image */}
+        <img
           src={product.dayImage}
           alt={`${product.name} Daytime`}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-contain object-center opacity-100 group-hover:opacity-0 transition-opacity duration-500 ease-in-out"
-          priority
+          className="w-full h-full object-contain object-center opacity-100 group-hover:opacity-0 transition-opacity duration-500 ease-in-out"
+          loading="lazy"
+          decoding="async"
         />
 
-        {/* Night Image (Hover Crossfade, object-contain to preserve full uncropped artwork) */}
-        <Image
-          src={product.nightImage}
+        {/* Night Image */}
+        <img
+          src={product.nightImage || product.dayImage}
           alt={`${product.name} Nighttime`}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-contain object-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
+          className="absolute inset-0 w-full h-full object-contain object-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out pointer-events-none"
+          loading="lazy"
+          decoding="async"
         />
 
         {/* Subtle Ambient Red Glow Highlight on Hover */}
         <div className="absolute inset-0 ring-1 ring-transparent group-hover:ring-ssil-red/30 transition-all duration-300 pointer-events-none" />
       </div>
 
-      {/* Product Name Below Image with Minimal Vertical Spacing */}
+      {/* Product Name Below Image */}
       <h3 className="mt-2.5 text-center text-sm sm:text-base font-extrabold text-slate-900 dark:text-white tracking-tight group-hover:text-ssil-red transition-colors duration-300 leading-snug">
         {product.name}
       </h3>
@@ -71,15 +69,16 @@ export const FeaturedProducts = () => {
   const [products, setProducts] = useState<FeaturedProduct[]>(defaultFeatured.slice(0, 6));
 
   useEffect(() => {
+    let isMounted = true;
     const fetchFeatured = async () => {
       try {
         const data = await fetchApi("/home/featured");
-        if (data.success && Array.isArray(data.products) && data.products.length > 0) {
+        if (isMounted && data.success && Array.isArray(data.products) && data.products.length > 0) {
           const mapped: FeaturedProduct[] = data.products.map((p: any) => ({
             id: p._id || p.id,
             name: p.name,
-            dayImage: p.dayImage,
-            nightImage: p.nightImage,
+            dayImage: p.dayImage && !p.dayImage.startsWith("/images/") ? p.dayImage : defaultFeatured[0].dayImage,
+            nightImage: p.nightImage && !p.nightImage.startsWith("/images/") ? p.nightImage : defaultFeatured[0].nightImage,
             category: p.category,
             tagline: p.tagline,
             slug: p.slug,
@@ -92,6 +91,9 @@ export const FeaturedProducts = () => {
     };
 
     fetchFeatured();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
@@ -104,7 +106,7 @@ export const FeaturedProducts = () => {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
         >
           <span className="text-sm sm:text-base font-extrabold uppercase tracking-widest text-ssil-red block mb-2.5">
             OUR PRODUCTS
@@ -119,14 +121,14 @@ export const FeaturedProducts = () => {
 
         {/* 6 Featured Products Grid (2 Rows x 3 Columns) */}
         <motion.div
-          className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-0.5 sm:gap-x-1 lg:gap-x-[2px] gap-y-8"
+          className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-3 sm:gap-x-4 lg:gap-x-6 gap-y-8"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-40px" }}
           variants={containerVariants}
         >
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {products.slice(0, 6).map((product) => (
+            <ProductCard key={product.id || product.name} product={product} />
           ))}
         </motion.div>
 
@@ -136,7 +138,7 @@ export const FeaturedProducts = () => {
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.2 }}
+          transition={{ duration: 0.35, delay: 0.15 }}
         >
           <Button asChild size="lg" className="bg-ssil-red hover:bg-ssil-red-600 font-bold px-8 shadow-md text-white">
             <Link href="/products">
