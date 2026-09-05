@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { MapPin, ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { galleryProjects, GalleryProject } from "@/data/gallery-projects";
+import { fetchApi } from "@/lib/admin-api";
 
 // Animation Variants matching Home & About Us design system
 const sectionVariants = {
@@ -45,25 +46,21 @@ export default function GalleryPage() {
 
     const fetchGallery = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-        const res = await fetch(`${apiUrl}/gallery`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data.success && Array.isArray(data.projects) && data.projects.length > 0) {
-            const mapped: GalleryProject[] = data.projects.map((p: any) => ({
-              id: p._id || p.id,
-              number: p.number || "01",
-              title: p.title,
-              subtitle: p.subtitle || "",
-              location: p.location || "India",
-              categoryTag: p.categoryTag || "INFRASTRUCTURE",
-              provided: p.provided,
-              description: p.description || "",
-              image: p.image,
-              stats: p.stats || [],
-            }));
-            setProjects(mapped);
-          }
+        const data = await fetchApi("/gallery");
+        if (data.success && Array.isArray(data.projects) && data.projects.length > 0) {
+          const mapped: GalleryProject[] = data.projects.map((p: any) => ({
+            id: p._id || p.id,
+            number: p.number || "01",
+            title: p.title,
+            subtitle: p.subtitle || "",
+            location: p.location || "India",
+            categoryTag: p.categoryTag || "INFRASTRUCTURE",
+            provided: p.provided,
+            description: p.description || "",
+            image: p.image,
+            stats: p.stats || [],
+          }));
+          setProjects(mapped);
         }
       } catch (err) {
         // Fallback to static gallery

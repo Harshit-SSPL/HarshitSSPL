@@ -17,6 +17,7 @@ import {
   Flag,
   Sparkles,
 } from "lucide-react";
+import { fetchApi } from "@/lib/admin-api";
 
 const offeringData = [
   {
@@ -205,9 +206,7 @@ export default function AboutPage() {
 
     const fetchAbout = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-        const res = await fetch(`${apiUrl}/about`);
-        const data = await res.json();
+        const data = await fetchApi("/about");
         if (data.success && data.about) {
           setAboutContent({
             heading: data.about.heading || "About Us",

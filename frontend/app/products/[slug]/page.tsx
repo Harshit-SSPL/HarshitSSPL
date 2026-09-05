@@ -20,6 +20,7 @@ import { catalogProducts, CatalogProduct } from "@/data/products-catalog";
 import { ProductCard } from "@/components/ui/product-card";
 import { EnquiryModal } from "@/components/ui/enquiry-modal";
 import { ImagePreviewModal } from "@/components/ui/image-preview-modal";
+import { fetchApi } from "@/lib/admin-api";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -92,15 +93,8 @@ export default function ProductDetailPage() {
     const fetchProductData = async () => {
       if (!slug) return;
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 3000);
-
         const targetSlug = resolvedSlug || slug;
-        const res = await fetch(`${apiUrl}/products/${targetSlug}`, { signal: controller.signal });
-        clearTimeout(timeoutId);
-
-        const data = await res.json();
+        const data = await fetchApi(`/products/${targetSlug}`);
         if (data.success && data.product && fallbackProduct) {
           const apiProd = data.product;
           let finalGallery = fallbackProduct.galleryImages;

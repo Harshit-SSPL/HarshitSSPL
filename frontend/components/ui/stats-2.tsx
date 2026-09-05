@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import { motion, useInView, animate } from "framer-motion";
 import { Zap, Award, Globe, Building2 } from "lucide-react";
+import { fetchApi } from "@/lib/admin-api";
 
 interface CounterProps {
   value: number;
@@ -122,9 +123,7 @@ export const Stats2 = () => {
   React.useEffect(() => {
     const fetchStats = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-        const res = await fetch(`${apiUrl}/home/stats`);
-        const data = await res.json();
+        const data = await fetchApi("/home/stats");
         if (data.success && data.stats) {
           const s = data.stats;
           setMetrics([

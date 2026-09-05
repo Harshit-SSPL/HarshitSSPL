@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { EnquiryModal } from "@/components/ui/enquiry-modal";
 import { ImagePreviewModal } from "@/components/ui/image-preview-modal";
+import { fetchApi } from "@/lib/admin-api";
 
 import Image from "next/image";
 
@@ -243,15 +244,11 @@ export default function OctagonalPolesPage() {
   React.useEffect(() => {
     const fetchProductData = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-        const res = await fetch(`${apiUrl}/products/octagonal-poles`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data.success && data.product) {
-            if (data.product.heroImage) setBannerImage(data.product.heroImage);
-            if (data.product.dayImage) setDayImage(data.product.dayImage);
-            if (data.product.nightImage) setNightImage(data.product.nightImage);
-          }
+        const data = await fetchApi("/products/octagonal-poles");
+        if (data.success && data.product) {
+          if (data.product.heroImage) setBannerImage(data.product.heroImage);
+          if (data.product.dayImage) setDayImage(data.product.dayImage);
+          if (data.product.nightImage) setNightImage(data.product.nightImage);
         }
       } catch (err) {
         // Fallback

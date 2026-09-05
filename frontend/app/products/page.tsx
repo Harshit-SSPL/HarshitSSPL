@@ -6,6 +6,7 @@ import { catalogProducts, CatalogProduct } from "@/data/products-catalog";
 import { ProductCard } from "@/components/ui/product-card";
 import { ProductFaqSection } from "@/components/ui/product-faq";
 import { ComingSoonModal } from "@/components/ui/coming-soon-modal";
+import { fetchApi } from "@/lib/admin-api";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -25,14 +26,7 @@ export default function ProductsPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 3000); // 3s timeout
-
-        const res = await fetch(`${apiUrl}/products`, { signal: controller.signal });
-        clearTimeout(timeoutId);
-
-        const data = await res.json();
+        const data = await fetchApi("/products");
         if (data.success && Array.isArray(data.products) && data.products.length > 0) {
           // Merge API data over hardcoded data so all 18 products are always preserved
           const merged = catalogProducts.map((local) => {

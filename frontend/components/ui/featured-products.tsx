@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { featuredProducts as defaultFeatured, FeaturedProduct } from "@/data/featured-products";
+import { fetchApi } from "@/lib/admin-api";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -72,22 +73,18 @@ export const FeaturedProducts = () => {
   useEffect(() => {
     const fetchFeatured = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-        const res = await fetch(`${apiUrl}/home/featured`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data.success && Array.isArray(data.products) && data.products.length > 0) {
-            const mapped: FeaturedProduct[] = data.products.map((p: any) => ({
-              id: p._id || p.id,
-              name: p.name,
-              dayImage: p.dayImage,
-              nightImage: p.nightImage,
-              category: p.category,
-              tagline: p.tagline,
-              slug: p.slug,
-            }));
-            setProducts(mapped.slice(0, 6));
-          }
+        const data = await fetchApi("/home/featured");
+        if (data.success && Array.isArray(data.products) && data.products.length > 0) {
+          const mapped: FeaturedProduct[] = data.products.map((p: any) => ({
+            id: p._id || p.id,
+            name: p.name,
+            dayImage: p.dayImage,
+            nightImage: p.nightImage,
+            category: p.category,
+            tagline: p.tagline,
+            slug: p.slug,
+          }));
+          setProducts(mapped.slice(0, 6));
         }
       } catch (err) {
         // Fallback to static defaults

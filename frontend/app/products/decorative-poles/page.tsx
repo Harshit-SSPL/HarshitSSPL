@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ui/product-card";
 import { EnquiryModal } from "@/components/ui/enquiry-modal";
 import { ImagePreviewModal } from "@/components/ui/image-preview-modal";
+import { fetchApi } from "@/lib/admin-api";
 
 const sectionVariants = {
   hidden: { opacity: 0 },
@@ -118,10 +119,9 @@ export default function LEDDecorativePolesPage() {
   React.useEffect(() => {
     const fetchProductData = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
         const [prodRes, designRes] = await Promise.all([
-          fetch(`${apiUrl}/products/decorative-poles`).then((r) => (r.ok ? r.json() : null)),
-          fetch(`${apiUrl}/products/decorative-poles/designs`).then((r) => (r.ok ? r.json() : null)),
+          fetchApi("/products/decorative-poles"),
+          fetchApi("/products/decorative-poles/designs"),
         ]);
 
         if (prodRes && prodRes.success && prodRes.product) {

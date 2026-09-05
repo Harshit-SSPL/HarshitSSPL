@@ -14,7 +14,7 @@ import {
 import { Facebook, Linkedin, Send, Twitter, Phone, Mail, MapPin } from "lucide-react";
 
 import { usePathname } from "next/navigation";
-import { ADMIN_BASE_PATH } from "@/lib/admin-api";
+import { ADMIN_BASE_PATH, fetchApi } from "@/lib/admin-api";
 
 export function Footerdemo() {
   const pathname = usePathname();
@@ -37,9 +37,7 @@ export function Footerdemo() {
   React.useEffect(() => {
     const fetchFooter = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-        const res = await fetch(`${apiUrl}/footer`);
-        const data = await res.json();
+        const data = await fetchApi("/footer");
         if (data.success && data.footer) {
           setFooterData({
             corporateOfficeAddress: data.footer.corporateOfficeAddress || footerData.corporateOfficeAddress,

@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import { InfiniteSlider } from "@/components/ui/infinite-slider";
 import { clientCompanies, ClientCompany } from "@/data/clients";
 
+import { fetchApi } from "@/lib/admin-api";
+
 // Single Gliding Item: Floating 3D PNG Sticker Logo Top + Company Name Bottom
 const MarqueeItem = ({ client }: { client: { name: string; logoUrl: string; id?: string; _id?: string } }) => {
   const [imgError, setImgError] = useState(false);
@@ -41,9 +43,7 @@ export const ClientMarquee = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-        const res = await fetch(`${apiUrl}/national-projects`);
-        const data = await res.json();
+        const data = await fetchApi("/national-projects");
         if (data.success && Array.isArray(data.projects) && data.projects.length > 0) {
           setClients(data.projects);
         }

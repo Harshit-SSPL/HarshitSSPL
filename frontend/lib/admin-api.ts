@@ -4,7 +4,7 @@
 
 export const ADMIN_BASE_PATH = "/ssil-internal-portal-management-secure-admin-console-2026-auth";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api").replace(/\/$/, "");
 
 export interface ApiResponse<T = any> {
   success: boolean;
