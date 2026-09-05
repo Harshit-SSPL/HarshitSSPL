@@ -9,10 +9,21 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 export const metadata: Metadata = {
   title: "Shiv Shakti India Limited (SSIL) | Outdoor & Infrastructure Lighting Solutions",
   description: "Official digital corporate portal for Shiv Shakti India Limited / Shiv Shakti Private Limited (SSIL) - Leading manufacturer of street lights, bollards, Indian flag poles, and outdoor infrastructure lighting.",
+  icons: {
+    icon: [
+      { url: "/branding/companylogo.png", href: "/branding/companylogo.png" },
+      { url: "/favicon.ico", href: "/favicon.ico" },
+    ],
+    apple: [
+      { url: "/branding/companylogo.png", href: "/branding/companylogo.png" },
+    ],
+    shortcut: "/branding/companylogo.png",
+  },
   openGraph: {
     title: "Shiv Shakti India Limited (SSIL)",
     description: "Outdoor Infrastructure & Architectural Lighting Solutions",
     type: "website",
+    images: ["/branding/companylogo.png"],
   },
 };
 
