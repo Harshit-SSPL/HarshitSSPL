@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Mail, Phone, MapPin, Send, CheckCircle2, Loader2 } from "lucide-react";
 import { MeshDriftBackground } from "@/components/ui/mesh-drift-background";
+import { fetchApi } from "@/lib/admin-api";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -35,16 +36,15 @@ export default function ContactPage() {
     setIsSubmitting(true);
 
     try {
-      await fetch("/api/send-email", {
+      await fetchApi("/enquiries", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          type: "contact",
+          type: "contact_message",
           ...formData,
         }),
       });
     } catch (err) {
-      console.error("Failed to send contact inquiry email:", err);
+      console.error("Failed to submit contact enquiry to MongoDB:", err);
     } finally {
       setIsSubmitting(false);
       setSubmitted(true);

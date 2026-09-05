@@ -13,6 +13,7 @@ import aboutRoutes from "./routes/aboutRoutes.js";
 import footerRoutes from "./routes/footerRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import galleryRoutes from "./routes/galleryRoutes.js";
+import enquiriesRoutes from "./routes/enquiriesRoutes.js";
 
 dotenv.config();
 
@@ -93,6 +94,7 @@ app.use("/api/about", aboutRoutes);
 app.use("/api/footer", footerRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/gallery", galleryRoutes);
+app.use("/api/enquiries", enquiriesRoutes);
 
 // 404 handler for API routes
 app.use("/api/*", (req, res) => {

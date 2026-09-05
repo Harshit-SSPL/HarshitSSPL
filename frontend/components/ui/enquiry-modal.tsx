@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { X, Send, CheckCircle2, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { fetchApi } from "@/lib/admin-api";
 
 export interface EnquiryModalProps {
   isOpen: boolean;
@@ -66,16 +67,15 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
     setIsSubmitting(true);
 
     try {
-      await fetch("/api/send-email", {
+      await fetchApi("/enquiries", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          type: "enquiry",
+          type: "product_enquiry",
           ...formData,
         }),
       });
     } catch (err) {
-      console.error("Failed to send enquiry email:", err);
+      console.error("Failed to submit enquiry:", err);
     } finally {
       setIsSubmitting(false);
       setSubmitted(true);

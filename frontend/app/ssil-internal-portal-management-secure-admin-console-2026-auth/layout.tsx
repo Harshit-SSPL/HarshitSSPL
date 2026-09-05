@@ -21,6 +21,7 @@ import {
   PhoneCall,
   Sparkles,
   PlusCircle,
+  Inbox,
 } from "lucide-react";
 import { AdminAuthProvider, useAdminAuth } from "@/context/admin-auth-context";
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,7 @@ import { ADMIN_BASE_PATH } from "@/lib/admin-api";
 
 const navItems = [
   { label: "Dashboard", href: ADMIN_BASE_PATH, icon: LayoutDashboard },
+  { label: "Enquiries & Leads", href: `${ADMIN_BASE_PATH}/enquiries`, icon: Inbox },
   { label: "Home Page (Products & Stats)", href: `${ADMIN_BASE_PATH}/home`, icon: Home },
   { label: "About Us", href: `${ADMIN_BASE_PATH}/about`, icon: Layers },
   { label: "Products Catalog", href: `${ADMIN_BASE_PATH}/products`, icon: Package },

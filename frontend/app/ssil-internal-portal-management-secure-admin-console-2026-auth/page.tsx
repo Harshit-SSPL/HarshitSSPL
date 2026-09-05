@@ -16,6 +16,7 @@ import {
   ArrowRight,
   Eye,
   ExternalLink,
+  Inbox,
 } from "lucide-react";
 import { ADMIN_BASE_PATH, fetchApi } from "@/lib/admin-api";
 import { catalogProducts } from "@/data/products-catalog";
@@ -25,21 +26,32 @@ export default function AdminDashboardPage() {
   const [stats, setStats] = useState({
     productsCount: catalogProducts.length,
     projectsCount: clientCompanies.length,
+    enquiriesCount: 0,
+    newEnquiriesCount: 0,
     statsCount: 4,
   });
 
   useEffect(() => {
     const loadCounts = async () => {
       try {
-        const [prodRes, projRes] = await Promise.all([
+        const [prodRes, projRes, enqRes] = await Promise.all([
           fetchApi("/products/admin/all"),
           fetchApi("/national-projects/admin/all"),
+          fetchApi("/enquiries/admin/all"),
         ]);
         if (prodRes.success && Array.isArray(prodRes.products)) {
           setStats((prev) => ({ ...prev, productsCount: prodRes.products.length }));
         }
         if (projRes.success && Array.isArray(projRes.projects)) {
           setStats((prev) => ({ ...prev, projectsCount: projRes.projects.length }));
+        }
+        if (enqRes.success && Array.isArray(enqRes.enquiries)) {
+          const unread = enqRes.enquiries.filter((e: any) => e.status === "new").length;
+          setStats((prev) => ({
+            ...prev,
+            enquiriesCount: enqRes.enquiries.length,
+            newEnquiriesCount: unread,
+          }));
         }
       } catch (e) {
         // use fallback
@@ -49,6 +61,15 @@ export default function AdminDashboardPage() {
   }, []);
 
   const dashboardBoxes = [
+    {
+      id: "enquiries",
+      title: "Enquiries & Leads",
+      subtitle: "Review incoming customer quote requests & contact form submissions",
+      icon: Inbox,
+      href: `${ADMIN_BASE_PATH}/enquiries`,
+      iconBg: "bg-red-100 text-ssil-red dark:bg-red-950/60 dark:text-red-400",
+      badge: stats.newEnquiriesCount > 0 ? `${stats.newEnquiriesCount} New` : `${stats.enquiriesCount} Leads`,
+    },
     {
       id: "home",
       title: "Home Page",
