@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
 const resendApiKey = process.env.RESEND_API_KEY || "re_Z2wwJge3_5Y6rFnkaGLkbAoB7pyahtS2g";
-const recipientEmail = process.env.NOTIFICATION_EMAIL || "ssindia2006@gmail.com";
+const recipientEmail = process.env.NOTIFICATION_EMAIL || "a.s.kshatriya99@gmail.com";
 
 const resend = new Resend(resendApiKey);
 
