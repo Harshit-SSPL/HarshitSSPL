@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { Mail, Phone, MapPin, Send, CheckCircle2 } from "lucide-react";
+import { Mail, Phone, MapPin, Send, CheckCircle2, Loader2 } from "lucide-react";
 import { MeshDriftBackground } from "@/components/ui/mesh-drift-background";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -29,19 +30,35 @@ export default function ContactPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        message: "",
+    setIsSubmitting(true);
+
+    try {
+      await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "contact",
+          ...formData,
+        }),
       });
-    }, 4000);
+    } catch (err) {
+      console.error("Failed to send contact inquiry email:", err);
+    } finally {
+      setIsSubmitting(false);
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          message: "",
+        });
+      }, 4000);
+    }
   };
 
   return (
@@ -226,10 +243,20 @@ export default function ContactPage() {
                   {/* Submit Button */}
                   <button
                     type="submit"
-                    className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-ssil-red hover:bg-red-700 text-white font-extrabold text-sm tracking-wide transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-red-600/30 flex items-center justify-center gap-2 group"
+                    disabled={isSubmitting}
+                    className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-ssil-red hover:bg-red-700 disabled:opacity-75 text-white font-extrabold text-sm tracking-wide transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-red-600/30 flex items-center justify-center gap-2 group"
                   >
-                    <span>Submit Inquiry</span>
-                    <Send className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        <span>Submitting Inquiry...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Submit Inquiry</span>
+                        <Send className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </>
+                    )}
                   </button>
                 </form>
               )}

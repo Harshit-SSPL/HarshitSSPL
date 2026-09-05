@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { X, Send, CheckCircle2 } from "lucide-react";
+import { X, Send, CheckCircle2, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export interface EnquiryModalProps {
@@ -18,6 +18,7 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
   productModel = "",
 }) => {
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -60,22 +61,38 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        category: productCategory,
-        model: productModel,
-        enquiry: "",
+    setIsSubmitting(true);
+
+    try {
+      await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "enquiry",
+          ...formData,
+        }),
       });
-      onClose();
-    }, 3500);
+    } catch (err) {
+      console.error("Failed to send enquiry email:", err);
+    } finally {
+      setIsSubmitting(false);
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          category: productCategory,
+          model: productModel,
+          enquiry: "",
+        });
+        onClose();
+      }, 3500);
+    }
   };
 
   return (
@@ -247,10 +264,20 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                   <div className="pt-2">
                     <button
                       type="submit"
-                      className="w-full py-3 px-6 rounded-2xl bg-ssil-red hover:bg-ssil-red-600 text-white font-black text-xs sm:text-sm tracking-wider uppercase transition-all duration-200 shadow-lg shadow-ssil-red/35 flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                      disabled={isSubmitting}
+                      className="w-full py-3 px-6 rounded-2xl bg-ssil-red hover:bg-ssil-red-600 disabled:opacity-75 text-white font-black text-xs sm:text-sm tracking-wider uppercase transition-all duration-200 shadow-lg shadow-ssil-red/35 flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                     >
-                      <span>Submit Enquiry</span>
-                      <Send className="h-4 w-4" />
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                          <span>Sending Enquiry...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Submit Enquiry</span>
+                          <Send className="h-4 w-4" />
+                        </>
+                      )}
                     </button>
                   </div>
                 </form>
