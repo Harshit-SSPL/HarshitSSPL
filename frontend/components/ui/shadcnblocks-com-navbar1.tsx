@@ -55,6 +55,7 @@ const Navbar1 = ({
   const [solarDropdownOpen, setSolarDropdownOpen] = useState(false);
   const [solarLightingSubOpen, setSolarLightingSubOpen] = useState(false);
   const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const solarDropdownRef = useRef<HTMLDivElement>(null);
   const solarCloseTimeout = useRef<NodeJS.Timeout | null>(null);
   const solarSubCloseTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -95,11 +96,12 @@ const Navbar1 = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Close dropdowns on route change
+  // Close dropdowns and mobile drawer on route change
   useEffect(() => {
     setSolarDropdownOpen(false);
     setSolarLightingSubOpen(false);
     setProductsDropdownOpen(false);
+    setMobileMenuOpen(false);
   }, [pathname]);
 
   const isAdminLogin = pathname?.includes("ssil-internal-portal-management-secure-admin-console-2026-auth/login");
@@ -458,16 +460,16 @@ const Navbar1 = ({
               </div>
 
               {!isAdminLogin && (
-                <Sheet>
+                <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                   <SheetTrigger asChild>
-                    <Button variant="ghost" size="icon" className="text-white hover:text-ssil-red bg-transparent border-0">
+                    <Button variant="ghost" size="icon" className="text-white hover:text-ssil-red bg-transparent border-0 h-9 w-9 p-0">
                       <Menu className="size-5 text-white" />
                     </Button>
                   </SheetTrigger>
-                  <SheetContent className="overflow-y-auto bg-slate-950/95 text-white backdrop-blur-xl border-slate-800">
+                  <SheetContent className="overflow-y-auto bg-slate-950/95 text-white backdrop-blur-xl border-slate-800 w-[85vw] max-w-sm p-5">
                     <SheetHeader>
                       <SheetTitle>
-                        <Link href="/" className="flex items-center gap-2.5">
+                        <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2.5">
                           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-sm p-1 border border-slate-200">
                             <Image
                               src="https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510353/ssil_branding/companylogo-ui.png"
@@ -483,7 +485,7 @@ const Navbar1 = ({
                         </Link>
                       </SheetTitle>
                     </SheetHeader>
-                    <div className="my-6 flex flex-col gap-4">
+                    <div className="my-5 flex flex-col gap-3">
                       {menu.map((item) => {
                         const isActive =
                           pathname === item.url ||
@@ -492,8 +494,9 @@ const Navbar1 = ({
                           <Link
                             key={item.title}
                             href={item.url}
-                            className={`font-bold py-2 block transition-colors ${
-                              isActive ? "text-ssil-red" : "text-white hover:text-ssil-red"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className={`font-bold py-2.5 px-3 rounded-xl block transition-colors ${
+                              isActive ? "bg-ssil-red/20 text-ssil-red" : "text-slate-100 hover:bg-white/10 hover:text-white"
                             }`}
                           >
                             {item.title}
@@ -502,35 +505,39 @@ const Navbar1 = ({
                       })}
 
                       {/* Mobile Go Green Section */}
-                      <div className="pt-3 pb-2 border-t border-slate-800 space-y-2">
+                      <div className="pt-3 pb-2 border-t border-slate-800/80 space-y-2">
                         <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400 block mb-1">
                           Solar Lighting &amp; Clean Energy
                         </span>
-                        <div className="grid grid-cols-2 gap-1.5">
+                        <div className="grid grid-cols-2 gap-2">
                           <Link
                             href="/products/solar-street-lights"
-                            className="p-2 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs font-bold text-emerald-300 flex items-center gap-1.5"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="p-2.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs font-bold text-emerald-300 flex items-center gap-1.5 active:scale-95 transition-transform"
                           >
                             <Sun className="h-3.5 w-3.5 text-amber-300 shrink-0" />
                             <span className="truncate">Solar Street</span>
                           </Link>
                           <Link
                             href="/products/solar-bollards"
-                            className="p-2 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs font-bold text-emerald-300 flex items-center gap-1.5"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="p-2.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs font-bold text-emerald-300 flex items-center gap-1.5 active:scale-95 transition-transform"
                           >
                             <Sun className="h-3.5 w-3.5 text-amber-300 shrink-0" />
                             <span className="truncate">Solar Bollards</span>
                           </Link>
                           <Link
                             href="/products/solar-flood-lights"
-                            className="p-2 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs font-bold text-emerald-300 flex items-center gap-1.5"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="p-2.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs font-bold text-emerald-300 flex items-center gap-1.5 active:scale-95 transition-transform"
                           >
                             <Sun className="h-3.5 w-3.5 text-amber-300 shrink-0" />
                             <span className="truncate">Solar Flood</span>
                           </Link>
                           <Link
                             href="/products/solar-pillar-lights"
-                            className="p-2 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs font-bold text-emerald-300 flex items-center gap-1.5"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="p-2.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs font-bold text-emerald-300 flex items-center gap-1.5 active:scale-95 transition-transform"
                           >
                             <Sun className="h-3.5 w-3.5 text-amber-300 shrink-0" />
                             <span className="truncate">Solar Pillar</span>
@@ -539,15 +546,20 @@ const Navbar1 = ({
 
                         <Link
                           href="/products/solar-power-plants"
-                          className="flex items-center gap-2.5 p-2 rounded-xl bg-emerald-950/50 border border-emerald-500/40 text-xs font-bold text-emerald-300 mt-2"
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="flex items-center gap-2.5 p-2.5 rounded-xl bg-emerald-950/50 border border-emerald-500/40 text-xs font-bold text-emerald-300 mt-2 active:scale-95 transition-transform"
                         >
                           <Zap className="h-4 w-4 text-emerald-400" />
                           <span>Solar Power Plants</span>
                         </Link>
                       </div>
 
-                      <div className="flex flex-col gap-3 pt-4 border-t border-slate-800">
-                        <Button asChild className="bg-ssil-red hover:bg-red-700 text-white rounded-full">
+                      <div className="flex flex-col gap-3 pt-3 border-t border-slate-800/80">
+                        <Button
+                          asChild
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="bg-ssil-red hover:bg-red-700 text-white font-extrabold rounded-xl h-11"
+                        >
                           <Link href="/contact">Request Quote</Link>
                         </Button>
                       </div>

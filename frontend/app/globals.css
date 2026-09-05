@@ -40,8 +40,14 @@
   * {
     @apply border-border;
   }
+  html {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
   body {
     @apply bg-background text-foreground antialiased selection:bg-ssil-red/20 selection:text-ssil-red;
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 }
 
