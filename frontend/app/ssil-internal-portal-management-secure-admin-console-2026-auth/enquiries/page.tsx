@@ -654,26 +654,14 @@ export default function AdminEnquiriesPage() {
                 Delete
               </Button>
 
-              <div className="flex items-center gap-2">
-                <Button
-                  asChild
-                  size="sm"
-                  className="rounded-2xl bg-ssil-red hover:bg-red-700 text-white text-xs font-bold px-4"
-                >
-                  <a href={`mailto:${selectedEnquiry.email}?subject=Regarding Your Inquiry - Shiv Shakti India Limited`}>
-                    <Send className="h-3.5 w-3.5 mr-1.5" />
-                    Reply via Email
-                  </a>
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setSelectedEnquiry(null)}
-                  className="rounded-2xl text-xs font-bold"
-                >
-                  Close
-                </Button>
-              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setSelectedEnquiry(null)}
+                className="rounded-2xl text-xs font-bold"
+              >
+                Close
+              </Button>
             </div>
 
           </div>
