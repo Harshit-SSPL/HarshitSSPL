@@ -11,19 +11,19 @@ export const metadata: Metadata = {
   description: "Official digital corporate portal for Shiv Shakti India Limited / Shiv Shakti Private Limited (SSIL) - Leading manufacturer of street lights, bollards, Indian flag poles, and outdoor infrastructure lighting.",
   icons: {
     icon: [
-      { url: "/branding/companylogo.png", href: "/branding/companylogo.png" },
-      { url: "/favicon.ico", href: "/favicon.ico" },
+      { url: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788665646/ssil_favicon.png", href: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788665646/ssil_favicon.png" },
+      { url: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788665648/ssil_companylogo.png", href: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788665648/ssil_companylogo.png" },
     ],
     apple: [
-      { url: "/branding/companylogo.png", href: "/branding/companylogo.png" },
+      { url: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788665648/ssil_companylogo.png", href: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788665648/ssil_companylogo.png" },
     ],
-    shortcut: "/branding/companylogo.png",
+    shortcut: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788665646/ssil_favicon.png",
   },
   openGraph: {
     title: "Shiv Shakti India Limited (SSIL)",
     description: "Outdoor Infrastructure & Architectural Lighting Solutions",
     type: "website",
-    images: ["/branding/companylogo.png"],
+    images: ["https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788665648/ssil_companylogo.png"],
   },
 };
 
