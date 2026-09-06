@@ -92,13 +92,12 @@ const CLOUDINARY_PRODUCTS_NIGHT = [
 
 // Generate exactly 41 products named SSILDP01 to SSILDP41
 const decorativeProducts = Array.from({ length: 41 }, (_, i) => {
-  const index = (i % 6) + 1;
   const itemNum = String(i + 1).padStart(2, "0");
   return {
     id: `ssildp-${itemNum}`,
     name: `SSILDP${itemNum}`,
-    dayImage: CLOUDINARY_PRODUCTS_DAY[index],
-    nightImage: CLOUDINARY_PRODUCTS_NIGHT[index],
+    dayImage: CLOUDINARY_PRODUCTS_DAY[2],
+    nightImage: CLOUDINARY_PRODUCTS_NIGHT[2],
     specs: "IP66 Weatherproof • Custom Engineering • ISO Standards",
   };
 });

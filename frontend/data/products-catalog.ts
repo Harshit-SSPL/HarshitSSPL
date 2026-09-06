@@ -63,19 +63,17 @@ const generateGallery = (
   prefix: string,
   baseName: string,
   count: number,
-  customPrefixName?: boolean,
-  fixedIndex?: number,
-  customDayImage?: string,
-  customNightImage?: string
+  dayImage: string,
+  nightImage: string,
+  customPrefixName: boolean = false
 ): GalleryItem[] => {
   return Array.from({ length: count }, (_, i) => {
-    const index = fixedIndex !== undefined ? fixedIndex : (i % 6) + 1;
     const itemNum = String(i + 1).padStart(2, "0");
     return {
       id: `${prefix}-${itemNum}`,
       name: customPrefixName ? `${baseName}${itemNum}` : `${baseName} Model ${itemNum}`,
-      dayImage: customDayImage || CLOUDINARY_MAP.productDay[index],
-      nightImage: customNightImage || CLOUDINARY_MAP.productNight[index],
+      dayImage: dayImage,
+      nightImage: nightImage,
       specs: "IP66 Weatherproof • Custom Engineering • ISO Standards",
     };
   });
@@ -93,7 +91,7 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: CLOUDINARY_MAP.productDay[2],
     nightImage: CLOUDINARY_MAP.productNight[2],
     heroImage: CLOUDINARY_MAP.heroBanner,
-    galleryImages: generateGallery("ssildp", "SSILDP", 41, true),
+    galleryImages: generateGallery("ssildp", "SSILDP", 41, CLOUDINARY_MAP.productDay[2], CLOUDINARY_MAP.productNight[2], true),
   },
   {
     id: "cat-02",
@@ -106,7 +104,7 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: CLOUDINARY_MAP.productDay[1],
     nightImage: CLOUDINARY_MAP.productNight[1],
     heroImage: CLOUDINARY_MAP.designerPolesBanner,
-    galleryImages: generateGallery("des-pole", "LED Designer Pole Variant", 24, false, 1),
+    galleryImages: generateGallery("des-pole", "LED Designer Pole Variant", 24, CLOUDINARY_MAP.productDay[1], CLOUDINARY_MAP.productNight[1]),
   },
   {
     id: "cat-03",
@@ -119,7 +117,7 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: CLOUDINARY_MAP.productDay[6],
     nightImage: CLOUDINARY_MAP.productNight[6],
     heroImage: CLOUDINARY_MAP.bollardsBanner,
-    galleryImages: generateGallery("bollard", "Landscape Pathway Bollard", 23),
+    galleryImages: generateGallery("bollard", "Landscape Pathway Bollard", 23, CLOUDINARY_MAP.productDay[6], CLOUDINARY_MAP.productNight[6]),
   },
   {
     id: "cat-04",
@@ -136,8 +134,6 @@ export const catalogProducts: CatalogProduct[] = [
       "indoor-light",
       "LED Indoor Luminaire",
       26,
-      false,
-      undefined,
       CLOUDINARY_MAP.indoorDay,
       CLOUDINARY_MAP.indoorNight
     ),
@@ -157,8 +153,6 @@ export const catalogProducts: CatalogProduct[] = [
       "octagonal",
       "Galvanized Octagonal Steel Pole",
       16,
-      false,
-      undefined,
       CLOUDINARY_MAP.octagonalDay,
       CLOUDINARY_MAP.octagonalNight
     ),
@@ -174,7 +168,7 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: CLOUDINARY_MAP.productDay[4],
     nightImage: CLOUDINARY_MAP.productNight[4],
     heroImage: CLOUDINARY_MAP.flagMastBanner,
-    galleryImages: generateGallery("flag-mast", "Monumental Flag Mast Pole", 8),
+    galleryImages: generateGallery("flag-mast", "Monumental Flag Mast Pole", 8, CLOUDINARY_MAP.productDay[4], CLOUDINARY_MAP.productNight[4]),
   },
   {
     id: "cat-07",
@@ -187,7 +181,7 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: CLOUDINARY_MAP.productDay[5],
     nightImage: CLOUDINARY_MAP.productNight[5],
     heroImage: CLOUDINARY_MAP.heroBanner,
-    galleryImages: generateGallery("stadium-mast", "Arena Stadium High Mast System", 12),
+    galleryImages: generateGallery("stadium-mast", "Arena Stadium High Mast System", 12, CLOUDINARY_MAP.productDay[5], CLOUDINARY_MAP.productNight[5]),
   },
   {
     id: "cat-08",
@@ -200,7 +194,7 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: CLOUDINARY_MAP.productDay[5],
     nightImage: CLOUDINARY_MAP.productNight[5],
     heroImage: CLOUDINARY_MAP.heroBanner,
-    galleryImages: generateGallery("high-mast", "Industrial High Mast System", 18),
+    galleryImages: generateGallery("high-mast", "Industrial High Mast System", 18, CLOUDINARY_MAP.productDay[5], CLOUDINARY_MAP.productNight[5]),
   },
   {
     id: "cat-09",
@@ -213,7 +207,7 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: CLOUDINARY_MAP.productDay[5],
     nightImage: CLOUDINARY_MAP.productNight[5],
     heroImage: CLOUDINARY_MAP.heroBanner,
-    galleryImages: generateGallery("camera-pole", "Smart Surveillance Camera Pole", 14),
+    galleryImages: generateGallery("camera-pole", "Smart Surveillance Camera Pole", 14, CLOUDINARY_MAP.productDay[5], CLOUDINARY_MAP.productNight[5]),
   },
   {
     id: "cat-10",
@@ -226,7 +220,7 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: CLOUDINARY_MAP.octagonalDay,
     nightImage: CLOUDINARY_MAP.octagonalNight,
     heroImage: CLOUDINARY_MAP.heroBanner,
-    galleryImages: generateGallery("street-light", "LED Street Luminaire", 12),
+    galleryImages: generateGallery("street-light", "LED Street Luminaire", 12, CLOUDINARY_MAP.octagonalDay, CLOUDINARY_MAP.octagonalNight),
   },
   {
     id: "cat-11",
@@ -239,7 +233,7 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: CLOUDINARY_MAP.productDay[3],
     nightImage: CLOUDINARY_MAP.productNight[3],
     heroImage: CLOUDINARY_MAP.heroBanner,
-    galleryImages: generateGallery("post-top", "Civic Post Top Luminaire", 46),
+    galleryImages: generateGallery("post-top", "Civic Post Top Luminaire", 46, CLOUDINARY_MAP.productDay[3], CLOUDINARY_MAP.productNight[3]),
   },
   {
     id: "cat-12",
@@ -252,7 +246,7 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: CLOUDINARY_MAP.productDay[1],
     nightImage: CLOUDINARY_MAP.productNight[1],
     heroImage: CLOUDINARY_MAP.heroBanner,
-    galleryImages: generateGallery("flood-light", "High-Lumen Flood Light", 4),
+    galleryImages: generateGallery("flood-light", "High-Lumen Flood Light", 4, CLOUDINARY_MAP.productDay[1], CLOUDINARY_MAP.productNight[1]),
   },
   {
     id: "cat-13",
@@ -265,7 +259,7 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: CLOUDINARY_MAP.indoorDay,
     nightImage: CLOUDINARY_MAP.indoorNight,
     heroImage: CLOUDINARY_MAP.heroBanner,
-    galleryImages: generateGallery("bulkhead", "Bulkhead & Pathway Luminaire", 15),
+    galleryImages: generateGallery("bulkhead", "Bulkhead & Pathway Luminaire", 15, CLOUDINARY_MAP.indoorDay, CLOUDINARY_MAP.indoorNight),
   },
   {
     id: "cat-14",
@@ -278,7 +272,7 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: CLOUDINARY_MAP.productDay[3],
     nightImage: CLOUDINARY_MAP.productNight[3],
     heroImage: CLOUDINARY_MAP.heroBanner,
-    galleryImages: generateGallery("wall-washer", "Wall Washer & Inground Luminaire", 12),
+    galleryImages: generateGallery("wall-washer", "Wall Washer & Inground Luminaire", 12, CLOUDINARY_MAP.productDay[3], CLOUDINARY_MAP.productNight[3]),
   },
   {
     id: "cat-15",
@@ -291,7 +285,7 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: CLOUDINARY_MAP.productDay[2],
     nightImage: CLOUDINARY_MAP.productNight[2],
     heroImage: CLOUDINARY_MAP.heroBanner,
-    galleryImages: generateGallery("heritage-bracket", "Ornamental Heritage Bracket Arm", 24),
+    galleryImages: generateGallery("heritage-bracket", "Ornamental Heritage Bracket Arm", 24, CLOUDINARY_MAP.productDay[2], CLOUDINARY_MAP.productNight[2]),
   },
   {
     id: "cat-16",
@@ -304,7 +298,7 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: CLOUDINARY_MAP.indoorDay,
     nightImage: CLOUDINARY_MAP.indoorNight,
     heroImage: CLOUDINARY_MAP.heroBanner,
-    galleryImages: generateGallery("wall-light", "Architectural Wall Luminaire", 18),
+    galleryImages: generateGallery("wall-light", "Architectural Wall Luminaire", 18, CLOUDINARY_MAP.indoorDay, CLOUDINARY_MAP.indoorNight),
   },
   {
     id: "cat-17",
@@ -317,7 +311,7 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: CLOUDINARY_MAP.productDay[1],
     nightImage: CLOUDINARY_MAP.productNight[1],
     heroImage: CLOUDINARY_MAP.solarBanner,
-    galleryImages: generateGallery("solar-street", "Solar Street Luminaire", 16),
+    galleryImages: generateGallery("solar-street", "Solar Street Luminaire", 16, CLOUDINARY_MAP.productDay[1], CLOUDINARY_MAP.productNight[1]),
   },
   {
     id: "cat-18",
@@ -330,7 +324,7 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: CLOUDINARY_MAP.productDay[6],
     nightImage: CLOUDINARY_MAP.productNight[6],
     heroImage: CLOUDINARY_MAP.solarBanner,
-    galleryImages: generateGallery("solar-bollard", "Solar Pathway Bollard", 12),
+    galleryImages: generateGallery("solar-bollard", "Solar Pathway Bollard", 12, CLOUDINARY_MAP.productDay[6], CLOUDINARY_MAP.productNight[6]),
   },
   {
     id: "cat-19",
@@ -343,7 +337,7 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: CLOUDINARY_MAP.productDay[1],
     nightImage: CLOUDINARY_MAP.productNight[1],
     heroImage: CLOUDINARY_MAP.solarBanner,
-    galleryImages: generateGallery("solar-flood", "Solar Industrial Floodlight", 10),
+    galleryImages: generateGallery("solar-flood", "Solar Industrial Floodlight", 10, CLOUDINARY_MAP.productDay[1], CLOUDINARY_MAP.productNight[1]),
   },
   {
     id: "cat-20",
@@ -356,7 +350,7 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: CLOUDINARY_MAP.productDay[3],
     nightImage: CLOUDINARY_MAP.productNight[3],
     heroImage: CLOUDINARY_MAP.solarBanner,
-    galleryImages: generateGallery("solar-pillar", "Solar Architectural Pillar Light", 12),
+    galleryImages: generateGallery("solar-pillar", "Solar Architectural Pillar Light", 12, CLOUDINARY_MAP.productDay[3], CLOUDINARY_MAP.productNight[3]),
   },
   {
     id: "cat-21",
@@ -369,7 +363,7 @@ export const catalogProducts: CatalogProduct[] = [
     dayImage: CLOUDINARY_MAP.solarDay,
     nightImage: CLOUDINARY_MAP.solarNight,
     heroImage: CLOUDINARY_MAP.solarBanner,
-    galleryImages: generateGallery("solar-plant", "Commercial Solar Power Array", 6, false, undefined, CLOUDINARY_MAP.solarDay, CLOUDINARY_MAP.solarNight),
+    galleryImages: generateGallery("solar-plant", "Commercial Solar Power Array", 6, CLOUDINARY_MAP.solarDay, CLOUDINARY_MAP.solarNight),
   },
 ];
 
