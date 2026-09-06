@@ -31,36 +31,40 @@ const cardVariants = {
 };
 
 const ProductCard = ({ product }: { product: FeaturedProduct }) => {
+  const productHref = product.slug ? `/products/${product.slug}` : "/products";
+
   return (
     <motion.div variants={cardVariants} className="group flex flex-col w-full">
-      {/* Product Image Frame */}
-      <div className="relative w-full aspect-[10/14] rounded-none overflow-hidden bg-slate-100 dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 transition-all duration-300 group-hover:-translate-y-1.5 group-hover:border-ssil-red">
-        {/* Day Image */}
-        <img
-          src={product.dayImage}
-          alt={`${product.name} Daytime`}
-          className="w-full h-full object-contain object-center opacity-100 group-hover:opacity-0 transition-opacity duration-500 ease-in-out"
-          loading="lazy"
-          decoding="async"
-        />
+      <Link href={productHref} className="block w-full">
+        {/* Product Image Frame (10:15 / 2:3 ratio matching exact 1024x1536 image dimensions) */}
+        <div className="relative w-full aspect-[10/15] rounded-none overflow-hidden bg-slate-100 dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 transition-all duration-300 group-hover:-translate-y-1.5 group-hover:border-ssil-red shadow-sm group-hover:shadow-lg">
+          {/* Day Image */}
+          <img
+            src={product.dayImage}
+            alt={`${product.name} Daytime`}
+            className="w-full h-full object-cover object-center opacity-100 group-hover:opacity-0 transition-opacity duration-500 ease-in-out"
+            loading="lazy"
+            decoding="async"
+          />
 
-        {/* Night Image */}
-        <img
-          src={product.nightImage || product.dayImage}
-          alt={`${product.name} Nighttime`}
-          className="absolute inset-0 w-full h-full object-contain object-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out pointer-events-none"
-          loading="lazy"
-          decoding="async"
-        />
+          {/* Night Image */}
+          <img
+            src={product.nightImage || product.dayImage}
+            alt={`${product.name} Nighttime`}
+            className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out pointer-events-none"
+            loading="lazy"
+            decoding="async"
+          />
 
-        {/* Subtle Ambient Red Glow Highlight on Hover */}
-        <div className="absolute inset-0 ring-1 ring-transparent group-hover:ring-ssil-red/30 transition-all duration-300 pointer-events-none" />
-      </div>
+          {/* Subtle Ambient Red Glow Highlight on Hover */}
+          <div className="absolute inset-0 ring-1 ring-transparent group-hover:ring-ssil-red/30 transition-all duration-300 pointer-events-none" />
+        </div>
 
-      {/* Product Name Below Image */}
-      <h3 className="mt-2.5 text-center text-sm sm:text-base font-extrabold text-slate-900 dark:text-white tracking-tight group-hover:text-ssil-red transition-colors duration-300 leading-snug">
-        {product.name}
-      </h3>
+        {/* Product Name Below Image */}
+        <h3 className="mt-3 text-center text-sm sm:text-base font-extrabold text-slate-900 dark:text-white tracking-tight group-hover:text-ssil-red transition-colors duration-300 leading-snug">
+          {product.name}
+        </h3>
+      </Link>
     </motion.div>
   );
 };
