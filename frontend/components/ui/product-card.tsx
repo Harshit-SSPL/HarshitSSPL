@@ -31,7 +31,7 @@ export const cardVariants = {
   },
 };
 
-const NEUTRAL_PLACEHOLDER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600' viewBox='0 0 400 600'%3E%3Crect width='100%25' height='100%25' fill='%2318181b'/%3E%3Cpath d='M200 270 L200 330 M170 300 L230 300' stroke='%233f3f46' stroke-width='2' stroke-linecap='round'/%3E%3Ctext x='50%25' y='360' dominant-baseline='middle' text-anchor='middle' fill='%2371717a' font-family='sans-serif' font-size='12' font-weight='700'%3ESSIL INFRASTRUCTURE%3C/text%3E%3C/svg%3E";
+import { useResilientImage } from "@/lib/use-resilient-image";
 
 export const ProductCard = ({
   name,
@@ -45,20 +45,30 @@ export const ProductCard = ({
   onEnquire,
   onImageClick,
 }: ProductCardProps) => {
-  const [hasDayError, setHasDayError] = React.useState(false);
-  const [hasNightError, setHasNightError] = React.useState(false);
+  const dayResilient = useResilientImage({
+    liveSrc: dayImage,
+    keyOptions: {
+      type: "product",
+      slug: name,
+      id: name,
+      variant: "day",
+    },
+    placeholderType: "product",
+  });
 
-  // Reset error flags whenever image props change
-  React.useEffect(() => {
-    setHasDayError(false);
-  }, [dayImage]);
+  const nightResilient = useResilientImage({
+    liveSrc: nightImage || dayImage,
+    keyOptions: {
+      type: "product",
+      slug: name,
+      id: name,
+      variant: "night",
+    },
+    placeholderType: "product",
+  });
 
-  React.useEffect(() => {
-    setHasNightError(false);
-  }, [nightImage]);
-
-  const activeDaySrc = (!hasDayError && dayImage) ? dayImage : NEUTRAL_PLACEHOLDER;
-  const activeNightSrc = (!hasNightError && (nightImage || dayImage)) ? (nightImage || dayImage) : activeDaySrc;
+  const activeDaySrc = dayResilient.src;
+  const activeNightSrc = nightResilient.src;
 
   const content = (
     <div
@@ -88,7 +98,8 @@ export const ProductCard = ({
             )}
             loading="lazy"
             decoding="async"
-            onError={() => setHasDayError(true)}
+            onLoad={dayResilient.onLoad}
+            onError={dayResilient.onError}
           />
 
           {/* Night Image */}
@@ -101,7 +112,8 @@ export const ProductCard = ({
             )}
             loading="lazy"
             decoding="async"
-            onError={() => setHasNightError(true)}
+            onLoad={nightResilient.onLoad}
+            onError={nightResilient.onError}
           />
         </>
       ) : (
@@ -115,7 +127,8 @@ export const ProductCard = ({
           )}
           loading="lazy"
           decoding="async"
-          onError={() => setHasDayError(true)}
+          onLoad={dayResilient.onLoad}
+          onError={dayResilient.onError}
         />
       )}
 

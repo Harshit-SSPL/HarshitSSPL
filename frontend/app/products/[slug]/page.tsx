@@ -22,6 +22,61 @@ import { EnquiryModal } from "@/components/ui/enquiry-modal";
 import { ImagePreviewModal } from "@/components/ui/image-preview-modal";
 import { fetchApi } from "@/lib/admin-api";
 import { NEUTRAL_BANNER_PLACEHOLDER } from "@/lib/placeholders";
+import { useResilientImage } from "@/lib/use-resilient-image";
+
+const ProductHeroBanner = ({ product }: { product: CatalogProduct }) => {
+  const resilientHero = useResilientImage({
+    liveSrc: product.heroImage,
+    keyOptions: {
+      type: "hero",
+      slug: product.slug,
+      variant: "hero",
+    },
+    placeholderType: "banner",
+  });
+
+  return (
+    <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12 bg-slate-950">
+      {/* Full-bleed Background Image */}
+      <img
+        src={resilientHero.src}
+        alt={`${product.name} SSIL Hero`}
+        className="absolute inset-0 w-full h-full object-cover object-center rounded-none"
+        onLoad={resilientHero.onLoad}
+        onError={resilientHero.onError}
+      />
+
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/60 to-slate-950/20 rounded-none pointer-events-none" />
+
+      {/* Top Breadcrumb Navigation */}
+      <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 text-left pt-2 sm:pt-4">
+        <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-slate-300">
+          <Link href="/products" className="hover:text-ssil-red transition-colors flex items-center gap-1">
+            <ArrowLeft className="h-3.5 w-3.5" /> Products
+          </Link>
+          <ChevronRight className="h-3.5 w-3.5 text-ssil-red" />
+          <span className="text-ssil-red">{product.name}</span>
+        </div>
+      </div>
+
+      {/* Bottom Content Container */}
+      <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 text-left flex flex-col items-start">
+        <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block mb-1">
+          SSIL LUMINAIRES &amp; INFRASTRUCTURE
+        </span>
+
+        <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase leading-tight max-w-4xl drop-shadow-md">
+          {product.name}
+        </h1>
+
+        <p className="mt-2 text-xs sm:text-sm text-slate-200 font-medium max-w-2xl leading-relaxed drop-shadow-xs">
+          {product.tagline}
+        </p>
+      </div>
+    </section>
+  );
+};
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -226,47 +281,7 @@ export default function ProductDetailPage() {
       {/* ============================================================ */}
       {/* 1. PRODUCT HERO BANNER */}
       {/* ============================================================ */}
-      <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12 bg-slate-950">
-        {/* Full-bleed Background Image */}
-        <Image
-          src={product.heroImage || NEUTRAL_BANNER_PLACEHOLDER}
-          alt={`${product.name} SSIL Hero`}
-          fill
-          priority
-          unoptimized
-          sizes="100vw"
-          className="object-cover object-center rounded-none"
-        />
-
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/60 to-slate-950/20 rounded-none pointer-events-none" />
-
-        {/* Top Breadcrumb Navigation (Just below Navbar) */}
-        <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 text-left pt-2 sm:pt-4">
-          <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-slate-300">
-            <Link href="/products" className="hover:text-ssil-red transition-colors flex items-center gap-1">
-              <ArrowLeft className="h-3.5 w-3.5" /> Products
-            </Link>
-            <ChevronRight className="h-3.5 w-3.5 text-ssil-red" />
-            <span className="text-ssil-red">{product.name}</span>
-          </div>
-        </div>
-
-        {/* Bottom Content Container */}
-        <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 text-left flex flex-col items-start">
-          <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-ssil-red block mb-1">
-            SSIL LUMINAIRES &amp; INFRASTRUCTURE
-          </span>
-
-          <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase leading-tight max-w-4xl drop-shadow-md">
-            {product.name}
-          </h1>
-
-          <p className="mt-2 text-xs sm:text-sm text-slate-200 font-medium max-w-2xl leading-relaxed drop-shadow-xs">
-            {product.tagline}
-          </p>
-        </div>
-      </section>
+      <ProductHeroBanner product={product} />
 
       {/* ============================================================ */}
       {/* 2. PRODUCT OVERVIEW STRIP */}

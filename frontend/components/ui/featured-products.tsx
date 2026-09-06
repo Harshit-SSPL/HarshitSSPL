@@ -31,10 +31,34 @@ const cardVariants = {
   },
 };
 
+import { useResilientImage } from "@/lib/use-resilient-image";
+
 const ProductCard = ({ product }: { product: FeaturedProduct }) => {
   const productHref = product.slug ? `/products/${product.slug}` : "/products";
-  const daySrc = product.dayImage || NEUTRAL_PRODUCT_PLACEHOLDER;
-  const nightSrc = product.nightImage || daySrc;
+  const dayResilient = useResilientImage({
+    liveSrc: product.dayImage,
+    keyOptions: {
+      type: "product",
+      slug: product.slug || product.name,
+      id: product.id || product.name,
+      variant: "day",
+    },
+    placeholderType: "product",
+  });
+
+  const nightResilient = useResilientImage({
+    liveSrc: product.nightImage || product.dayImage,
+    keyOptions: {
+      type: "product",
+      slug: product.slug || product.name,
+      id: product.id || product.name,
+      variant: "night",
+    },
+    placeholderType: "product",
+  });
+
+  const daySrc = dayResilient.src;
+  const nightSrc = nightResilient.src;
 
   return (
     <motion.div variants={cardVariants} className="group flex flex-col w-full">
@@ -48,6 +72,8 @@ const ProductCard = ({ product }: { product: FeaturedProduct }) => {
             className="w-full h-full object-cover object-center opacity-100 group-hover:opacity-0 transition-opacity duration-500 ease-in-out"
             loading="lazy"
             decoding="async"
+            onLoad={dayResilient.onLoad}
+            onError={dayResilient.onError}
           />
 
           {/* Night Image */}
@@ -57,6 +83,8 @@ const ProductCard = ({ product }: { product: FeaturedProduct }) => {
             className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out pointer-events-none"
             loading="lazy"
             decoding="async"
+            onLoad={nightResilient.onLoad}
+            onError={nightResilient.onError}
           />
 
           {/* Subtle Ambient Red Glow Highlight on Hover */}

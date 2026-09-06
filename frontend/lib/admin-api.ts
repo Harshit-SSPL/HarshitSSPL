@@ -17,8 +17,11 @@ export interface ApiResponse<T = any> {
 const apiCache = new Map<string, { timestamp: number; data: any }>();
 const CACHE_TTL_MS = 20000;
 
-export function invalidateApiCache() {
+import { invalidateLastKnownGood } from "./resilience-store";
+
+export function invalidateApiCache(keyPattern?: string) {
   apiCache.clear();
+  invalidateLastKnownGood(keyPattern);
 }
 
 export async function fetchApi<T = any>(
@@ -29,7 +32,7 @@ export async function fetchApi<T = any>(
   const url = `${API_BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
   const isAdminRequest = endpoint.includes("/admin");
 
-  // Invalidate cache on mutations
+  // Invalidate cache and resilience store on mutations
   if (method !== "GET") {
     invalidateApiCache();
   } else if (!options.body && !isAdminRequest && options.cache !== "no-store") {

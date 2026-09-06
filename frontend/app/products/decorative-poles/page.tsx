@@ -20,6 +20,7 @@ import { EnquiryModal } from "@/components/ui/enquiry-modal";
 import { ImagePreviewModal } from "@/components/ui/image-preview-modal";
 import { fetchApi } from "@/lib/admin-api";
 import { NEUTRAL_BANNER_PLACEHOLDER } from "@/lib/placeholders";
+import { useResilientImage } from "@/lib/use-resilient-image";
 
 const sectionVariants = {
   hidden: { opacity: 0 },
@@ -187,6 +188,16 @@ export default function LEDDecorativePolesPage() {
     },
   ];
 
+  const resilientHero = useResilientImage({
+    liveSrc: bannerImage,
+    keyOptions: {
+      type: "hero",
+      slug: "decorative-poles",
+      variant: "hero",
+    },
+    placeholderType: "banner",
+  });
+
   return (
     <div className="relative min-h-screen w-full bg-white dark:bg-black text-slate-900 dark:text-white transition-colors duration-300 overflow-hidden">
       
@@ -195,14 +206,12 @@ export default function LEDDecorativePolesPage() {
       {/* ============================================================ */}
       <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12 bg-slate-950">
         {/* Full-bleed Background Image */}
-        <Image
-          src={bannerImage}
+        <img
+          src={resilientHero.src}
           alt="LED Decorative Poles SSIL Hero"
-          fill
-          priority
-          unoptimized
-          sizes="100vw"
-          className="object-cover object-center rounded-none"
+          className="absolute inset-0 w-full h-full object-cover object-center rounded-none"
+          onLoad={resilientHero.onLoad}
+          onError={resilientHero.onError}
         />
 
         {/* Gradient Overlay */}
