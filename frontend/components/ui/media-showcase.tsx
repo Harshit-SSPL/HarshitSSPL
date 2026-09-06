@@ -18,37 +18,37 @@ const mediaItems: MediaItem[] = [
   {
     id: "v1",
     title: "SSIL Brand Film - Engineering & Manufacturing",
-    videoUrl: "/videos/homepageadvertisementVideo1.mp4",
+    videoUrl: "https://res.cloudinary.com/wlgmz8gr/video/upload/v1788665239/ssil_ad_video_1.mp4",
     aspectRatio: "16:9",
   },
   {
     id: "v2",
     title: "Highway & Expressways Lighting Infrastructure",
-    videoUrl: "/videos/homepageadvertisementVideo2.mp4",
+    videoUrl: "https://res.cloudinary.com/wlgmz8gr/video/upload/v1788665240/ssil_ad_video_2.mp4",
     aspectRatio: "9:16",
   },
   {
     id: "v3",
     title: "High Mast & Stadium Floodlighting Systems",
-    videoUrl: "/videos/homepageadvertisementVideo3.mp4",
+    videoUrl: "https://res.cloudinary.com/wlgmz8gr/video/upload/v1788665241/ssil_ad_video_3.mp4",
     aspectRatio: "9:16",
   },
   {
     id: "v6",
     title: "Solar Lighting & Institutional Power Plants",
-    videoUrl: "/videos/homepageadvertisementVideo6.mp4",
+    videoUrl: "https://res.cloudinary.com/wlgmz8gr/video/upload/v1788665245/ssil_ad_video_6.mp4",
     aspectRatio: "16:9",
   },
   {
     id: "v4",
     title: "Smart City IoT Street Poles & Luminaires",
-    videoUrl: "/videos/homepageadvertisementVideo4.mp4",
+    videoUrl: "https://res.cloudinary.com/wlgmz8gr/video/upload/v1788665243/ssil_ad_video_4.mp4",
     aspectRatio: "9:16",
   },
   {
     id: "v5",
     title: "Heritage Poles & Monumental Flag Installations",
-    videoUrl: "/videos/homepageadvertisementVideo5.mp4",
+    videoUrl: "https://res.cloudinary.com/wlgmz8gr/video/upload/v1788665244/ssil_ad_video_5.mp4",
     aspectRatio: "9:16",
   },
 ];

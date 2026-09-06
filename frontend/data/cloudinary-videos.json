@@ -1,0 +1,65 @@
+{
+  "hero_1": {
+    "publicId": "ssil_hero_video_1",
+    "url": "https://res.cloudinary.com/wlgmz8gr/video/upload/v1788665234/ssil_hero_video_1.mp4",
+    "duration": 8,
+    "format": "mp4",
+    "bytes": 2919118
+  },
+  "hero_2": {
+    "publicId": "ssil_hero_video_2",
+    "url": "https://res.cloudinary.com/wlgmz8gr/video/upload/v1788665236/ssil_hero_video_2.mp4",
+    "duration": 8,
+    "format": "mp4",
+    "bytes": 3561080
+  },
+  "hero_3": {
+    "publicId": "ssil_hero_video_3",
+    "url": "https://res.cloudinary.com/wlgmz8gr/video/upload/v1788665238/ssil_hero_video_3.mp4",
+    "duration": 8,
+    "format": "mp4",
+    "bytes": 2702056
+  },
+  "ad_1": {
+    "publicId": "ssil_ad_video_1",
+    "url": "https://res.cloudinary.com/wlgmz8gr/video/upload/v1788665239/ssil_ad_video_1.mp4",
+    "duration": 8,
+    "format": "mp4",
+    "bytes": 2222843
+  },
+  "ad_2": {
+    "publicId": "ssil_ad_video_2",
+    "url": "https://res.cloudinary.com/wlgmz8gr/video/upload/v1788665240/ssil_ad_video_2.mp4",
+    "duration": 8,
+    "format": "mp4",
+    "bytes": 1887556
+  },
+  "ad_3": {
+    "publicId": "ssil_ad_video_3",
+    "url": "https://res.cloudinary.com/wlgmz8gr/video/upload/v1788665241/ssil_ad_video_3.mp4",
+    "duration": 10.005,
+    "format": "mp4",
+    "bytes": 2526386
+  },
+  "ad_4": {
+    "publicId": "ssil_ad_video_4",
+    "url": "https://res.cloudinary.com/wlgmz8gr/video/upload/v1788665243/ssil_ad_video_4.mp4",
+    "duration": 10.005,
+    "format": "mp4",
+    "bytes": 2636811
+  },
+  "ad_5": {
+    "publicId": "ssil_ad_video_5",
+    "url": "https://res.cloudinary.com/wlgmz8gr/video/upload/v1788665244/ssil_ad_video_5.mp4",
+    "duration": 10.005,
+    "format": "mp4",
+    "bytes": 2794277
+  },
+  "ad_6": {
+    "publicId": "ssil_ad_video_6",
+    "url": "https://res.cloudinary.com/wlgmz8gr/video/upload/v1788665245/ssil_ad_video_6.mp4",
+    "duration": 10.005,
+    "format": "mp4",
+    "bytes": 2771054
+  }
+}

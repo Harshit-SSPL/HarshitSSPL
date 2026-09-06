@@ -3,9 +3,9 @@
 import React, { useState, useRef, useEffect } from "react";
 
 const heroVideos = [
-  { src: "/videos/homepage/hero.mp4", label: "Video 1" },
-  { src: "/videos/homepage/video-2.mp4", label: "Video 2" },
-  { src: "/videos/homepage/video-3.mp4", label: "Video 3" },
+  { src: "https://res.cloudinary.com/wlgmz8gr/video/upload/v1788665234/ssil_hero_video_1.mp4", label: "Video 1" },
+  { src: "https://res.cloudinary.com/wlgmz8gr/video/upload/v1788665236/ssil_hero_video_2.mp4", label: "Video 2" },
+  { src: "https://res.cloudinary.com/wlgmz8gr/video/upload/v1788665238/ssil_hero_video_3.mp4", label: "Video 3" },
 ];
 
 export const HeroVideoCarousel = () => {
