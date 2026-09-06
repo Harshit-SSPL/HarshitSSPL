@@ -235,13 +235,15 @@ export default function StadiumHighMastPage() {
       {/* ============================================================ */}
       {/* 1. PRODUCT HERO BANNER */}
       {/* ============================================================ */}
-      <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
+      <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12 bg-slate-950">
         {/* Full-bleed Background Image */}
         <Image
           src={bannerImage}
-          alt="Stadium High Mast SSIL Hero"
+          alt="SSIL Stadium High Mast Lighting Hero"
           fill
           priority
+          unoptimized
+          sizes="100vw"
           className="object-cover object-center rounded-none"
         />
 

@@ -76,7 +76,7 @@ export default function GalleryPage() {
       {/* ============================================================ */}
       {/* 1. HERO SECTION: FULL-WIDTH BANNER WITH SSIL REAL INFRASTRUCTURE IMAGE */}
       {/* ============================================================ */}
-      <section className="relative z-10 w-full h-[55vh] sm:h-[62vh] max-h-[560px] flex items-end overflow-hidden rounded-none pt-28 pb-10 sm:pb-14">
+      <section className="relative z-10 w-full h-[55vh] sm:h-[62vh] max-h-[560px] flex items-end overflow-hidden rounded-none pt-28 pb-10 sm:pb-14 bg-slate-950">
         
         {/* Full-bleed Background Hero Image */}
         <Image
@@ -84,6 +84,8 @@ export default function GalleryPage() {
           alt="SSIL Real World Infrastructure & Lighting Projects"
           fill
           priority
+          unoptimized
+          sizes="100vw"
           className="object-cover object-center rounded-none brightness-90"
         />
 

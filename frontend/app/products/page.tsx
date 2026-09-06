@@ -91,7 +91,7 @@ export default function ProductsPage() {
       {/* ============================================================ */}
       {/* 1. FULL-BLEED HERO BANNER */}
       {/* ============================================================ */}
-      <section className="relative z-10 w-full h-[52vh] sm:h-[60vh] max-h-[500px] flex items-end overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
+      <section className="relative z-10 w-full h-[52vh] sm:h-[60vh] max-h-[500px] flex items-end overflow-hidden rounded-none pt-24 pb-10 sm:pb-12 bg-slate-950">
         
         {/* Full-bleed Background Image */}
         <img
@@ -99,6 +99,8 @@ export default function ProductsPage() {
           alt="SSIL World Street Night Lighting Installation"
           className="absolute inset-0 w-full h-full object-cover object-center rounded-none"
           loading="eager"
+          decoding="sync"
+          fetchPriority="high"
         />
 
         {/* Glass Gradient Overlay */}

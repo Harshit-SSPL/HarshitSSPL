@@ -75,7 +75,57 @@ export default function ProductDetailPage() {
   const fallbackProduct = catalogProducts.find(
     (p) => p.slug === slug || p.slug === resolvedSlug || p.id === slug
   );
-  const [product, setProduct] = useState<CatalogProduct | undefined>(fallbackProduct);
+
+  const [apiProduct, setApiProduct] = useState<any>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchProductData = async () => {
+      if (!slug) return;
+      try {
+        const targetSlug = resolvedSlug || slug;
+        const data = await fetchApi(`/products/${targetSlug}`);
+        if (isMounted && data.success && data.product) {
+          setApiProduct(data.product);
+        }
+      } catch (err) {
+        // Fallback to static catalogProduct
+      }
+    };
+
+    fetchProductData();
+    return () => {
+      isMounted = false;
+    };
+  }, [slug, resolvedSlug]);
+
+  const product: CatalogProduct | undefined = React.useMemo(() => {
+    if (!fallbackProduct && !apiProduct) return undefined;
+    if (!apiProduct) return fallbackProduct;
+
+    let finalGallery = fallbackProduct?.galleryImages || [];
+    if (Array.isArray(apiProduct.designs) && apiProduct.designs.length > 0 && fallbackProduct) {
+      finalGallery = apiProduct.designs.map((d: any, idx: number) => {
+        const fallbackItem = fallbackProduct.galleryImages[idx];
+        return {
+          id: d._id || d.id || `design-${idx + 1}`,
+          name: d.name || fallbackItem?.name || `Model ${String(idx + 1).padStart(2, "0")}`,
+          dayImage: d.dayImage || fallbackItem?.dayImage || "",
+          nightImage: d.nightImage || fallbackItem?.nightImage || "",
+          specs: d.specs || fallbackItem?.specs || "IP66 Weatherproof • Custom Engineering • ISO Standards",
+        };
+      });
+    }
+
+    return {
+      ...(fallbackProduct || {}),
+      ...apiProduct,
+      name: fallbackProduct?.name || apiProduct.name,
+      designCount: finalGallery.length,
+      galleryImages: finalGallery,
+      heroImage: apiProduct.heroImage || fallbackProduct?.heroImage || "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614300/ssil_banner_products_hero.png",
+    } as CatalogProduct;
+  }, [fallbackProduct, apiProduct]);
 
   const [previewImage, setPreviewImage] = useState<{
     isOpen: boolean;
@@ -88,45 +138,6 @@ export default function ProductDetailPage() {
     title: "",
     subtitle: "",
   });
-
-  useEffect(() => {
-    const fetchProductData = async () => {
-      if (!slug) return;
-      try {
-        const targetSlug = resolvedSlug || slug;
-        const data = await fetchApi(`/products/${targetSlug}`);
-        if (data.success && data.product && fallbackProduct) {
-          const apiProd = data.product;
-          let finalGallery = fallbackProduct.galleryImages;
-          if (Array.isArray(apiProd.designs) && apiProd.designs.length > 0) {
-            finalGallery = apiProd.designs.map((d: any, idx: number) => {
-              const fallbackItem = fallbackProduct.galleryImages[idx];
-              return {
-                id: d._id || d.id || `design-${idx + 1}`,
-                name: d.name || fallbackItem?.name || `Model ${String(idx + 1).padStart(2, "0")}`,
-                dayImage: d.dayImage || fallbackItem?.dayImage || "",
-                nightImage: d.nightImage || fallbackItem?.nightImage || "",
-                specs: d.specs || fallbackItem?.specs || "IP66 Weatherproof • Custom Engineering • ISO Standards",
-              };
-            });
-          }
-
-          setProduct({
-            ...fallbackProduct,
-            ...apiProd,
-            name: fallbackProduct.name,
-            designCount: finalGallery.length,
-            galleryImages: finalGallery,
-            heroImage: apiProd.heroImage || fallbackProduct.heroImage || "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614300/ssil_banner_products_hero.png",
-          });
-        }
-      } catch (err) {
-        if (fallbackProduct) setProduct(fallbackProduct);
-      }
-    };
-
-    fetchProductData();
-  }, [slug]);
 
   const [enquiryState, setEnquiryState] = useState<{
     isOpen: boolean;
@@ -211,13 +222,15 @@ export default function ProductDetailPage() {
       {/* ============================================================ */}
       {/* 1. PRODUCT HERO BANNER */}
       {/* ============================================================ */}
-      <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12">
+      <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12 bg-slate-950">
         {/* Full-bleed Background Image */}
         <Image
           src={product.heroImage || "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614300/ssil_banner_products_hero.png"}
           alt={`${product.name} SSIL Hero`}
           fill
           priority
+          unoptimized
+          sizes="100vw"
           className="object-cover object-center rounded-none"
         />
 
