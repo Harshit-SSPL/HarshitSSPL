@@ -16,7 +16,7 @@ import {
   Award,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { catalogProducts, CatalogProduct } from "@/data/products-catalog";
+import { catalogProducts, CatalogProduct, GalleryItem } from "@/data/products-catalog";
 import { ProductCard } from "@/components/ui/product-card";
 import { EnquiryModal } from "@/components/ui/enquiry-modal";
 import { ImagePreviewModal } from "@/components/ui/image-preview-modal";
@@ -104,26 +104,29 @@ export default function ProductDetailPage() {
     if (!fallbackProduct && !apiProduct) return undefined;
     if (!apiProduct) return fallbackProduct;
 
-    let finalGallery = fallbackProduct?.galleryImages || [];
-    if (Array.isArray(apiProduct.designs) && apiProduct.designs.length > 0 && fallbackProduct) {
-      finalGallery = apiProduct.designs.map((d: any, idx: number) => {
-        const fallbackItem = fallbackProduct.galleryImages[idx];
-        return {
-          id: d._id || d.id || `design-${idx + 1}`,
-          name: d.name || fallbackItem?.name || `Model ${String(idx + 1).padStart(2, "0")}`,
-          dayImage: d.dayImage || fallbackItem?.dayImage || "",
-          nightImage: d.nightImage || fallbackItem?.nightImage || "",
-          specs: d.specs || fallbackItem?.specs || "IP66 Weatherproof • Custom Engineering • ISO Standards",
-        };
-      });
+    let finalGallery: GalleryItem[] = [];
+    if (Array.isArray(apiProduct.designs) && apiProduct.designs.length > 0) {
+      finalGallery = apiProduct.designs.map((d: any, idx: number) => ({
+        id: d._id || d.id || `design-${idx + 1}`,
+        name: d.name || `Model ${String(idx + 1).padStart(2, "0")}`,
+        dayImage: d.dayImage || "",
+        nightImage: d.nightImage || d.dayImage || "",
+        specs: d.specs || "IP66 Weatherproof • Custom Engineering • ISO Standards",
+      }));
+    } else if (fallbackProduct?.galleryImages && fallbackProduct.galleryImages.length > 0) {
+      finalGallery = fallbackProduct.galleryImages;
     }
 
     return {
       ...(fallbackProduct || {}),
       ...apiProduct,
-      name: fallbackProduct?.name || apiProduct.name,
-      designCount: finalGallery.length,
+      name: apiProduct.name || fallbackProduct?.name || "Product",
+      tagline: apiProduct.tagline || fallbackProduct?.tagline || "",
+      description: apiProduct.description || fallbackProduct?.description || "",
+      designCount: finalGallery.length || apiProduct.designCount || fallbackProduct?.designCount || 0,
       galleryImages: finalGallery,
+      dayImage: apiProduct.dayImage || fallbackProduct?.dayImage || "",
+      nightImage: apiProduct.nightImage || fallbackProduct?.nightImage || "",
       heroImage: apiProduct.heroImage || fallbackProduct?.heroImage || NEUTRAL_BANNER_PLACEHOLDER,
     } as CatalogProduct;
   }, [fallbackProduct, apiProduct]);

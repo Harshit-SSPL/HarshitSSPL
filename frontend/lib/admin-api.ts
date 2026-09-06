@@ -27,12 +27,13 @@ export async function fetchApi<T = any>(
 ): Promise<ApiResponse<T>> {
   const method = (options.method || "GET").toUpperCase();
   const url = `${API_BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
+  const isAdminRequest = endpoint.includes("/admin");
 
   // Invalidate cache on mutations
   if (method !== "GET") {
     invalidateApiCache();
-  } else if (!options.body) {
-    // Check GET cache
+  } else if (!options.body && !isAdminRequest && options.cache !== "no-store") {
+    // Check GET cache for public endpoints only
     const cached = apiCache.get(url);
     if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
       return cached.data;

@@ -97,48 +97,34 @@ export default function LEDDecorativePolesPage() {
   });
 
   React.useEffect(() => {
+    let isMounted = true;
     const fetchProductData = async () => {
       try {
-        const [prodRes, designRes] = await Promise.all([
-          fetchApi("/products/decorative-poles"),
-          fetchApi("/products/decorative-poles/designs"),
-        ]);
-
-        if (prodRes && prodRes.success && prodRes.product) {
+        const prodRes = await fetchApi("/products/decorative-poles");
+        if (isMounted && prodRes && prodRes.success && prodRes.product) {
           if (prodRes.product.heroImage) {
             setBannerImage(prodRes.product.heroImage);
           }
           if (Array.isArray(prodRes.product.designs) && prodRes.product.designs.length > 0) {
-            const dbDesigns = prodRes.product.designs;
             setProductsList(
-              dbDesigns.map((d: any, idx: number) => ({
+              prodRes.product.designs.map((d: any, idx: number) => ({
                 id: d._id || d.id || `ssildp-${String(idx + 1).padStart(2, "0")}`,
                 name: d.name || `SSILDP${String(idx + 1).padStart(2, "0")}`,
                 dayImage: d.dayImage || "",
-                nightImage: d.nightImage || "",
+                nightImage: d.nightImage || d.dayImage || "",
                 specs: d.specs || "IP66 Weatherproof • Custom Engineering • ISO Standards",
               }))
             );
           }
-        }
-
-        if (designRes && designRes.success && Array.isArray(designRes.designs) && designRes.designs.length > 0) {
-          const dbDesigns = designRes.designs;
-          setProductsList(
-            dbDesigns.map((d: any, idx: number) => ({
-              id: d._id || d.id || `ssildp-${String(idx + 1).padStart(2, "0")}`,
-              name: d.name || `SSILDP${String(idx + 1).padStart(2, "0")}`,
-              dayImage: d.dayImage || "",
-              nightImage: d.nightImage || "",
-              specs: d.specs || "IP66 Weatherproof • Custom Engineering • ISO Standards",
-            }))
-          );
         }
       } catch (err) {
         // Fallback to initial defaults
       }
     };
     fetchProductData();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const [previewImage, setPreviewImage] = useState<{

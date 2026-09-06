@@ -45,16 +45,20 @@ export const ProductCard = ({
   onEnquire,
   onImageClick,
 }: ProductCardProps) => {
-  const safeDay = dayImage && !dayImage.startsWith("/images/") ? dayImage : NEUTRAL_PLACEHOLDER;
-  const safeNight = nightImage && !nightImage.startsWith("/images/") ? nightImage : (dayImage || NEUTRAL_PLACEHOLDER);
+  const [hasDayError, setHasDayError] = React.useState(false);
+  const [hasNightError, setHasNightError] = React.useState(false);
 
-  const [daySrc, setDaySrc] = React.useState<string>(safeDay);
-  const [nightSrc, setNightSrc] = React.useState<string>(safeNight);
+  // Reset error flags whenever image props change
+  React.useEffect(() => {
+    setHasDayError(false);
+  }, [dayImage]);
 
   React.useEffect(() => {
-    if (dayImage && !dayImage.startsWith("/images/")) setDaySrc(dayImage);
-    if (nightImage && !nightImage.startsWith("/images/")) setNightSrc(nightImage);
-  }, [dayImage, nightImage]);
+    setHasNightError(false);
+  }, [nightImage]);
+
+  const activeDaySrc = (!hasDayError && dayImage) ? dayImage : NEUTRAL_PLACEHOLDER;
+  const activeNightSrc = (!hasNightError && (nightImage || dayImage)) ? (nightImage || dayImage) : activeDaySrc;
 
   const content = (
     <div
@@ -65,7 +69,7 @@ export const ProductCard = ({
       onClick={(e) => {
         if (onImageClick) {
           e.preventDefault();
-          onImageClick(daySrc, name);
+          onImageClick(activeDaySrc, name);
         } else if (onEnquire) {
           e.preventDefault();
           onEnquire(name);
@@ -76,7 +80,7 @@ export const ProductCard = ({
         <>
           {/* Day Image */}
           <img
-            src={daySrc}
+            src={activeDaySrc}
             alt={`${name} Day`}
             className={cn(
               "absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105",
@@ -84,14 +88,12 @@ export const ProductCard = ({
             )}
             loading="lazy"
             decoding="async"
-            onError={() => {
-              if (daySrc !== NEUTRAL_PLACEHOLDER) setDaySrc(NEUTRAL_PLACEHOLDER);
-            }}
+            onError={() => setHasDayError(true)}
           />
 
           {/* Night Image */}
           <img
-            src={nightSrc}
+            src={activeNightSrc}
             alt={`${name} Night`}
             className={cn(
               "absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out pointer-events-none",
@@ -99,15 +101,13 @@ export const ProductCard = ({
             )}
             loading="lazy"
             decoding="async"
-            onError={() => {
-              if (nightSrc !== NEUTRAL_PLACEHOLDER) setNightSrc(NEUTRAL_PLACEHOLDER);
-            }}
+            onError={() => setHasNightError(true)}
           />
         </>
       ) : (
         /* Single Image Mode */
         <img
-          src={daySrc}
+          src={activeDaySrc}
           alt={name}
           className={cn(
             "absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105",
@@ -115,9 +115,7 @@ export const ProductCard = ({
           )}
           loading="lazy"
           decoding="async"
-          onError={() => {
-            if (daySrc !== NEUTRAL_PLACEHOLDER) setDaySrc(NEUTRAL_PLACEHOLDER);
-          }}
+          onError={() => setHasDayError(true)}
         />
       )}
 
