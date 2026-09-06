@@ -183,6 +183,8 @@ export function Footerdemo() {
                   width={160}
                   height={45}
                   className="h-full w-full object-contain"
+                  loading="lazy"
+                  unoptimized
                 />
               </div>
               <span className="text-lg font-black tracking-tight text-white leading-none">

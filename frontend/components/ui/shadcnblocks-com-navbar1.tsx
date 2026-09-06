@@ -188,6 +188,7 @@ const Navbar1 = ({
                   height={45}
                   className="h-full w-full object-contain"
                   priority
+                  unoptimized
                 />
               </div>
               <div className="flex flex-col">
@@ -504,6 +505,7 @@ const Navbar1 = ({
                   height={40}
                   className="h-full w-full object-contain"
                   priority
+                  unoptimized
                 />
               </div>
               <span className="text-base font-black tracking-tight text-white">
@@ -534,6 +536,7 @@ const Navbar1 = ({
                               width={140}
                               height={35}
                               className="h-full w-full object-contain"
+                              unoptimized
                             />
                           </div>
                           <span className="text-lg font-black text-white leading-none">

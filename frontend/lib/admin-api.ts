@@ -13,11 +13,31 @@ export interface ApiResponse<T = any> {
   [key: string]: any;
 }
 
+// Lightweight in-memory cache for GET requests with 20s TTL
+const apiCache = new Map<string, { timestamp: number; data: any }>();
+const CACHE_TTL_MS = 20000;
+
+export function invalidateApiCache() {
+  apiCache.clear();
+}
+
 export async function fetchApi<T = any>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<ApiResponse<T>> {
+  const method = (options.method || "GET").toUpperCase();
   const url = `${API_BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
+
+  // Invalidate cache on mutations
+  if (method !== "GET") {
+    invalidateApiCache();
+  } else if (!options.body) {
+    // Check GET cache
+    const cached = apiCache.get(url);
+    if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
+      return cached.data;
+    }
+  }
 
   const headers: Record<string, string> = {
     ...(options.headers as Record<string, string>),
@@ -44,6 +64,12 @@ export async function fetchApi<T = any>(
     });
 
     const data = await response.json();
+
+    // Cache successful GET responses
+    if (method === "GET" && data && data.success) {
+      apiCache.set(url, { timestamp: Date.now(), data });
+    }
+
     return data;
   } catch (error: any) {
     console.warn(`[API Fetch Warning] ${endpoint}:`, error.message);
