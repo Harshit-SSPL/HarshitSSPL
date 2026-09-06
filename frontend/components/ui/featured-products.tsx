@@ -32,6 +32,7 @@ const cardVariants = {
 };
 
 import { useResilientImage } from "@/lib/use-resilient-image";
+import { IMAGE_PRESETS } from "@/lib/cloudinary";
 
 const ProductCard = ({ product }: { product: FeaturedProduct }) => {
   const productHref = product.slug ? `/products/${product.slug}` : "/products";
@@ -44,6 +45,9 @@ const ProductCard = ({ product }: { product: FeaturedProduct }) => {
       variant: "day",
     },
     placeholderType: "product",
+    transformOptions: { width: IMAGE_PRESETS.CARD.defaultWidth },
+    responsiveWidths: IMAGE_PRESETS.CARD.widths,
+    sizes: IMAGE_PRESETS.CARD.sizes,
   });
 
   const nightResilient = useResilientImage({
@@ -55,6 +59,9 @@ const ProductCard = ({ product }: { product: FeaturedProduct }) => {
       variant: "night",
     },
     placeholderType: "product",
+    transformOptions: { width: IMAGE_PRESETS.CARD.defaultWidth },
+    responsiveWidths: IMAGE_PRESETS.CARD.widths,
+    sizes: IMAGE_PRESETS.CARD.sizes,
   });
 
   const daySrc = dayResilient.src;
@@ -68,7 +75,11 @@ const ProductCard = ({ product }: { product: FeaturedProduct }) => {
           {/* Day Image */}
           <img
             src={daySrc}
+            srcSet={dayResilient.srcSet}
+            sizes={dayResilient.sizes}
             alt={`${product.name} Daytime`}
+            width={400}
+            height={600}
             className="w-full h-full object-cover object-center opacity-100 group-hover:opacity-0 transition-opacity duration-500 ease-in-out"
             loading="lazy"
             decoding="async"
@@ -79,7 +90,11 @@ const ProductCard = ({ product }: { product: FeaturedProduct }) => {
           {/* Night Image */}
           <img
             src={nightSrc}
+            srcSet={nightResilient.srcSet}
+            sizes={nightResilient.sizes}
             alt={`${product.name} Nighttime`}
+            width={400}
+            height={600}
             className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out pointer-events-none"
             loading="lazy"
             decoding="async"

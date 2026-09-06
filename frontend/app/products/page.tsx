@@ -8,6 +8,8 @@ import { ProductFaqSection } from "@/components/ui/product-faq";
 import { ComingSoonModal } from "@/components/ui/coming-soon-modal";
 import { fetchApi } from "@/lib/admin-api";
 import { NEUTRAL_BANNER_PLACEHOLDER } from "@/lib/placeholders";
+import { useResilientImage } from "@/lib/use-resilient-image";
+import { IMAGE_PRESETS } from "@/lib/cloudinary";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -24,6 +26,15 @@ export default function ProductsPage() {
   const [products, setProducts] = useState<CatalogProduct[]>(catalogProducts);
   const [bannerImage, setBannerImage] = useState<string>(NEUTRAL_BANNER_PLACEHOLDER);
   const [comingSoonProduct, setComingSoonProduct] = useState<string | null>(null);
+
+  const resilientHero = useResilientImage({
+    liveSrc: bannerImage,
+    keyOptions: { type: "hero", slug: "all-products", variant: "hero" },
+    placeholderType: "banner",
+    transformOptions: IMAGE_PRESETS.HERO.transform,
+    responsiveWidths: IMAGE_PRESETS.HERO.widths,
+    sizes: IMAGE_PRESETS.HERO.sizes,
+  });
 
   useEffect(() => {
     let isMounted = true;
@@ -103,12 +114,17 @@ export default function ProductsPage() {
         
         {/* Full-bleed Background Image */}
         <img
-          src={bannerImage}
+          src={resilientHero.src}
+          srcSet={resilientHero.srcSet}
+          sizes={resilientHero.sizes}
           alt="SSIL Products Overview Hero"
+          width={1920}
+          height={500}
           className="absolute inset-0 w-full h-full object-cover object-center rounded-none"
           loading="eager"
-          decoding="sync"
-          fetchPriority="high"
+          decoding="async"
+          onLoad={resilientHero.onLoad}
+          onError={resilientHero.onError}
         />
 
         {/* Glass Gradient Overlay */}

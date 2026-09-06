@@ -32,6 +32,7 @@ export const cardVariants = {
 };
 
 import { useResilientImage } from "@/lib/use-resilient-image";
+import { IMAGE_PRESETS } from "@/lib/cloudinary";
 
 export const ProductCard = ({
   name,
@@ -54,6 +55,9 @@ export const ProductCard = ({
       variant: "day",
     },
     placeholderType: "product",
+    transformOptions: { width: IMAGE_PRESETS.CARD.defaultWidth },
+    responsiveWidths: IMAGE_PRESETS.CARD.widths,
+    sizes: IMAGE_PRESETS.CARD.sizes,
   });
 
   const nightResilient = useResilientImage({
@@ -65,6 +69,9 @@ export const ProductCard = ({
       variant: "night",
     },
     placeholderType: "product",
+    transformOptions: { width: IMAGE_PRESETS.CARD.defaultWidth },
+    responsiveWidths: IMAGE_PRESETS.CARD.widths,
+    sizes: IMAGE_PRESETS.CARD.sizes,
   });
 
   const activeDaySrc = dayResilient.src;
@@ -91,7 +98,11 @@ export const ProductCard = ({
           {/* Day Image */}
           <img
             src={activeDaySrc}
+            srcSet={dayResilient.srcSet}
+            sizes={dayResilient.sizes}
             alt={`${name} Day`}
+            width={400}
+            height={600}
             className={cn(
               "absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105",
               imagePosition || "object-top"
@@ -105,7 +116,11 @@ export const ProductCard = ({
           {/* Night Image */}
           <img
             src={activeNightSrc}
+            srcSet={nightResilient.srcSet}
+            sizes={nightResilient.sizes}
             alt={`${name} Night`}
+            width={400}
+            height={600}
             className={cn(
               "absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out pointer-events-none",
               imagePosition || "object-top"
@@ -120,7 +135,11 @@ export const ProductCard = ({
         /* Single Image Mode */
         <img
           src={activeDaySrc}
+          srcSet={dayResilient.srcSet}
+          sizes={dayResilient.sizes}
           alt={name}
+          width={400}
+          height={600}
           className={cn(
             "absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105",
             imagePosition || "object-top"

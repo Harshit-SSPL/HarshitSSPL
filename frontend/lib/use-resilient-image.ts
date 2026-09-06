@@ -11,15 +11,25 @@ import {
   recordLastKnownGood,
   getLastKnownGood,
 } from "./resilience-store";
+import {
+  getOptimizedCloudinaryUrl,
+  getCloudinarySrcSet,
+  CloudinaryTransformOptions,
+} from "./cloudinary";
 
 export interface UseResilientImageOptions {
   liveSrc?: string | null;
   keyOptions: FallbackKeyOptions;
   placeholderType?: "product" | "banner" | "logo";
+  transformOptions?: CloudinaryTransformOptions;
+  responsiveWidths?: readonly number[] | number[];
+  sizes?: string;
 }
 
 export interface ResilientImageResult {
   src: string;
+  srcSet?: string;
+  sizes?: string;
   isFallback: boolean;
   isPlaceholder: boolean;
   onLoad: () => void;
@@ -27,15 +37,16 @@ export interface ResilientImageResult {
 }
 
 /**
- * useResilientImage Hook
+ * useResilientImage Hook with Cloudinary Delivery Optimization
  * 
  * Strict 3-Level Priority:
- * Level 1: Live Cloudinary / MongoDB Image
+ * Level 1: Live Cloudinary / MongoDB Image (Optimized with responsive width, f_auto, q_auto)
  * Level 2: Deterministic Static Fallback || Last-Known-Good Image
  * Level 3: Neutral Technical SVG Placeholder
  * 
  * Guarantees:
  * - Live source is ALWAYS rendered first without pre-loading fallback (zero flash).
+ * - Delivers lightweight, responsive width-scaled assets to eliminate oversized downloads.
  * - Reactively resets error states whenever liveSrc updates.
  * - Records successful live loads to Last-Known-Good storage.
  * - Handles errors gracefully without loops or layout shifts.
@@ -44,6 +55,9 @@ export function useResilientImage({
   liveSrc,
   keyOptions,
   placeholderType = "product",
+  transformOptions,
+  responsiveWidths,
+  sizes,
 }: UseResilientImageOptions): ResilientImageResult {
   const [errorLevel, setErrorLevel] = useState<number>(0); // 0 = Live (L1), 1 = Fallback/LKG (L2), 2 = Technical Placeholder (L3)
 
@@ -70,8 +84,18 @@ export function useResilientImage({
     // LEVEL 1: Primary Live Image
     if (errorLevel === 0) {
       if (cleanLive) {
+        const optimizedSrc = transformOptions 
+          ? getOptimizedCloudinaryUrl(cleanLive, transformOptions) 
+          : cleanLive;
+        const generatedSrcSet = responsiveWidths && responsiveWidths.length > 0 
+          ? getCloudinarySrcSet(cleanLive, responsiveWidths, transformOptions) 
+          : undefined;
+
         return {
-          src: cleanLive,
+          src: optimizedSrc,
+          rawSrc: cleanLive,
+          srcSet: generatedSrcSet,
+          sizes: generatedSrcSet ? (sizes || "100vw") : undefined,
           isFallback: false,
           isPlaceholder: false,
         };
@@ -83,6 +107,9 @@ export function useResilientImage({
       if (secondarySrc) {
         return {
           src: secondarySrc,
+          rawSrc: secondarySrc,
+          srcSet: undefined,
+          sizes: undefined,
           isFallback: true,
           isPlaceholder: false,
         };
@@ -90,6 +117,9 @@ export function useResilientImage({
       // Drop to Level 3
       return {
         src: technicalPlaceholder,
+        rawSrc: technicalPlaceholder,
+        srcSet: undefined,
+        sizes: undefined,
         isFallback: false,
         isPlaceholder: true,
       };
@@ -101,8 +131,14 @@ export function useResilientImage({
       const lkg = getLastKnownGood(identityKey);
       const secondarySrc = registeredFallback || lkg;
       if (secondarySrc && secondarySrc !== cleanLive) {
+        const optimizedSecondary = transformOptions 
+          ? getOptimizedCloudinaryUrl(secondarySrc, transformOptions) 
+          : secondarySrc;
         return {
-          src: secondarySrc,
+          src: optimizedSecondary,
+          rawSrc: secondarySrc,
+          srcSet: undefined,
+          sizes: undefined,
           isFallback: true,
           isPlaceholder: false,
         };
@@ -110,6 +146,9 @@ export function useResilientImage({
       // If Level 2 is identical to failed live source or missing, drop to Level 3
       return {
         src: technicalPlaceholder,
+        rawSrc: technicalPlaceholder,
+        srcSet: undefined,
+        sizes: undefined,
         isFallback: false,
         isPlaceholder: true,
       };
@@ -118,17 +157,20 @@ export function useResilientImage({
     // LEVEL 3: Neutral Technical Placeholder
     return {
       src: technicalPlaceholder,
+      rawSrc: technicalPlaceholder,
+      srcSet: undefined,
+      sizes: undefined,
       isFallback: false,
       isPlaceholder: true,
     };
-  }, [errorLevel, liveSrc, identityKey, placeholderType]);
+  }, [errorLevel, liveSrc, identityKey, placeholderType, transformOptions, responsiveWidths, sizes]);
 
   const handleLoad = useCallback(() => {
-    // Record successfully loaded live asset to Last-Known-Good store
-    if (errorLevel === 0 && resolved.src && !resolved.isPlaceholder && !resolved.isFallback) {
-      recordLastKnownGood(identityKey, resolved.src);
+    // Record successfully loaded raw live asset to Last-Known-Good store
+    if (errorLevel === 0 && resolved.rawSrc && !resolved.isPlaceholder && !resolved.isFallback) {
+      recordLastKnownGood(identityKey, resolved.rawSrc);
     }
-  }, [errorLevel, identityKey, resolved.src, resolved.isPlaceholder, resolved.isFallback]);
+  }, [errorLevel, identityKey, resolved.rawSrc, resolved.isPlaceholder, resolved.isFallback]);
 
   const handleError = useCallback(() => {
     // Escalate error level safely without infinite loop
@@ -141,6 +183,8 @@ export function useResilientImage({
 
   return {
     src: resolved.src,
+    srcSet: resolved.srcSet,
+    sizes: resolved.sizes,
     isFallback: resolved.isFallback,
     isPlaceholder: resolved.isPlaceholder,
     onLoad: handleLoad,

@@ -25,6 +25,7 @@ import { EnquiryModal } from "@/components/ui/enquiry-modal";
 import { fetchApi } from "@/lib/admin-api";
 import { NEUTRAL_BANNER_PLACEHOLDER, NEUTRAL_PRODUCT_PLACEHOLDER } from "@/lib/placeholders";
 import { useResilientImage } from "@/lib/use-resilient-image";
+import { IMAGE_PRESETS } from "@/lib/cloudinary";
 
 const sectionVariants = {
   hidden: { opacity: 0 },
@@ -179,18 +180,27 @@ export default function SolarPowerPlantsPage() {
     liveSrc: bannerImage,
     keyOptions: { type: "hero", slug: "solar-power-plants", variant: "hero" },
     placeholderType: "banner",
+    transformOptions: IMAGE_PRESETS.HERO.transform,
+    responsiveWidths: IMAGE_PRESETS.HERO.widths,
+    sizes: IMAGE_PRESETS.HERO.sizes,
   });
 
   const resilientDay = useResilientImage({
     liveSrc: dayImage,
     keyOptions: { type: "product", slug: "solar-power-plants", variant: "day" },
     placeholderType: "product",
+    transformOptions: IMAGE_PRESETS.SHOWCASE.transform,
+    responsiveWidths: IMAGE_PRESETS.SHOWCASE.widths,
+    sizes: IMAGE_PRESETS.SHOWCASE.sizes,
   });
 
   const resilientNight = useResilientImage({
     liveSrc: nightImage || dayImage,
     keyOptions: { type: "product", slug: "solar-power-plants", variant: "night" },
     placeholderType: "product",
+    transformOptions: IMAGE_PRESETS.SHOWCASE.transform,
+    responsiveWidths: IMAGE_PRESETS.SHOWCASE.widths,
+    sizes: IMAGE_PRESETS.SHOWCASE.sizes,
   });
 
   return (
@@ -203,8 +213,14 @@ export default function SolarPowerPlantsPage() {
         {/* Full-bleed Background Image */}
         <img
           src={resilientHero.src}
+          srcSet={resilientHero.srcSet}
+          sizes={resilientHero.sizes}
           alt="Solar Power Plants SSIL Hero"
+          width={1920}
+          height={540}
           className="absolute inset-0 w-full h-full object-cover object-center rounded-none"
+          loading="eager"
+          decoding="async"
           onLoad={resilientHero.onLoad}
           onError={resilientHero.onError}
         />
@@ -333,7 +349,11 @@ export default function SolarPowerPlantsPage() {
                   {/* Day Version (Default) */}
                   <img
                     src={resilientDay.src}
+                    srcSet={resilientDay.srcSet}
+                    sizes={resilientDay.sizes}
                     alt="SSIL Solar Power Plant Installation Daytime"
+                    width={600}
+                    height={450}
                     className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                     loading="lazy"
                     decoding="async"
@@ -344,7 +364,11 @@ export default function SolarPowerPlantsPage() {
                   {/* Night Version (Smoothly crossfades in on hover) */}
                   <img
                     src={resilientNight.src}
+                    srcSet={resilientNight.srcSet}
+                    sizes={resilientNight.sizes}
                     alt="SSIL Solar Power Plant Illumination"
+                    width={600}
+                    height={450}
                     className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out group-hover:scale-105 pointer-events-none"
                     loading="lazy"
                     decoding="async"

@@ -15,6 +15,7 @@ import { EnquiryModal } from "@/components/ui/enquiry-modal";
 import { fetchApi } from "@/lib/admin-api";
 import { NEUTRAL_BANNER_PLACEHOLDER, NEUTRAL_PRODUCT_PLACEHOLDER } from "@/lib/placeholders";
 import { useResilientImage } from "@/lib/use-resilient-image";
+import { IMAGE_PRESETS } from "@/lib/cloudinary";
 import Image from "next/image";
 
 interface HighMastSpecRow {
@@ -233,18 +234,27 @@ export default function HighMastPage() {
     liveSrc: bannerImage,
     keyOptions: { type: "hero", slug: "high-mast", variant: "hero" },
     placeholderType: "banner",
+    transformOptions: { width: IMAGE_PRESETS.HERO.defaultWidth },
+    responsiveWidths: IMAGE_PRESETS.HERO.widths,
+    sizes: IMAGE_PRESETS.HERO.sizes,
   });
 
   const resilientDay = useResilientImage({
     liveSrc: dayImage,
     keyOptions: { type: "product", slug: "high-mast", variant: "day" },
     placeholderType: "product",
+    transformOptions: { width: IMAGE_PRESETS.SHOWCASE.defaultWidth },
+    responsiveWidths: IMAGE_PRESETS.SHOWCASE.widths,
+    sizes: IMAGE_PRESETS.SHOWCASE.sizes,
   });
 
   const resilientNight = useResilientImage({
     liveSrc: nightImage || dayImage,
     keyOptions: { type: "product", slug: "high-mast", variant: "night" },
     placeholderType: "product",
+    transformOptions: { width: IMAGE_PRESETS.SHOWCASE.defaultWidth },
+    responsiveWidths: IMAGE_PRESETS.SHOWCASE.widths,
+    sizes: IMAGE_PRESETS.SHOWCASE.sizes,
   });
 
   return (
@@ -253,12 +263,17 @@ export default function HighMastPage() {
       {/* ============================================================ */}
       {/* 1. PRODUCT HERO BANNER */}
       {/* ============================================================ */}
-      <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12 bg-slate-950">
+      <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] min-h-[380px] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12 bg-slate-950">
         {/* Full-bleed Background Image */}
         <img
           src={resilientHero.src}
+          srcSet={resilientHero.srcSet}
+          sizes={resilientHero.sizes}
           alt="SSIL High Mast Pole Infrastructure Hero"
+          width={1920}
+          height={540}
           className="absolute inset-0 w-full h-full object-cover object-center rounded-none"
+          decoding="async"
           onLoad={resilientHero.onLoad}
           onError={resilientHero.onError}
         />
@@ -412,7 +427,11 @@ export default function HighMastPage() {
                   {/* Day Version (Default) */}
                   <img
                     src={resilientDay.src}
+                    srcSet={resilientDay.srcSet}
+                    sizes={resilientDay.sizes}
                     alt="SSIL Hot-Dip Galvanized High Mast Pole Daytime"
+                    width={600}
+                    height={700}
                     className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                     loading="lazy"
                     decoding="async"
@@ -423,7 +442,11 @@ export default function HighMastPage() {
                   {/* Night Version (Smoothly crossfades in on hover) */}
                   <img
                     src={resilientNight.src}
+                    srcSet={resilientNight.srcSet}
+                    sizes={resilientNight.sizes}
                     alt="SSIL Hot-Dip Galvanized High Mast Pole Night Illumination"
+                    width={600}
+                    height={700}
                     className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out group-hover:scale-105 pointer-events-none"
                     loading="lazy"
                     decoding="async"

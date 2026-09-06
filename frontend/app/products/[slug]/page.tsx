@@ -23,6 +23,7 @@ import { ImagePreviewModal } from "@/components/ui/image-preview-modal";
 import { fetchApi } from "@/lib/admin-api";
 import { NEUTRAL_BANNER_PLACEHOLDER } from "@/lib/placeholders";
 import { useResilientImage } from "@/lib/use-resilient-image";
+import { IMAGE_PRESETS } from "@/lib/cloudinary";
 
 const ProductHeroBanner = ({ product }: { product: CatalogProduct }) => {
   const resilientHero = useResilientImage({
@@ -33,15 +34,23 @@ const ProductHeroBanner = ({ product }: { product: CatalogProduct }) => {
       variant: "hero",
     },
     placeholderType: "banner",
+    transformOptions: { width: IMAGE_PRESETS.HERO.defaultWidth },
+    responsiveWidths: IMAGE_PRESETS.HERO.widths,
+    sizes: IMAGE_PRESETS.HERO.sizes,
   });
 
   return (
-    <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12 bg-slate-950">
+    <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] min-h-[380px] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12 bg-slate-950">
       {/* Full-bleed Background Image */}
       <img
         src={resilientHero.src}
+        srcSet={resilientHero.srcSet}
+        sizes={resilientHero.sizes}
         alt={`${product.name} SSIL Hero`}
+        width={1920}
+        height={540}
         className="absolute inset-0 w-full h-full object-cover object-center rounded-none"
+        decoding="async"
         onLoad={resilientHero.onLoad}
         onError={resilientHero.onError}
       />
@@ -157,10 +166,9 @@ export default function ProductDetailPage() {
 
   const product: CatalogProduct | undefined = React.useMemo(() => {
     if (!fallbackProduct && !apiProduct) return undefined;
-    if (!apiProduct) return fallbackProduct;
 
     let finalGallery: GalleryItem[] = [];
-    if (Array.isArray(apiProduct.designs) && apiProduct.designs.length > 0) {
+    if (Array.isArray(apiProduct?.designs) && apiProduct.designs.length > 0) {
       finalGallery = apiProduct.designs.map((d: any, idx: number) => ({
         id: d._id || d.id || `design-${idx + 1}`,
         name: d.name || `Model ${String(idx + 1).padStart(2, "0")}`,
@@ -170,19 +178,32 @@ export default function ProductDetailPage() {
       }));
     } else if (fallbackProduct?.galleryImages && fallbackProduct.galleryImages.length > 0) {
       finalGallery = fallbackProduct.galleryImages;
+    } else if (fallbackProduct && (fallbackProduct.designCount || 0) > 0) {
+      // Pre-reserve deterministic slots on SSR / initial mount to guarantee 0 CLS
+      const prefix = (fallbackProduct.slug || "model").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6);
+      finalGallery = Array.from({ length: fallbackProduct.designCount }, (_, idx) => {
+        const num = String(idx + 1).padStart(2, "0");
+        return {
+          id: `initial-${fallbackProduct.slug}-${num}`,
+          name: `SSIL-${prefix}-${num}`,
+          dayImage: "",
+          nightImage: "",
+          specs: "IP66 Weatherproof • Custom Engineering • ISO Standards",
+        };
+      });
     }
 
     return {
       ...(fallbackProduct || {}),
-      ...apiProduct,
-      name: apiProduct.name || fallbackProduct?.name || "Product",
-      tagline: apiProduct.tagline || fallbackProduct?.tagline || "",
-      description: apiProduct.description || fallbackProduct?.description || "",
-      designCount: finalGallery.length || apiProduct.designCount || fallbackProduct?.designCount || 0,
+      ...(apiProduct || {}),
+      name: apiProduct?.name || fallbackProduct?.name || "Product",
+      tagline: apiProduct?.tagline || fallbackProduct?.tagline || "",
+      description: apiProduct?.description || fallbackProduct?.description || "",
+      designCount: finalGallery.length || apiProduct?.designCount || fallbackProduct?.designCount || 0,
       galleryImages: finalGallery,
-      dayImage: apiProduct.dayImage || fallbackProduct?.dayImage || "",
-      nightImage: apiProduct.nightImage || fallbackProduct?.nightImage || "",
-      heroImage: apiProduct.heroImage || fallbackProduct?.heroImage || NEUTRAL_BANNER_PLACEHOLDER,
+      dayImage: apiProduct?.dayImage || fallbackProduct?.dayImage || "",
+      nightImage: apiProduct?.nightImage || fallbackProduct?.nightImage || "",
+      heroImage: apiProduct?.heroImage || fallbackProduct?.heroImage || NEUTRAL_BANNER_PLACEHOLDER,
     } as CatalogProduct;
   }, [fallbackProduct, apiProduct]);
 

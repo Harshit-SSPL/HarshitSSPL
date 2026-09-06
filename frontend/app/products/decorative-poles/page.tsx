@@ -21,6 +21,7 @@ import { ImagePreviewModal } from "@/components/ui/image-preview-modal";
 import { fetchApi } from "@/lib/admin-api";
 import { NEUTRAL_BANNER_PLACEHOLDER } from "@/lib/placeholders";
 import { useResilientImage } from "@/lib/use-resilient-image";
+import { IMAGE_PRESETS } from "@/lib/cloudinary";
 
 const sectionVariants = {
   hidden: { opacity: 0 },
@@ -196,6 +197,9 @@ export default function LEDDecorativePolesPage() {
       variant: "hero",
     },
     placeholderType: "banner",
+    transformOptions: { width: IMAGE_PRESETS.HERO.defaultWidth },
+    responsiveWidths: IMAGE_PRESETS.HERO.widths,
+    sizes: IMAGE_PRESETS.HERO.sizes,
   });
 
   return (
@@ -204,12 +208,17 @@ export default function LEDDecorativePolesPage() {
       {/* ============================================================ */}
       {/* 1. PRODUCT HERO BANNER */}
       {/* ============================================================ */}
-      <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12 bg-slate-950">
+      <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] min-h-[380px] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12 bg-slate-950">
         {/* Full-bleed Background Image */}
         <img
           src={resilientHero.src}
+          srcSet={resilientHero.srcSet}
+          sizes={resilientHero.sizes}
           alt="LED Decorative Poles SSIL Hero"
+          width={1920}
+          height={540}
           className="absolute inset-0 w-full h-full object-cover object-center rounded-none"
+          decoding="async"
           onLoad={resilientHero.onLoad}
           onError={resilientHero.onError}
         />

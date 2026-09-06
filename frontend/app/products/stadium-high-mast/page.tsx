@@ -15,6 +15,7 @@ import { EnquiryModal } from "@/components/ui/enquiry-modal";
 import { fetchApi } from "@/lib/admin-api";
 import { NEUTRAL_BANNER_PLACEHOLDER, NEUTRAL_PRODUCT_PLACEHOLDER } from "@/lib/placeholders";
 import { useResilientImage } from "@/lib/use-resilient-image";
+import { IMAGE_PRESETS } from "@/lib/cloudinary";
 import Image from "next/image";
 
 interface StadiumMastSpecRow {
@@ -235,18 +236,27 @@ export default function StadiumHighMastPage() {
     liveSrc: bannerImage,
     keyOptions: { type: "hero", slug: "stadium-high-mast", variant: "hero" },
     placeholderType: "banner",
+    transformOptions: IMAGE_PRESETS.HERO.transform,
+    responsiveWidths: IMAGE_PRESETS.HERO.widths,
+    sizes: IMAGE_PRESETS.HERO.sizes,
   });
 
   const resilientDay = useResilientImage({
     liveSrc: dayImage,
     keyOptions: { type: "product", slug: "stadium-high-mast", variant: "day" },
     placeholderType: "product",
+    transformOptions: IMAGE_PRESETS.SHOWCASE.transform,
+    responsiveWidths: IMAGE_PRESETS.SHOWCASE.widths,
+    sizes: IMAGE_PRESETS.SHOWCASE.sizes,
   });
 
   const resilientNight = useResilientImage({
     liveSrc: nightImage || dayImage,
     keyOptions: { type: "product", slug: "stadium-high-mast", variant: "night" },
     placeholderType: "product",
+    transformOptions: IMAGE_PRESETS.SHOWCASE.transform,
+    responsiveWidths: IMAGE_PRESETS.SHOWCASE.widths,
+    sizes: IMAGE_PRESETS.SHOWCASE.sizes,
   });
 
   return (
@@ -259,8 +269,14 @@ export default function StadiumHighMastPage() {
         {/* Full-bleed Background Image */}
         <img
           src={resilientHero.src}
+          srcSet={resilientHero.srcSet}
+          sizes={resilientHero.sizes}
           alt="SSIL Stadium High Mast Lighting Hero"
+          width={1920}
+          height={540}
           className="absolute inset-0 w-full h-full object-cover object-center rounded-none"
+          loading="eager"
+          decoding="async"
           onLoad={resilientHero.onLoad}
           onError={resilientHero.onError}
         />
@@ -412,10 +428,13 @@ export default function StadiumHighMastPage() {
                 {/* Image Container with Day/Night hover transition */}
                 <div className="relative aspect-[4/4.5] sm:aspect-[4/4.8] w-full overflow-hidden">
                   {/* Day Version (Default) */}
-                  {/* Day Version (Default) */}
                   <img
                     src={resilientDay.src}
+                    srcSet={resilientDay.srcSet}
+                    sizes={resilientDay.sizes}
                     alt="SSIL Stadium High Mast Lighting Daytime"
+                    width={600}
+                    height={700}
                     className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                     loading="lazy"
                     decoding="async"
@@ -426,7 +445,11 @@ export default function StadiumHighMastPage() {
                   {/* Night Version (Smoothly crossfades in on hover) */}
                   <img
                     src={resilientNight.src}
+                    srcSet={resilientNight.srcSet}
+                    sizes={resilientNight.sizes}
                     alt="SSIL Stadium High Mast Floodlighting Night Operation"
+                    width={600}
+                    height={700}
                     className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out group-hover:scale-105 pointer-events-none"
                     loading="lazy"
                     decoding="async"

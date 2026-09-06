@@ -18,6 +18,8 @@ const MarqueeItem = ({ client }: { client: { name: string; logoUrl: string; id?:
           <img
             src={client.logoUrl}
             alt={`${client.name} Logo`}
+            width={130}
+            height={56}
             className="h-full w-auto max-w-[130px] object-contain filter drop-shadow-md brightness-105 dark:invert-0"
             onError={() => setImgError(true)}
             loading="lazy"
