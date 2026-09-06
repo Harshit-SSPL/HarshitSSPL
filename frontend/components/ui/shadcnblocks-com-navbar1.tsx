@@ -6,7 +6,8 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, ChevronDown, ChevronRight, Sun, Zap, Sparkles } from "lucide-react";
 import AnimatedThemeToggler from "@/components/ui/animated-theme-toggler";
-import { catalogProducts } from "@/data/products-catalog";
+import { catalogProducts, CatalogProduct } from "@/data/products-catalog";
+import { fetchApi } from "@/lib/admin-api";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -55,6 +56,7 @@ const Navbar1 = ({
   const [solarDropdownOpen, setSolarDropdownOpen] = useState(false);
   const [solarLightingSubOpen, setSolarLightingSubOpen] = useState(false);
   const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
+  const [productsList, setProductsList] = useState<CatalogProduct[]>(catalogProducts);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const solarDropdownRef = useRef<HTMLDivElement>(null);
   const solarCloseTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -62,6 +64,58 @@ const Navbar1 = ({
   const productsDropdownRef = useRef<HTMLDivElement>(null);
   const productsCloseTimeout = useRef<NodeJS.Timeout | null>(null);
   const pathname = usePathname();
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchLiveProducts = async () => {
+      try {
+        const data = await fetchApi("/products");
+        if (isMounted && data.success && Array.isArray(data.products) && data.products.length > 0) {
+          // Merge API data with default catalog
+          const remoteMap = new Map(data.products.map((p: any) => [p.slug, p]));
+          const merged: CatalogProduct[] = catalogProducts.map((local) => {
+            const remote = remoteMap.get(local.slug);
+            if (remote) {
+              return {
+                ...local,
+                name: remote.name || local.name,
+                dayImage: remote.dayImage || local.dayImage,
+                nightImage: remote.nightImage || local.nightImage,
+              };
+            }
+            return local;
+          });
+
+          // Append any newly created products from MongoDB that don't exist in local catalog
+          data.products.forEach((remote: any) => {
+            if (!catalogProducts.some((local) => local.slug === remote.slug)) {
+              merged.push({
+                id: remote._id || remote.id,
+                name: remote.name,
+                slug: remote.slug,
+                category: remote.category || "General",
+                tagline: remote.tagline || "",
+                description: remote.description || "",
+                dayImage: remote.dayImage || "",
+                nightImage: remote.nightImage || remote.dayImage || "",
+                designCount: remote.designCount || 0,
+                galleryImages: remote.galleryImages || [],
+              });
+            }
+          });
+
+          setProductsList(merged);
+        }
+      } catch (err) {
+        // Fallback to default catalogProducts
+      }
+    };
+
+    fetchLiveProducts();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -213,36 +267,39 @@ const Navbar1 = ({
                                   onClick={() => setProductsDropdownOpen(false)}
                                   className="text-[11px] font-bold text-slate-500 hover:text-ssil-red dark:text-slate-400 dark:hover:text-ssil-red transition-colors flex items-center gap-1"
                                 >
-                                  <span>View All (18)</span>
+                                  <span>View All ({productsList.length})</span>
                                   <ChevronRight className="h-3 w-3 text-ssil-red" />
                                 </Link>
                               </div>
 
                               {/* 3 Columns with Vertical Partition Lines */}
                               <div className="grid grid-cols-3 divide-x divide-slate-200/80 dark:divide-zinc-800/80">
-                                {[0, 1, 2].map((colIdx) => {
-                                  const colProducts = catalogProducts.slice(colIdx * 7, (colIdx + 1) * 7);
-                                  return (
-                                    <div
-                                      key={colIdx}
-                                      className={`flex flex-col gap-1 ${
-                                        colIdx === 0 ? "pr-3" : colIdx === 1 ? "px-3" : "pl-3"
-                                      }`}
-                                    >
-                                      {colProducts.map((prod) => (
-                                        <Link
-                                          key={prod.id || prod.slug}
-                                          href={`/products/${prod.slug}`}
-                                          onClick={() => setProductsDropdownOpen(false)}
-                                          className="group flex items-center justify-between px-2.5 py-1.5 rounded-xl text-left text-xs font-bold text-slate-800 dark:text-slate-200 hover:text-ssil-red dark:hover:text-ssil-red hover:bg-ssil-red/10 dark:hover:bg-ssil-red/15 transition-all duration-150"
-                                        >
-                                          <span className="truncate">{prod.name}</span>
-                                          <ChevronRight className="h-3 w-3 text-ssil-red opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all shrink-0 ml-1" />
-                                        </Link>
-                                      ))}
-                                    </div>
-                                  );
-                                })}
+                                {(() => {
+                                  const itemsPerCol = Math.ceil(productsList.length / 3);
+                                  return [0, 1, 2].map((colIdx) => {
+                                    const colProducts = productsList.slice(colIdx * itemsPerCol, (colIdx + 1) * itemsPerCol);
+                                    return (
+                                      <div
+                                        key={colIdx}
+                                        className={`flex flex-col gap-1 ${
+                                          colIdx === 0 ? "pr-3" : colIdx === 1 ? "px-3" : "pl-3"
+                                        }`}
+                                      >
+                                        {colProducts.map((prod) => (
+                                          <Link
+                                            key={prod.id || prod.slug}
+                                            href={`/products/${prod.slug}`}
+                                            onClick={() => setProductsDropdownOpen(false)}
+                                            className="group flex items-center justify-between px-2.5 py-1.5 rounded-xl text-left text-xs font-bold text-slate-800 dark:text-slate-200 hover:text-ssil-red dark:hover:text-ssil-red hover:bg-ssil-red/10 dark:hover:bg-ssil-red/15 transition-all duration-150"
+                                          >
+                                            <span className="truncate">{prod.name}</span>
+                                            <ChevronRight className="h-3 w-3 text-ssil-red opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all shrink-0 ml-1" />
+                                          </Link>
+                                        ))}
+                                      </div>
+                                    );
+                                  });
+                                })()}
                               </div>
                             </div>
                           </div>

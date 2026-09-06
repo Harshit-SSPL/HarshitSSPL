@@ -24,39 +24,66 @@ export default function ProductsPage() {
   const [comingSoonProduct, setComingSoonProduct] = useState<string | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
     const fetchProducts = async () => {
       try {
         const data = await fetchApi("/products");
-        if (data.success && Array.isArray(data.products) && data.products.length > 0) {
-          // Merge API data over hardcoded data so all 18 products are always preserved
-          const merged = catalogProducts.map((local) => {
-            const remote = data.products.find((p: any) => p.slug === local.slug);
+        if (isMounted && data.success && Array.isArray(data.products) && data.products.length > 0) {
+          const remoteMap = new Map(data.products.map((p: any) => [p.slug, p]));
+          const merged: CatalogProduct[] = catalogProducts.map((local) => {
+            const remote = remoteMap.get(local.slug);
             if (remote) {
               return {
                 ...local,
+                name: remote.name || local.name,
                 dayImage: remote.dayImage || local.dayImage,
                 nightImage: remote.nightImage || local.nightImage,
                 description: remote.description || local.description,
                 tagline: remote.tagline || local.tagline,
-                name: local.name,
-                designCount: local.designCount,
+                designCount: remote.designCount !== undefined ? remote.designCount : local.designCount,
               };
             }
             return local;
           });
+
+          // Append newly created products from MongoDB
+          data.products.forEach((remote: any) => {
+            if (!catalogProducts.some((local) => local.slug === remote.slug)) {
+              merged.push({
+                id: remote._id || remote.id,
+                name: remote.name,
+                slug: remote.slug,
+                category: remote.category || "General",
+                tagline: remote.tagline || "",
+                description: remote.description || "",
+                dayImage: remote.dayImage || "",
+                nightImage: remote.nightImage || remote.dayImage || "",
+                designCount: remote.designCount || 0,
+                galleryImages: remote.galleryImages || [],
+              });
+            }
+          });
+
           setProducts(merged);
         }
       } catch (err) {
-        // Fallback to hardcoded catalogProducts on network lag or error
-        setProducts(catalogProducts);
+        // Fallback to static catalogProducts
       }
     };
 
     fetchProducts();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  const mainstreamList = products.slice(0, 16);
-  const solarList = products.slice(16);
+  const isSolar = (p: CatalogProduct) =>
+    (p.category && p.category.toLowerCase().includes("solar")) ||
+    (p.slug && p.slug.toLowerCase().includes("solar")) ||
+    (p.name && p.name.toLowerCase().includes("solar"));
+
+  const mainstreamList = products.filter((p) => !isSolar(p));
+  const solarList = products.filter((p) => isSolar(p));
 
   return (
     <div className="relative min-h-screen w-full bg-white dark:bg-black text-slate-900 dark:text-white transition-colors duration-300 overflow-hidden">

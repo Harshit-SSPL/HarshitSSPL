@@ -16,6 +16,7 @@ export interface CatalogProduct {
   dayImage: string;
   nightImage: string;
   heroImage?: string;
+  category?: string;
   galleryImages: GalleryItem[];
 }
 
