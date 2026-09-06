@@ -56,8 +56,8 @@ const mediaItems: MediaItem[] = [
 export function MediaShowcaseSection() {
   const [selectedVideo, setSelectedVideo] = useState<MediaItem | null>(null);
 
-  // Duplicate items array to ensure seamless infinite looping marquee
-  const marqueeItems = [...mediaItems, ...mediaItems, ...mediaItems];
+  // Duplicate items array for continuous seamless glide
+  const marqueeItems = [...mediaItems, ...mediaItems];
 
   // Close modal on Escape key
   useEffect(() => {
@@ -129,11 +129,11 @@ export function MediaShowcaseSection() {
 
         {/* Continuous Gliding Track */}
         <motion.div
-          className="flex items-center gap-4 sm:gap-6 w-max"
-          animate={{ x: ["0%", "-33.333%"] }}
+          className="flex items-center gap-4 sm:gap-6 w-max will-change-transform transform-gpu"
+          animate={{ x: ["0%", "-50%"] }}
           transition={{
             ease: "linear",
-            duration: 40,
+            duration: 35,
             repeat: Infinity,
           }}
         >

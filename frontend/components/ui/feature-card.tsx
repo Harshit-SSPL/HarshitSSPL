@@ -151,7 +151,7 @@ export function FeatureCardDemo() {
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 lg:gap-5"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, margin: "-40px" }}
           variants={containerVariants}
         >
           {ssilProcessSteps.map((step, idx) => {

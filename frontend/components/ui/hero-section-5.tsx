@@ -23,7 +23,8 @@ const MarqueeItem = ({ client }: { client: ClientCompany }) => {
             alt={`${client.name} Logo`}
             className="h-full w-auto max-w-[120px] object-contain filter drop-shadow-md brightness-105 dark:invert-0"
             onError={() => setImgError(true)}
-            loading="eager"
+            loading="lazy"
+            decoding="async"
           />
         ) : (
           <span className="text-xs font-black tracking-wider text-slate-800 dark:text-white uppercase text-center">

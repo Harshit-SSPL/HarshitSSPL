@@ -23,7 +23,7 @@ const Counter = ({
   ease = "easeOut",
 }: CounterProps) => {
   const nodeRef = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(nodeRef, { once: false, margin: "-30px" });
+  const isInView = useInView(nodeRef, { once: true, margin: "-30px" });
 
   useEffect(() => {
     const node = nodeRef.current;
@@ -188,7 +188,7 @@ export const Stats2 = () => {
           className="text-center max-w-4xl mx-auto mb-12"
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-40px" }}
+          viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
           <span className="text-sm sm:text-base font-extrabold uppercase tracking-widest text-ssil-red block mb-2.5">
@@ -207,7 +207,7 @@ export const Stats2 = () => {
           className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, margin: "-40px" }}
+          viewport={{ once: true, margin: "-40px" }}
           variants={containerVariants}
         >
           {metrics.map((item, index) => (

@@ -51,6 +51,7 @@ export const HeroVideoCarousel = () => {
             videoRefs.current[idx] = el;
           }}
           autoPlay={idx === 0}
+          preload={idx === 0 ? "auto" : "metadata"}
           muted
           playsInline
           onEnded={() => handleVideoEnded(idx)}

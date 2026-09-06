@@ -394,17 +394,19 @@ export default function StadiumHighMastPage() {
                   {/* Day Version (Default) */}
                   <img
                     src={dayImage}
-                    alt="SSIL Stadium High Mast Lighting Tower Daytime"
+                    alt="SSIL Stadium High Mast Lighting Daytime"
                     className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-                    loading="eager"
+                    loading="lazy"
+                    decoding="async"
                   />
 
                   {/* Night Version (Smoothly crossfades in on hover) */}
                   <img
                     src={nightImage || dayImage}
-                    alt="SSIL Stadium High Mast Floodlighting Night Illumination"
+                    alt="SSIL Stadium High Mast Floodlighting Night Operation"
                     className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out group-hover:scale-105 pointer-events-none"
-                    loading="eager"
+                    loading="lazy"
+                    decoding="async"
                   />
                   
                   {/* Subtle Gradient Shadow Overlay */}

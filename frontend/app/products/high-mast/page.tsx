@@ -394,7 +394,8 @@ export default function HighMastPage() {
                     src={dayImage}
                     alt="SSIL Hot-Dip Galvanized High Mast Pole Daytime"
                     className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-                    loading="eager"
+                    loading="lazy"
+                    decoding="async"
                   />
 
                   {/* Night Version (Smoothly crossfades in on hover) */}
@@ -402,7 +403,8 @@ export default function HighMastPage() {
                     src={nightImage || dayImage}
                     alt="SSIL Hot-Dip Galvanized High Mast Pole Night Illumination"
                     className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out group-hover:scale-105 pointer-events-none"
-                    loading="eager"
+                    loading="lazy"
+                    decoding="async"
                   />
                   
                   {/* Subtle Gradient Shadow Overlay */}

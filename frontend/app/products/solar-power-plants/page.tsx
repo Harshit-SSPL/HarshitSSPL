@@ -310,19 +310,22 @@ export default function SolarPowerPlantsPage() {
             <motion.div variants={childVariants} className="lg:col-span-6">
               <div className="group relative rounded-2xl sm:rounded-3xl border border-slate-200/90 dark:border-zinc-800 overflow-hidden shadow-lg bg-slate-100 dark:bg-zinc-900 cursor-pointer w-full max-w-[560px] mx-auto lg:max-w-none">
                 <div className="relative aspect-[12/9] w-full overflow-hidden">
-                  {/* Day Image (Default) */}
+                  {/* Day Version (Default) */}
                   <img
                     src={dayImage}
-                    alt="SSIL Commercial Solar Power Plant Daytime"
+                    alt="SSIL Solar Power Plant Installation Daytime"
                     className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-                    loading="eager"
+                    loading="lazy"
+                    decoding="async"
                   />
-                  {/* Night Image (Hover Transition) */}
+
+                  {/* Night Version (Smoothly crossfades in on hover) */}
                   <img
                     src={nightImage || dayImage}
-                    alt="SSIL Solar Power Plant Night Illumination"
+                    alt="SSIL Solar Power Plant Illumination"
                     className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out group-hover:scale-105 pointer-events-none"
-                    loading="eager"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 pointer-events-none" />
                   

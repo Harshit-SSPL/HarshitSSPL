@@ -155,6 +155,8 @@ export default function GalleryPage() {
                         src={project.image}
                         alt={project.title}
                         fill
+                        loading="lazy"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
                         className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                       />
 

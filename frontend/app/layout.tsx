@@ -4,7 +4,7 @@ import "./globals.css";
 import { Navbar1 } from "@/components/ui/shadcnblocks-com-navbar1";
 import { Footerdemo } from "@/components/ui/footer-section";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap", preload: true });
 
 export const metadata: Metadata = {
   title: "Shiv Shakti India Limited (SSIL) | Outdoor & Infrastructure Lighting Solutions",

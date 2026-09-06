@@ -78,7 +78,7 @@ export function WhySsilSection() {
       className="py-10 md:py-14 bg-black text-white border-b border-zinc-900 transition-colors relative overflow-hidden"
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: false, amount: 0.15 }}
+      viewport={{ once: true, margin: "-40px" }}
       variants={sectionVariants}
     >
       <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
