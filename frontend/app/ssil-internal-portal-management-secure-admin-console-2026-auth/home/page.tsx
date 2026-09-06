@@ -28,6 +28,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { fetchApi, uploadImageFile, ADMIN_BASE_PATH } from "@/lib/admin-api";
 import { featuredProducts as defaultFeatured, FeaturedProduct } from "@/data/featured-products";
+import { NEUTRAL_BANNER_PLACEHOLDER } from "@/lib/placeholders";
 
 interface FeaturedProductAdminItem {
   _id?: string;
@@ -321,7 +322,7 @@ export default function VisualHomePageEditor() {
       {/* ============================================================ */}
       <div className="relative w-full h-[54vh] sm:h-[62vh] max-h-[540px] bg-slate-950 overflow-hidden group/hero border-b-4 border-ssil-red">
         <Image
-          src="https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614300/ssil_banner_products_hero.png"
+          src={NEUTRAL_BANNER_PLACEHOLDER}
           alt="Home Hero"
           fill
           priority

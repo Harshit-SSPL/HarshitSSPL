@@ -23,6 +23,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { EnquiryModal } from "@/components/ui/enquiry-modal";
 import { fetchApi } from "@/lib/admin-api";
+import { NEUTRAL_BANNER_PLACEHOLDER, NEUTRAL_PRODUCT_PLACEHOLDER } from "@/lib/placeholders";
 
 const sectionVariants = {
   hidden: { opacity: 0 },
@@ -64,9 +65,9 @@ const solarTechnicalSpecs: SolarSpecRow[] = [
 ];
 
 export default function SolarPowerPlantsPage() {
-  const [bannerImage, setBannerImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614314/ssil_banner_solar_power_plants.png");
-  const [dayImage, setDayImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614325/ssil_product_solar_day.png");
-  const [nightImage, setNightImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614328/ssil_product_solar_night.png");
+  const [bannerImage, setBannerImage] = useState(NEUTRAL_BANNER_PLACEHOLDER);
+  const [dayImage, setDayImage] = useState(NEUTRAL_PRODUCT_PLACEHOLDER);
+  const [nightImage, setNightImage] = useState(NEUTRAL_PRODUCT_PLACEHOLDER);
   const [enquiryState, setEnquiryState] = useState<{
     isOpen: boolean;
     productCategory: string;

@@ -21,6 +21,7 @@ import { ProductCard } from "@/components/ui/product-card";
 import { EnquiryModal } from "@/components/ui/enquiry-modal";
 import { ImagePreviewModal } from "@/components/ui/image-preview-modal";
 import { fetchApi } from "@/lib/admin-api";
+import { NEUTRAL_BANNER_PLACEHOLDER } from "@/lib/placeholders";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -123,7 +124,7 @@ export default function ProductDetailPage() {
       name: fallbackProduct?.name || apiProduct.name,
       designCount: finalGallery.length,
       galleryImages: finalGallery,
-      heroImage: apiProduct.heroImage || fallbackProduct?.heroImage || "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614300/ssil_banner_products_hero.png",
+      heroImage: apiProduct.heroImage || fallbackProduct?.heroImage || NEUTRAL_BANNER_PLACEHOLDER,
     } as CatalogProduct;
   }, [fallbackProduct, apiProduct]);
 
@@ -225,7 +226,7 @@ export default function ProductDetailPage() {
       <section className="relative z-10 w-full h-[54vh] sm:h-[62vh] max-h-[540px] flex flex-col justify-between overflow-hidden rounded-none pt-24 pb-10 sm:pb-12 bg-slate-950">
         {/* Full-bleed Background Image */}
         <Image
-          src={product.heroImage || "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614300/ssil_banner_products_hero.png"}
+          src={product.heroImage || NEUTRAL_BANNER_PLACEHOLDER}
           alt={`${product.name} SSIL Hero`}
           fill
           priority

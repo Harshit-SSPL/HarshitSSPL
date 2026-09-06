@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { EnquiryModal } from "@/components/ui/enquiry-modal";
 import { fetchApi } from "@/lib/admin-api";
+import { NEUTRAL_BANNER_PLACEHOLDER, NEUTRAL_PRODUCT_PLACEHOLDER } from "@/lib/placeholders";
 import Image from "next/image";
 
 interface HighMastSpecRow {
@@ -190,9 +191,9 @@ const childVariants = {
 };
 
 export default function HighMastPage() {
-  const [bannerImage, setBannerImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614300/ssil_banner_products_hero.png");
-  const [dayImage, setDayImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614346/ssil_hp_prod05_day.png");
-  const [nightImage, setNightImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614348/ssil_hp_prod05_night.png");
+  const [bannerImage, setBannerImage] = useState(NEUTRAL_BANNER_PLACEHOLDER);
+  const [dayImage, setDayImage] = useState(NEUTRAL_PRODUCT_PLACEHOLDER);
+  const [nightImage, setNightImage] = useState(NEUTRAL_PRODUCT_PLACEHOLDER);
   const [enquiryState, setEnquiryState] = useState<{
     isOpen: boolean;
     productCategory: string;

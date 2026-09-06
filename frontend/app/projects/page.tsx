@@ -8,6 +8,7 @@ import { MapPin, ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { galleryProjects, GalleryProject } from "@/data/gallery-projects";
 import { fetchApi } from "@/lib/admin-api";
+import { NEUTRAL_BANNER_PLACEHOLDER, NEUTRAL_PRODUCT_PLACEHOLDER } from "@/lib/placeholders";
 
 // Animation Variants matching Home & About Us design system
 const sectionVariants = {
@@ -35,6 +36,7 @@ const childVariants = {
 
 export default function GalleryPage() {
   const [projects, setProjects] = React.useState<GalleryProject[]>(galleryProjects);
+  const [bannerImage, setBannerImage] = React.useState<string>(NEUTRAL_BANNER_PLACEHOLDER);
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -61,6 +63,9 @@ export default function GalleryPage() {
             stats: p.stats || [],
           }));
           setProjects(mapped);
+          if (mapped[0]?.image) {
+            setBannerImage(mapped[0].image);
+          }
         }
       } catch (err) {
         // Fallback to static gallery
@@ -80,7 +85,7 @@ export default function GalleryPage() {
         
         {/* Full-bleed Background Hero Image */}
         <Image
-          src="https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614300/ssil_banner_products_hero.png"
+          src={bannerImage}
           alt="SSIL Real World Infrastructure & Lighting Projects"
           fill
           priority
@@ -154,7 +159,7 @@ export default function GalleryPage() {
                   <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-200 dark:border-zinc-800/90 bg-slate-100 dark:bg-zinc-900 shadow-xl transition-all duration-500 group-hover:border-ssil-red/50 group-hover:shadow-ssil-red/10">
                     <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] overflow-hidden">
                       <Image
-                        src={project.image}
+                        src={project.image || NEUTRAL_PRODUCT_PLACEHOLDER}
                         alt={project.title}
                         fill
                         loading="lazy"

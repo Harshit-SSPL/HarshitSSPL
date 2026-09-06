@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { EnquiryModal } from "@/components/ui/enquiry-modal";
 import { ImagePreviewModal } from "@/components/ui/image-preview-modal";
 import { fetchApi } from "@/lib/admin-api";
+import { NEUTRAL_BANNER_PLACEHOLDER, NEUTRAL_PRODUCT_PLACEHOLDER } from "@/lib/placeholders";
 
 import Image from "next/image";
 
@@ -228,9 +229,9 @@ const childVariants = {
 };
 
 export default function OctagonalPolesPage() {
-  const [bannerImage, setBannerImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614311/ssil_banner_octagonal_poles.png");
-  const [dayImage, setDayImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614320/ssil_product_octagonal_day.png");
-  const [nightImage, setNightImage] = useState("https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614322/ssil_product_octagonal_night.png");
+  const [bannerImage, setBannerImage] = useState(NEUTRAL_BANNER_PLACEHOLDER);
+  const [dayImage, setDayImage] = useState(NEUTRAL_PRODUCT_PLACEHOLDER);
+  const [nightImage, setNightImage] = useState(NEUTRAL_PRODUCT_PLACEHOLDER);
   const [enquiryState, setEnquiryState] = useState<{
     isOpen: boolean;
     productCategory: string;

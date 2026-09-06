@@ -7,6 +7,7 @@ import { ProductCard } from "@/components/ui/product-card";
 import { ProductFaqSection } from "@/components/ui/product-faq";
 import { ComingSoonModal } from "@/components/ui/coming-soon-modal";
 import { fetchApi } from "@/lib/admin-api";
+import { NEUTRAL_BANNER_PLACEHOLDER } from "@/lib/placeholders";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -21,6 +22,7 @@ const containerVariants = {
 export default function ProductsPage() {
   // Always initialize with the full hardcoded catalog products
   const [products, setProducts] = useState<CatalogProduct[]>(catalogProducts);
+  const [bannerImage, setBannerImage] = useState<string>(NEUTRAL_BANNER_PLACEHOLDER);
   const [comingSoonProduct, setComingSoonProduct] = useState<string | null>(null);
 
   useEffect(() => {
@@ -64,6 +66,12 @@ export default function ProductsPage() {
             }
           });
 
+          // Set banner from first product that has a heroImage
+          const foundHero = data.products.find((p: any) => p.heroImage);
+          if (foundHero && foundHero.heroImage) {
+            setBannerImage(foundHero.heroImage);
+          }
+
           setProducts(merged);
         }
       } catch (err) {
@@ -95,8 +103,8 @@ export default function ProductsPage() {
         
         {/* Full-bleed Background Image */}
         <img
-          src="https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614300/ssil_banner_products_hero.png"
-          alt="SSIL World Street Night Lighting Installation"
+          src={bannerImage}
+          alt="SSIL Products Overview Hero"
           className="absolute inset-0 w-full h-full object-cover object-center rounded-none"
           loading="eager"
           decoding="sync"

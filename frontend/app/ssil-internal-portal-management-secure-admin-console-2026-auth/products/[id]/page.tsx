@@ -28,6 +28,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { fetchApi, uploadImageFile, ADMIN_BASE_PATH } from "@/lib/admin-api";
 import { catalogProducts } from "@/data/products-catalog";
+import { NEUTRAL_BANNER_PLACEHOLDER, NEUTRAL_PRODUCT_PLACEHOLDER } from "@/lib/placeholders";
 
 interface DesignItem {
   _id?: string;
@@ -83,9 +84,9 @@ export default function VisualProductPageEditor() {
     slug: productId,
     tagline: "",
     description: "",
-    dayImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614330/ssil_hp_prod01_day.png",
-    nightImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614332/ssil_hp_prod01_night.png",
-    heroImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614300/ssil_banner_products_hero.png",
+    dayImage: "",
+    nightImage: "",
+    heroImage: "",
     active: true,
   });
 
@@ -340,7 +341,7 @@ export default function VisualProductPageEditor() {
     setSelectedDesignIdx(null);
     setDesignForm({
       name: `${product.name} Model ${String(designs.length + 1).padStart(2, "0")}`,
-      dayImage: product.dayImage || "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614330/ssil_hp_prod01_day.png",
+      dayImage: product.dayImage || "",
       specs: "IP66 Weatherproof • Custom Engineering • ISO Standards",
     });
     setDesignModalOpen(true);
@@ -527,7 +528,7 @@ export default function VisualProductPageEditor() {
       {/* ============================================================ */}
       <div className="relative w-full h-[52vh] sm:h-[60vh] max-h-[520px] bg-slate-950 overflow-hidden group/hero border-b-4 border-ssil-red">
         <Image
-          src={product.heroImage || "https://res.cloudinary.com/wlgmz8gr/image/upload/v1788510355/ssil_banners/products-hero.png"}
+          src={product.heroImage || NEUTRAL_BANNER_PLACEHOLDER}
           alt={product.name}
           fill
           priority

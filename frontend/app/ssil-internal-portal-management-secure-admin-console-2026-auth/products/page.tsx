@@ -26,6 +26,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { fetchApi, uploadImageFile, ADMIN_BASE_PATH } from "@/lib/admin-api";
 import { catalogProducts } from "@/data/products-catalog";
+import { NEUTRAL_BANNER_PLACEHOLDER } from "@/lib/placeholders";
 
 interface ProductItem {
   _id?: string;
@@ -79,7 +80,7 @@ export default function VisualProductsCatalogEditor() {
 
   // Catalog Hero Banner State
   const [catalogBanner, setCatalogBanner] = useState(
-    "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614300/ssil_banner_products_hero.png"
+    NEUTRAL_BANNER_PLACEHOLDER
   );
 
   const loadProducts = async () => {
@@ -260,9 +261,9 @@ export default function VisualProductsCatalogEditor() {
                   slug: "",
                   tagline: "",
                   description: "",
-                  dayImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614330/ssil_hp_prod01_day.png",
-                  nightImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614332/ssil_hp_prod01_night.png",
-                  heroImage: "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614300/ssil_banner_products_hero.png",
+                  dayImage: "",
+                  nightImage: "",
+                  heroImage: "",
                   active: true,
                 });
                 setModalOpen(true);

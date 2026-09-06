@@ -7,6 +7,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { featuredProducts as defaultFeatured, FeaturedProduct } from "@/data/featured-products";
 import { fetchApi } from "@/lib/admin-api";
+import { NEUTRAL_PRODUCT_PLACEHOLDER } from "@/lib/placeholders";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -21,8 +22,8 @@ const containerVariants = {
 const cardVariants = {
   hidden: { y: 16, opacity: 0 },
   visible: {
-    y: 0,
     opacity: 1,
+    y: 0,
     transition: {
       duration: 0.35,
       ease: [0.21, 0.47, 0.32, 0.98],
@@ -32,6 +33,8 @@ const cardVariants = {
 
 const ProductCard = ({ product }: { product: FeaturedProduct }) => {
   const productHref = product.slug ? `/products/${product.slug}` : "/products";
+  const daySrc = product.dayImage || NEUTRAL_PRODUCT_PLACEHOLDER;
+  const nightSrc = product.nightImage || daySrc;
 
   return (
     <motion.div variants={cardVariants} className="group flex flex-col w-full">
@@ -40,7 +43,7 @@ const ProductCard = ({ product }: { product: FeaturedProduct }) => {
         <div className="relative w-full aspect-[10/15] rounded-none overflow-hidden bg-slate-100 dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 transition-all duration-300 group-hover:-translate-y-1.5 group-hover:border-ssil-red shadow-sm group-hover:shadow-lg">
           {/* Day Image */}
           <img
-            src={product.dayImage}
+            src={daySrc}
             alt={`${product.name} Daytime`}
             className="w-full h-full object-cover object-center opacity-100 group-hover:opacity-0 transition-opacity duration-500 ease-in-out"
             loading="lazy"
@@ -49,7 +52,7 @@ const ProductCard = ({ product }: { product: FeaturedProduct }) => {
 
           {/* Night Image */}
           <img
-            src={product.nightImage || product.dayImage}
+            src={nightSrc}
             alt={`${product.name} Nighttime`}
             className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out pointer-events-none"
             loading="lazy"
@@ -81,8 +84,8 @@ export const FeaturedProducts = () => {
           const mapped: FeaturedProduct[] = data.products.map((p: any) => ({
             id: p._id || p.id,
             name: p.name,
-            dayImage: p.dayImage && !p.dayImage.startsWith("/images/") ? p.dayImage : defaultFeatured[0].dayImage,
-            nightImage: p.nightImage && !p.nightImage.startsWith("/images/") ? p.nightImage : defaultFeatured[0].nightImage,
+            dayImage: p.dayImage || NEUTRAL_PRODUCT_PLACEHOLDER,
+            nightImage: p.nightImage || p.dayImage || NEUTRAL_PRODUCT_PLACEHOLDER,
             category: p.category,
             tagline: p.tagline,
             slug: p.slug,

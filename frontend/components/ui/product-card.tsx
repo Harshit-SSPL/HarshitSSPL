@@ -31,8 +31,7 @@ export const cardVariants = {
   },
 };
 
-const DEFAULT_FALLBACK_DAY = "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614330/ssil_hp_prod01_day.png";
-const DEFAULT_FALLBACK_NIGHT = "https://res.cloudinary.com/wlgmz8gr/image/upload/f_auto,q_auto/v1788614332/ssil_hp_prod01_night.png";
+const NEUTRAL_PLACEHOLDER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600' viewBox='0 0 400 600'%3E%3Crect width='100%25' height='100%25' fill='%2318181b'/%3E%3Cpath d='M200 270 L200 330 M170 300 L230 300' stroke='%233f3f46' stroke-width='2' stroke-linecap='round'/%3E%3Ctext x='50%25' y='360' dominant-baseline='middle' text-anchor='middle' fill='%2371717a' font-family='sans-serif' font-size='12' font-weight='700'%3ESSIL INFRASTRUCTURE%3C/text%3E%3C/svg%3E";
 
 export const ProductCard = ({
   name,
@@ -46,8 +45,8 @@ export const ProductCard = ({
   onEnquire,
   onImageClick,
 }: ProductCardProps) => {
-  const safeDay = dayImage && !dayImage.startsWith("/images/") ? dayImage : DEFAULT_FALLBACK_DAY;
-  const safeNight = nightImage && !nightImage.startsWith("/images/") ? nightImage : (dayImage || DEFAULT_FALLBACK_NIGHT);
+  const safeDay = dayImage && !dayImage.startsWith("/images/") ? dayImage : NEUTRAL_PLACEHOLDER;
+  const safeNight = nightImage && !nightImage.startsWith("/images/") ? nightImage : (dayImage || NEUTRAL_PLACEHOLDER);
 
   const [daySrc, setDaySrc] = React.useState<string>(safeDay);
   const [nightSrc, setNightSrc] = React.useState<string>(safeNight);
@@ -86,7 +85,7 @@ export const ProductCard = ({
             loading="lazy"
             decoding="async"
             onError={() => {
-              if (daySrc !== DEFAULT_FALLBACK_DAY) setDaySrc(DEFAULT_FALLBACK_DAY);
+              if (daySrc !== NEUTRAL_PLACEHOLDER) setDaySrc(NEUTRAL_PLACEHOLDER);
             }}
           />
 
@@ -101,7 +100,7 @@ export const ProductCard = ({
             loading="lazy"
             decoding="async"
             onError={() => {
-              if (nightSrc !== DEFAULT_FALLBACK_NIGHT) setNightSrc(DEFAULT_FALLBACK_NIGHT);
+              if (nightSrc !== NEUTRAL_PLACEHOLDER) setNightSrc(NEUTRAL_PLACEHOLDER);
             }}
           />
         </>
@@ -117,7 +116,7 @@ export const ProductCard = ({
           loading="lazy"
           decoding="async"
           onError={() => {
-            if (daySrc !== DEFAULT_FALLBACK_DAY) setDaySrc(DEFAULT_FALLBACK_DAY);
+            if (daySrc !== NEUTRAL_PLACEHOLDER) setDaySrc(NEUTRAL_PLACEHOLDER);
           }}
         />
       )}
