@@ -3,49 +3,11 @@
 import React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { InfiniteSlider } from '@/components/ui/infinite-slider';
-import { ProgressiveBlur } from '@/components/ui/progressive-blur';
-import { clientCompanies, ClientCompany } from '@/data/clients';
+import { ClientMarquee } from '@/components/ui/client-marquee';
 import { ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-// Single Gliding Item: Floating 3D PNG Sticker Logo Top + Company Name Bottom
-const MarqueeItem = ({ client }: { client: ClientCompany }) => {
-  const [imgError, setImgError] = React.useState(false);
-
-  return (
-    <div className="flex flex-col items-center justify-center gap-2 shrink-0 px-4 cursor-default group">
-      {/* Top: Floating 3D PNG Sticker Logo */}
-      <div className="h-10 sm:h-12 w-auto flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-        {client.logoUrl && !imgError ? (
-          <img
-            src={client.logoUrl}
-            alt={`${client.name} Logo`}
-            width={120}
-            height={48}
-            className="h-full w-auto max-w-[120px] object-contain filter drop-shadow-md brightness-105 dark:invert-0"
-            onError={() => setImgError(true)}
-            loading="lazy"
-            decoding="async"
-          />
-        ) : (
-          <span className="text-xs font-black tracking-wider text-slate-800 dark:text-white uppercase text-center">
-            {client.name}
-          </span>
-        )}
-      </div>
-
-      {/* Bottom: Company Name */}
-      <span className="text-[10px] sm:text-[11px] font-extrabold text-slate-800 dark:text-zinc-200 tracking-wider text-center uppercase whitespace-nowrap">
-        {client.name}
-      </span>
-    </div>
-  );
-};
-
 export function HeroSection() {
-    const duplicatedClients = [...clientCompanies, ...clientCompanies];
-
     return (
         <div className="relative w-full overflow-hidden flex flex-col">
             {/* Top Main Hero Viewport Canvas (Reduced by exactly 45px from full height) */}
@@ -88,7 +50,7 @@ export function HeroSection() {
                                         transition={{
                                             duration: 1.8,
                                             repeat: Number.POSITIVE_INFINITY,
-                                            repeatDelay: 3.5,
+                                            repeatDelay: 2.2,
                                             ease: "easeInOut",
                                         }}
                                     />
@@ -96,7 +58,6 @@ export function HeroSection() {
                             </Button>
 
                             <Button
-                                key={2}
                                 asChild
                                 size="lg"
                                 variant="ghost"
@@ -123,39 +84,8 @@ export function HeroSection() {
                 </div>
             </section>
 
-            {/* Client Partners Infinite Slider Strip (Positioned immediately after full-viewport Hero) */}
-            <section className="bg-white dark:bg-black py-4 border-t border-b border-slate-200/80 dark:border-zinc-800/80 transition-colors relative z-20 shrink-0">
-                <div className="group relative m-auto max-w-7xl px-6">
-                    <div className="flex flex-col items-center md:flex-row">
-                        <div className="md:max-w-48 md:border-r md:border-slate-200 dark:md:border-zinc-800 md:pr-6 mb-3 md:mb-0 shrink-0">
-                            <p className="text-center md:text-end text-xs sm:text-sm font-extrabold text-slate-500 dark:text-zinc-400 uppercase tracking-wider">
-                                POWERING NATIONAL PROJECTS
-                            </p>
-                        </div>
-                        <div className="relative py-2 md:w-[calc(100%-12rem)] w-full overflow-hidden">
-                            <InfiniteSlider
-                                speed={5}
-                                gap={48}
-                            >
-                                {duplicatedClients.map((client, index) => (
-                                  <MarqueeItem key={`${client.id}-${index}`} client={client} />
-                                ))}
-                            </InfiniteSlider>
-
-                            <ProgressiveBlur
-                                className="pointer-events-none absolute left-0 top-0 h-full w-16"
-                                direction="left"
-                                blurIntensity={1}
-                            />
-                            <ProgressiveBlur
-                                className="pointer-events-none absolute right-0 top-0 h-full w-16"
-                                direction="right"
-                                blurIntensity={1}
-                            />
-                        </div>
-                    </div>
-                </div>
-            </section>
+            {/* Client Partners Live Dynamic Marquee */}
+            <ClientMarquee />
         </div>
     );
 }
