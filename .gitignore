@@ -30,6 +30,8 @@ frontend/.env.*
 
 # vercel & temporary
 .vercel/
+.wrangler/
+backend/.wrangler/
 
 # typescript
 *.tsbuildinfo

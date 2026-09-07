@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import { connectDB } from "./config/db.js";
 
 import authRoutes from "./routes/authRoutes.js";
 import homeRoutes from "./routes/homeRoutes.js";
@@ -44,35 +45,59 @@ app.use(express.json({ limit: "15mb" }));
 app.use(express.urlencoded({ extended: true, limit: "15mb" }));
 app.use(cookieParser());
 
+// Auto-drain body streams on non-body HTTP methods for edge & serverless runtimes
+app.use((req, res, next) => {
+  if (["GET", "HEAD", "OPTIONS"].includes(req.method)) {
+    req.resume();
+  }
+  next();
+});
+
+// Ensure database connection is established
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+  } catch (err) {
+    // fallback gracefully
+  }
+  next();
+});
+
 // Health Checkpoint Handler
 const healthCheckHandler = (req, res) => {
+  const conn = mongoose.default?.connection || mongoose.connection;
   const dbStates = {
     0: "disconnected",
     1: "connected",
     2: "connecting",
     3: "disconnecting",
   };
-  const dbReadyState = mongoose.connection?.readyState ?? 0;
+  const dbReadyState = conn?.readyState ?? 0;
   const dbStatus = dbStates[dbReadyState] || "unknown";
-  const memoryUsage = process.memoryUsage();
+  const memoryUsage = (typeof process !== "undefined" && typeof process.memoryUsage === "function")
+    ? process.memoryUsage()
+    : { heapUsed: 0, heapTotal: 0, rss: 0 };
+  const uptimeSeconds = (typeof process !== "undefined" && typeof process.uptime === "function")
+    ? Math.floor(process.uptime())
+    : 0;
 
   res.status(200).json({
     status: "healthy",
     checkpoint: "OK",
     service: "SSIL CMS API Backend",
-    uptime: `${Math.floor(process.uptime())}s`,
+    uptime: `${uptimeSeconds}s`,
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || "development",
     database: {
       status: dbStatus,
       readyState: dbReadyState,
-      host: mongoose.connection?.host || null,
-      name: mongoose.connection?.name || null,
+      host: conn?.host || null,
+      name: conn?.name || null,
     },
     memory: {
-      heapUsed: `${(memoryUsage.heapUsed / 1024 / 1024).toFixed(2)} MB`,
-      heapTotal: `${(memoryUsage.heapTotal / 1024 / 1024).toFixed(2)} MB`,
-      rss: `${(memoryUsage.rss / 1024 / 1024).toFixed(2)} MB`,
+      heapUsed: `${((memoryUsage.heapUsed || 0) / 1024 / 1024).toFixed(2)} MB`,
+      heapTotal: `${((memoryUsage.heapTotal || 0) / 1024 / 1024).toFixed(2)} MB`,
+      rss: `${((memoryUsage.rss || 0) / 1024 / 1024).toFixed(2)} MB`,
     },
   });
 };

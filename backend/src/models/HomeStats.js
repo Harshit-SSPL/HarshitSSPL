@@ -32,4 +32,5 @@ const HomeStatsSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.models.HomeStats || mongoose.model("HomeStats", HomeStatsSchema);
+const m = mongoose.default || mongoose;
+export default m.models?.HomeStats || m.model("HomeStats", HomeStatsSchema);

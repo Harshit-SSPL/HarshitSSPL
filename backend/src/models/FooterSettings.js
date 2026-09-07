@@ -36,4 +36,5 @@ const FooterSettingsSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.models.FooterSettings || mongoose.model("FooterSettings", FooterSettingsSchema);
+const m = mongoose.default || mongoose;
+export default m.models?.FooterSettings || m.model("FooterSettings", FooterSettingsSchema);

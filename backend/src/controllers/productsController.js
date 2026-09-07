@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Product from "../models/Product.js";
 import ProductDesign from "../models/ProductDesign.js";
 import { deleteFromCloudinary } from "../config/cloudinary.js";
@@ -29,7 +30,7 @@ const fallbackProducts = [
 // GET /api/products (Public list)
 export const getProducts = async (req, res) => {
   try {
-    const products = await Product.find({ active: true }).sort({ order: 1 });
+    const products = await Product.find({ active: true }).sort({ order: 1 }).maxTimeMS(2500).lean();
     return res.status(200).json({
       success: true,
       products: products.length > 0 ? products : fallbackProducts,
@@ -45,7 +46,7 @@ export const getProducts = async (req, res) => {
 // GET /api/products/admin/all (Admin list)
 export const getAllProductsAdmin = async (req, res) => {
   try {
-    const products = await Product.find().sort({ order: 1 });
+    const products = await Product.find().sort({ order: 1 }).maxTimeMS(2500).lean();
     return res.status(200).json({
       success: true,
       products: products.length > 0 ? products : fallbackProducts,
@@ -65,18 +66,23 @@ export const getProductBySlug = async (req, res) => {
     const product = await Product.findOne({
       slug: reqSlug,
       active: true,
-    });
+    })
+      .maxTimeMS(2500)
+      .lean();
 
     if (product) {
       const designs = await ProductDesign.find({
         productId: product._id,
         active: true,
-      }).sort({ order: 1, createdAt: 1 });
+      })
+        .sort({ order: 1, createdAt: 1 })
+        .maxTimeMS(2500)
+        .lean();
 
       return res.status(200).json({
         success: true,
         product: {
-          ...product.toObject(),
+          ...product,
           designs,
         },
       });

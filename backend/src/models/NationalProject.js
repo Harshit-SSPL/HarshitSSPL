@@ -35,4 +35,5 @@ const NationalProjectSchema = new mongoose.Schema(
 
 NationalProjectSchema.index({ order: 1, createdAt: -1 });
 
-export default mongoose.models.NationalProject || mongoose.model("NationalProject", NationalProjectSchema);
+const m = mongoose.default || mongoose;
+export default m.models?.NationalProject || m.model("NationalProject", NationalProjectSchema);

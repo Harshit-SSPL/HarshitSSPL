@@ -65,4 +65,5 @@ const GalleryProjectSchema = new mongoose.Schema(
 
 GalleryProjectSchema.index({ order: 1, createdAt: 1 });
 
-export default mongoose.models.GalleryProject || mongoose.model("GalleryProject", GalleryProjectSchema);
+const m = mongoose.default || mongoose;
+export default m.models?.GalleryProject || m.model("GalleryProject", GalleryProjectSchema);

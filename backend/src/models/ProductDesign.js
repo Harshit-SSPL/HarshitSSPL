@@ -44,4 +44,5 @@ const ProductDesignSchema = new mongoose.Schema(
 
 ProductDesignSchema.index({ productId: 1, order: 1 });
 
-export default mongoose.models.ProductDesign || mongoose.model("ProductDesign", ProductDesignSchema);
+const m = mongoose.default || mongoose;
+export default m.models?.ProductDesign || m.model("ProductDesign", ProductDesignSchema);

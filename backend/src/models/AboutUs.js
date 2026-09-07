@@ -26,4 +26,5 @@ const AboutUsSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.models.AboutUs || mongoose.model("AboutUs", AboutUsSchema);
+const m = mongoose.default || mongoose;
+export default m.models?.AboutUs || m.model("AboutUs", AboutUsSchema);

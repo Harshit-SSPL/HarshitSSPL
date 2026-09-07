@@ -66,4 +66,5 @@ const ProductSchema = new mongoose.Schema(
 
 ProductSchema.index({ order: 1 });
 
-export default mongoose.models.Product || mongoose.model("Product", ProductSchema);
+const m = mongoose.default || mongoose;
+export default m.models?.Product || m.model("Product", ProductSchema);

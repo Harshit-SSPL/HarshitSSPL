@@ -6,10 +6,10 @@ import { deleteFromCloudinary } from "../config/cloudinary.js";
 const resolveProduct = async (identifier) => {
   if (!identifier) return null;
   if (identifier.match(/^[0-9a-fA-F]{24}$/)) {
-    const byId = await Product.findById(identifier);
+    const byId = await Product.findById(identifier).lean();
     if (byId) return byId;
   }
-  return await Product.findOne({ slug: identifier.toLowerCase().trim() });
+  return await Product.findOne({ slug: identifier.toLowerCase().trim() }).lean();
 };
 
 // GET /api/products/:productId/designs (Fetch public designs for a product)
@@ -21,7 +21,9 @@ export const getProductDesigns = async (req, res) => {
       return res.status(200).json({ success: true, designs: [] });
     }
 
-    const designs = await ProductDesign.find({ productId: product._id, active: true }).sort({ order: 1, createdAt: 1 });
+    const designs = await ProductDesign.find({ productId: product._id, active: true })
+      .sort({ order: 1, createdAt: 1 })
+      .lean();
     return res.status(200).json({
       success: true,
       designs,
@@ -46,7 +48,9 @@ export const getAllProductDesignsAdmin = async (req, res) => {
       });
     }
 
-    const designs = await ProductDesign.find({ productId: product._id }).sort({ order: 1, createdAt: 1 });
+    const designs = await ProductDesign.find({ productId: product._id })
+      .sort({ order: 1, createdAt: 1 })
+      .lean();
     return res.status(200).json({
       success: true,
       product,
