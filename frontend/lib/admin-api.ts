@@ -6,6 +6,9 @@ export const ADMIN_BASE_PATH = "/ssil-internal-portal-management-secure-admin-co
 
 const getApiBaseUrl = () => {
   let raw = (process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000/api").trim().replace(/\/+$/, "");
+  if (raw.startsWith("/")) {
+    return raw;
+  }
   if (!raw.endsWith("/api")) {
     raw = `${raw}/api`;
   }
@@ -55,8 +58,7 @@ export async function fetchApi<T = any>(
     ...(options.headers as Record<string, string>),
   };
 
-  // Only set JSON Content-Type when sending a body.
-  // GET/HEAD with Content-Type and no body crashes Cloudflare Workers (error 1101).
+  // Only set JSON Content-Type when sending a body
   if (
     options.body &&
     !(options.body instanceof FormData) &&
@@ -77,12 +79,11 @@ export async function fetchApi<T = any>(
     const response = await fetch(url, {
       ...options,
       headers,
-      credentials: "include", // send/receive HTTP-only cookies
+      credentials: "include",
     });
 
     const data = await response.json();
 
-    // Cache successful GET responses
     if (method === "GET" && data && data.success) {
       apiCache.set(url, { timestamp: Date.now(), data });
     }

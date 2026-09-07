@@ -20,47 +20,16 @@ dotenv.config();
 
 const app = express();
 
-// Middlewares
-const allowedOrigins = [
-  "http://localhost:3000",
-  "http://127.0.0.1:3000",
-  process.env.CLIENT_URL,
-].filter(Boolean);
-
+// Reflect any Origin (open CORS; works with credentials)
 app.use(
   cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps or curl/Postman) or allowed origins
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(null, true); // Permissive for local pair-programming dev
-      }
-    },
+    origin: true,
     credentials: true,
   })
 );
 
-// Drain / skip body parsing on non-body methods BEFORE express.json().
-// On Cloudflare Workers, GET with Content-Type: application/json (no body)
-// can throw Worker error 1101 when body-parser tries to read the stream.
-app.use((req, res, next) => {
-  if (["GET", "HEAD", "OPTIONS"].includes(req.method)) {
-    req.resume();
-    return next();
-  }
-  return next();
-});
-
-const skipBodyMethods = (req) => ["GET", "HEAD", "OPTIONS"].includes(req.method);
-app.use((req, res, next) => {
-  if (skipBodyMethods(req)) return next();
-  return express.json({ limit: "15mb" })(req, res, next);
-});
-app.use((req, res, next) => {
-  if (skipBodyMethods(req)) return next();
-  return express.urlencoded({ extended: true, limit: "15mb" })(req, res, next);
-});
+app.use(express.json({ limit: "15mb" }));
+app.use(express.urlencoded({ extended: true, limit: "15mb" }));
 app.use(cookieParser());
 
 // Ensure database connection is established
@@ -73,9 +42,9 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Health Checkpoint Handler
+// Health Checkpoint Handler (Cloud Run / load balancer probes)
 const healthCheckHandler = (req, res) => {
-  const conn = mongoose.default?.connection || mongoose.connection;
+  const conn = mongoose.connection;
   const dbStates = {
     0: "disconnected",
     1: "connected",
@@ -84,12 +53,14 @@ const healthCheckHandler = (req, res) => {
   };
   const dbReadyState = conn?.readyState ?? 0;
   const dbStatus = dbStates[dbReadyState] || "unknown";
-  const memoryUsage = (typeof process !== "undefined" && typeof process.memoryUsage === "function")
-    ? process.memoryUsage()
-    : { heapUsed: 0, heapTotal: 0, rss: 0 };
-  const uptimeSeconds = (typeof process !== "undefined" && typeof process.uptime === "function")
-    ? Math.floor(process.uptime())
-    : 0;
+  const memoryUsage =
+    typeof process !== "undefined" && typeof process.memoryUsage === "function"
+      ? process.memoryUsage()
+      : { heapUsed: 0, heapTotal: 0, rss: 0 };
+  const uptimeSeconds =
+    typeof process !== "undefined" && typeof process.uptime === "function"
+      ? Math.floor(process.uptime())
+      : 0;
 
   res.status(200).json({
     status: "healthy",
@@ -112,13 +83,11 @@ const healthCheckHandler = (req, res) => {
   });
 };
 
-// Health Check & Checkpoint Routes
 app.get("/healthcheckpoint", healthCheckHandler);
 app.get("/api/healthcheckpoint", healthCheckHandler);
 app.get("/health", healthCheckHandler);
 app.get("/api/health", healthCheckHandler);
 
-// API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/home", homeRoutes);
 app.use("/api/national-projects", nationalProjectsRoutes);
@@ -131,7 +100,6 @@ app.use("/api/upload", uploadRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/enquiries", enquiriesRoutes);
 
-// 404 handler for API routes
 app.use("/api/*", (req, res) => {
   res.status(404).json({
     success: false,
@@ -139,7 +107,6 @@ app.use("/api/*", (req, res) => {
   });
 });
 
-// Global error handler
 app.use((err, req, res, next) => {
   console.error("[Global Error]:", err);
   res.status(err.status || 500).json({

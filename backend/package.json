@@ -4,11 +4,12 @@
   "description": "SSIL Website CMS Node.js & Express API Backend with MongoDB and Cloudinary",
   "main": "src/server.js",
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "start": "node src/server.js",
-    "dev": "wrangler dev",
-    "dev:node": "nodemon src/server.js",
-    "deploy": "wrangler deploy",
+    "dev": "nodemon src/server.js",
     "seed": "node src/seed.js"
   },
   "keywords": [
@@ -33,7 +34,6 @@
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9",
-    "wrangler": "^4.129.0"
+    "nodemon": "^3.1.9"
   }
 }
