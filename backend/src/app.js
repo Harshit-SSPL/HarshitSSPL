@@ -41,17 +41,27 @@ app.use(
   })
 );
 
-app.use(express.json({ limit: "15mb" }));
-app.use(express.urlencoded({ extended: true, limit: "15mb" }));
-app.use(cookieParser());
-
-// Auto-drain body streams on non-body HTTP methods for edge & serverless runtimes
+// Drain / skip body parsing on non-body methods BEFORE express.json().
+// On Cloudflare Workers, GET with Content-Type: application/json (no body)
+// can throw Worker error 1101 when body-parser tries to read the stream.
 app.use((req, res, next) => {
   if (["GET", "HEAD", "OPTIONS"].includes(req.method)) {
     req.resume();
+    return next();
   }
-  next();
+  return next();
 });
+
+const skipBodyMethods = (req) => ["GET", "HEAD", "OPTIONS"].includes(req.method);
+app.use((req, res, next) => {
+  if (skipBodyMethods(req)) return next();
+  return express.json({ limit: "15mb" })(req, res, next);
+});
+app.use((req, res, next) => {
+  if (skipBodyMethods(req)) return next();
+  return express.urlencoded({ extended: true, limit: "15mb" })(req, res, next);
+});
+app.use(cookieParser());
 
 // Ensure database connection is established
 app.use(async (req, res, next) => {

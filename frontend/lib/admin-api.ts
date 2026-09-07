@@ -55,8 +55,13 @@ export async function fetchApi<T = any>(
     ...(options.headers as Record<string, string>),
   };
 
-  // If not FormData, default to application/json
-  if (!(options.body instanceof FormData) && !headers["Content-Type"]) {
+  // Only set JSON Content-Type when sending a body.
+  // GET/HEAD with Content-Type and no body crashes Cloudflare Workers (error 1101).
+  if (
+    options.body &&
+    !(options.body instanceof FormData) &&
+    !headers["Content-Type"]
+  ) {
     headers["Content-Type"] = "application/json";
   }
 
