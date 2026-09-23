@@ -98,7 +98,7 @@ export function Footerdemo() {
     },
     {
       title: "ISO 9001:2015 Certified",
-      subtitle: "ISO 9001:2015 • ISO 14001:2015 • ISO 45001:2018",
+      subtitle: "ISO 9001:2015",
       icon: (
         <svg className="w-12 h-12 sm:w-13 sm:h-13 text-white" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="16" cy="16" r="12.5" strokeDasharray="3.5 2.5" />
@@ -351,7 +351,7 @@ export function Footerdemo() {
         {/* Divider & Copyright Row */}
         <div className="mt-8 sm:mt-10 flex flex-col items-center justify-between gap-3 border-t border-zinc-800/80 pt-5 sm:pt-6 text-center md:flex-row">
           <p className="text-xs font-medium text-slate-400">
-            © {new Date().getFullYear()} Shiv Shakti India Limited / Shiv Shakti Private Limited. All rights reserved.
+            © {new Date().getFullYear()} Shiv Shakti India. All rights reserved.
           </p>
           <nav className="flex gap-6 text-xs font-semibold text-slate-300">
             <Link href="/privacy-policy" className="transition-colors hover:text-ssil-red">

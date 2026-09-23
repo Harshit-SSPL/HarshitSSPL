@@ -196,7 +196,7 @@ const Navbar1 = ({
                   SSIL<span className="text-ssil-red">.</span>
                 </span>
                 <span className="text-[9px] font-bold tracking-widest text-slate-300 uppercase mt-0.5">
-                  Shiv Shakti India Limited
+                  Shiv Shakti India
                 </span>
               </div>
             </Link>
