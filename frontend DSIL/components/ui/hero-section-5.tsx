@@ -1,0 +1,93 @@
+'use client';
+
+import React from 'react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { ClientMarquee } from '@/components/ui/client-marquee';
+import { ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+export function HeroSection() {
+    return (
+        <div className="relative w-full overflow-hidden flex flex-col">
+            {/* Top Main Hero Viewport Canvas (Reduced by exactly 45px from full height) */}
+            <section className="relative w-full flex-1 flex flex-col justify-center min-h-[70vh] sm:min-h-[calc(100vh-125px)] py-14 sm:py-20 lg:py-24">
+                <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:px-8 w-full">
+                    <div className="max-w-3xl text-left">
+                        
+                        {/* Eyebrow: Small, Tracked Uppercase Eyebrow */}
+                        <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-500 dark:text-slate-400 block mb-3">
+                            ABOUT US
+                        </span>
+
+                        {/* Headline: Clean 2-Line Desktop Typography (Second Line Red) */}
+                        <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mb-4">
+                            Complete infrastructure &amp;<br />
+                            <span className="text-dsil-red">architectural lighting.</span>
+                        </h1>
+
+                        {/* Supporting Paragraph: Short & Concise 1-2 Lines */}
+                        <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-2xl mb-6">
+                            DSIL manufactures and delivers complete energy-efficient LED luminaires, solar power systems, monumental flag poles, and infrastructure lighting across India.
+                        </p>
+
+                        {/* CTA Buttons: Explore Products (Periodic Shine) + Contact Engineers */}
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 lg:justify-start">
+                            <Button
+                                asChild
+                                size="lg"
+                                className="h-11 sm:h-12 rounded-full px-6 text-xs sm:text-sm font-extrabold bg-dsil-red hover:bg-red-700 text-white shadow-md shadow-red-900/20 relative overflow-hidden group border-0">
+                                <Link href="/products" className="flex items-center gap-1">
+                                    <span className="text-nowrap relative z-10">Explore Products</span>
+                                    <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5 relative z-10" />
+
+                                    {/* Subtle Periodic Translucent Light Sweep Animation */}
+                                    <motion.span
+                                        className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-[-20deg] pointer-events-none"
+                                        animate={{
+                                            x: ["-150%", "300%"],
+                                        }}
+                                        transition={{
+                                            duration: 1.8,
+                                            repeat: Number.POSITIVE_INFINITY,
+                                            repeatDelay: 2.2,
+                                            ease: "easeInOut",
+                                        }}
+                                    />
+                                </Link>
+                            </Button>
+
+                            <Button
+                                asChild
+                                size="lg"
+                                variant="ghost"
+                                className="h-11 sm:h-12 rounded-full px-6 text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/10 border border-slate-300 dark:border-zinc-800">
+                                <Link href="/contact">
+                                    <span className="text-nowrap">Contact Engineers</span>
+                                </Link>
+                            </Button>
+                        </div>
+
+                    </div>
+                </div>
+
+                {/* Subtle Backdrop Video Layer */}
+                <div className="absolute inset-0 overflow-hidden rounded-3xl border border-black/5 sm:rounded-[3rem] dark:border-white/5 pointer-events-none opacity-15">
+                    <video
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="size-full object-cover opacity-15 invert dark:opacity-25 dark:invert-0"
+                        src="https://ik.imagekit.io/lrigu76hy/tailark/dna-video.mp4?updatedAt=1745736251477"
+                    />
+                </div>
+            </section>
+
+            {/* Client Partners Live Dynamic Marquee */}
+            <ClientMarquee />
+        </div>
+    );
+}
+
+export default HeroSection;

@@ -1,0 +1,471 @@
+"use client";
+
+import React from "react";
+import { HeroSection } from "@/components/ui/hero-section-5";
+import { BackgroundPaths } from "@/components/ui/background-paths";
+import { WhyDsilSection } from "@/components/ui/why-dsil";
+import { motion } from "framer-motion";
+import {
+  Lightbulb,
+  Building,
+  Layers,
+  Zap,
+  ShieldCheck,
+  Wrench,
+  Trees,
+  Landmark,
+  Flag,
+  Sparkles,
+} from "lucide-react";
+import { fetchApi } from "@/lib/admin-api";
+
+const offeringData = [
+  {
+    num: "01",
+    title: "Urban Lighting",
+    categoryTag: "Municipal & Smart",
+    description: "Energy-efficient smart street lights and civic luminaires engineered for municipal roadways and urban thoroughfares.",
+    icon: <Lightbulb className="h-5 w-5 sm:h-6 sm:w-6" />,
+    offsetClass: "pr-0",
+  },
+  {
+    num: "02",
+    title: "Architectural Lighting",
+    categoryTag: "Facade & Aesthetic",
+    description: "Custom facade illuminators, structural highlights, and aesthetic building luminaires for modern commercial architecture.",
+    icon: <Building className="h-5 w-5 sm:h-6 sm:w-6" />,
+    offsetClass: "pr-4 sm:pr-6",
+  },
+  {
+    num: "03",
+    title: "Highway & Infrastructural",
+    categoryTag: "Expressways & Heavy-Duty",
+    description: "Heavy-duty octagonal poles, expressway floodlights, and high-tensile roadway fixtures for state and national highways.",
+    icon: <Layers className="h-5 w-5 sm:h-6 sm:w-6" />,
+    offsetClass: "pr-1 sm:pr-2",
+  },
+  {
+    num: "04",
+    title: "Park & Landscape",
+    categoryTag: "Outdoor & Green Spaces",
+    description: "Decorative bollards, garden pathway illuminators, and eco-friendly outdoor lawn lighting for public parks and resorts.",
+    icon: <Trees className="h-5 w-5 sm:h-6 sm:w-6" />,
+    offsetClass: "pr-5 sm:pr-8",
+  },
+  {
+    num: "05",
+    title: "Heritage & Decorative",
+    categoryTag: "Classic & Vintage",
+    description: "Ornamental vintage poles, cast iron heritage brackets, and royal civic plaza luminaires blending classic charm with modern LEDs.",
+    icon: <Landmark className="h-5 w-5 sm:h-6 sm:w-6" />,
+    offsetClass: "pr-0",
+  },
+  {
+    num: "06",
+    title: "High Mast & Sports",
+    categoryTag: "Stadiums & High-Output",
+    description: "Monumental high mast towers, stadium floodlighting, and multi-fixture high-output masts for sports arenas and industrial hubs.",
+    icon: <Zap className="h-5 w-5 sm:h-6 sm:w-6" />,
+    offsetClass: "pr-3 sm:pr-5",
+  },
+  {
+    num: "07",
+    title: "CCTV & Security",
+    categoryTag: "Surveillance & IoT",
+    description: "Integrated smart poles equipped with surveillance camera mounts, IoT sensors, and civic security infrastructure.",
+    icon: <ShieldCheck className="h-5 w-5 sm:h-6 sm:w-6" />,
+    offsetClass: "pr-1 sm:pr-3",
+  },
+  {
+    num: "08",
+    title: "Custom Engineered Structure",
+    categoryTag: "Bespoke & Tailored",
+    description: "Bespoke flag mast poles, tailored steel brackets, and specialized architectural frameworks manufactured to tender specifications.",
+    icon: <Wrench className="h-5 w-5 sm:h-6 sm:w-6" />,
+    offsetClass: "pr-4 sm:pr-7",
+  },
+];
+
+const processData = [
+  {
+    num: "01",
+    title: "Project Requirements & Specs",
+    description: "Comprehensive evaluation of site conditions, lighting levels, architectural drawings, and tender technical specifications.",
+  },
+  {
+    num: "02",
+    title: "Solution Engineering & Design",
+    description: "Custom structural calculations, photometrics, pole design, bracket geometry, and luminaire selection tailored to project goals.",
+  },
+  {
+    num: "03",
+    title: "Precision Manufacturing & Quality",
+    description: "In-house production of octagonal poles, high mast towers, heritage brackets, and LED luminaires with strict ISO quality controls.",
+  },
+  {
+    num: "04",
+    title: "Logistics & Transportation",
+    description: "Coordinated fleet freight, protective heavy-duty packaging, and synchronized logistics for safe on-time site arrival.",
+  },
+  {
+    num: "05",
+    title: "On-Site Deployment & Support",
+    description: "Technical supply chain support, erection guidance, and final commissioning verification for civic and industrial infrastructure.",
+  },
+];
+
+const expertiseData = [
+  {
+    id: "exp-01",
+    title: "Outdoor & Indoor LED Luminaires",
+    description: "Energy-efficient LED luminaires and lighting fixtures engineered for high performance, commercial facilities, and residential developments.",
+    icon: <Lightbulb className="h-6 w-6 text-dsil-red mb-2.5 transition-transform group-hover:scale-105 duration-300" />,
+  },
+  {
+    id: "exp-02",
+    title: "Solar Lights & Power Plants",
+    description: "Integrated solar lighting systems, standalone solar LED poles, and commercial solar power plant installations for sustainable infrastructure.",
+    icon: <Zap className="h-6 w-6 text-dsil-red mb-2.5 transition-transform group-hover:scale-105 duration-300" />,
+  },
+  {
+    id: "exp-03",
+    title: "Ornamental & Designer Poles",
+    description: "Ornamental heritage poles and custom designer poles created for urban beautification, public parks, resorts, and civic plazas.",
+    icon: <Building className="h-6 w-6 text-dsil-red mb-2.5 transition-transform group-hover:scale-105 duration-300" />,
+  },
+  {
+    id: "exp-04",
+    title: "Octagonal & High Mast Poles",
+    description: "Heavy-duty octagonal poles, high mast poles, and flag mast poles designed for highways, stadiums, airports, and industrial complexes.",
+    icon: <Layers className="h-6 w-6 text-dsil-red mb-2.5 transition-transform group-hover:scale-105 duration-300" />,
+  },
+  {
+    id: "exp-05",
+    title: "Indian Flag Poles",
+    description: "High-tensile monumental flag mast poles and custom structural flag installations designed for civic landmarks and government infrastructure.",
+    icon: <Flag className="h-6 w-6 text-dsil-red mb-2.5 transition-transform group-hover:scale-105 duration-300" />,
+  },
+  {
+    id: "exp-06",
+    title: "Decorative LED Lighting",
+    description: "Architectural decorative LED solutions blending aesthetic elegance with industrial durability for modern urban lifestyles.",
+    icon: <Sparkles className="h-6 w-6 text-dsil-red mb-2.5 transition-transform group-hover:scale-105 duration-300" />,
+  },
+];
+
+// Repeatable Viewport Entrance Animation Variants
+const sectionVariants = {
+  hidden: {
+    opacity: 0,
+    y: 35,
+    scale: 0.98,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.65,
+      ease: [0.21, 0.47, 0.32, 0.98],
+      staggerChildren: 0.06,
+    },
+  },
+};
+
+const childVariants = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+    scale: 0.98,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.45,
+      ease: [0.21, 0.47, 0.32, 0.98],
+    },
+  },
+};
+
+export default function AboutPage() {
+  const [aboutContent, setAboutContent] = React.useState({
+    heading: "About Us",
+    mainDescription:
+      "Dev Shakti India Limited (DSIL) is one of the most equipped and major manufacturers of lighting solution providers in the global market. We are an experienced organization in the field of complete lighting solutions, enclosing all your requirements in a single basket. We are engaged in the export and supply of a wide range of commercial and household products, enclosing outdoor, indoor, solar, decorative LED lights, and solar plants. Engineered for long-lasting durability, DSIL's infrastructure luminaires, decorative poles, octagonal poles, and high mast installations serve municipal expressways, real estate developments, and public landmarks across India.",
+  });
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+      window.scrollTo(0, 0);
+    }
+
+    const fetchAbout = async () => {
+      try {
+        const data = await fetchApi("/about");
+        if (data.success && data.about) {
+          setAboutContent({
+            heading: data.about.heading || "About Us",
+            mainDescription: data.about.mainDescription || aboutContent.mainDescription,
+          });
+        }
+      } catch (err) {
+        // fallback
+      }
+    };
+    fetchAbout();
+  }, []);
+
+  return (
+    <div className="flex flex-col gap-0 bg-white dark:bg-black text-slate-900 dark:text-white min-h-screen transition-colors duration-300">
+      
+      {/* ============================================================ */}
+      {/* 1. TOP COMPONENT WITH RED BACKGROUND PATHS ANIMATION */}
+      {/* ============================================================ */}
+      <BackgroundPaths className="bg-white dark:bg-black w-full">
+        <HeroSection />
+      </BackgroundPaths>
+
+      {/* ============================================================ */}
+      {/* 2. MAIN ABOUT US DESCRIPTION */}
+      {/* ============================================================ */}
+      <motion.section
+        className="py-10 md:py-14 bg-white dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors relative overflow-hidden"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.2 }}
+        variants={sectionVariants}
+      >
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl text-left relative z-10">
+          
+          {/* Main Title: About Us in DSIL Red Color */}
+          <motion.h2
+            variants={childVariants}
+            className="text-2xl sm:text-4xl lg:text-5xl font-black text-dsil-red tracking-tight mb-4"
+          >
+            {aboutContent.heading}
+          </motion.h2>
+
+          {/* Corporate Description Paragraph */}
+          <motion.div
+            variants={childVariants}
+            className="w-full text-slate-700 dark:text-slate-200 text-sm sm:text-base md:text-lg leading-relaxed font-normal"
+          >
+            <p className="max-w-5xl">
+              {aboutContent.mainDescription}
+            </p>
+          </motion.div>
+
+        </div>
+      </motion.section>
+
+      {/* ============================================================ */}
+      {/* 3. OUR SOLUTIONS / WHAT WE OFFER */}
+      {/* ============================================================ */}
+      <motion.section
+        className="py-10 md:py-14 bg-slate-50 dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors relative overflow-hidden"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.15 }}
+        variants={sectionVariants}
+      >
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
+          
+          {/* Section Header */}
+          <motion.div variants={childVariants} className="max-w-4xl mb-8 sm:mb-12">
+            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-2">
+              WHAT WE OFFER
+            </span>
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.1]">
+              Complete lighting solutions,<br />
+              <span className="text-dsil-red">engineered to last.</span>
+            </h2>
+          </motion.div>
+
+          {/* Solution Rows Container */}
+          <motion.div
+            variants={childVariants}
+            className="w-full max-w-7xl mx-auto"
+          >
+            <div className="w-full h-[1px] bg-slate-200/90 dark:bg-slate-800/90" />
+
+            {offeringData.map((item, index) => (
+              <React.Fragment key={item.num}>
+                {index > 0 && (
+                  <div className="w-full h-[1px] bg-slate-200/90 dark:bg-slate-800/90" />
+                )}
+                
+                <div
+                  tabIndex={0}
+                  className="group relative py-4 sm:py-5 px-4 sm:px-6 transition-all duration-300 ease-out flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-6 cursor-pointer overflow-hidden focus-visible:outline-none hover:-translate-y-1.5 hover:scale-[1.008] hover:shadow-xl hover:z-20 rounded-lg sm:rounded-xl"
+                >
+                  <div className="absolute inset-0 bg-dsil-red origin-left scale-x-0 group-hover:scale-x-100 group-focus-visible:scale-x-100 transition-transform duration-500 ease-out z-0 pointer-events-none" />
+
+                  <div className="relative z-10 flex items-center gap-4 sm:gap-6 lg:gap-8 shrink-0 md:w-5/12 lg:w-5/12">
+                    <span className="text-base sm:text-xl font-bold text-slate-400 dark:text-slate-500 group-hover:text-white group-focus-visible:text-white transition-colors duration-300 w-6 sm:w-10 shrink-0">
+                      {item.num}
+                    </span>
+                    <h3 className="text-base sm:text-xl md:text-2xl font-black text-slate-900 dark:text-white group-hover:text-white group-focus-visible:text-white transition-colors duration-300 tracking-tight">
+                      {item.title}
+                    </h3>
+                  </div>
+
+                  <p className="relative z-10 text-xs sm:text-sm md:text-sm text-slate-600 dark:text-slate-300 group-hover:text-white group-focus-visible:text-white transition-colors duration-300 font-normal leading-relaxed md:w-5/12 lg:w-5/12">
+                    {item.description}
+                  </p>
+
+                  <div className={`relative z-10 shrink-0 flex items-center justify-start md:justify-end md:w-2/12 text-slate-400 dark:text-slate-500 group-hover:text-white group-focus-visible:text-white transition-colors duration-300 ${item.offsetClass}`}>
+                    {item.icon}
+                  </div>
+                </div>
+              </React.Fragment>
+            ))}
+
+            <div className="w-full h-[1px] bg-slate-200/90 dark:bg-slate-800/90" />
+          </motion.div>
+
+        </div>
+      </motion.section>
+
+      {/* ============================================================ */}
+      {/* 4. WHY DSIL / THE DSIL DIFFERENCE */}
+      {/* ============================================================ */}
+      <WhyDsilSection />
+
+      {/* ============================================================ */}
+      {/* 5. HOW WE DELIVER / OUR PROCESS */}
+      {/* ============================================================ */}
+      <motion.section
+        className="py-10 md:py-14 bg-slate-50 dark:bg-black text-slate-900 dark:text-white border-b border-slate-200/80 dark:border-zinc-900 transition-colors relative overflow-hidden"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.15 }}
+        variants={sectionVariants}
+      >
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
+          
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 sm:mb-12 gap-4">
+            <motion.div variants={childVariants} className="max-w-4xl">
+              <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-900 dark:text-slate-200 block mb-2">
+                HOW WE DELIVER
+              </span>
+              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.1]">
+                From requirement<br />
+                <span className="text-dsil-red">to reality.</span>
+              </h2>
+            </motion.div>
+
+            <motion.div variants={childVariants} className="shrink-0 self-start lg:self-end">
+              <span className="text-xs sm:text-sm font-extrabold tracking-widest uppercase text-slate-500 dark:text-slate-400 border border-slate-300 dark:border-zinc-800 px-3.5 py-1.5 rounded-full bg-slate-100/80 dark:bg-zinc-900/80 shadow-sm">
+                END-TO-END LIGHTING INFRASTRUCTURE
+              </span>
+            </motion.div>
+          </div>
+
+          <motion.div
+            variants={childVariants}
+            className="w-full max-w-7xl mx-auto"
+          >
+            <div className="w-full h-[1px] bg-slate-200/90 dark:bg-slate-800/90" />
+
+            {processData.map((item, index) => (
+              <React.Fragment key={item.num}>
+                {index > 0 && (
+                  <div className="w-full h-[1px] bg-slate-200/90 dark:bg-slate-800/90" />
+                )}
+
+                <motion.div
+                  whileHover={{ x: -8, scale: 1.005 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                  className="group relative py-6 sm:py-8 px-4 sm:px-6 transition-colors duration-300 ease-out flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-8 hover:bg-slate-100/70 dark:hover:bg-slate-900/60 cursor-pointer rounded-lg sm:rounded-xl"
+                >
+                  <span className="text-4xl sm:text-6xl lg:text-7xl font-extralight text-dsil-red leading-none min-w-[70px] sm:min-w-[100px] select-none group-hover:brightness-110 transition-all duration-300">
+                    {item.num}
+                  </span>
+
+                  <h3 className="text-base sm:text-xl md:text-2xl font-black text-slate-900 dark:text-white group-hover:text-dsil-red transition-colors duration-300 tracking-tight md:w-5/12 lg:w-4/12">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-xs sm:text-sm md:text-sm text-slate-600 dark:text-slate-300 font-normal leading-relaxed md:w-5/12 lg:w-5/12">
+                    {item.description}
+                  </p>
+                </motion.div>
+              </React.Fragment>
+            ))}
+
+            <div className="w-full h-[1px] bg-slate-200/90 dark:bg-slate-800/90" />
+          </motion.div>
+
+        </div>
+      </motion.section>
+
+      {/* ============================================================ */}
+      {/* 6. OUR EXPERTISE */}
+      {/* ============================================================ */}
+      <motion.section
+        className="py-10 md:py-14 bg-black text-white border-b border-zinc-900 transition-colors relative overflow-hidden"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.15 }}
+        variants={sectionVariants}
+      >
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
+          
+          <motion.div variants={childVariants} className="max-w-4xl mb-8 sm:mb-10">
+            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-slate-300 block mb-2">
+              OUR EXPERTISE
+            </span>
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-[1.12]">
+              Engineered for infrastructure,<br />
+              <span className="text-dsil-red">built for what comes next.</span>
+            </h2>
+          </motion.div>
+
+          <motion.div variants={childVariants} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto">
+            {expertiseData.map((card) => (
+              <div
+                key={card.id}
+                className="group relative p-5 sm:p-6 rounded-2xl bg-[#121214] border border-zinc-800/80 transition-all duration-300 hover:-translate-y-1 overflow-hidden flex flex-col justify-between shadow-none"
+              >
+                <div>
+                  {card.icon}
+
+                  <h3 className="text-base sm:text-lg font-bold text-white mb-2 group-hover:text-dsil-red transition-colors duration-300 tracking-tight">
+                    {card.title}
+                  </h3>
+                </div>
+
+                <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-normal mt-1">
+                  {card.description}
+                </p>
+
+                <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-dsil-red origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
+              </div>
+            ))}
+          </motion.div>
+
+        </div>
+      </motion.section>
+
+      {/* ============================================================ */}
+      {/* 7. COMPANY REGISTRATION & BACKGROUND */}
+      {/* ============================================================ */}
+      <section className="py-8 sm:py-10 bg-slate-100 dark:bg-zinc-950 border-t border-slate-200/80 dark:border-zinc-900 transition-colors">
+        <div className="container mx-auto px-4 md:px-6 max-w-4xl text-center">
+          <span className="text-xs font-extrabold uppercase tracking-widest text-slate-400 dark:text-zinc-500 block mb-1.5">
+            COMPANY REGISTRATION &amp; BACKGROUND
+          </span>
+          <p className="text-xs sm:text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+            Established in the year 2015 in Haryana, India, Dev Shakti India (DSIL) is a proprietorship-based firm engaged as a foremost manufacturer and provider of ornamental heritage lighting poles, galvanized iron LED street lights, decorative poles, brackets, and infrastructure luminaires.
+          </p>
+        </div>
+      </section>
+
+    </div>
+  );
+}

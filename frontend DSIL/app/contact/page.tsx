@@ -1,0 +1,270 @@
+"use client";
+
+import React, { useState } from "react";
+import { Mail, Phone, MapPin, Send, CheckCircle2, Loader2 } from "lucide-react";
+import { MeshDriftBackground } from "@/components/ui/mesh-drift-background";
+import { fetchApi } from "@/lib/admin-api";
+
+export default function ContactPage() {
+  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+      window.scrollTo(0, 0);
+    }
+  }, []);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      await fetchApi("/enquiries", {
+        method: "POST",
+        body: JSON.stringify({
+          type: "contact_message",
+          ...formData,
+        }),
+      });
+    } catch (err) {
+      console.error("Failed to submit contact enquiry to MongoDB:", err);
+    } finally {
+      setIsSubmitting(false);
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          message: "",
+        });
+      }, 4000);
+    }
+  };
+
+  return (
+    <div className="relative min-h-screen w-full text-slate-900 dark:text-slate-100 transition-colors duration-300 pt-32 sm:pt-36 md:pt-40 pb-16 md:pb-24 overflow-hidden">
+      {/* Animated WebGL Mesh Drift Shader Background */}
+      <MeshDriftBackground />
+
+      <div className="container mx-auto px-4 md:px-6 max-w-6xl relative z-10">
+        <div className="grid gap-12 lg:grid-cols-5 lg:items-start">
+          
+          {/* Left Column (40% width / lg:col-span-2) */}
+          <div className="lg:col-span-2 space-y-6">
+            <div>
+              <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-dsil-red block mb-2">
+                CONTACT US
+              </span>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
+                Get In Touch
+              </h1>
+            </div>
+
+            <p className="text-sm sm:text-base text-slate-700 dark:text-slate-200 leading-relaxed font-medium">
+              Have questions about our lighting solutions, products, or project requirements? Our team is ready to assist you with complete lighting solutions tailored to your needs.
+            </p>
+
+            {/* Contact Info Blocks with Glassmorphism */}
+            <div className="space-y-4 pt-4">
+              {/* Email Block */}
+              <div className="flex items-start gap-4 p-4 rounded-xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 shadow-md transition-all hover:border-dsil-red/60 hover:shadow-lg">
+                <div className="h-10 w-10 rounded-lg bg-red-100 dark:bg-slate-800 flex items-center justify-center text-dsil-red shrink-0 mt-0.5">
+                  <Mail className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
+                    Email Us
+                  </h3>
+                  <a
+                    href="mailto:ssilindia2006@gmail.com"
+                    className="text-sm sm:text-base font-bold text-slate-900 dark:text-white hover:text-dsil-red transition-colors"
+                  >
+                    ssilindia2006@gmail.com
+                  </a>
+                </div>
+              </div>
+
+              {/* Phone Block */}
+              <div className="flex items-start gap-4 p-4 rounded-xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 shadow-md transition-all hover:border-dsil-red/60 hover:shadow-lg">
+                <div className="h-10 w-10 rounded-lg bg-red-100 dark:bg-slate-800 flex items-center justify-center text-dsil-red shrink-0 mt-0.5">
+                  <Phone className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
+                    Call Us
+                  </h3>
+                  <a
+                    href="tel:+919999590064"
+                    className="text-sm sm:text-base font-bold text-slate-900 dark:text-white hover:text-dsil-red transition-colors"
+                  >
+                    +91 9999590064
+                  </a>
+                </div>
+              </div>
+
+              {/* Address Block */}
+              <div className="flex items-start gap-4 p-4 rounded-xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 shadow-md transition-all hover:border-dsil-red/60 hover:shadow-lg">
+                <div className="h-10 w-10 rounded-lg bg-red-100 dark:bg-slate-800 flex items-center justify-center text-dsil-red shrink-0 mt-0.5">
+                  <MapPin className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
+                    Corporate Location
+                  </h3>
+                  <p className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
+                    Haryana, India
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column Form (60% width / lg:col-span-3) */}
+          <div className="lg:col-span-3">
+            <div className="rounded-2xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-lg p-6 sm:p-8 md:p-10 border border-slate-200/90 dark:border-slate-800/90 shadow-2xl">
+              
+              <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mb-6">
+                Send Us A Message
+              </h2>
+
+              {submitted ? (
+                <div className="p-6 rounded-xl bg-red-50/90 dark:bg-red-950/50 backdrop-blur-md border border-red-200 dark:border-red-900 text-center space-y-3">
+                  <CheckCircle2 className="h-12 w-12 text-dsil-red mx-auto" />
+                  <h3 className="text-lg font-extrabold text-slate-900 dark:text-white">
+                    Inquiry Received
+                  </h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-300">
+                    Thank you for contacting Dev Shakti India Limited. Our technical team will get back to you shortly.
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  {/* First & Last Name Grid */}
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                        First Name <span className="text-dsil-red">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="firstName"
+                        required
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        placeholder="Your Name"
+                        className="w-full px-4 py-3 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 focus:outline-none focus:border-dsil-red focus:ring-1 focus:ring-dsil-red transition-all"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                        Last Name <span className="text-dsil-red">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="lastName"
+                        required
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        placeholder="Your Last Name"
+                        className="w-full px-4 py-3 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 focus:outline-none focus:border-dsil-red focus:ring-1 focus:ring-dsil-red transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Email & Phone Grid */}
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                        Email <span className="text-dsil-red">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        required
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="Your Email"
+                        className="w-full px-4 py-3 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 focus:outline-none focus:border-dsil-red focus:ring-1 focus:ring-dsil-red transition-all"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                        Phone Number
+                      </label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="+91 XXXXXXXXXX"
+                        className="w-full px-4 py-3 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 focus:outline-none focus:border-dsil-red focus:ring-1 focus:ring-dsil-red transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Message Field */}
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                      Message <span className="text-dsil-red">*</span>
+                    </label>
+                    <textarea
+                      name="message"
+                      required
+                      rows={4}
+                      value={formData.message}
+                      onChange={handleChange}
+                      placeholder="Tell us about your project requirements or inquiry..."
+                      className="w-full px-4 py-3 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 focus:outline-none focus:border-dsil-red focus:ring-1 focus:ring-dsil-red transition-all resize-none"
+                    ></textarea>
+                  </div>
+
+                  {/* Submit Button */}
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-dsil-red hover:bg-red-700 disabled:opacity-75 text-white font-extrabold text-sm tracking-wide transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-red-600/30 flex items-center justify-center gap-2 group"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        <span>Submitting Inquiry...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Submit Inquiry</span>
+                        <Send className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+}
