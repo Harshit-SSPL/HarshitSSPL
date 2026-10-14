@@ -2,12 +2,14 @@
 node_modules/
 frontend/node_modules/
 frontendDSIL/node_modules/
+dsil/node_modules/
 backend/node_modules/
 
 # next.js & builds
 .next/
 frontend/.next/
 frontendDSIL/.next/
+dsil/.next/
 out/
 build/
 dist/
@@ -29,6 +31,8 @@ frontend/.env
 frontend/.env.*
 frontendDSIL/.env
 frontendDSIL/.env.*
+dsil/.env
+dsil/.env.*
 
 # Cloud Run env vars file (secrets)
 backend/env.yaml
