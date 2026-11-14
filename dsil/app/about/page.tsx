@@ -193,7 +193,7 @@ export default function AboutPage() {
   const [aboutContent, setAboutContent] = React.useState({
     heading: "About Us",
     mainDescription:
-      "Dev Shakti India Limited (DSIL) is one of the most equipped and major manufacturers of lighting solution providers in the global market. We are an experienced organization in the field of complete lighting solutions, enclosing all your requirements in a single basket. We are engaged in the export and supply of a wide range of commercial and household products, enclosing outdoor, indoor, solar, decorative LED lights, and solar plants. Engineered for long-lasting durability, DSIL's infrastructure luminaires, decorative poles, octagonal poles, and high mast installations serve municipal expressways, real estate developments, and public landmarks across India.",
+      "Durga Shakti India Limited (DSIL) is one of the most equipped and major manufacturers of lighting solution providers in the global market. We are an experienced organization in the field of complete lighting solutions, enclosing all your requirements in a single basket. We are engaged in the export and supply of a wide range of commercial and household products, enclosing outdoor, indoor, solar, decorative LED lights, and solar plants. Engineered for long-lasting durability, DSIL's infrastructure luminaires, decorative poles, octagonal poles, and high mast installations serve municipal expressways, real estate developments, and public landmarks across India.",
   });
 
   React.useEffect(() => {
@@ -461,7 +461,7 @@ export default function AboutPage() {
             COMPANY REGISTRATION &amp; BACKGROUND
           </span>
           <p className="text-xs sm:text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
-            Established in the year 2015 in Haryana, India, Dev Shakti India (DSIL) is a proprietorship-based firm engaged as a foremost manufacturer and provider of ornamental heritage lighting poles, galvanized iron LED street lights, decorative poles, brackets, and infrastructure luminaires.
+            Established in the year 2015 in Haryana, India, Durga Shakti India (DSIL) is a proprietorship-based firm engaged as a foremost manufacturer and provider of ornamental heritage lighting poles, galvanized iron LED street lights, decorative poles, brackets, and infrastructure luminaires.
           </p>
         </div>
       </section>

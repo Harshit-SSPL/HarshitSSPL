@@ -65,7 +65,7 @@ export const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
           {/* Message Body */}
           <div className="space-y-3 text-xs sm:text-sm text-slate-200 leading-relaxed bg-white/[0.04] border border-white/10 rounded-2xl p-4 sm:p-5 mb-6 backdrop-blur-xs">
             <p>
-              This product segment is currently under active engineering, precision toolcrafting, and quality testing at Dev Shakti India Limited (DSIL).
+              This product segment is currently under active engineering, precision toolcrafting, and quality testing at Durga Shakti India Limited (DSIL).
             </p>
             <p className="text-slate-300">
               We will soon be officially launching our bespoke collection for this segment with full certifications and engineering datasheets.

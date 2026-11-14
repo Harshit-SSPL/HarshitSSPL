@@ -15,7 +15,7 @@ export default function AdminAboutPage() {
     heading: "Delivering Dependable Infrastructure Lighting Solutions Across India",
     subheading: "Integrated Design, Precision Engineering, and In-House Hot-Dip Galvanizing",
     mainDescription:
-      "Dev Shakti India Limited (DSIL) is a premier manufacturer and infrastructure solutions provider specializing in high-performance outdoor lighting systems, high-tensile octagonal steel poles, monumental high masts, smart camera poles, and energy-efficient LED luminaires.",
+      "Durga Shakti India Limited (DSIL) is a premier manufacturer and infrastructure solutions provider specializing in high-performance outdoor lighting systems, high-tensile octagonal steel poles, monumental high masts, smart camera poles, and energy-efficient LED luminaires.",
     supportingText:
       "With state-of-the-art manufacturing infrastructure and an in-house hot-dip galvanizing plant, DSIL delivers turn-key execution for expressways, smart cities, municipal corporations, stadium complexes, and national landmarks across India.",
   });

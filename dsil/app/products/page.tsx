@@ -160,7 +160,7 @@ export default function ProductsPage() {
               OUR PRODUCTS
             </h2>
             <p className="text-sm sm:text-base text-slate-700 dark:text-slate-200 mt-2.5 leading-relaxed font-medium">
-              Dev Shakti India Limited (DSIL) manufactures and supplies complete commercial, municipal, and highway outdoor lighting systems engineered for public landmarks and urban infrastructure across India.
+              Durga Shakti India Limited (DSIL) manufactures and supplies complete commercial, municipal, and highway outdoor lighting systems engineered for public landmarks and urban infrastructure across India.
             </p>
           </motion.div>
 

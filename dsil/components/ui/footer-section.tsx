@@ -179,7 +179,7 @@ export function Footerdemo() {
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm p-1 border border-zinc-700 shrink-0 overflow-hidden">
                 <Image
                   src="/DSILLogo.jpg"
-                  alt="Dev Shakti India Limited Logo"
+                  alt="Durga Shakti India Limited Logo"
                   width={160}
                   height={45}
                   className="h-full w-full object-contain"
@@ -275,11 +275,11 @@ export function Footerdemo() {
               </div>
 
               <a
-                href={`https://mail.google.com/mail/?view=cm&fs=1&to=${footerData.email}&su=Inquiry%20regarding%20DSIL%20Lighting%20%26%20Infrastructure%20Solutions&body=Hello%20Dev%20Shakti%20India%20Limited%20Team%2C%0A%0AI%20would%20like%20to%20inquire%20about%20your%20lighting%20products%20and%20infrastructure%20solutions.%0A%0ACompany%20%2F%20Client%20Name%3A%20%0AContact%20Number%3A%20%0AProject%20Location%3A%20%0ARequirement%20Details%3A%20%0A%0AThank%20you.`}
+                href={`https://mail.google.com/mail/?view=cm&fs=1&to=${footerData.email}&su=Inquiry%20regarding%20DSIL%20Lighting%20%26%20Infrastructure%20Solutions&body=Hello%20Durga%20Shakti%20India%20Limited%20Team%2C%0A%0AI%20would%20like%20to%20inquire%20about%20your%20lighting%20products%20and%20infrastructure%20solutions.%0A%0ACompany%20%2F%20Client%20Name%3A%20%0AContact%20Number%3A%20%0AProject%20Location%3A%20%0ARequirement%20Details%3A%20%0A%0AThank%20you.`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group/mail flex items-center gap-2 text-slate-300 hover:text-dsil-red transition-colors cursor-pointer"
-                title="Compose Email to Dev Shakti India Limited"
+                title="Compose Email to Durga Shakti India Limited"
               >
                 <Mail className="h-4 w-4 text-dsil-red shrink-0 group-hover/mail:scale-110 transition-transform" />
                 <span className="leading-snug">{footerData.email}</span>
@@ -293,7 +293,7 @@ export function Footerdemo() {
               Corporate Connect
             </h3>
             <p className="mb-3 text-xs text-slate-400">
-              Connect with Dev Shakti India Limited on official corporate channels.
+              Connect with Durga Shakti India Limited on official corporate channels.
             </p>
             <div className="flex space-x-3">
               <TooltipProvider>
@@ -328,7 +328,7 @@ export function Footerdemo() {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <a
-                      href="https://www.linkedin.com/company/dev-shakti-india/"
+                      href="https://www.linkedin.com/company/durga-shakti-india/"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -351,7 +351,7 @@ export function Footerdemo() {
         {/* Divider & Copyright Row */}
         <div className="mt-8 sm:mt-10 flex flex-col items-center justify-between gap-3 border-t border-zinc-800/80 pt-5 sm:pt-6 text-center md:flex-row">
           <p className="text-xs font-medium text-slate-400">
-            © {new Date().getFullYear()} Dev Shakti India. All rights reserved.
+            © {new Date().getFullYear()} Durga Shakti India. All rights reserved.
           </p>
           <nav className="flex gap-6 text-xs font-semibold text-slate-300">
             <Link href="/privacy-policy" className="transition-colors hover:text-dsil-red">

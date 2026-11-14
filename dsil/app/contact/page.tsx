@@ -154,7 +154,7 @@ export default function ContactPage() {
                     Inquiry Received
                   </h3>
                   <p className="text-sm text-slate-600 dark:text-slate-300">
-                    Thank you for contacting Dev Shakti India Limited. Our technical team will get back to you shortly.
+                    Thank you for contacting Durga Shakti India Limited. Our technical team will get back to you shortly.
                   </p>
                 </div>
               ) : (

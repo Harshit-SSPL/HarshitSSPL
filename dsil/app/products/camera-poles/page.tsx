@@ -520,7 +520,7 @@ export default function CameraPolesPage() {
             {/* Description Paragraphs Column */}
             <motion.div variants={childVariants} className="lg:col-span-7 space-y-3 text-left text-slate-700 dark:text-slate-300 leading-relaxed font-normal text-sm sm:text-base">
               <p>
-                Dev Shakti India Limited (DSIL) manufactures rigid, low-deflection Camera Poles engineered specifically for intelligent traffic management systems (ITMS), automatic number plate recognition (ANPR), speed enforcement radars, and 24/7 high-definition smart city surveillance.
+                Durga Shakti India Limited (DSIL) manufactures rigid, low-deflection Camera Poles engineered specifically for intelligent traffic management systems (ITMS), automatic number plate recognition (ANPR), speed enforcement radars, and 24/7 high-definition smart city surveillance.
               </p>
               <p>
                 Engineered to minimize structural vibration and image blur caused by high-velocity wind turbulence and heavy roadway traffic, each pole features optimized wall thickness, aerodynamic polygonal or stepped tapering, and high-strength base anchorage.

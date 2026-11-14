@@ -509,7 +509,7 @@ export default function HighMastPage() {
             {/* Description Paragraphs Column (No Stat Cards Below) */}
             <motion.div variants={childVariants} className="lg:col-span-7 space-y-3 text-left text-slate-700 dark:text-slate-300 leading-relaxed font-normal text-sm sm:text-base">
               <p>
-                Dev Shakti India Limited (DSIL) manufactures heavy-duty Hot-Dip Galvanized High Mast Lighting Towers engineered for expansive area coverage, superior structural stability, and extreme environmental resilience.
+                Durga Shakti India Limited (DSIL) manufactures heavy-duty Hot-Dip Galvanized High Mast Lighting Towers engineered for expansive area coverage, superior structural stability, and extreme environmental resilience.
               </p>
               <p>
                 Our high mast systems are custom-engineered for complex highway interchanges, commercial shipping docks, railway freight corridors, container terminals, airports, toll plazas, industrial refineries, and sporting arenas where high-lux uniform distribution and continuous operation are paramount.
@@ -990,7 +990,7 @@ export default function HighMastPage() {
                       Brand &amp; Manufacturing
                     </h4>
                     <p className="text-slate-600 dark:text-slate-400 pl-3 font-semibold text-dsil-red leading-relaxed">
-                      DSIL (Dev Shakti India Limited)
+                      DSIL (Durga Shakti India Limited)
                     </p>
                   </div>
                 </div>

@@ -36,7 +36,7 @@ export default function PrivacyPolicyPage() {
             
             {/* Large Bold Policy Statement */}
             <p className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-white leading-snug">
-              This Privacy Policy explains how Dev Shakti India Limited collects, uses, protects, and handles information when you interact with our website, submit an inquiry, or communicate with our business teams.
+              This Privacy Policy explains how Durga Shakti India Limited collects, uses, protects, and handles information when you interact with our website, submit an inquiry, or communicate with our business teams.
             </p>
 
             {/* Slightly Emphasized Supporting Statement */}

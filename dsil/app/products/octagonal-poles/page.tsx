@@ -975,7 +975,7 @@ export default function OctagonalPolesPage() {
                       Brand &amp; Manufacturing
                     </h4>
                     <p className="text-slate-600 dark:text-slate-400 pl-3 font-semibold text-dsil-red leading-relaxed">
-                      DSIL (Dev Shakti India Limited)
+                      DSIL (Durga Shakti India Limited)
                     </p>
                   </div>
                 </div>

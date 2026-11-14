@@ -7,8 +7,8 @@ import { Footerdemo } from "@/components/ui/footer-section";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap", preload: true });
 
 export const metadata: Metadata = {
-  title: "Dev Shakti India Limited (DSIL) | Outdoor & Infrastructure Lighting Solutions",
-  description: "Official digital corporate portal for Dev Shakti India Limited / Dev Shakti Private Limited (DSIL) - Leading manufacturer of street lights, bollards, Indian flag poles, and outdoor infrastructure lighting.",
+  title: "Durga Shakti India Limited (DSIL) | Outdoor & Infrastructure Lighting Solutions",
+  description: "Official digital corporate portal for Durga Shakti India Limited / Durga Shakti Private Limited (DSIL) - Leading manufacturer of street lights, bollards, Indian flag poles, and outdoor infrastructure lighting.",
   icons: {
     icon: [
       { url: "/DSILLogo.jpg", href: "/DSILLogo.jpg" },
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     shortcut: "/DSILLogo.jpg",
   },
   openGraph: {
-    title: "Dev Shakti India Limited (DSIL)",
+    title: "Durga Shakti India Limited (DSIL)",
     description: "Outdoor Infrastructure & Architectural Lighting Solutions",
     type: "website",
     images: ["/DSILLogo.jpg"],

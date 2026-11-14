@@ -183,7 +183,7 @@ const Navbar1 = ({
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/95 shadow-sm p-1 border border-white/80 shrink-0 overflow-hidden transition-transform group-hover:scale-105">
                 <Image
                   src="/DSILLogo.jpg"
-                  alt="Dev Shakti India Limited Logo"
+                  alt="Durga Shakti India Limited Logo"
                   width={160}
                   height={45}
                   className="h-full w-full object-contain"
@@ -196,7 +196,7 @@ const Navbar1 = ({
                   DSIL<span className="text-dsil-red">.</span>
                 </span>
                 <span className="text-[9px] font-bold tracking-widest text-slate-300 uppercase mt-0.5">
-                  Dev Shakti India
+                  Durga Shakti India
                 </span>
               </div>
             </Link>
@@ -500,7 +500,7 @@ const Navbar1 = ({
               <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/95 shadow-sm p-1 border border-white/80 shrink-0 overflow-hidden">
                 <Image
                   src="/DSILLogo.jpg"
-                  alt="Dev Shakti India Limited Logo"
+                  alt="Durga Shakti India Limited Logo"
                   width={150}
                   height={40}
                   className="h-full w-full object-contain"
@@ -532,7 +532,7 @@ const Navbar1 = ({
                           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-sm p-1 border border-slate-200">
                             <Image
                               src="/DSILLogo.jpg"
-                              alt="Dev Shakti India Limited Logo"
+                              alt="Durga Shakti India Limited Logo"
                               width={140}
                               height={35}
                               className="h-full w-full object-contain"

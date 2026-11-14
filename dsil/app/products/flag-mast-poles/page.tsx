@@ -517,7 +517,7 @@ export default function FlagMastPage() {
             {/* Description Paragraphs Column */}
             <motion.div variants={childVariants} className="lg:col-span-7 space-y-3 text-left text-slate-700 dark:text-slate-300 leading-relaxed font-normal text-sm sm:text-base">
               <p>
-                Dev Shakti India Limited (DSIL) manufactures monumental Hot-Dip Galvanized Flag Mast Towers designed to elevate national flags, corporate insignia, and institutional emblems across landmark civic plazas, military cantonments, government secretariats, and university campuses.
+                Durga Shakti India Limited (DSIL) manufactures monumental Hot-Dip Galvanized Flag Mast Towers designed to elevate national flags, corporate insignia, and institutional emblems across landmark civic plazas, military cantonments, government secretariats, and university campuses.
               </p>
               <p>
                 Our flag masts feature precision-engineered 360-degree rotating top truck assemblies with dual stainless steel pulleys that prevent flag tangling under shifting wind directions, paired with heavy-duty internal motorized or manual winch halyard systems for smooth, effortless hoisting and lowering.

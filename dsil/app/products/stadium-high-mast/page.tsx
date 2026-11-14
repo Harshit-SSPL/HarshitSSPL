@@ -512,7 +512,7 @@ export default function StadiumHighMastPage() {
             {/* Description Paragraphs Column */}
             <motion.div variants={childVariants} className="lg:col-span-7 space-y-3 text-left text-slate-700 dark:text-slate-300 leading-relaxed font-normal text-sm sm:text-base">
               <p>
-                Dev Shakti India Limited (DSIL) designs and manufactures high-capacity Stadium High Mast Towers engineered specifically to support extensive multi-tier LED floodlight arrays across outdoor sports stadiums, cricket grounds, football arenas, athletic complexes, and recreational racecourses.
+                Durga Shakti India Limited (DSIL) designs and manufactures high-capacity Stadium High Mast Towers engineered specifically to support extensive multi-tier LED floodlight arrays across outdoor sports stadiums, cricket grounds, football arenas, athletic complexes, and recreational racecourses.
               </p>
               <p>
                 Each stadium mast is custom-calculated to deliver required vertical and horizontal lux uniformity meeting high-definition sports broadcast standards (HD / 4K / Slow-Motion), while structurally handling substantial fixture surface areas and extreme dynamic wind pressures up to 180+ km/h.

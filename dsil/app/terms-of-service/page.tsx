@@ -36,7 +36,7 @@ export default function TermsOfServicePage() {
             
             {/* Large Bold Terms Statement */}
             <p className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-white leading-snug">
-              These Terms of Service govern your access to and use of Dev Shakti India Limited&apos;s website, product catalogs, technical documentation, and commercial inquiry services.
+              These Terms of Service govern your access to and use of Durga Shakti India Limited&apos;s website, product catalogs, technical documentation, and commercial inquiry services.
             </p>
 
             {/* Slightly Emphasized Supporting Statement */}
@@ -53,7 +53,7 @@ export default function TermsOfServicePage() {
                   01 Overview
                 </h4>
                 <p>
-                  These Terms apply to all visitors, commercial contractors, municipal representatives, and clients who access Dev Shakti India Limited (DSIL) digital channels and corporate services.
+                  These Terms apply to all visitors, commercial contractors, municipal representatives, and clients who access Durga Shakti India Limited (DSIL) digital channels and corporate services.
                 </p>
               </div>
 
