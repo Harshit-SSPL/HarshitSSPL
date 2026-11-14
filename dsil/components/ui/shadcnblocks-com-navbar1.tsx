@@ -191,12 +191,9 @@ const Navbar1 = ({
                   unoptimized
                 />
               </div>
-              <div className="flex flex-col">
+              <div className="flex items-center">
                 <span className="text-lg font-black tracking-tight text-white leading-none">
                   DSIL<span className="text-dsil-red">.</span>
-                </span>
-                <span className="text-[9px] font-bold tracking-widest text-slate-300 uppercase mt-0.5">
-                  Durga Shakti India
                 </span>
               </div>
             </Link>

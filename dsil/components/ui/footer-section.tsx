@@ -293,7 +293,7 @@ export function Footerdemo() {
               Corporate Connect
             </h3>
             <p className="mb-3 text-xs text-slate-400">
-              Connect with Durga Shakti India Limited on official corporate channels.
+              Connect with Durga Shakti Innovative Lighting on official corporate channels.
             </p>
             <div className="flex space-x-3">
               <TooltipProvider>
